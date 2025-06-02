@@ -1,0 +1,71 @@
+﻿
+using FluentValidation.AspNetCore;
+using Server.Application.Interfaces;
+using Server.Infrastructure.Hubs;
+using Server.WebAPI.Middlewares;
+using Server.WebAPI.Services;
+using System.Diagnostics;
+
+namespace Server.WebAPI
+{
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services)
+        {
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler =
+                        System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition =
+                        System.Text.Json.Serialization.JsonIgnoreCondition.Never;
+                    options.JsonSerializerOptions.Converters.Add(
+                        new System.Text.Json.Serialization.JsonStringEnumConverter()); // Add this line to handle enums as strings in JSON
+                });
+            services.AddSignalR();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Pregnancy Care Companion", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "Please enter into field the word 'Bearer' followed by space and JWT",
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+            {
+                {
+                    new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                    {
+                        Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                        {
+                            Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+            });
+
+            });
+            services.AddEndpointsApiExplorer();
+
+            services.AddHealthChecks();
+            services.AddSingleton<GlobalExceptionMiddleware>();
+            services.AddSingleton<PerformanceMiddleware>();
+
+            services.AddSingleton<Stopwatch>();
+            services.AddScoped<IClaimsService, ClaimsService>();
+
+            services.AddSingleton<NotificationHub>();
+
+            services.AddHttpContextAccessor();
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            return services;
+        }
+    }
+}
