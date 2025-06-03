@@ -59,9 +59,9 @@ namespace Server.Infrastructure
             );
 
             // Redis
-            services.AddSingleton<IConnectionMultiplexer>(sp =>
-                ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!)
-            );
+            //services.AddSingleton<IConnectionMultiplexer>(sp =>
+            //    ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!)
+            //);
 
             return services;
         }
