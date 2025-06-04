@@ -16,24 +16,33 @@ namespace Server.Infrastructure
         private readonly ICategoryRepository _categoryRepository;
         private readonly ISubCategoryRepository _subCategoryRepository;
         private readonly IAuthRepository _authRepository;
+        private readonly IBlogRepository _blogRepository;
+        private readonly ITagRepository _tagRepository;
+        private readonly IMediaRepository _mediaRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
             ICategoryRepository categoryRepository,
             ISubCategoryRepository subCategoryRepository,
-            IAuthRepository authRepository)
+            IAuthRepository authRepository,
+            IBlogRepository blogRepository,
+            ITagRepository tagRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
             _subCategoryRepository = subCategoryRepository;
             _authRepository = authRepository;
+            _blogRepository = blogRepository;
+            _tagRepository = tagRepository;
         }
 
         public IUserRepository userRepository => _userRepository;
         public IAuthRepository authRepository => _authRepository;
         public ICategoryRepository categoryRepository => _categoryRepository;
         public ISubCategoryRepository subCategoryRepository => _subCategoryRepository;
+        public IBlogRepository blogRepository => _blogRepository;
+        public ITagRepository tagRepository => _tagRepository;
 
 
         public async Task<int> SaveChangeAsync()
