@@ -33,6 +33,28 @@ namespace Server.Infrastructure.ThirdPartyServices
             var deletionParams = new DeletionParams(publicId);
             return await _cloudinary.DestroyAsync(deletionParams);
         }
+        public async Task<CloudinaryResponse> UploadBlogImage(string fileName, IFormFile file, Blog blog)
+        {
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(fileName, file.OpenReadStream()),
+                PublicId = $"/{blog.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
+                Overwrite = true,
+                Folder = "blogs"
+            };
 
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+            {
+                return null; // Handle upload failure
+            }
+
+            return new CloudinaryResponse
+            {
+                FileUrl = uploadResult.SecureUrl.ToString(),
+                PublicFileId = uploadResult.PublicId
+            };
+        }
     }
 }

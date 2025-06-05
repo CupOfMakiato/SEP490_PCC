@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Server.Infrastructure.Data;
 namespace Server.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250604020752_FixTag")]
+    partial class FixTag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,21 +69,6 @@ namespace Server.Infrastructure.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("Blog");
-                });
-
-            modelBuilder.Entity("Server.Domain.Entities.BlogTag", b =>
-                {
-                    b.Property<Guid>("BlogId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TagId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BlogId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("BlogTag");
                 });
 
             modelBuilder.Entity("Server.Domain.Entities.Bookmark", b =>
@@ -395,6 +383,9 @@ namespace Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("BlogId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
@@ -425,6 +416,8 @@ namespace Server.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BlogId");
 
                     b.HasIndex("CreatedBy");
 
@@ -524,25 +517,6 @@ namespace Server.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("BlogCreatedBy");
-                });
-
-            modelBuilder.Entity("Server.Domain.Entities.BlogTag", b =>
-                {
-                    b.HasOne("Server.Domain.Entities.Blog", "Blog")
-                        .WithMany("BlogTags")
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Server.Domain.Entities.Tag", "Tag")
-                        .WithMany("BlogTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
-
-                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Server.Domain.Entities.Bookmark", b =>
@@ -648,6 +622,10 @@ namespace Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Server.Domain.Entities.Tag", b =>
                 {
+                    b.HasOne("Server.Domain.Entities.Blog", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("BlogId");
+
                     b.HasOne("Server.Domain.Entities.User", "TagCreatedBy")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
@@ -669,8 +647,6 @@ namespace Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Server.Domain.Entities.Blog", b =>
                 {
-                    b.Navigation("BlogTags");
-
                     b.Navigation("Bookmark");
 
                     b.Navigation("Comment");
@@ -678,6 +654,8 @@ namespace Server.Infrastructure.Migrations
                     b.Navigation("Like");
 
                     b.Navigation("Media");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Server.Domain.Entities.Category", b =>
@@ -693,11 +671,6 @@ namespace Server.Infrastructure.Migrations
             modelBuilder.Entity("Server.Domain.Entities.Role", b =>
                 {
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("Server.Domain.Entities.Tag", b =>
-                {
-                    b.Navigation("BlogTags");
                 });
 #pragma warning restore 612, 618
         }

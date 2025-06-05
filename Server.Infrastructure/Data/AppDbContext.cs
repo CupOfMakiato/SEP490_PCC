@@ -15,6 +15,11 @@ namespace Server.Infrastructure.Data
         public DbSet<Role> Role { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }
+        public DbSet<Blog> Blog { get; set; }
+        public DbSet<Media> Media { get; set; }
+        public DbSet<Bookmark> Bookmark { get; set; }
+        public DbSet<Like> Like { get; set; }
+        public DbSet<Tag> Tag { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -43,6 +48,66 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict); // Change from Cascade to Restrict
+
+            modelBuilder.Entity<Bookmark>()
+            .HasOne(b => b.User)
+            .WithMany()
+            .HasForeignKey(b => b.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Like>()
+            .HasOne(b => b.User)
+            .WithMany()
+            .HasForeignKey(b => b.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>()
+            .HasOne(c => c.CommentCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+            
+            // blog
+
+            modelBuilder.Entity<Blog>()
+            .Property(s => s.Status)
+            .HasConversion(v => v.ToString(), v => (BlogStatus)Enum.Parse(typeof(BlogStatus), v));
+
+            modelBuilder.Entity<Blog>()
+            .HasOne(c => c.BlogCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // tag
+
+            modelBuilder.Entity<Tag>()
+            .Property(s => s.Status)
+            .HasConversion(v => v.ToString(), v => (StatusEnums)Enum.Parse(typeof(StatusEnums), v));
+
+            modelBuilder.Entity<Tag>()
+            .HasOne(c => c.TagCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+            // blogtag
+
+            modelBuilder.Entity<BlogTag>()
+            .HasKey(bt => new { bt.BlogId, bt.TagId });
+
+            modelBuilder.Entity<BlogTag>()
+            .HasOne(bt => bt.Blog)
+            .WithMany(b => b.BlogTags)
+            .HasForeignKey(bt => bt.BlogId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BlogTag>()
+            .HasOne(bt => bt.Tag)
+            .WithMany(t => t.BlogTags)
+            .HasForeignKey(bt => bt.TagId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

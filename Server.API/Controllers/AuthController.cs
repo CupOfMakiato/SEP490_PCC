@@ -20,7 +20,7 @@ using Server.Application.DTOs.Auth;
 
 namespace Server.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
