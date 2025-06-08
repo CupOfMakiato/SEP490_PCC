@@ -25,5 +25,6 @@ namespace Server.Domain.Entities
 
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
+        public IEnumerable<GrowthData>? GrowthData { get; set; }
     }
 }
