@@ -18,6 +18,12 @@ namespace Server.Application.Interfaces
         // add
         Task<Result<object>> UploadBlog(AddBlogDTO addBlogDTO);
 
+        //delete 
+        Task<Result<object>> DeleteBlog(Guid blogId);
+
+        //edit
+        Task<Result<object>> EditBlog(EditBlogDTO EditBlogDTO);
+
         // upload file attachment
         //Task<Result<object>> UploadFileAttachment(Guid blogId, IFormFile file);
     }
