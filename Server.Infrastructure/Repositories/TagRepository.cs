@@ -46,5 +46,6 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Tag
                 .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower() && !t.IsDeleted);
         }
+
     }
 }

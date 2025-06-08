@@ -41,7 +41,17 @@ namespace Server.Application.Services
         // temporary use
         public async Task<Result<List<ViewBlogDTO>>> ViewAllBlogs()
         {
-            var result = _mapper.Map<List<ViewBlogDTO>>(await _unitOfWork.blogRepository.GetAllBlogs());
+            var blogs = await _unitOfWork.blogRepository.GetAllBlogs();
+
+            var result = _mapper.Map<List<ViewBlogDTO>>(blogs);
+
+            foreach (var blogDTO in result)
+            {
+                blogDTO.BookmarkCount = await _unitOfWork.bookmarkRepository.CountBookmarksByBlogId(blogDTO.Id);
+                blogDTO.LikeCount = await _unitOfWork.likeRepository.CountLikesByBlogId(blogDTO.Id);
+            }
+
+            
 
             return new Result<List<ViewBlogDTO>>
             {
@@ -52,7 +62,24 @@ namespace Server.Application.Services
         }
         public async Task<Result<ViewBlogDTO>> ViewBlogById(Guid blogId)
         {
-            var result = _mapper.Map<ViewBlogDTO>(await _unitOfWork.blogRepository.GetBlogById(blogId));
+            var blog = await _unitOfWork.blogRepository.GetBlogById(blogId);
+
+            // Check if blog exists
+            if (blog == null)
+            {
+                return new Result<ViewBlogDTO>
+                {
+                    Error = 1,
+                    Message = "Blog not found",
+                    Data = null
+                };
+            }
+
+            var result = _mapper.Map<ViewBlogDTO>(blog);
+
+            result.BookmarkCount = await _unitOfWork.bookmarkRepository.CountBookmarksByBlogId(result.Id);
+            result.LikeCount = await _unitOfWork.likeRepository.CountLikesByBlogId(result.Id);
+
             return new Result<ViewBlogDTO>
             {
                 Error = 0,
@@ -336,5 +363,6 @@ namespace Server.Application.Services
                 Data = blog
             };
         }
+        
     }
 }

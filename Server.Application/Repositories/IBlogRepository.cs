@@ -12,5 +12,6 @@ namespace Server.Application.Repositories
         // View
         Task<List<Blog>> GetAllBlogs();
         Task<Blog> GetBlogById(Guid id);
+        Task<List<Blog>> GetBookmarkedBlogsByUserId(Guid userId);
     }
 }

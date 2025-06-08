@@ -11,11 +11,12 @@ namespace Server.Application.Repositories
     {
         // view
         Task<List<Bookmark>> GetAllBookmarks();
-        Task<List<Bookmark>> GetAllBookmarkedBlogByUserId(Guid userId);
-        Task<Bookmark?> GetByUserAndBlog(Guid userId, Guid blogId);
 
         // count
         Task<int> CountBookmarksByBlogId(Guid blogId);
+
+        // check bookmark
+        Task<Bookmark> IsBlogBookmarkedByUser(Guid blogId, Guid userId);
 
     }
 }

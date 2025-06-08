@@ -49,5 +49,22 @@ namespace Server.Infrastructure.Repositories
                 .Include(c => c.Media)
                 .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
         }
+
+        public async Task<List<Blog>> GetBookmarkedBlogsByUserId(Guid userId)
+        {
+            return await _dbContext.Bookmark
+                .Where(b => b.UserId == userId && !b.IsDeleted)
+                .Select(b => b.Blog)
+                .Include(blog => blog.BlogTags)
+                .ThenInclude(bt => bt.Tag)
+                .Include(b => b.BlogCreatedBy)
+                .Include(b => b.Media)
+                .Include(b => b.Comment)
+                .Where(b => !b.IsDeleted)
+                .ToListAsync();
+        }
+        
+        
+
     }
 }
