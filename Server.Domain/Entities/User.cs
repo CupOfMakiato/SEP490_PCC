@@ -25,5 +25,10 @@ namespace Server.Domain.Entities
 
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
+
+        // user can like many blogs
+        public IEnumerable<Like> LikedBlogs { get; set; }
+        // user can bookmark many blogs
+        public IEnumerable<Bookmark> BookmarkedBlogs { get; set; }
     }
 }

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Entities
 {
-    public class Bookmark : BaseEntity
+    public class Bookmark 
     {
         public Guid UserId { get; set; }
         public Guid BlogId { get; set; }
         public User User { get; set; }
         public Blog Blog { get; set; }
+        public DateTime BookmarkedAt { get; set; } = DateTime.UtcNow;
     } 
 }

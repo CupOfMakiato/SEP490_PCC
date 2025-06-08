@@ -108,6 +108,35 @@ namespace Server.Infrastructure.Data
             .WithMany(t => t.BlogTags)
             .HasForeignKey(bt => bt.TagId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            // Bookmark
+            modelBuilder.Entity<Bookmark>()
+            .HasKey(b => new { b.UserId, b.BlogId });
+
+            modelBuilder.Entity<Bookmark>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.BookmarkedBlogs)
+                .HasForeignKey(b => b.UserId);
+
+            modelBuilder.Entity<Bookmark>()
+                .HasOne(b => b.Blog)
+                .WithMany(b => b.BookmarkedByUsers)
+                .HasForeignKey(b => b.BlogId);
+
+            // Like
+            modelBuilder.Entity<Like>()
+            .HasKey(l => new { l.UserId, l.BlogId });
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.LikedBlogs)
+                .HasForeignKey(l => l.UserId);
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.Blog)
+                .WithMany(b => b.LikedByUsers)
+                .HasForeignKey(l => l.BlogId);
+
         }
     }
 }

@@ -14,16 +14,16 @@ namespace Server.Domain.Entities
         public string Body { get; set; }
         public BlogStatus Status { get; set; } = BlogStatus.Published; 
         // List of images
-        public ICollection<Media> Media { get; set; } = new List<Media>();
+        public IEnumerable<Media> Media { get; set; } = new List<Media>();
         public User BlogCreatedBy { get; set; }
         // Blog can have many tags
-        public ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
+        public IEnumerable<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
         // Blog can have many comments
-        public ICollection<Comment> Comment { get; set; } = new List<Comment>();
+        public IEnumerable<Comment> Comment { get; set; } = new List<Comment>();
         // Blog can have many bookmarks
-        public ICollection<Bookmark> Bookmark { get; set; } = new List<Bookmark>();
+        public IEnumerable<Bookmark> BookmarkedByUsers { get; set; }
         // Blog can have many likes
-        public ICollection<Like> Like { get; set; } = new List<Like>();
+        public IEnumerable<Like> LikedByUsers { get; set; }
 
     }
 }
