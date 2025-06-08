@@ -34,8 +34,6 @@ namespace Server.Infrastructure.Repositories
                 .Include(c => c.BlogTags)
                     .ThenInclude(bt => bt.Tag)
                 .Include(c => c.Comment)
-                .Include(l => l.Like)
-                .Include(b => b.Bookmark)
                 .Include(c => c.Media)
                 .Where(c => !c.IsDeleted)
                 .ToListAsync();
@@ -48,8 +46,6 @@ namespace Server.Infrastructure.Repositories
                 .Include(c => c.BlogTags)
                     .ThenInclude(bt => bt.Tag)
                 .Include(c => c.Comment)
-                .Include(l => l.Like)
-                .Include(b => b.Bookmark)
                 .Include(c => c.Media)
                 .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
         }

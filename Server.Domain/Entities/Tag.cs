@@ -12,6 +12,6 @@ namespace Server.Domain.Entities
         public string Name { get; set; }
         public StatusEnums Status { get; set; } = StatusEnums.Active;
         public User TagCreatedBy { get; set; }
-        public IEnumerable<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
+        public ICollection<BlogTag> BlogTags { get; set; } = new List<BlogTag>();
     }
 }

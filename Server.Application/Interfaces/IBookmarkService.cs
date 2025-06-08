@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Domain.Enums
+namespace Server.Application.Interfaces
 {
-    public enum CommentStatus
+    public interface IBookmarkService
     {
-        Published,
-        Hidden,
-        Edited,
-        Replied
+
     }
 }

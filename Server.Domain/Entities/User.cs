@@ -25,10 +25,18 @@ namespace Server.Domain.Entities
 
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
+        public IEnumerable<GrowthData>? GrowthData { get; set; }
 
         // user can like many blogs
-        public IEnumerable<Like> LikedBlogs { get; set; }
+        public ICollection<Like> LikedBlogs { get; set; }
+
         // user can bookmark many blogs
-        public IEnumerable<Bookmark> BookmarkedBlogs { get; set; }
+        public ICollection<Bookmark> BookmarkedBlogs { get; set; }
+
+        // Users that this user is following
+        public ICollection<UserFollower> Followees { get; set; }
+
+        // Users that are following this user
+        public ICollection<UserFollower> Followers { get; set; }
     }
 }

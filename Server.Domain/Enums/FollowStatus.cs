@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Enums
 {
-    public enum CommentStatus
+    public enum FollowStatus
     {
-        Published,
-        Hidden,
-        Edited,
-        Replied
+        Neutral,
+        Blocked
     }
 }
