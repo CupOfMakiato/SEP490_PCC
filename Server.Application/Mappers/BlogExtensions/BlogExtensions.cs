@@ -35,9 +35,21 @@ namespace Server.Application.Mappers.BlogExtensions
                 Title = UploadNewBlogRequest.Title,
                 Body = UploadNewBlogRequest.Body,
                 Status = BlogStatus.Published,
-                Tags = UploadNewBlogRequest.Tags ?? new List<string>(), 
-                Images = UploadNewBlogRequest.Images 
+                Tags = UploadNewBlogRequest.Tags ?? new List<string>(),
+                Images = UploadNewBlogRequest.Images
 
+            };
+        }
+        public static EditBlogDTO ToEditBlogDTO(this EditBlogRequest editBlogRequest)
+        {
+            return new EditBlogDTO
+            {
+                Id = editBlogRequest.Id,
+                Title = editBlogRequest.Title,
+                Body = editBlogRequest.Body,
+                Status = BlogStatus.Edited,
+                Tags = editBlogRequest.Tags ?? new List<string>(),
+                Images = editBlogRequest.Images
             };
         }
     }

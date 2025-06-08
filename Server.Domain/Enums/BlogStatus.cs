@@ -3,7 +3,8 @@
     public enum BlogStatus
     {
         Published,
-        Archived
+        Archived,
+        Edited,
     }
 }
 

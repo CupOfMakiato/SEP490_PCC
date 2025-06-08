@@ -17,6 +17,7 @@ namespace Server.Domain.Entities
         // Parent comment for replies
         public Guid? ParentCommentId { get; set; }
         public Comment ParentComment { get; set; }
+        //public CommentStatus Status { get; set; } = CommentStatus.Active;
 
     }
 }
