@@ -20,6 +20,13 @@ namespace Server.Infrastructure.Data
         public DbSet<Bookmark> Bookmark { get; set; }
         public DbSet<Like> Like { get; set; }
         public DbSet<Tag> Tag { get; set; }
+        public DbSet<Comment> Comment { get; set; }
+        public DbSet<GrowthData> GrowthData { get; set; }
+        public DbSet<FoodRecommendationHistory> FoodRecommendationHistory { get; set; }
+        public DbSet<Food> Food{ get; set; }
+        public DbSet<FoodCategory> FoodCategory { get; set; }
+        public DbSet<Vitamin> Vitamin { get; set; }
+        public DbSet<VitaminCategory> VitaminCategory{ get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -108,6 +115,87 @@ namespace Server.Infrastructure.Data
             .WithMany(t => t.BlogTags)
             .HasForeignKey(bt => bt.TagId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            // Food Vitamin
+
+            modelBuilder.Entity<FoodVitamin>()
+            .HasKey(bt => new { bt.FoodId, bt.VitaminId });
+
+            modelBuilder.Entity<FoodVitamin>()
+            .HasOne(bt => bt.Food)
+            .WithMany(b => b.FoodVitamins)
+            .HasForeignKey(bt => bt.FoodId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FoodVitamin>()
+            .HasOne(bt => bt.Vitamin)
+            .WithMany(t => t.FoodVitamins)
+            .HasForeignKey(bt => bt.VitaminId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Bookmark
+            modelBuilder.Entity<Bookmark>()
+            .HasKey(b => new { b.UserId, b.BlogId });
+
+            modelBuilder.Entity<Bookmark>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.BookmarkedBlogs)
+                .HasForeignKey(b => b.UserId);
+
+            modelBuilder.Entity<Bookmark>()
+                .HasOne(b => b.Blog)
+                .WithMany(b => b.BookmarkedByUsers)
+                .HasForeignKey(b => b.BlogId);
+
+            // Like
+            modelBuilder.Entity<Like>()
+            .HasKey(l => new { l.UserId, l.BlogId });
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.LikedBlogs)
+                .HasForeignKey(l => l.UserId);
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.Blog)
+                .WithMany(b => b.LikedByUsers)
+                .HasForeignKey(l => l.BlogId);
+
+            // follow
+            modelBuilder.Entity<UserFollower>()
+                .HasKey(uf => new { uf.FollowerId, uf.FolloweeId });
+
+            modelBuilder.Entity<UserFollower>()
+                .HasOne(uf => uf.Follower)
+                .WithMany(u => u.Followees) 
+                .HasForeignKey(uf => uf.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserFollower>()
+                .HasOne(uf => uf.Followee)
+                .WithMany(u => u.Followers) 
+                .HasForeignKey(uf => uf.FolloweeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserFollower>()
+                .Property(f => f.Status)
+                .HasConversion(
+                v => v.ToString(),
+                v => (FollowStatus)Enum.Parse(typeof(FollowStatus), v));
+
+            // comment
+            modelBuilder.Entity<Comment>()
+            .HasOne(c => c.CommentCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>()
+                .Property(f => f.Status)
+                .HasConversion(
+                v => v.ToString(),
+                v => (CommentStatus)Enum.Parse(typeof(CommentStatus), v));
+
         }
     }
 }

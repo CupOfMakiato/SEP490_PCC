@@ -85,12 +85,14 @@ namespace Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Server.Domain.Entities.Bookmark", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BlogId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("BookmarkedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
@@ -104,6 +106,9 @@ namespace Server.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -113,14 +118,9 @@ namespace Server.Infrastructure.Migrations
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "BlogId");
 
                     b.HasIndex("BlogId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Bookmark");
                 });
@@ -203,6 +203,10 @@ namespace Server.Infrastructure.Migrations
                     b.Property<Guid?>("ParentCommentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BlogId");
@@ -212,6 +216,107 @@ namespace Server.Infrastructure.Migrations
                     b.HasIndex("ParentCommentId");
 
                     b.ToTable("Comment");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.Food", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleteBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("FoodCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ModificationBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PregnancySafe")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SafetyNote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("SuggestionRuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FoodCategoryId");
+
+                    b.HasIndex("SuggestionRuleId");
+
+                    b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.FoodCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleteBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ModificationBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FoodCategory");
                 });
 
             modelBuilder.Entity("Server.Domain.Entities.FoodRecommendationHistory", b =>
@@ -232,10 +337,7 @@ namespace Server.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GrowthDataId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("GrowthDataId1")
+                    b.Property<Guid>("GrowthDataId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
@@ -263,9 +365,39 @@ namespace Server.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GrowthDataId1");
+                    b.HasIndex("GrowthDataId");
 
                     b.ToTable("FoodRecommendationHistory");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.FoodVitamin", b =>
+                {
+                    b.Property<Guid>("FoodId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("VitaminId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ReferenceQuantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReferenceUnit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FoodId", "VitaminId");
+
+                    b.HasIndex("VitaminId");
+
+                    b.ToTable("FoodVitamin");
                 });
 
             modelBuilder.Entity("Server.Domain.Entities.GrowthData", b =>
@@ -313,8 +445,7 @@ namespace Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Server.Domain.Entities.Like", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BlogId")
@@ -332,8 +463,14 @@ namespace Server.Infrastructure.Migrations
                     b.Property<DateTime?>("DeletionDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("LikedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("ModificationBy")
                         .HasColumnType("uniqueidentifier");
@@ -341,14 +478,9 @@ namespace Server.Infrastructure.Migrations
                     b.Property<DateTime?>("ModificationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "BlogId");
 
                     b.HasIndex("BlogId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Like");
                 });
@@ -486,6 +618,50 @@ namespace Server.Infrastructure.Migrations
                     b.ToTable("SubCategory");
                 });
 
+            modelBuilder.Entity("Server.Domain.Entities.SuggestionRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Condition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleteBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ModificationBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("WeekSuggest")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SuggestionRule");
+                });
+
             modelBuilder.Entity("Server.Domain.Entities.Tag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -613,6 +789,124 @@ namespace Server.Infrastructure.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("Server.Domain.Entities.UserFollower", b =>
+                {
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FolloweeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("FollowedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("FollowerId", "FolloweeId");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.ToTable("UserFollower");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.Vitamin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleteBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ModificationBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("VitaminCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VitaminCategoryId");
+
+                    b.ToTable("Vitamin");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.VitaminCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeleteBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ModificationBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModificationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VitaminCategory");
+                });
+
             modelBuilder.Entity("Server.Domain.Entities.Blog", b =>
                 {
                     b.HasOne("Server.Domain.Entities.User", "BlogCreatedBy")
@@ -645,13 +939,13 @@ namespace Server.Infrastructure.Migrations
             modelBuilder.Entity("Server.Domain.Entities.Bookmark", b =>
                 {
                     b.HasOne("Server.Domain.Entities.Blog", "Blog")
-                        .WithMany("Bookmark")
+                        .WithMany("BookmarkedByUsers")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Server.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("BookmarkedBlogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -695,15 +989,53 @@ namespace Server.Infrastructure.Migrations
                     b.Navigation("ParentComment");
                 });
 
+            modelBuilder.Entity("Server.Domain.Entities.Food", b =>
+                {
+                    b.HasOne("Server.Domain.Entities.FoodCategory", "FoodCategory")
+                        .WithMany("Foods")
+                        .HasForeignKey("FoodCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Server.Domain.Entities.SuggestionRule", "SuggestionRule")
+                        .WithMany("Foods")
+                        .HasForeignKey("SuggestionRuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FoodCategory");
+
+                    b.Navigation("SuggestionRule");
+                });
+
             modelBuilder.Entity("Server.Domain.Entities.FoodRecommendationHistory", b =>
                 {
                     b.HasOne("Server.Domain.Entities.GrowthData", "GrowthData")
                         .WithMany("FoodRecommendationHistories")
-                        .HasForeignKey("GrowthDataId1")
+                        .HasForeignKey("GrowthDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("GrowthData");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.FoodVitamin", b =>
+                {
+                    b.HasOne("Server.Domain.Entities.Food", "Food")
+                        .WithMany("FoodVitamins")
+                        .HasForeignKey("FoodId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Server.Domain.Entities.Vitamin", "Vitamin")
+                        .WithMany("FoodVitamins")
+                        .HasForeignKey("VitaminId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Food");
+
+                    b.Navigation("Vitamin");
                 });
 
             modelBuilder.Entity("Server.Domain.Entities.GrowthData", b =>
@@ -720,13 +1052,13 @@ namespace Server.Infrastructure.Migrations
             modelBuilder.Entity("Server.Domain.Entities.Like", b =>
                 {
                     b.HasOne("Server.Domain.Entities.Blog", "Blog")
-                        .WithMany("Like")
+                        .WithMany("LikedByUsers")
                         .HasForeignKey("BlogId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Server.Domain.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("LikedBlogs")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -786,15 +1118,45 @@ namespace Server.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("Server.Domain.Entities.UserFollower", b =>
+                {
+                    b.HasOne("Server.Domain.Entities.User", "Followee")
+                        .WithMany("Followers")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Server.Domain.Entities.User", "Follower")
+                        .WithMany("Followees")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Followee");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.Vitamin", b =>
+                {
+                    b.HasOne("Server.Domain.Entities.VitaminCategory", "VitaminCategory")
+                        .WithMany("Vitamins")
+                        .HasForeignKey("VitaminCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("VitaminCategory");
+                });
+
             modelBuilder.Entity("Server.Domain.Entities.Blog", b =>
                 {
                     b.Navigation("BlogTags");
 
-                    b.Navigation("Bookmark");
+                    b.Navigation("BookmarkedByUsers");
 
                     b.Navigation("Comment");
 
-                    b.Navigation("Like");
+                    b.Navigation("LikedByUsers");
 
                     b.Navigation("Media");
                 });
@@ -809,6 +1171,16 @@ namespace Server.Infrastructure.Migrations
                     b.Navigation("Replies");
                 });
 
+            modelBuilder.Entity("Server.Domain.Entities.Food", b =>
+                {
+                    b.Navigation("FoodVitamins");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.FoodCategory", b =>
+                {
+                    b.Navigation("Foods");
+                });
+
             modelBuilder.Entity("Server.Domain.Entities.GrowthData", b =>
                 {
                     b.Navigation("FoodRecommendationHistories");
@@ -819,6 +1191,11 @@ namespace Server.Infrastructure.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("Server.Domain.Entities.SuggestionRule", b =>
+                {
+                    b.Navigation("Foods");
+                });
+
             modelBuilder.Entity("Server.Domain.Entities.Tag", b =>
                 {
                     b.Navigation("BlogTags");
@@ -826,7 +1203,25 @@ namespace Server.Infrastructure.Migrations
 
             modelBuilder.Entity("Server.Domain.Entities.User", b =>
                 {
+                    b.Navigation("BookmarkedBlogs");
+
+                    b.Navigation("Followees");
+
+                    b.Navigation("Followers");
+
                     b.Navigation("GrowthData");
+
+                    b.Navigation("LikedBlogs");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.Vitamin", b =>
+                {
+                    b.Navigation("FoodVitamins");
+                });
+
+            modelBuilder.Entity("Server.Domain.Entities.VitaminCategory", b =>
+                {
+                    b.Navigation("Vitamins");
                 });
 #pragma warning restore 612, 618
         }

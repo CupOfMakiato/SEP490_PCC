@@ -37,6 +37,7 @@ namespace Server.Infrastructure
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IBookmarkService, BookmarkService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -53,6 +54,7 @@ namespace Server.Infrastructure
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IBookmarkRepository, BookmarkRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

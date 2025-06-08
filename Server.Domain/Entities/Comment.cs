@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Server.Domain.Entities
         public string Body { get; set; }
         public Guid BlogId { get; set; }
         public User CommentCreatedBy { get; set; }
+        public CommentStatus Status { get; set; } = CommentStatus.Published; 
         public Blog Blog { get; set; }
         // List of replies to the comment
         public ICollection<Comment> Replies { get; set; } = new List<Comment>();

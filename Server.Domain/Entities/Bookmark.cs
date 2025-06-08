@@ -12,5 +12,6 @@ namespace Server.Domain.Entities
         public Guid BlogId { get; set; }
         public User User { get; set; }
         public Blog Blog { get; set; }
+        public DateTime BookmarkedAt { get; set; } = DateTime.UtcNow;
     } 
 }

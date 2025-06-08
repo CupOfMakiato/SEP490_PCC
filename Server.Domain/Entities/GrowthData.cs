@@ -13,6 +13,6 @@ namespace Server.Domain.Entities
         public int Week { get; set; }
         public IEnumerable<FoodRecommendationHistory> FoodRecommendationHistories { get; set; }
         public Guid UserId { get; set; }
-        public User User { get; set; }  
+        public User User { get; set; }
     }
 }

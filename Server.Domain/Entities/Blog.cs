@@ -21,9 +21,9 @@ namespace Server.Domain.Entities
         // Blog can have many comments
         public ICollection<Comment> Comment { get; set; } = new List<Comment>();
         // Blog can have many bookmarks
-        public ICollection<Bookmark> Bookmark { get; set; } = new List<Bookmark>();
+        public ICollection<Bookmark> BookmarkedByUsers { get; set; }
         // Blog can have many likes
-        public ICollection<Like> Like { get; set; } = new List<Like>();
+        public ICollection<Like> LikedByUsers { get; set; }
 
     }
 }
