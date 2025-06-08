@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server.Application.Interfaces
 {
-    public interface IBookmarkService
+    public interface ILikeService
     {
-        Task BookmarkABlog(Guid blogId);
+        Task LikeABlog(Guid blogId);
     }
 }

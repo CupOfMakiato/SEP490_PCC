@@ -19,6 +19,8 @@ namespace Server.Infrastructure
         private readonly IBlogRepository _blogRepository;
         private readonly ITagRepository _tagRepository;
         private readonly IMediaRepository _mediaRepository;
+        private readonly IBookmarkRepository _bookmarkRepository;
+        private readonly ILikeRepository _likeRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -26,7 +28,9 @@ namespace Server.Infrastructure
             ISubCategoryRepository subCategoryRepository,
             IAuthRepository authRepository,
             IBlogRepository blogRepository,
-            ITagRepository tagRepository)
+            ITagRepository tagRepository,
+            IBookmarkRepository bookmarkRepository,
+            ILikeRepository likeRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -35,6 +39,8 @@ namespace Server.Infrastructure
             _authRepository = authRepository;
             _blogRepository = blogRepository;
             _tagRepository = tagRepository;
+            _bookmarkRepository = bookmarkRepository;
+            _likeRepository = likeRepository;
         }
 
         public IUserRepository userRepository => _userRepository;
@@ -43,6 +49,9 @@ namespace Server.Infrastructure
         public ISubCategoryRepository subCategoryRepository => _subCategoryRepository;
         public IBlogRepository blogRepository => _blogRepository;
         public ITagRepository tagRepository => _tagRepository;
+        public IBookmarkRepository bookmarkRepository => _bookmarkRepository;
+
+        public ILikeRepository likeRepository => _likeRepository;
 
 
         public async Task<int> SaveChangeAsync()

@@ -29,28 +29,16 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Bookmark
                 .ToListAsync();
         }
-        public async Task<List<Bookmark>> GetAllBookmarkedBlogByUserId(Guid userId)
+        public async Task<Bookmark> IsBlogBookmarkedByUser(Guid blogId, Guid userId)
         {
             return await _dbContext.Bookmark
-                .Include(b => b.Blog)
-                .Where(c => !c.IsDeleted && c.UserId == userId)
-                .ToListAsync();
-        }
-
-        // Get all bookmarks by user and blog
-        public async Task<Bookmark?> GetByUserAndBlog(Guid userId, Guid blogId)
-        {
-            return await _dbContext.Bookmark
-                .Include(b => b.Blog)
-                .Where(c => !c.IsDeleted)
                 .FirstOrDefaultAsync(b => b.UserId == userId && b.BlogId == blogId);
         }
         public async Task<int> CountBookmarksByBlogId(Guid blogId)
         {
             return await _dbContext.Bookmark
-                .Include(b => b.Blog)
-                .Where(c => !c.IsDeleted)
-                .CountAsync(b => b.BlogId == blogId);
+                .Where(b => b.BlogId == blogId && !b.IsDeleted)
+                .CountAsync();
         }
     }
 }

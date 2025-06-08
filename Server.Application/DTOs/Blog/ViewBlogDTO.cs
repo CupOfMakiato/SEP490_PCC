@@ -15,9 +15,9 @@ namespace Server.Application.DTOs.Blog
         public string Body { get; set; }
         public BlogStatus Status { get; set; }
         public List<string> Tags { get; set; } // fix later
-        //public int LikeCount { get; set; }
+        public int LikeCount { get; set; }
         //public int CommentCount { get; set; }
-        //public int BookmarkCount { get; set; }
+        public int BookmarkCount { get; set; }
         public UserDTO? CreatedByUser { get; set; }
     }    
 }

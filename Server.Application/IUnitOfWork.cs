@@ -12,6 +12,8 @@ namespace Server.Application
         public ISubCategoryRepository subCategoryRepository { get; }
         public IBlogRepository blogRepository { get; }
         public ITagRepository tagRepository { get; }
+        public IBookmarkRepository bookmarkRepository { get; }
+        public ILikeRepository likeRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
