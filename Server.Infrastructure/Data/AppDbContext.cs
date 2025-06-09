@@ -79,7 +79,13 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-            
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Consultants)
+                .WithOne(c => c.User)
+                .HasForeignKey<Consultant>(c => c.Id)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // blog
 
             modelBuilder.Entity<Blog>()
@@ -202,13 +208,6 @@ namespace Server.Infrastructure.Data
                 v => v.ToString(),
                 v => (CommentStatus)Enum.Parse(typeof(CommentStatus), v));
 
-            // clinic
-            modelBuilder.Entity<Clinic>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Clinics)
-                .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             // review
             modelBuilder.Entity<Review>()
                 .HasKey(r => new { r.UserId, r.ClinicId });
@@ -231,19 +230,25 @@ namespace Server.Infrastructure.Data
 
             // patient record
             modelBuilder.Entity<PatientRecord>()
+                .HasKey(pr => new { pr.UserId, pr.ConsultantId });
+
+            modelBuilder.Entity<PatientRecord>()
                 .HasOne(pr => pr.User)
                 .WithMany(u => u.PatientRecords)
                 .HasForeignKey(pr => pr.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<PatientRecord>()
+                .HasOne(pr => pr.Consultant)
+                .WithMany(c => c.PatientRecords)
+                .HasForeignKey(pr => pr.ConsultantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // consultant
             modelBuilder.Entity<Consultant>()
-                .HasKey(c => new { c.UserId, c.ClinicId });
-
-            modelBuilder.Entity<Consultant>()
                 .HasOne(c => c.User)
-                .WithMany(u => u.Consultants)
-                .HasForeignKey(c => c.UserId)
+                .WithOne(u => u.Consultants)
+                .HasForeignKey<Consultant>(c => c.Id)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Consultant>()

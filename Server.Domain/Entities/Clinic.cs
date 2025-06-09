@@ -13,8 +13,6 @@ namespace Server.Domain.Entities
         [MaxLength(20)]
         public string? PhoneNumber { get; set; }
         public bool? IsInsuranceAccepted { get; set; } = false;
-        public Guid UserId { get; set; }
-        public User User { get; set; }
 
         //Clinic can have many reviews
         public ICollection<Review> ReviewedByUsers { get; set; }
