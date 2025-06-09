@@ -27,6 +27,12 @@ namespace Server.Infrastructure.Data
         public DbSet<FoodCategory> FoodCategory { get; set; }
         public DbSet<Vitamin> Vitamin { get; set; }
         public DbSet<VitaminCategory> VitaminCategory{ get; set; }
+        public DbSet<Clinic> Clinic { get; set; }
+        public DbSet<Consultant> Consultant { get; set; }
+        public DbSet<Disease> Disease { get; set; }
+        public DbSet<PatientRecord> PatientRecord { get; set; }
+        public DbSet<Review> Review { get; set; }
+        public DbSet<Message> Message { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -196,6 +202,74 @@ namespace Server.Infrastructure.Data
                 v => v.ToString(),
                 v => (CommentStatus)Enum.Parse(typeof(CommentStatus), v));
 
+            // clinic
+            modelBuilder.Entity<Clinic>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Clinics)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // review
+            modelBuilder.Entity<Review>()
+                .HasKey(r => new { r.UserId, r.ClinicId });
+
+            modelBuilder.Entity<Review>()
+                .Property(r => r.Rating)
+                .HasPrecision(2, 1); // Precision for rating, e.g., 4.5
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.User)
+                .WithMany(u => u.ReviewedClinics)
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Review>()
+                .HasOne(r => r.Clinic)
+                .WithMany(c => c.ReviewedByUsers)
+                .HasForeignKey(r => r.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // patient record
+            modelBuilder.Entity<PatientRecord>()
+                .HasOne(pr => pr.User)
+                .WithMany(u => u.PatientRecords)
+                .HasForeignKey(pr => pr.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // consultant
+            modelBuilder.Entity<Consultant>()
+                .HasKey(c => new { c.UserId, c.ClinicId });
+
+            modelBuilder.Entity<Consultant>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Consultants)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Consultant>()
+                .HasOne(c => c.Clinic)
+                .WithMany(c => c.Consultants)
+                .HasForeignKey(c => c.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // disease
+            modelBuilder.Entity<Disease>()
+                .HasOne(d => d.User)
+                .WithMany(u => u.Diseases)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Disease>()
+                .Property(d => d.RiskLevel)
+                .HasConversion(
+                r => r.ToString(),
+                r => (RiskLevel)Enum.Parse(typeof(RiskLevel), r));
+
+            modelBuilder.Entity<Disease>()
+                .Property(d => d.TypeOfDesease)
+                .HasConversion(
+                td => td.ToString(),
+                td => (TypeOfDesease)Enum.Parse(typeof(TypeOfDesease), td));
         }
     }
 }

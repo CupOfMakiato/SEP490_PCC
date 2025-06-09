@@ -38,5 +38,20 @@ namespace Server.Domain.Entities
 
         // Users that are following this user
         public ICollection<UserFollower> Followers { get; set; }
+
+        // Users can review many clinics
+        public ICollection<Clinic> Clinics { get; set; }
+
+        //Users can review many revieweds
+        public ICollection<Review> ReviewedClinics { get; set; }
+
+        // Users can have many consultants
+        public ICollection<Consultant> Consultants { get; set; }
+
+        // Users can have many diseases
+        public ICollection<Disease> Diseases { get; set; }
+
+        // Users can have many patient records
+        public ICollection<PatientRecord> PatientRecords { get; set; }
     }
 }
