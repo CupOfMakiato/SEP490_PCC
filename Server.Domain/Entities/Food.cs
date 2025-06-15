@@ -18,5 +18,9 @@ namespace Server.Domain.Entities
         public FoodCategory FoodCategory { get; set; }
         public IEnumerable<FoodVitamin> FoodVitamins { get; set; }
         public SuggestionRule SuggestionRule {  set; get; }
+        public ICollection<FoodDiseaseWarning> FoodDiseaseWarning { get; set; } = new List<FoodDiseaseWarning>();
+        public ICollection<FoodAllergy> FoodAllergy { get; set; } = new List<FoodAllergy>();
+
+
     }
 }
