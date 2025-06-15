@@ -56,5 +56,29 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
+        public async Task<CloudinaryResponse> UploadJournalImage(string fileName, IFormFile file, Journal journal)
+        {
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(fileName, file.OpenReadStream()),
+                PublicId = $"/{journal.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
+                Overwrite = true,
+                Folder = "journals"
+            };
+
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+            {
+                return null; // Handle upload failure
+            }
+
+            return new CloudinaryResponse
+            {
+                FileUrl = uploadResult.SecureUrl.ToString(),
+                PublicFileId = uploadResult.PublicId
+            };
+        }
+
     }
 }

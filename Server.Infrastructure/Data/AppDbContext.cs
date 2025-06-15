@@ -11,8 +11,51 @@ namespace Server.Infrastructure.Data
 
         }
 
+        // User Management
         public DbSet<User> User { get; set; }
+        public DbSet<UserFollower> UserFollower { get; set; }
         public DbSet<Role> Role { get; set; }
+
+        // Staff and Clinic
+        public DbSet<Staff> Staff { get; set; }
+        public DbSet<Clinic> Clinic { get; set; }
+        public DbSet<Feedback> Feedback { get; set; }
+
+        // Consultant and Scheduling
+        public DbSet<Consultant> Consultant { get; set; }
+        public DbSet<Schedule> Schedule { get; set; }
+        public DbSet<Consultation> Consultations { get; set; }
+        public DbSet<Slot> Slot { get; set; }
+        public DbSet<Session> Session { get; set; }
+
+        // Pregnancy Tracking
+        public DbSet<GrowthData> GrowthData { get; set; }
+        public DbSet<MenstrualCycle> MenstrualCycle { get; set; }
+        public DbSet<Fetus> Fetus { get; set; }
+        public DbSet<Reminder> Reminder { get; set; }
+        public DbSet<Journal> Journal { get; set; }
+
+        // Disease Management
+        public DbSet<Disease> Disease { get; set; }
+        public DbSet<DiseaseGrowthData> DiseaseGrowthData { get; set; }
+        public DbSet<FoodDiseaseWarning> FoodDiseaseWarning { get; set; }
+
+        // Allergy Management
+        public DbSet<Allergy> Allergy { get; set; }
+        public DbSet<AllergyCategory> AllergyCategory { get; set; }
+        public DbSet<UserAllergy> UserAllergy { get; set; }
+        public DbSet<FoodAllergy> FoodAllergy { get; set; }
+
+        // Nutrition System
+        public DbSet<Food> Food { get; set; }
+        public DbSet<FoodCategory> FoodCategory { get; set; }
+        public DbSet<Vitamin> Vitamin { get; set; }
+        public DbSet<VitaminCategory> VitaminCategory { get; set; }
+        public DbSet<FoodVitamin> FoodVitamin { get; set; }
+        public DbSet<SuggestionRule> SuggestionRule { get; set; }
+        public DbSet<FoodRecommendationHistory> FoodRecommendationHistory { get; set; }
+
+        // Blogging System
         public DbSet<Category> Category { get; set; }
         public DbSet<SubCategory> SubCategory { get; set; }
         public DbSet<Blog> Blog { get; set; }
@@ -21,12 +64,9 @@ namespace Server.Infrastructure.Data
         public DbSet<Like> Like { get; set; }
         public DbSet<Tag> Tag { get; set; }
         public DbSet<Comment> Comment { get; set; }
-        public DbSet<GrowthData> GrowthData { get; set; }
-        public DbSet<FoodRecommendationHistory> FoodRecommendationHistory { get; set; }
-        public DbSet<Food> Food{ get; set; }
-        public DbSet<FoodCategory> FoodCategory { get; set; }
-        public DbSet<Vitamin> Vitamin { get; set; }
-        public DbSet<VitaminCategory> VitaminCategory{ get; set; }
+
+        // Messaging
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -73,7 +113,7 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
-            
+
             // blog
 
             modelBuilder.Entity<Blog>()
@@ -133,6 +173,73 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(bt => bt.VitaminId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            // DiseaseGrowthData
+
+            modelBuilder.Entity<DiseaseGrowthData>()
+            .HasKey(bt => new { bt.DiseaseId, bt.GrowDataId });
+
+            modelBuilder.Entity<DiseaseGrowthData>()
+            .HasOne(bt => bt.Disease)
+            .WithMany(b => b.DiseaseGrowthData)
+            .HasForeignKey(bt => bt.DiseaseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DiseaseGrowthData>()
+            .HasOne(bt => bt.GrowthData)
+            .WithMany(t => t.DiseaseGrowthData)
+            .HasForeignKey(bt => bt.GrowDataId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // FoodAllergy
+
+            modelBuilder.Entity<FoodAllergy>()
+            .HasKey(bt => new { bt.FoodId, bt.AllergyId });
+
+            modelBuilder.Entity<FoodAllergy>()
+            .HasOne(bt => bt.Food)
+            .WithMany(b => b.FoodAllergy)
+            .HasForeignKey(bt => bt.FoodId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FoodAllergy>()
+            .HasOne(bt => bt.Allergy)
+            .WithMany(t => t.FoodAllergy)
+            .HasForeignKey(bt => bt.AllergyId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // FoodDiseaseWarning
+
+            modelBuilder.Entity<FoodDiseaseWarning>()
+            .HasKey(bt => new { bt.FoodId, bt.DiseaseId });
+
+            modelBuilder.Entity<FoodDiseaseWarning>()
+            .HasOne(bt => bt.Food)
+            .WithMany(b => b.FoodDiseaseWarning)
+            .HasForeignKey(bt => bt.FoodId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FoodDiseaseWarning>()
+            .HasOne(bt => bt.Disease)
+            .WithMany(t => t.FoodDiseaseWarning)
+            .HasForeignKey(bt => bt.DiseaseId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // UserAllergy
+
+            modelBuilder.Entity<UserAllergy>()
+            .HasKey(bt => new { bt.UserId, bt.AllergyId });
+
+            modelBuilder.Entity<UserAllergy>()
+            .HasOne(bt => bt.User)
+            .WithMany(b => b.UserAllergy)
+            .HasForeignKey(bt => bt.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserAllergy>()
+            .HasOne(bt => bt.Allergy)
+            .WithMany(t => t.UserAllergy)
+            .HasForeignKey(bt => bt.AllergyId)
+            .OnDelete(DeleteBehavior.Restrict);
             // Bookmark
             modelBuilder.Entity<Bookmark>()
             .HasKey(b => new { b.UserId, b.BlogId });
@@ -167,13 +274,13 @@ namespace Server.Infrastructure.Data
 
             modelBuilder.Entity<UserFollower>()
                 .HasOne(uf => uf.Follower)
-                .WithMany(u => u.Followees) 
+                .WithMany(u => u.Followees)
                 .HasForeignKey(uf => uf.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserFollower>()
                 .HasOne(uf => uf.Followee)
-                .WithMany(u => u.Followers) 
+                .WithMany(u => u.Followers)
                 .HasForeignKey(uf => uf.FolloweeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -195,6 +302,66 @@ namespace Server.Infrastructure.Data
                 .HasConversion(
                 v => v.ToString(),
                 v => (CommentStatus)Enum.Parse(typeof(CommentStatus), v));
+
+            // Message 
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany()
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany()
+                .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Consultation
+
+            modelBuilder.Entity<Consultation>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Consultation>()
+                .HasOne(c => c.Consultant)
+                .WithMany()
+                .HasForeignKey(c => c.ConsultantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Consultation>()
+                .HasOne(c => c.Clinic)
+                .WithMany()
+                .HasForeignKey(c => c.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Slot
+
+            modelBuilder.Entity<Slot>()
+                .HasOne(cs => cs.Consultant)
+                .WithMany()
+                .HasForeignKey(cs => cs.ConsultantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Slot>()
+                .HasOne(cs => cs.Clinic)
+                .WithMany()
+                .HasForeignKey(cs => cs.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Slot>()
+                .HasOne(cs => cs.BookedByUser)
+                .WithMany()
+                .HasForeignKey(cs => cs.BookedByUserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Slot>()
+                .HasOne(cs => cs.Consultation)
+                .WithMany()
+                .HasForeignKey(cs => cs.ConsultationId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

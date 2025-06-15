@@ -38,5 +38,7 @@ namespace Server.Domain.Entities
 
         // Users that are following this user
         public ICollection<UserFollower> Followers { get; set; }
+        public ICollection<UserAllergy> UserAllergy { get; set; } = new List<UserAllergy>();
+
     }
 }
