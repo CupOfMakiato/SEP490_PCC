@@ -83,7 +83,12 @@ namespace Server.Application.Services
                 return new Result<User>() { Error = 1, Message = "Invalid token", Data = null };
             var userId = Guid.Parse(jwtToken.Claims.First(claim => claim.Type == "id").Value);
             var user = await _userRepository.GetByIdAsync(userId);
-            return new Result<User>() { Error = 1, Message = "Invalid token", Data = user };
+
+            if (user == null)
+                return new Result<User>() { Error = 1, Message = "User not found", Data = null };
+
+            // This should return success when user is found
+            return new Result<User>() { Error = 0, Message = "Success", Data = user };
         }
 
     }
