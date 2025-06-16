@@ -65,6 +65,15 @@ namespace Server.WebAPI
             services.AddHttpContextAccessor();
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("User", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "User"));
+                options.AddPolicy("Admin", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "Admin"));
+                options.AddPolicy("Staff", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "Staff"));
+            });
             return services;
         }
     }

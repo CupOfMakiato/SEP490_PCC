@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.API.Validations.Blog;
 using Server.Application.Abstractions.RequestAndResponse.Blog;
@@ -27,6 +28,7 @@ namespace Server.API.Controllers
             _mapper = mapper;
             _blogService = blogService;
         }
+        
         [HttpGet("view-all-blogs")]
         [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -45,6 +47,7 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        //[Authorize(Policy = "Admin")]
         [HttpPost("upload-blog")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
