@@ -15,6 +15,7 @@ namespace Server.Application
         public IFoodCategoryRepository FoodCategoryRepository { get; }
         public IFoodRepository FoodRepository { get; }
         public IVitaminRepository VitaminRepository { get; }
+        public IVitaminCategoryRepository VitaminCategoryRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

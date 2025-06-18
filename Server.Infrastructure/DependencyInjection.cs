@@ -39,6 +39,10 @@ namespace Server.Infrastructure
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IBookmarkService, BookmarkService>();
             services.AddScoped<ILikeService, LikeService>();
+            services.AddScoped<IFoodCategoryService, FoodCategoryService>();
+            services.AddScoped<IFoodService, FoodService>();
+            services.AddScoped<IVitaminCategoryService, VitaminCategoryService>();
+            services.AddScoped<IVitaminService, VitaminService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -57,6 +61,10 @@ namespace Server.Infrastructure
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBookmarkRepository, BookmarkRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
+            services.AddScoped<IFoodCategoryRepository, FoodCategoryRepository>();
+            services.AddScoped<IFoodRepository, FoodRepository>();
+            services.AddScoped<IVitaminCategoryRepository, VitaminCategoryRepository>();
+            services.AddScoped<IVitaminRepository, VitaminRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));
