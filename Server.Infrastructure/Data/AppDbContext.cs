@@ -54,6 +54,7 @@ namespace Server.Infrastructure.Data
         public DbSet<FoodVitamin> FoodVitamin { get; set; }
         public DbSet<SuggestionRule> SuggestionRule { get; set; }
         public DbSet<FoodRecommendationHistory> FoodRecommendationHistory { get; set; }
+        public DbSet<FoodRecommendationHistoryVersion> FoodRecommendationHistoryVersion { get; set; }
 
         // Blogging System
         public DbSet<Category> Category { get; set; }
@@ -172,6 +173,17 @@ namespace Server.Infrastructure.Data
             .WithMany(t => t.FoodVitamins)
             .HasForeignKey(bt => bt.VitaminId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            //FoodRecommendationHistory
+
+            modelBuilder.Entity<FoodRecommendationHistoryVersion>()
+                .HasOne(frhv => frhv.FoodRecommendationHistory)
+                .WithMany(frhv => frhv.Versions)
+                .HasForeignKey(frhv => frhv.FoodRecommendationHistoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FoodRecommendationHistoryVersion>()
+                .HasKey(frhv => frhv.Id);
 
             // DiseaseGrowthData
 
