@@ -1,6 +1,7 @@
 ﻿using Server.Application;
 using Server.Application.Repositories;
 using Server.Infrastructure.Data;
+using Server.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ namespace Server.Infrastructure
         private readonly IMediaRepository _mediaRepository;
         private readonly IBookmarkRepository _bookmarkRepository;
         private readonly ILikeRepository _likeRepository;
+        private readonly IFoodCategoryRepository _foodCategoryRepository;
+        private readonly IFoodRepository _foodRepository;
+        private readonly IVitaminRepository _vitaminRepository;
+        private readonly IVitaminCategoryRepository _vitaminCategoryRepository;
+        private readonly IDiseaseRepository _diseaseRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -30,7 +36,12 @@ namespace Server.Infrastructure
             IBlogRepository blogRepository,
             ITagRepository tagRepository,
             IBookmarkRepository bookmarkRepository,
-            ILikeRepository likeRepository)
+            ILikeRepository likeRepository,
+            IFoodCategoryRepository foodCategoryRepository,
+            IFoodRepository foodRepository,
+            IVitaminRepository vitaminRepository,
+            IDiseaseRepository diseaseRepository,
+            IVitaminCategoryRepository vitaminCategoryRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -41,6 +52,11 @@ namespace Server.Infrastructure
             _tagRepository = tagRepository;
             _bookmarkRepository = bookmarkRepository;
             _likeRepository = likeRepository;
+            _foodCategoryRepository = foodCategoryRepository;
+            _foodRepository = foodRepository;
+            _vitaminRepository = vitaminRepository;
+            _vitaminCategoryRepository = vitaminCategoryRepository;
+            _diseaseRepository = diseaseRepository;
         }
 
         public IUserRepository userRepository => _userRepository;
@@ -53,6 +69,13 @@ namespace Server.Infrastructure
 
         public ILikeRepository likeRepository => _likeRepository;
 
+        public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
+
+        public IFoodRepository FoodRepository => _foodRepository;
+        public IVitaminRepository VitaminRepository => _vitaminRepository;
+        public IVitaminCategoryRepository VitaminCategoryRepository => _vitaminCategoryRepository;
+        public IDiseaseRepository DiseaseRepository => _diseaseRepository;
+        public IMediaRepository MediaRepository => _mediaRepository;
 
         public async Task<int> SaveChangeAsync()
         {

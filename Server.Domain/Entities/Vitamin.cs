@@ -12,6 +12,7 @@ namespace Server.Domain.Entities
         public string Description { get; set; } 
         public string ImageUrl { get; set; }
         public string Unit { get; set; }
+        public bool Review { get; set; }
         public Guid CategoryId { get; set; }
         public VitaminCategory VitaminCategory { get; set; }
         public IEnumerable<FoodVitamin> FoodVitamins { get; set; }
