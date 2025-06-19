@@ -43,6 +43,7 @@ namespace Server.Infrastructure
             services.AddScoped<IFoodService, FoodService>();
             services.AddScoped<IVitaminCategoryService, VitaminCategoryService>();
             services.AddScoped<IVitaminService, VitaminService>();
+            services.AddScoped<IDiseaseService, DiseaseService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -65,6 +66,8 @@ namespace Server.Infrastructure
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IVitaminCategoryRepository, VitaminCategoryRepository>();
             services.AddScoped<IVitaminRepository, VitaminRepository>();
+            services.AddScoped<IMediaRepository, MediaRepository>();
+            services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

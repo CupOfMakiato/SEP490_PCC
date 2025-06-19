@@ -26,6 +26,7 @@ namespace Server.Infrastructure
         private readonly IFoodRepository _foodRepository;
         private readonly IVitaminRepository _vitaminRepository;
         private readonly IVitaminCategoryRepository _vitaminCategoryRepository;
+        private readonly IDiseaseRepository _diseaseRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -39,6 +40,7 @@ namespace Server.Infrastructure
             IFoodCategoryRepository foodCategoryRepository,
             IFoodRepository foodRepository,
             IVitaminRepository vitaminRepository,
+            IDiseaseRepository diseaseRepository,
             IVitaminCategoryRepository vitaminCategoryRepository)
         {
             _dbContext = dbContext;
@@ -54,6 +56,7 @@ namespace Server.Infrastructure
             _foodRepository = foodRepository;
             _vitaminRepository = vitaminRepository;
             _vitaminCategoryRepository = vitaminCategoryRepository;
+            _diseaseRepository = diseaseRepository;
         }
 
         public IUserRepository userRepository => _userRepository;
@@ -71,6 +74,8 @@ namespace Server.Infrastructure
         public IFoodRepository FoodRepository => _foodRepository;
         public IVitaminRepository VitaminRepository => _vitaminRepository;
         public IVitaminCategoryRepository VitaminCategoryRepository => _vitaminCategoryRepository;
+        public IDiseaseRepository DiseaseRepository => _diseaseRepository;
+        public IMediaRepository MediaRepository => _mediaRepository;
 
         public async Task<int> SaveChangeAsync()
         {
