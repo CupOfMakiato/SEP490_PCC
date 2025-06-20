@@ -1,25 +1,21 @@
-﻿using System;
+﻿using Server.Application.DTOs.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Domain.Entities
+namespace Server.Application.DTOs.Journal
 {
-    public class Journal : BaseEntity
+    public class ViewJournalDTO
     {
-        public Guid GrowthDataId { get; set; }
+        public Guid Id { get; set; }
         public int CurrentWeek { get; set; }
         public int CurrentTrimester { get; set; }
         public string Note { get; set; }
         public float CurrentWeight { get; set; }
         public string Symptoms { get; set; }
         public string MoodNotes { get; set; }
-
-        public GrowthData GrowthData { get; set; }
-        public User JournalCreatedBy { get; set; }
-
-        // List of images
-        public ICollection<Media> Media { get; set; } = new List<Media>();
+        public UserDTO? CreatedByUser { get; set; }
     }
 }

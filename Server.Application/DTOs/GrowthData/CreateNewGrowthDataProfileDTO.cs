@@ -1,0 +1,19 @@
+﻿using Microsoft.AspNetCore.Http;
+using Server.Domain.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Server.Application.DTOs.GrowthData
+{
+    public class CreateNewGrowthDataProfileDTO
+    {
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
+        public string Height { get; set; }
+        public string Weight { get; set; }
+    }
+}

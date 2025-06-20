@@ -4,19 +4,21 @@ namespace Server.Application
 {
     public interface IUnitOfWork
     {
-        public IUserRepository userRepository { get; }
-        public IAuthRepository authRepository { get; }
-        public ICategoryRepository categoryRepository { get; }
-        public ISubCategoryRepository subCategoryRepository { get; }
-        public IBlogRepository blogRepository { get; }
-        public ITagRepository tagRepository { get; }
-        public IBookmarkRepository bookmarkRepository { get; }
-        public ILikeRepository likeRepository { get; }
+        public IUserRepository UserRepository { get; }
+        public IAuthRepository AuthRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
+        public ISubCategoryRepository SubCategoryRepository { get; }
+        public IBlogRepository BlogRepository { get; }
+        public ITagRepository TagRepository { get; }
+        public IBookmarkRepository BookmarkRepository { get; }
+        public ILikeRepository LikeRepository { get; }
         public IFoodCategoryRepository FoodCategoryRepository { get; }
         public IFoodRepository FoodRepository { get; }
         public IVitaminRepository VitaminRepository { get; }
         public IVitaminCategoryRepository VitaminCategoryRepository { get; }
         public IDiseaseRepository DiseaseRepository { get; }
+        public IGrowthDataRepository GrowthDataRepository { get; }
+        public IJournalRepository JournalRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

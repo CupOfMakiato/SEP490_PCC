@@ -45,6 +45,8 @@ namespace Server.Infrastructure
             services.AddScoped<IVitaminService, VitaminService>();
             services.AddScoped<IDiseaseService, DiseaseService>();
 
+            services.AddScoped<IGrowthDataService, GrowthDataService>();
+
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
             services.AddScoped<EmailService>();
@@ -56,18 +58,23 @@ namespace Server.Infrastructure
             // Repo
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBookmarkRepository, BookmarkRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
+
             services.AddScoped<IFoodCategoryRepository, FoodCategoryRepository>();
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<IVitaminCategoryRepository, VitaminCategoryRepository>();
             services.AddScoped<IVitaminRepository, VitaminRepository>();
             services.AddScoped<IMediaRepository, MediaRepository>();
             services.AddScoped<IDiseaseRepository, DiseaseRepository>();
+
+            services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
+            services.AddScoped<IJournalRepository, JournalRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));
