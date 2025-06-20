@@ -86,7 +86,7 @@ namespace Server.Application.Services
                     <html>
                     <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
                         <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
-                            <h2 style='color: #333;'>Thank you for registering as an shop!</h2>
+                            <h2 style='color: #333;'>Thank you for registering as an staff!</h2>
                             <p style='color: #555;'>We have received your registration and it is currently being reviewed by our admin team.</p>
                             <p style='color: #555;'>You will receive a notification once your account is approved. Please be patient during this process.</p>
                             <p style='color: #555;'>Thank you for your understanding.</p>

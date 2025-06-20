@@ -41,14 +41,14 @@ namespace Server.Application.Services
         // temporary use
         public async Task<Result<List<ViewBlogDTO>>> ViewAllBlogs()
         {
-            var blogs = await _unitOfWork.blogRepository.GetAllBlogs();
+            var blogs = await _unitOfWork.BlogRepository.GetAllBlogs();
 
             var result = _mapper.Map<List<ViewBlogDTO>>(blogs);
 
             foreach (var blogDTO in result)
             {
-                blogDTO.BookmarkCount = await _unitOfWork.bookmarkRepository.CountBookmarksByBlogId(blogDTO.Id);
-                blogDTO.LikeCount = await _unitOfWork.likeRepository.CountLikesByBlogId(blogDTO.Id);
+                blogDTO.BookmarkCount = await _unitOfWork.BookmarkRepository.CountBookmarksByBlogId(blogDTO.Id);
+                blogDTO.LikeCount = await _unitOfWork.LikeRepository.CountLikesByBlogId(blogDTO.Id);
             }
 
             
@@ -62,7 +62,7 @@ namespace Server.Application.Services
         }
         public async Task<Result<ViewBlogDTO>> ViewBlogById(Guid blogId)
         {
-            var blog = await _unitOfWork.blogRepository.GetBlogById(blogId);
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
 
             // Check if blog exists
             if (blog == null)
@@ -77,8 +77,8 @@ namespace Server.Application.Services
 
             var result = _mapper.Map<ViewBlogDTO>(blog);
 
-            result.BookmarkCount = await _unitOfWork.bookmarkRepository.CountBookmarksByBlogId(result.Id);
-            result.LikeCount = await _unitOfWork.likeRepository.CountLikesByBlogId(result.Id);
+            result.BookmarkCount = await _unitOfWork.BookmarkRepository.CountBookmarksByBlogId(result.Id);
+            result.LikeCount = await _unitOfWork.LikeRepository.CountLikesByBlogId(result.Id);
 
             return new Result<ViewBlogDTO>
             {
@@ -90,7 +90,7 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> DeleteBlog(Guid blogId)
         {
-            var existingBlog = await _unitOfWork.blogRepository.GetBlogById(blogId);
+            var existingBlog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
             if (existingBlog == null)
             {
                 return new Result<object>
@@ -101,7 +101,7 @@ namespace Server.Application.Services
                 };
             }
 
-            _unitOfWork.blogRepository.SoftRemove(existingBlog);
+            _unitOfWork.BlogRepository.SoftRemove(existingBlog);
 
             // Save the changes
             var result = await _unitOfWork.SaveChangeAsync();
@@ -116,7 +116,7 @@ namespace Server.Application.Services
         public async Task<Result<object>> UploadBlog(AddBlogDTO addBlogDTO)
         {
             // 1. Check if user exists
-            var user = await _unitOfWork.userRepository.GetByIdAsync(addBlogDTO.UserId);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(addBlogDTO.UserId);
             if (user == null)
             {
                 return new Result<object>
@@ -169,7 +169,7 @@ namespace Server.Application.Services
             var distinctTags = addBlogDTO.Tags?.Distinct(StringComparer.OrdinalIgnoreCase).ToList() ?? new List<string>();
             foreach (var tagName in distinctTags)
             {
-                var tag = await _unitOfWork.tagRepository.GetTagByName(tagName);
+                var tag = await _unitOfWork.TagRepository.GetTagByName(tagName);
 
                 if (tag == null)
                 {
@@ -190,7 +190,7 @@ namespace Server.Application.Services
                         };
                     }
 
-                    tag = await _unitOfWork.tagRepository.GetTagByName(tagName);
+                    tag = await _unitOfWork.TagRepository.GetTagByName(tagName);
                     if (tag == null)
                     {
                         return new Result<object>
@@ -210,7 +210,7 @@ namespace Server.Application.Services
             }
 
             // Save Blog
-            await _unitOfWork.blogRepository.AddAsync(blog);
+            await _unitOfWork.BlogRepository.AddAsync(blog);
             var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>
@@ -222,7 +222,7 @@ namespace Server.Application.Services
         }
         public async Task<Result<object>> EditBlog(EditBlogDTO editBlogDTO)
         {
-            var blog = await _unitOfWork.blogRepository.GetBlogById(editBlogDTO.Id);
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(editBlogDTO.Id);
             if (blog == null)
             {
                 return new Result<object>
@@ -310,7 +310,7 @@ namespace Server.Application.Services
                 var distinctTags = editBlogDTO.Tags.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
                 foreach (var tagName in distinctTags)
                 {
-                    var tag = await _unitOfWork.tagRepository.GetTagByName(tagName);
+                    var tag = await _unitOfWork.TagRepository.GetTagByName(tagName);
 
                     if (tag == null)
                     {
@@ -332,7 +332,7 @@ namespace Server.Application.Services
                             };
                         }
 
-                        tag = await _unitOfWork.tagRepository.GetTagByName(tagName);
+                        tag = await _unitOfWork.TagRepository.GetTagByName(tagName);
                         if (tag == null)
                         {
                             return new Result<object>
@@ -353,7 +353,7 @@ namespace Server.Application.Services
             }
 
             // Save changes
-            _unitOfWork.blogRepository.Update(blog); 
+            _unitOfWork.BlogRepository.Update(blog); 
             var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>

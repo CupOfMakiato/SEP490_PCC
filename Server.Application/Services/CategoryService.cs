@@ -28,7 +28,7 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> AddNewCategory(AddCategoryDTO addCategoryDTO)
         {
-            var user = await _unitOfWork.userRepository.GetByIdAsync(addCategoryDTO.UserId);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(addCategoryDTO.UserId);
             if (user == null)
             {
                 return new Result<object>
@@ -41,7 +41,7 @@ namespace Server.Application.Services
             var boardMapper = addCategoryDTO.ToCategory();
 
             // Save board to database
-            await _unitOfWork.categoryRepository.AddAsync(boardMapper);
+            await _unitOfWork.CategoryRepository.AddAsync(boardMapper);
             var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>
@@ -54,7 +54,7 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> DeleteCategory(Guid Id)
         {
-            var Category = await _unitOfWork.categoryRepository.GetByIdAsync(Id);
+            var Category = await _unitOfWork.CategoryRepository.GetByIdAsync(Id);
 
             if (Category == null)
             {
@@ -80,7 +80,7 @@ namespace Server.Application.Services
 
         public async Task<Result<List<ViewCategoryDTO>>> ViewAllCategories()
         {
-            var result = _mapper.Map<List<ViewCategoryDTO>>(await _unitOfWork.categoryRepository.GetAllCategories());
+            var result = _mapper.Map<List<ViewCategoryDTO>>(await _unitOfWork.CategoryRepository.GetAllCategories());
 
             return new Result<List<ViewCategoryDTO>>
             {

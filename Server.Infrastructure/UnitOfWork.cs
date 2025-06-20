@@ -27,6 +27,8 @@ namespace Server.Infrastructure
         private readonly IVitaminRepository _vitaminRepository;
         private readonly IVitaminCategoryRepository _vitaminCategoryRepository;
         private readonly IDiseaseRepository _diseaseRepository;
+        private readonly IGrowthDataRepository _growthDataRepository;
+        private readonly IJournalRepository _journalRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -41,7 +43,9 @@ namespace Server.Infrastructure
             IFoodRepository foodRepository,
             IVitaminRepository vitaminRepository,
             IDiseaseRepository diseaseRepository,
-            IVitaminCategoryRepository vitaminCategoryRepository)
+            IVitaminCategoryRepository vitaminCategoryRepository,
+            IGrowthDataRepository growthDataRepository,
+            IJournalRepository journalRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -57,17 +61,22 @@ namespace Server.Infrastructure
             _vitaminRepository = vitaminRepository;
             _vitaminCategoryRepository = vitaminCategoryRepository;
             _diseaseRepository = diseaseRepository;
+            _growthDataRepository = growthDataRepository;
+            _journalRepository = journalRepository;
         }
 
-        public IUserRepository userRepository => _userRepository;
-        public IAuthRepository authRepository => _authRepository;
-        public ICategoryRepository categoryRepository => _categoryRepository;
-        public ISubCategoryRepository subCategoryRepository => _subCategoryRepository;
-        public IBlogRepository blogRepository => _blogRepository;
-        public ITagRepository tagRepository => _tagRepository;
-        public IBookmarkRepository bookmarkRepository => _bookmarkRepository;
+        public IUserRepository UserRepository => _userRepository;
+        public IAuthRepository AuthRepository => _authRepository;
+        public ICategoryRepository CategoryRepository => _categoryRepository;
+        public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository;
+        public IBlogRepository BlogRepository => _blogRepository;
+        public ITagRepository TagRepository => _tagRepository;
+        public IBookmarkRepository BookmarkRepository => _bookmarkRepository;
 
-        public ILikeRepository likeRepository => _likeRepository;
+        public ILikeRepository LikeRepository => _likeRepository;
+
+        public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
+        public IJournalRepository JournalRepository => _journalRepository;
 
         public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
 
