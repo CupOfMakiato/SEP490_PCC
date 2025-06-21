@@ -24,8 +24,8 @@ namespace Server.Infrastructure
         private readonly ILikeRepository _likeRepository;
         private readonly IFoodCategoryRepository _foodCategoryRepository;
         private readonly IFoodRepository _foodRepository;
-        private readonly INutrientRepository _nutrientRepository;
-        private readonly INutrientCategoryRepository _nutrientCategoryRepository;
+        private readonly IVitaminRepository _vitaminRepository;
+        private readonly IVitaminCategoryRepository _vitaminCategoryRepository;
         private readonly IDiseaseRepository _diseaseRepository;
         private readonly IGrowthDataRepository _growthDataRepository;
         private readonly IJournalRepository _journalRepository;
@@ -43,14 +43,14 @@ namespace Server.Infrastructure
             ILikeRepository likeRepository,
             IFoodCategoryRepository foodCategoryRepository,
             IFoodRepository foodRepository,
-            INutrientRepository nutrientRepository,
+            IVitaminRepository vitaminRepository,
             ISuggestionRuleRepository suggestionRuleRepository,
             IDiseaseRepository diseaseRepository,
             IVitaminCategoryRepository vitaminCategoryRepository,
             IGrowthDataRepository growthDataRepository,
             IJournalRepository journalRepository)
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
-            INutrientCategoryRepository nutrientCategoryRepository)
+            IVitaminCategoryRepository vitaminCategoryRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -63,8 +63,8 @@ namespace Server.Infrastructure
             _likeRepository = likeRepository;
             _foodCategoryRepository = foodCategoryRepository;
             _foodRepository = foodRepository;
-            _nutrientRepository = nutrientRepository;
-            _nutrientCategoryRepository = nutrientCategoryRepository;
+            _vitaminRepository = vitaminRepository;
+            _vitaminCategoryRepository = vitaminCategoryRepository;
             _diseaseRepository = diseaseRepository;
             _growthDataRepository = growthDataRepository;
             _journalRepository = journalRepository;
@@ -88,8 +88,8 @@ namespace Server.Infrastructure
         public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
 
         public IFoodRepository FoodRepository => _foodRepository;
-        public INutrientRepository NutrientRepository => _nutrientRepository;
-        public INutrientCategoryRepository NutrientCategoryRepository => _nutrientCategoryRepository;
+        public IVitaminRepository VitaminRepository => _vitaminRepository;
+        public IVitaminCategoryRepository VitaminCategoryRepository => _vitaminCategoryRepository;
         public IDiseaseRepository DiseaseRepository => _diseaseRepository;
         public IMediaRepository MediaRepository => _mediaRepository;
         public ISuggestionRuleRepository SuggestionRuleRepository => _suggestionRuleRepository;

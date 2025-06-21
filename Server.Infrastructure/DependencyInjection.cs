@@ -41,8 +41,8 @@ namespace Server.Infrastructure
             services.AddScoped<ILikeService, LikeService>();
             services.AddScoped<IFoodCategoryService, FoodCategoryService>();
             services.AddScoped<IFoodService, FoodService>();
-            services.AddScoped<INutrientCategoryService, NutrientCategoryService>();
-            services.AddScoped<INutrientService, NutrientService>();
+            services.AddScoped<IVitaminCategoryService, VitaminCategoryService>();
+            services.AddScoped<IVitaminService, VitaminService>();
             services.AddScoped<IDiseaseService, DiseaseService>();
             services.AddScoped<ISuggestionRuleService, SuggestionRuleService>();
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
@@ -70,8 +70,8 @@ namespace Server.Infrastructure
 
             services.AddScoped<IFoodCategoryRepository, FoodCategoryRepository>();
             services.AddScoped<IFoodRepository, FoodRepository>();
-            services.AddScoped<INutrientCategoryRepository, NutrientCategoryRepository>();
-            services.AddScoped<INutrientRepository, NutrientRepository>();
+            services.AddScoped<IVitaminCategoryRepository, VitaminCategoryRepository>();
+            services.AddScoped<IVitaminRepository, VitaminRepository>();
             services.AddScoped<IMediaRepository, MediaRepository>();
             services.AddScoped<IDiseaseRepository, DiseaseRepository>();
             services.AddScoped<ISuggestionRuleRepository, SuggestionRuleRepository>();

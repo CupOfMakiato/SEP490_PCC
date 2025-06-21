@@ -21,6 +21,5 @@ namespace Server.Application.Interfaces
         /// <returns></returns>
         public Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId);
         public Task<List<FoodRecommendationHistory>> GetGrowthDataMealLog(Guid growDataId);
-        public Task<bool> CreateFoodRecommendation(Guid growthDataId);
     }
 }
