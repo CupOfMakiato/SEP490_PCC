@@ -14,8 +14,8 @@ namespace Server.Application
         public ILikeRepository likeRepository { get; }
         public IFoodCategoryRepository FoodCategoryRepository { get; }
         public IFoodRepository FoodRepository { get; }
-        public IVitaminRepository VitaminRepository { get; }
-        public IVitaminCategoryRepository VitaminCategoryRepository { get; }
+        public INutrientRepository NutrientRepository { get; }
+        public INutrientCategoryRepository NutrientCategoryRepository { get; }
         public IDiseaseRepository DiseaseRepository { get; }
         public ISuggestionRuleRepository SuggestionRuleRepository { get; }
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository { get; }

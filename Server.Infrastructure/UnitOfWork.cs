@@ -24,8 +24,8 @@ namespace Server.Infrastructure
         private readonly ILikeRepository _likeRepository;
         private readonly IFoodCategoryRepository _foodCategoryRepository;
         private readonly IFoodRepository _foodRepository;
-        private readonly IVitaminRepository _vitaminRepository;
-        private readonly IVitaminCategoryRepository _vitaminCategoryRepository;
+        private readonly INutrientRepository _nutrientRepository;
+        private readonly INutrientCategoryRepository _nutrientCategoryRepository;
         private readonly IDiseaseRepository _diseaseRepository;
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
@@ -41,11 +41,11 @@ namespace Server.Infrastructure
             ILikeRepository likeRepository,
             IFoodCategoryRepository foodCategoryRepository,
             IFoodRepository foodRepository,
-            IVitaminRepository vitaminRepository,
+            INutrientRepository nutrientRepository,
             ISuggestionRuleRepository suggestionRuleRepository,
             IDiseaseRepository diseaseRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
-            IVitaminCategoryRepository vitaminCategoryRepository)
+            INutrientCategoryRepository nutrientCategoryRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -58,8 +58,8 @@ namespace Server.Infrastructure
             _likeRepository = likeRepository;
             _foodCategoryRepository = foodCategoryRepository;
             _foodRepository = foodRepository;
-            _vitaminRepository = vitaminRepository;
-            _vitaminCategoryRepository = vitaminCategoryRepository;
+            _nutrientRepository = nutrientRepository;
+            _nutrientCategoryRepository = nutrientCategoryRepository;
             _diseaseRepository = diseaseRepository;
             _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
@@ -78,8 +78,8 @@ namespace Server.Infrastructure
         public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
 
         public IFoodRepository FoodRepository => _foodRepository;
-        public IVitaminRepository VitaminRepository => _vitaminRepository;
-        public IVitaminCategoryRepository VitaminCategoryRepository => _vitaminCategoryRepository;
+        public INutrientRepository NutrientRepository => _nutrientRepository;
+        public INutrientCategoryRepository NutrientCategoryRepository => _nutrientCategoryRepository;
         public IDiseaseRepository DiseaseRepository => _diseaseRepository;
         public IMediaRepository MediaRepository => _mediaRepository;
         public ISuggestionRuleRepository SuggestionRuleRepository => _suggestionRuleRepository;

@@ -31,5 +31,10 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbSet.Include(sr => sr.Foods).ToListAsync();
         }
+
+        public Task<List<SuggestionRule>> GetSuggestionRulesByWeek(int week)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

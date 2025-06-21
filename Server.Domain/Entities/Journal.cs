@@ -20,5 +20,7 @@ namespace Server.Domain.Entities
 
         // List of images
         public ICollection<Media> Media { get; set; } = new List<Media>();
+        public ICollection<Food> DoctorRecommedFoods { get; set; }
+        public ICollection<Nutrient> DoctorRecommedNutrients { get; set; }
     }
 }
