@@ -35,5 +35,12 @@ namespace Server.Application.Services
         {
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthId(growDataId);
         }
+
+        public async Task<bool> CreateFoodRecommendation(Guid growthDataId)
+        {
+            //var lastestGrowthData = await _unitOfWork.Gr
+            var foodsSuggest = await _unitOfWork.SuggestionRuleRepository.GetSuggestionRulesByWeek(1);
+            return true;
+        }
     }
 }

@@ -48,9 +48,9 @@ namespace Server.Infrastructure.Data
         // Nutrition System
         public DbSet<Food> Food { get; set; }
         public DbSet<FoodCategory> FoodCategory { get; set; }
-        public DbSet<Vitamin> Vitamin { get; set; }
-        public DbSet<VitaminCategory> VitaminCategory { get; set; }
-        public DbSet<FoodVitamin> FoodVitamin { get; set; }
+        public DbSet<Nutrient> Nutrient { get; set; }
+        public DbSet<NutrientCategory> NutrientCategory { get; set; }
+        public DbSet<FoodNutrient> FoodNutrient { get; set; }
         public DbSet<SuggestionRule> SuggestionRule { get; set; }
         public DbSet<FoodRecommendationHistory> FoodRecommendationHistory { get; set; }
         public DbSet<FoodRecommendationHistoryVersion> FoodRecommendationHistoryVersion { get; set; }
@@ -173,19 +173,19 @@ namespace Server.Infrastructure.Data
 
             // Food Vitamin
 
-            modelBuilder.Entity<FoodVitamin>()
-            .HasKey(bt => new { bt.FoodId, bt.VitaminId });
+            modelBuilder.Entity<FoodNutrient>()
+            .HasKey(bt => new { bt.FoodId, bt.NutrientId });
 
-            modelBuilder.Entity<FoodVitamin>()
+            modelBuilder.Entity<FoodNutrient>()
             .HasOne(bt => bt.Food)
-            .WithMany(b => b.FoodVitamins)
+            .WithMany(b => b.FoodNutrients)
             .HasForeignKey(bt => bt.FoodId)
             .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<FoodVitamin>()
-            .HasOne(bt => bt.Vitamin)
-            .WithMany(t => t.FoodVitamins)
-            .HasForeignKey(bt => bt.VitaminId)
+            modelBuilder.Entity<FoodNutrient>()
+            .HasOne(bt => bt.Nutrient)
+            .WithMany(t => t.FoodNutrients)
+            .HasForeignKey(bt => bt.NutrientId)
             .OnDelete(DeleteBehavior.Restrict);
 
             //FoodRecommendationHistory
