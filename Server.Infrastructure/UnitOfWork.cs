@@ -27,6 +27,8 @@ namespace Server.Infrastructure
         private readonly INutrientRepository _nutrientRepository;
         private readonly INutrientCategoryRepository _nutrientCategoryRepository;
         private readonly IDiseaseRepository _diseaseRepository;
+        private readonly IGrowthDataRepository _growthDataRepository;
+        private readonly IJournalRepository _journalRepository;
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
 
@@ -44,6 +46,9 @@ namespace Server.Infrastructure
             INutrientRepository nutrientRepository,
             ISuggestionRuleRepository suggestionRuleRepository,
             IDiseaseRepository diseaseRepository,
+            IVitaminCategoryRepository vitaminCategoryRepository,
+            IGrowthDataRepository growthDataRepository,
+            IJournalRepository journalRepository)
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository)
         {
@@ -61,19 +66,24 @@ namespace Server.Infrastructure
             _nutrientRepository = nutrientRepository;
             _nutrientCategoryRepository = nutrientCategoryRepository;
             _diseaseRepository = diseaseRepository;
+            _growthDataRepository = growthDataRepository;
+            _journalRepository = journalRepository;
             _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
         }
 
-        public IUserRepository userRepository => _userRepository;
-        public IAuthRepository authRepository => _authRepository;
-        public ICategoryRepository categoryRepository => _categoryRepository;
-        public ISubCategoryRepository subCategoryRepository => _subCategoryRepository;
-        public IBlogRepository blogRepository => _blogRepository;
-        public ITagRepository tagRepository => _tagRepository;
-        public IBookmarkRepository bookmarkRepository => _bookmarkRepository;
+        public IUserRepository UserRepository => _userRepository;
+        public IAuthRepository AuthRepository => _authRepository;
+        public ICategoryRepository CategoryRepository => _categoryRepository;
+        public ISubCategoryRepository SubCategoryRepository => _subCategoryRepository;
+        public IBlogRepository BlogRepository => _blogRepository;
+        public ITagRepository TagRepository => _tagRepository;
+        public IBookmarkRepository BookmarkRepository => _bookmarkRepository;
 
-        public ILikeRepository likeRepository => _likeRepository;
+        public ILikeRepository LikeRepository => _likeRepository;
+
+        public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
+        public IJournalRepository JournalRepository => _journalRepository;
 
         public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
 

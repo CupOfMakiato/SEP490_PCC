@@ -28,7 +28,7 @@ namespace Server.Application.Services
         }
         public async Task<Result<List<ViewTagDTO>>> ViewAllTags()
         {
-            var result = _mapper.Map<List<ViewTagDTO>>(await _unitOfWork.tagRepository.GetAllTags());
+            var result = _mapper.Map<List<ViewTagDTO>>(await _unitOfWork.TagRepository.GetAllTags());
 
             return new Result<List<ViewTagDTO>>
             {
@@ -39,7 +39,7 @@ namespace Server.Application.Services
         }
         public async Task<Result<ViewTagDTO>> ViewTagById(Guid tagId)
         {
-            var result = _mapper.Map<ViewTagDTO>(await _unitOfWork.tagRepository.GetTagById(tagId));
+            var result = _mapper.Map<ViewTagDTO>(await _unitOfWork.TagRepository.GetTagById(tagId));
             return new Result<ViewTagDTO>
             {
                 Error = 0,
@@ -50,7 +50,7 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> AddNewTag(AddTagDTO addTagDTO)
         {
-            var user = await _unitOfWork.userRepository.GetByIdAsync(addTagDTO.UserId);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(addTagDTO.UserId);
             if (user == null)
             {
                 return new Result<object>
@@ -63,7 +63,7 @@ namespace Server.Application.Services
             var tagMapper = addTagDTO.ToTag();
 
             // Save tag to database
-            await _unitOfWork.tagRepository.AddAsync(tagMapper);
+            await _unitOfWork.TagRepository.AddAsync(tagMapper);
             var result = await _unitOfWork.SaveChangeAsync();
             return new Result<object>
             {

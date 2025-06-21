@@ -47,6 +47,8 @@ namespace Server.Infrastructure
             services.AddScoped<ISuggestionRuleService, SuggestionRuleService>();
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
 
+            services.AddScoped<IGrowthDataService, GrowthDataService>();
+
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
             services.AddScoped<EmailService>();
@@ -58,12 +60,14 @@ namespace Server.Infrastructure
             // Repo
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBookmarkRepository, BookmarkRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
+
             services.AddScoped<IFoodCategoryRepository, FoodCategoryRepository>();
             services.AddScoped<IFoodRepository, FoodRepository>();
             services.AddScoped<INutrientCategoryRepository, NutrientCategoryRepository>();
@@ -72,6 +76,9 @@ namespace Server.Infrastructure
             services.AddScoped<IDiseaseRepository, DiseaseRepository>();
             services.AddScoped<ISuggestionRuleRepository, SuggestionRuleRepository>();
             services.AddScoped<IFoodRecommendationHistoryRepository, FoodRecommendationHistoryRepository>();
+
+            services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
+            services.AddScoped<IJournalRepository, JournalRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

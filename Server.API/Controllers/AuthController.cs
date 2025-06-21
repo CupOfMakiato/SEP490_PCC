@@ -69,7 +69,7 @@ namespace Server.WebAPI.Controllers
             }
         }
 
-        [HttpGet("login")]
+        [HttpGet("login-google")]
         public IActionResult Login()
         {
             // Chuyển hướng đến Google để xác thực
@@ -158,7 +158,7 @@ namespace Server.WebAPI.Controllers
                 {
                     user.IsVerified = true;
 
-                    if (user.RoleId == 3) // Role 3 is for shop
+                    if (user.RoleId == 3) // Role 3 is for staff
                     {
                         user.Status = StatusEnums.Pending;
                         await _emailService.SendPendingEmailAsync(user.Email);

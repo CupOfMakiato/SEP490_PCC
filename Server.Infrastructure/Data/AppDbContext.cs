@@ -24,14 +24,13 @@ namespace Server.Infrastructure.Data
         // Consultant and Scheduling
         public DbSet<Consultant> Consultant { get; set; }
         public DbSet<Schedule> Schedule { get; set; }
-        public DbSet<Consultation> Consultations { get; set; }
+        public DbSet<Consultation> Consultation { get; set; }
         public DbSet<Slot> Slot { get; set; }
         public DbSet<Session> Session { get; set; }
 
         // Pregnancy Tracking
         public DbSet<GrowthData> GrowthData { get; set; }
-        public DbSet<MenstrualCycle> MenstrualCycle { get; set; }
-        public DbSet<Fetus> Fetus { get; set; }
+        //public DbSet<Fetus> Fetus { get; set; }
         public DbSet<Reminder> Reminder { get; set; }
         public DbSet<Journal> Journal { get; set; }
 
@@ -76,6 +75,21 @@ namespace Server.Infrastructure.Data
                new Role { Id = 2, RoleName = "User" },
                new Role { Id = 3, RoleName = "Staff" }
             );
+
+            modelBuilder.Entity<User>().HasData(
+               new User { Id = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"), UserName = "Makiato", Email = "passswp@gmail.com", Password = "$2y$10$VtkJppM0TJ1d/fTye4yJWOTe22rx6Fuyf.hDlz7bbw2q9sHkPRqF2", Status = StatusEnums.Active, RoleId = 1, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
+               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false }
+
+           );
+
+            modelBuilder.Entity<Category>().HasData(
+               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition" , IsActive = true },
+               new Category { Id = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"), CategoryName = "Prenatal Care", IsActive = true },
+               new Category { Id = Guid.Parse("371e3ddc-e996-45d3-8d67-2c95026b7f2d"), CategoryName = "Mental Health & Wellness" , IsActive = true },
+               new Category { Id = Guid.Parse("f2080622-9e3d-4d93-a75b-285efbb05dea"), CategoryName = "Labor & Delivery", IsActive = true },
+               new Category { Id = Guid.Parse("a0a60b5d-5f7c-4a86-9efd-1d87de0e382a"), CategoryName = "Postpartum & Newborn Care", IsActive = true }
+           );
+
 
             //User
             modelBuilder.Entity<User>()
@@ -374,6 +388,14 @@ namespace Server.Infrastructure.Data
                 .WithMany()
                 .HasForeignKey(cs => cs.ConsultationId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // GrowthData
+
+            modelBuilder.Entity<GrowthData>()
+            .HasOne(c => c.GrowthDataCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

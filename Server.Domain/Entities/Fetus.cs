@@ -8,13 +8,12 @@ namespace Server.Domain.Entities
 {
     public class Fetus : BaseEntity
     {
-        public Guid GrowthDataId { get; set; }
-        public int Week { get; set; }
-        public int Trimester { get; set; }
-        public float EstimatedFetalWeight { get; set; }
-        public float EstimatedFetalLength { get; set; }
-        public string DevelopmentMilestones { get; set; }
-
-        public GrowthData GrowthData { get; set; }
+        //    public Guid GrowthDataId { get; set; }
+        //    public int Week { get; set; }
+        //    public int Trimester { get; set; }
+        //    public float EstimatedFetalWeight { get; set; }
+        //    public float EstimatedFetalLength { get; set; }
+        //    public string DevelopmentMilestones { get; set; } // baby at the size of ...
+        //    public GrowthData GrowthData { get; set; }
     }
 }
