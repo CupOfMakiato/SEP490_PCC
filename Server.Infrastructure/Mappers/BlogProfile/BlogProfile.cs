@@ -20,10 +20,16 @@ namespace Server.Infrastructure.Mappers.BlogProfile
             .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src =>
                 src.BlogCreatedBy != null ? new UserDTO { Id = src.BlogCreatedBy.Id, UserName = src.BlogCreatedBy.UserName } : null))
 
+            .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src =>
+                src.BlogCreatedBy != null ? new GetUserDTO { Id = src.BlogCreatedBy.Id, UserName = src.BlogCreatedBy.UserName } : null))
+
             .ForMember(dest => dest.Tags, opt => opt.MapFrom(src =>
                 src.BlogTags
                     .Select(bt => bt.Tag.Name)
                     .ToList()))
+
+            .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src =>
+                src.Category != null ? src.Category.CategoryName : null)) 
 
             .ForMember(dest => dest.BookmarkCount, opt => opt.Ignore())
 

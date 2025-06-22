@@ -332,7 +332,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Blog approved by Nutrient Specialist." : "Approval failed.",
-                Data = blog
+                Data = null
             };
         }
 
@@ -365,7 +365,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Blog approved by Health Specialist." : "Approval failed.",
-                Data = blog
+                Data = null
             };
         }
 
@@ -411,7 +411,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Blog rejected successfully" : "Failed to reject blog",
-                Data = blog
+                Data = null
             };
         }
 

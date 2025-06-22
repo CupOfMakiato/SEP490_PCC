@@ -30,6 +30,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<Blog>> GetAllBlogs()
         {
             return await _dbContext.Blog
+                .Include(b => b.Category)
                 .Include(c => c.BlogCreatedBy)
                 .Include(c => c.BlogTags)
                     .ThenInclude(bt => bt.Tag)
@@ -42,6 +43,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<Blog> GetBlogById(Guid id)
         {
             return await _dbContext.Blog
+                .Include(b => b.Category)
                 .Include(c => c.BlogCreatedBy)
                 .Include(c => c.BlogTags)
                     .ThenInclude(bt => bt.Tag)
@@ -55,6 +57,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Bookmark
                 .Where(b => b.UserId == userId && !b.IsDeleted)
                 .Select(b => b.Blog)
+                .Include(b => b.Category)
                 .Include(blog => blog.BlogTags)
                 .ThenInclude(bt => bt.Tag)
                 .Include(b => b.BlogCreatedBy)
