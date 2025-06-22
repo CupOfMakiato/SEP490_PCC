@@ -72,11 +72,17 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<Role>().HasData(
                new Role { Id = 1, RoleName = "Admin" },
                new Role { Id = 2, RoleName = "User" },
-               new Role { Id = 3, RoleName = "Staff" }
+               new Role { Id = 3, RoleName = "HealthExpert" },
+               new Role { Id = 4, RoleName = "NutrientSpecialist" },
+               new Role { Id = 5, RoleName = "Clinic" },
+               new Role { Id = 6, RoleName = "Consultant" }
             );
 
             modelBuilder.Entity<User>().HasData(
                new User { Id = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"), UserName = "Makiato", Email = "passswp@gmail.com", Password = "$2y$10$VtkJppM0TJ1d/fTye4yJWOTe22rx6Fuyf.hDlz7bbw2q9sHkPRqF2", Status = StatusEnums.Active, RoleId = 1, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
+               new User { Id = Guid.Parse("5de81f1c-c715-46c1-b40a-7dcbfe25cafa"), UserName = "TestHealth", Email = "nguyenbr23@gmail.com", Password = "$2y$10$Ll0VAQfmgd6kUzUzmM7dxOkHHUFTd4kD5WZSKVcmdy1jGNGL1giCi", Status = StatusEnums.Active, RoleId = 3, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
+               new User { Id = Guid.Parse("7e4fd68f-7a71-4dbf-873a-0605b72a64ec"), UserName = "TestNutrient", Email = "swdproject73@gmail.com", Password = "$2y$10$vpseCsSPCEa7fHNdo7fJX.Fg9x/r2vXjzh3FpmUKezOevJIFKpvMe", Status = StatusEnums.Active, RoleId = 4, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
+               new User { Id = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"), UserName = "TestClinic", Email = "nguyenlmse171333@fpt.edu.vn", Password = "$2y$10$3.0ODOCeEea3SbAWoD51Z.x8A8tSZJ3srprmvkw0xvXsbHdH/D9Rq", Status = StatusEnums.Active, RoleId = 5, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false }
 
            );
@@ -139,6 +145,14 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Blog>()
+            .HasOne(b => b.Category)
+            .WithMany(c => c.Blogs)
+            .HasForeignKey(b => b.CategoryId)
+            .OnDelete(DeleteBehavior.Cascade); 
+
+
 
             // tag
 

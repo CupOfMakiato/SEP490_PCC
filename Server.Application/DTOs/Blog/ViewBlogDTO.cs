@@ -1,4 +1,5 @@
-﻿using Server.Application.DTOs.User;
+﻿using Server.Application.DTOs.Category;
+using Server.Application.DTOs.User;
 using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Server.Application.DTOs.Blog
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
+        public CategoryDTO? Category { get; set; } 
         public BlogStatus Status { get; set; }
         public List<string> Tags { get; set; } // fix later
         public int LikeCount { get; set; }

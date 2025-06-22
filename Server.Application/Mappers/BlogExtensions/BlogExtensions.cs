@@ -34,6 +34,7 @@ namespace Server.Application.Mappers.BlogExtensions
                 UserId = UploadNewBlogRequest.UserId,
                 Title = UploadNewBlogRequest.Title,
                 Body = UploadNewBlogRequest.Body,
+                CategoryName = UploadNewBlogRequest.CategoryName, 
                 Status = BlogStatus.Pending,
                 Tags = UploadNewBlogRequest.Tags ?? new List<string>(),
                 Images = UploadNewBlogRequest.Images

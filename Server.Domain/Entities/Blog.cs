@@ -1,6 +1,7 @@
 ﻿using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -25,6 +26,10 @@ namespace Server.Domain.Entities
         public ICollection<Bookmark> BookmarkedByUsers { get; set; }
         // Blog can have many likes
         public ICollection<Like> LikedByUsers { get; set; }
+
+        [ForeignKey("Category")]
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
 
     }
 }
