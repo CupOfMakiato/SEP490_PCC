@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Server.Domain.Entities
         public bool IsActive { get; set; } = false;
         public ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
         public User CategoryCreatedBy { get; set; }
+        public ICollection<Blog> Blogs { get; set; } = new List<Blog>();
     }
 }

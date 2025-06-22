@@ -71,8 +71,14 @@ namespace Server.WebAPI
                     policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "User"));
                 options.AddPolicy("Admin", policy =>
                     policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "Admin"));
-                options.AddPolicy("Staff", policy =>
-                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "Staff"));
+                options.AddPolicy("HealthExpert", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "HealthExpert"));
+                options.AddPolicy("NutrientSpecialist", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "NutrientSpecialist"));
+                options.AddPolicy("Clinic", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "Clinic"));
+                options.AddPolicy("Consultant", policy =>
+                    policy.RequireClaim(System.Security.Claims.ClaimTypes.Role, "Consultant"));
             });
             return services;
         }

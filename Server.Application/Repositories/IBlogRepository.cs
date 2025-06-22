@@ -13,5 +13,8 @@ namespace Server.Application.Repositories
         Task<List<Blog>> GetAllBlogs();
         Task<Blog> GetBlogById(Guid id);
         Task<List<Blog>> GetBookmarkedBlogsByUserId(Guid userId);
+        Task<List<Blog>> GetBlogsByUserId(Guid userId);
+        Task<List<Blog>> GetBlogsWithHealthCategory();
+        Task<List<Blog>> GetBlogsWithNutrientCategory();
     }
 }

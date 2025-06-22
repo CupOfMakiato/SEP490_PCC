@@ -15,6 +15,7 @@ namespace Server.Application.Interfaces
         // view
         Task<Result<List<ViewBlogDTO>>> ViewAllBlogs();
         Task<Result<ViewBlogDTO>> ViewBlogById(Guid blogId);
+        Task<Result<List<ViewBlogDTO>>> ViewBlogsByUserId(Guid userId);
         // add
         Task<Result<object>> UploadBlog(AddBlogDTO addBlogDTO);
 
@@ -23,6 +24,13 @@ namespace Server.Application.Interfaces
 
         //edit
         Task<Result<object>> EditBlog(EditBlogDTO EditBlogDTO);
+
+        // approve blog
+        Task<Result<object>> ApproveBlog(Guid blogId, Guid approvedByUserId);
+        Task<Result<object>> ApproveNutrientBlog(Guid blogId, Guid userId);
+        Task<Result<object>> ApproveHealthBlog(Guid blogId, Guid userId);
+        // reject blog
+        Task<Result<object>> RejectBlog(Guid blogId, Guid rejectedByUserId, string rejectionReason = null);
 
         // upload file attachment
         //Task<Result<object>> UploadFileAttachment(Guid blogId, IFormFile file);
