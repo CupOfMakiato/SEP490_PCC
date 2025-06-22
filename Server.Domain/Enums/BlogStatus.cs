@@ -2,7 +2,9 @@
 {
     public enum BlogStatus
     {
-        Published,
+        Pending,
+        Rejected,
+        Approved,
         Archived,
         Edited,
     }

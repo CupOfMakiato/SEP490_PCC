@@ -24,6 +24,11 @@ namespace Server.Application.Interfaces
         //edit
         Task<Result<object>> EditBlog(EditBlogDTO EditBlogDTO);
 
+        // approve blog
+        Task<Result<object>> ApproveBlog(Guid blogId, Guid approvedByUserId);
+        // reject blog
+        Task<Result<object>> RejectBlog(Guid blogId, Guid rejectedByUserId, string rejectionReason = null);
+
         // upload file attachment
         //Task<Result<object>> UploadFileAttachment(Guid blogId, IFormFile file);
     }

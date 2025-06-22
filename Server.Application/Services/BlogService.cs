@@ -220,6 +220,91 @@ namespace Server.Application.Services
                 Data = blog
             };
         }
+
+        public async Task<Result<object>> ApproveBlog(Guid blogId, Guid approvedByUserId)
+        {
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
+            if (blog == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Blog not found.",
+                    Data = null
+                };
+            }
+
+            // check if pending
+            if (blog.Status != BlogStatus.Pending)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Only blogs with 'Pending' status can be approved.",
+                    Data = null
+                };
+            }
+
+            // update to approved
+            blog.Status = BlogStatus.Approved;
+            blog.ModificationBy = approvedByUserId;
+            blog.ModificationDate = DateTime.UtcNow;
+
+            _unitOfWork.BlogRepository.Update(blog);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Blog approved successfully" : "Failed to approve blog",
+                Data = blog
+            };
+        }
+        public async Task<Result<object>> RejectBlog(Guid blogId, Guid rejectedByUserId, string rejectionReason = null)
+        {
+            var blog = await _unitOfWork.BlogRepository.GetByIdAsync(blogId);
+            if (blog == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Blog not found.",
+                    Data = null
+                };
+            }
+
+            // check if pending
+            if (blog.Status != BlogStatus.Pending)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Only blogs with 'Pending' status can be rejected.",
+                    Data = null
+                };
+            }
+
+            blog.Status = BlogStatus.Rejected;
+            blog.ModificationBy = rejectedByUserId;
+            blog.ModificationDate = DateTime.UtcNow;
+
+            if (!string.IsNullOrWhiteSpace(rejectionReason))
+            {
+                blog.RejectionReason = rejectionReason; 
+            }
+
+            _unitOfWork.BlogRepository.Update(blog);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Blog rejected successfully" : "Failed to reject blog",
+                Data = blog
+            };
+        }
+
+
         public async Task<Result<object>> EditBlog(EditBlogDTO editBlogDTO)
         {
             var blog = await _unitOfWork.BlogRepository.GetBlogById(editBlogDTO.Id);

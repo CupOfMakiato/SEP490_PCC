@@ -47,7 +47,7 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
-        //[Authorize(Policy = "Admin")]
+        
         [HttpPost("upload-blog")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -71,6 +71,26 @@ namespace Server.API.Controllers
             var blogMapper = req.ToUploadBlogDTO();
             var result = await _blogService.UploadBlog(blogMapper);
 
+            return Ok(result);
+        }
+
+        //[Authorize(Policy = "Staff")]
+        [HttpPut("approve-blog")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ApproveBlog(Guid blogId, Guid approvedByUserId)
+        {
+            var result = await _blogService.ApproveBlog(blogId, approvedByUserId);
+            return Ok(result);
+        }
+
+        //[Authorize(Policy = "Staff")]
+        [HttpPut("reject-blog")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ApproveBlog(Guid blogId, Guid approvedByUserId, string? rejectionReason)
+        {
+            var result = await _blogService.RejectBlog(blogId, approvedByUserId, rejectionReason);
             return Ok(result);
         }
 
