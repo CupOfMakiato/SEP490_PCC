@@ -17,7 +17,7 @@ namespace Server.Infrastructure.Mappers.GrowthDataProfile
         {
             CreateMap<GrowthData, ViewGrowthDataDTO>()
             .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src =>
-                src.GrowthDataCreatedBy != null ? new UserDTO { Id = src.GrowthDataCreatedBy.Id, UserName = src.GrowthDataCreatedBy.UserName } : null));
+                src.GrowthDataCreatedBy != null ? new GetUserDTO { Id = src.GrowthDataCreatedBy.Id, UserName = src.GrowthDataCreatedBy.UserName } : null));
 
         }
     }

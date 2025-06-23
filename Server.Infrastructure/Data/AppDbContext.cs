@@ -391,13 +391,20 @@ namespace Server.Infrastructure.Data
                 .HasForeignKey(cs => cs.ConsultationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+
             // GrowthData
 
             modelBuilder.Entity<GrowthData>()
             .HasOne(c => c.GrowthDataCreatedBy)
-            .WithMany()
+            .WithMany(c => c.GrowthData)
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<GrowthData>()
+                .Property(f => f.Status)
+                .HasConversion(
+                v => v.ToString(),
+                v => (GrowthDataStatus)Enum.Parse(typeof(GrowthDataStatus), v));
 
         }
     }

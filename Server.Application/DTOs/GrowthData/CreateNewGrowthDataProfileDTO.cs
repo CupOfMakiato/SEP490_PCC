@@ -13,6 +13,7 @@ namespace Server.Application.DTOs.GrowthData
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
+        public GrowthDataStatus Status { get; set; }
         public string Height { get; set; }
         public string Weight { get; set; }
     }

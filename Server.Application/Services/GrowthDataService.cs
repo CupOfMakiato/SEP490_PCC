@@ -46,6 +46,32 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<ViewGrowthDataDTO>> ViewGrowthDataWithCurrentWeek(Guid userId, DateTime currentDate)
+        {
+            var growth = await _unitOfWork.GrowthDataRepository.GetGrowthDataWithCurrentWeek(userId, currentDate);
+
+            if (growth == null)
+            {
+                return new Result<ViewGrowthDataDTO>
+                {
+                    Error = 1,
+                    Message = "Growth data not found",
+                    Data = null
+                };
+            }
+
+            var result = _mapper.Map<ViewGrowthDataDTO>(growth);
+            result.CurrentGestationalAgeInWeeks = growth.GetCurrentGestationalAgeInWeeks(currentDate);
+            result.CurrentTrimester = growth.GetCurrentTrimester(currentDate);
+
+            return new Result<ViewGrowthDataDTO>
+            {
+                Error = 0,
+                Message = "View growth data with current week successfully",
+                Data = result
+            };
+        }
+
         public Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId)
         {
             var growthdata = _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId);
@@ -66,9 +92,10 @@ namespace Server.Application.Services
                 Data = result
             });
         }
+
+
         public async Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO createNewGrowthDataProfileDTO)
         {
-            // 1. Check if user exists
             var user = await _unitOfWork.UserRepository.GetByIdAsync(createNewGrowthDataProfileDTO.UserId);
             if (user == null)
             {
@@ -80,9 +107,8 @@ namespace Server.Application.Services
                 };
             }
 
-            // 2. Check if user already has a GrowthData profile (optional)
-            var existingGrowthData = await _unitOfWork.GrowthDataRepository
-                .GetByIdAsync(createNewGrowthDataProfileDTO.UserId); 
+            var existingGrowthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataByUserId(createNewGrowthDataProfileDTO.UserId);
+
             if (existingGrowthData != null)
             {
                 return new Result<object>
@@ -93,29 +119,16 @@ namespace Server.Application.Services
                 };
             }
 
-            // 3. Calculate gestational age and EDD
             var today = _currentTime.GetCurrentTime().Date;
-            int gestationalAgeInWeeks = (today - createNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.Date).Days / 7;
             DateTime estimatedDueDate = createNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280);
 
-            // 4. Create GrowthData entity
             var growthData = createNewGrowthDataProfileDTO.ToGrowthData();
             growthData.Id = Guid.NewGuid();
-            growthData.DateOfPregnancy = today;
-            growthData.GestationalAgeInWeeks = gestationalAgeInWeeks;
+            growthData.FirstDayOfLastMenstrualPeriod = createNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod;
             growthData.EstimatedDueDate = estimatedDueDate;
 
-            //growthData.GrowthDataCreatedBy = user;
-            //growthData.Fetus = new Fetus
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Week = gestationalAgeInWeeks,
-            //    Trimester = growthData.CurrentTrimester(),
-            //    EstimatedFetalWeight = 0,
-            //    EstimatedFetalLength = 0,
-            //    DevelopmentMilestones = $"Fetus is approximately {gestationalAgeInWeeks} weeks old",
-            //    GrowthData = growthData
-            //};
+            // Set fixed gestational age (biological limit)
+            growthData.GestationalAgeInWeeks = 40;
 
             await _unitOfWork.GrowthDataRepository.AddAsync(growthData);
             var result = await _unitOfWork.SaveChangeAsync();
@@ -124,16 +137,9 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Growth data profile created successfully." : "Failed to create growth data profile.",
-                Data = result > 0 ? new
-                {
-                    growthData.Id,
-                    growthData.GestationalAgeInWeeks,
-                    growthData.EstimatedDueDate,
-                    growthData.FirstDayOfLastMenstrualPeriod,
-                    growthData.Height,
-                    growthData.Weight
-                } : null
+                Data = null
             };
         }
+
     }
 }

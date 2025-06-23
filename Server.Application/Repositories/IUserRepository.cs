@@ -15,6 +15,7 @@ namespace Server.Application.Repositories
         Task<User> GetUserById(Guid userId);
         Task<User> GetAllUserById(Guid id);
         Task<List<User>> GetUsersByRole(int role);
+        Task<User> GetUserWithRole(Guid userId);
         //Task<User> GetUserByIdWithServiceUsed(Guid userId);
 
         Task<User> GetUserByVerificationToken(string token);

@@ -11,5 +11,8 @@ namespace Server.Application.Repositories
     {
         Task<List<GrowthData>> GetAllGrowthData();
         Task<GrowthData> GetGrowthDataById(Guid id);
+        Task<GrowthData> GetGrowthDataFromUserWithCurrentWeek(Guid userId, DateTime currentDate);
+        Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid blogId, DateTime currentDate);
+        Task<GrowthData> GetGrowthDataByUserId(Guid userId);
     }
 }

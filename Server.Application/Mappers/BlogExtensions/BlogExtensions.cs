@@ -49,6 +49,7 @@ namespace Server.Application.Mappers.BlogExtensions
                 Id = editBlogRequest.Id,
                 Title = editBlogRequest.Title,
                 Body = editBlogRequest.Body,
+                CategoryName = editBlogRequest.CategoryName,
                 Status = BlogStatus.Edited,
                 Tags = editBlogRequest.Tags ?? new List<string>(),
                 Images = editBlogRequest.Images
