@@ -19,11 +19,13 @@ namespace Server.API.Controllers
     public class GrowthDataController : ControllerBase
     {
         private readonly IGrowthDataService _growthDataService;
+        private readonly ICurrentTime _currentTime;
         private readonly IMapper _mapper;
-        public GrowthDataController(IGrowthDataService growthDataService, IMapper mapper)
+        public GrowthDataController(IGrowthDataService growthDataService, IMapper mapper, ICurrentTime currentTime)
         {
             _growthDataService = growthDataService;
             _mapper = mapper;
+            _currentTime = currentTime;
         }
         [HttpGet("view-all-growthdata")]
         [ProducesResponseType(200, Type = typeof(Result<ViewGrowthDataDTO>))]
@@ -75,5 +77,30 @@ namespace Server.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("edit-growthdata-profile")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> EditGrowthDataProfile([FromForm] EditGrowthDataProfileRequest req)
+        {
+            var validator = new EditNewGrowthDataProfileRequestValidator(_currentTime);
+            var validationResult = validator.Validate(req);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Validation failed!",
+                    Data = validationResult.Errors.Select(x => x.ErrorMessage)
+                });
+            }
+
+            var dto = req.ToEditGrowthDataProfileDTO(_currentTime);
+            var result = await _growthDataService.EditGrowthDataProfile(dto);
+
+            return Ok(result);
+        }
+
     }
 }

@@ -6,6 +6,7 @@ using Server.Application.Interfaces;
 using Server.Application.Mappers.GrowthDataExtentions;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewGrowthDataDTO>> ViewGrowthDataWithCurrentWeek(Guid userId, DateTime currentDate)
         {
-            var growth = await _unitOfWork.GrowthDataRepository.GetGrowthDataWithCurrentWeek(userId, currentDate);
+            var growth = await _unitOfWork.GrowthDataRepository.GetGrowthDataFromUserWithCurrentWeek(userId, currentDate);
 
             if (growth == null)
             {
@@ -63,6 +64,7 @@ namespace Server.Application.Services
             var result = _mapper.Map<ViewGrowthDataDTO>(growth);
             result.CurrentGestationalAgeInWeeks = growth.GetCurrentGestationalAgeInWeeks(currentDate);
             result.CurrentTrimester = growth.GetCurrentTrimester(currentDate);
+            result.GestationalAgeInWeeks = growth.GetGestationalAgeInWeeks(currentDate);
 
             return new Result<ViewGrowthDataDTO>
             {
@@ -93,10 +95,10 @@ namespace Server.Application.Services
             });
         }
 
-
-        public async Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO createNewGrowthDataProfileDTO)
+        // only create new when profile Inactive
+        public async Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO CreateNewGrowthDataProfileDTO)
         {
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(createNewGrowthDataProfileDTO.UserId);
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(CreateNewGrowthDataProfileDTO.UserId);
             if (user == null)
             {
                 return new Result<object>
@@ -107,28 +109,29 @@ namespace Server.Application.Services
                 };
             }
 
-            var existingGrowthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataByUserId(createNewGrowthDataProfileDTO.UserId);
+            var today = _currentTime.GetCurrentTime().Date;
 
-            if (existingGrowthData != null)
+            // Check for existing active profile that is not due yet
+            var activeProfile = await _unitOfWork.GrowthDataRepository.GetGrowthDataFromUserWithCurrentWeek(CreateNewGrowthDataProfileDTO.UserId, today);
+            if (activeProfile != null)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User already has a growth data profile!",
+                    Message = "You already have an active pregnancy profile that has not yet reached its due date.",
                     Data = null
                 };
             }
 
-            var today = _currentTime.GetCurrentTime().Date;
-            DateTime estimatedDueDate = createNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280);
+            // Create new GrowthData
+            var estimatedDueDate = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280);
 
-            var growthData = createNewGrowthDataProfileDTO.ToGrowthData();
+            var growthData = CreateNewGrowthDataProfileDTO.ToGrowthData(_currentTime);
             growthData.Id = Guid.NewGuid();
-            growthData.FirstDayOfLastMenstrualPeriod = createNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod;
+            growthData.FirstDayOfLastMenstrualPeriod = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod;
             growthData.EstimatedDueDate = estimatedDueDate;
-
-            // Set fixed gestational age (biological limit)
             growthData.GestationalAgeInWeeks = 40;
+            growthData.Status = GrowthDataStatus.Active;
 
             await _unitOfWork.GrowthDataRepository.AddAsync(growthData);
             var result = await _unitOfWork.SaveChangeAsync();
@@ -136,10 +139,61 @@ namespace Server.Application.Services
             return new Result<object>
             {
                 Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Growth data profile created successfully." : "Failed to create growth data profile.",
+                Message = result > 0
+                    ? "Growth data profile created successfully."
+                    : "Failed to create growth data profile.",
                 Data = null
             };
         }
+
+        public async Task<Result<object>> EditGrowthDataProfile(EditGrowthDataProfileDTO EditGrowthDataProfileDTO)
+        {
+            var growthData = await _unitOfWork.GrowthDataRepository.GetActiveGrowthDataById(EditGrowthDataProfileDTO.Id);
+            if (growthData == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Growth data profile not found",
+                    Data = null
+                };
+            }
+
+            var today = _currentTime.GetCurrentTime().Date;
+
+            growthData.Height = EditGrowthDataProfileDTO.Height;
+            growthData.Weight = EditGrowthDataProfileDTO.Weight;
+
+            // If LMP has changed then recalculate EDD and gestational age
+            if (growthData.FirstDayOfLastMenstrualPeriod != EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod)
+            {
+                growthData.FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod;
+                growthData.EstimatedDueDate = EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280);
+                growthData.GestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(today);
+            }
+            // If EDD was changed directly (LMP stayed the same)
+            else if (growthData.EstimatedDueDate != EditGrowthDataProfileDTO.EstimatedDueDate)
+            {
+                growthData.EstimatedDueDate = EditGrowthDataProfileDTO.EstimatedDueDate;
+                growthData.GestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(today);
+            }
+
+            growthData.Status = growthData.EstimatedDueDate < today
+                ? GrowthDataStatus.Inactive
+                : GrowthDataStatus.Active;
+
+
+            _unitOfWork.GrowthDataRepository.Update(growthData);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Growth data profile updated successfully." : "Failed to update.",
+                Data = null
+            };
+        }
+
 
     }
 }

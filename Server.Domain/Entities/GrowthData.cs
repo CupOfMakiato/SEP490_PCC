@@ -11,8 +11,8 @@ namespace Server.Domain.Entities
     public class GrowthData : BaseEntity
     {
         //public DateTime DateOfPregnancy { get; set; }
-        public string Height { get; set; }
-        public string Weight { get; set; }
+        public int Height { get; set; }
+        public int Weight { get; set; }
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
         public int GestationalAgeInWeeks { get; set; } = 40;
         public DateTime EstimatedDueDate { get; set; }
@@ -22,7 +22,11 @@ namespace Server.Domain.Entities
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
         public Journal Journal { get; set; }
         //public Fetus Fetus { get; set; }
-
+        public int GetGestationalAgeInWeeks(DateTime currentDate)
+        {
+            var weeks = (EstimatedDueDate.Date - FirstDayOfLastMenstrualPeriod.Date).Days / 7;
+            return Math.Clamp(weeks, 0, 40);
+        }
         public int GetCurrentGestationalAgeInWeeks(DateTime currentDate)
         {
             var weeks = (currentDate.Date - FirstDayOfLastMenstrualPeriod.Date).Days / 7;
