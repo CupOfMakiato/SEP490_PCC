@@ -14,14 +14,16 @@ namespace Server.Application.DTOs.GrowthData
     public class ViewGrowthDataDTO
     {
         public Guid Id { get; set; }
-        public DateTime DateOfPregnancy { get; set; }
+        //public DateTime DateOfPregnancy { get; set; }
         public string Height { get; set; }
         public string Weight { get; set; }
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
-        public int GestationalAgeInWeeks { get; set; }
+        public int GestationalAgeInWeeks { get; set; } 
         public DateTime EstimatedDueDate { get; set; }
+        public int CurrentGestationalAgeInWeeks { get; set; }
+        public int CurrentTrimester { get; set; }
+
         public JournalDTO? Journal { get; set; }
-        public FetusDTO? Fetus { get; set; }
         public GetUserDTO? CreatedByUser { get; set; }
     }
 }

@@ -22,12 +22,13 @@ namespace Server.API.Validations.Blog
             .NotEmpty().WithMessage("Category name is required.")
             .Must(name => ValidCategoryNames.Contains(name))
             .WithMessage("Category name must be the following name:" +
-            "Pregnancy Nutrition\n" +
-            "Prenatal Care\n" + 
-            "Mental Health & Wellness\n" +
-            "Labor & Delivery\n" +
-            "Postpartum & Newborn Care"
+            " Pregnancy Nutrition" +
+            " Prenatal Care" +
+            " Mental Health & Wellness" +
+            " Labor & Delivery" +
+            " Postpartum & Newborn Care"
             );
+
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Title is required.")
                 .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");

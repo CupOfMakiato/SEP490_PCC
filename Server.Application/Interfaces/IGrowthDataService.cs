@@ -15,7 +15,10 @@ namespace Server.Application.Interfaces
         // view
         Task<Result<List<ViewGrowthDataDTO>>> ViewAllGrowthDatas();
         Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId);
+        Task<Result<ViewGrowthDataDTO>> ViewGrowthDataWithCurrentWeek(Guid userId, DateTime currentDate);
         // create
-        Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO createNewGrowthDataProfileDTO);
+        Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO CreateNewGrowthDataProfileDTO);
+        // edit 
+        Task<Result<object>> EditGrowthDataProfile(EditGrowthDataProfileDTO EditGrowthDataProfileDTO);
     }
 }

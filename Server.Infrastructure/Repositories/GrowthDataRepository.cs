@@ -2,6 +2,7 @@
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -29,27 +30,49 @@ namespace Server.Infrastructure.Repositories
                 .Where(g => !g.IsDeleted)
                 .ToListAsync();
         }
-        public async Task<GrowthData> GetGrowthDataById(Guid id)
+        public async Task<GrowthData> GetGrowthDataById(Guid blogId)
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journal)
-                .FirstOrDefaultAsync(g => g.Id == id && !g.IsDeleted);
+                .FirstOrDefaultAsync(g => g.Id == blogId 
+                && !g.IsDeleted);
         }
-        public async Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid userId, DateTime currentDate)
+        public async Task<GrowthData> GetActiveGrowthDataById(Guid blogId)
         {
-            var growth = await _dbContext.GrowthData
+            return await _dbContext.GrowthData
+                .Include(g => g.GrowthDataCreatedBy)
+                .Include(g => g.Journal)
+                .FirstOrDefaultAsync(g => g.Id == blogId
+                && g.Status == GrowthDataStatus.Active
+                && !g.IsDeleted);
+        }
+
+        public async Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid blogId, DateTime currentDate)
+        {
+            return await _dbContext.GrowthData
+                .Include(g => g.GrowthDataCreatedBy)
+                .Include(g => g.Journal)
+                .FirstOrDefaultAsync(g => g.Id == blogId && !g.IsDeleted);
+        }
+        public async Task<GrowthData> GetGrowthDataFromUserWithCurrentWeek(Guid userId, DateTime currentDate)
+        {
+            return await _dbContext.GrowthData
+                .Include(g => g.GrowthDataCreatedBy)
+                .Include(g => g.Journal)
+                .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId 
+                && g.Status == GrowthDataStatus.Active 
+                && g.EstimatedDueDate >= currentDate 
+                && !g.IsDeleted);
+        }
+
+        public async Task<GrowthData> GetGrowthDataByUserId(Guid userId)
+        {
+            return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journal)
                 .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId && !g.IsDeleted);
-
-            if (growth == null)
-                return null;
-
-            // Recalculate week (but don't update DB if not needed)
-            growth.GestationalAgeInWeeks = growth.GetCurrentGestationalAgeInWeeks(currentDate);
-
-            return growth;
         }
+
     }
 }
