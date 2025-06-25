@@ -14,11 +14,13 @@ namespace Server.Application
         public ILikeRepository LikeRepository { get; }
         public IFoodCategoryRepository FoodCategoryRepository { get; }
         public IFoodRepository FoodRepository { get; }
-        public IVitaminRepository VitaminRepository { get; }
-        public IVitaminCategoryRepository VitaminCategoryRepository { get; }
+        public INutrientRepository NutrientRepository { get; }
+        public INutrientCategoryRepository NutrientCategoryRepository { get; }
         public IDiseaseRepository DiseaseRepository { get; }
         public IGrowthDataRepository GrowthDataRepository { get; }
         public IJournalRepository JournalRepository { get; }
+        public ISuggestionRuleRepository SuggestionRuleRepository { get; }
+        public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

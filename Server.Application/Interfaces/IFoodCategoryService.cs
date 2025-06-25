@@ -1,4 +1,5 @@
-﻿using Server.Domain.Entities;
+﻿using Server.Application.DTOs.FoodCategory;
+using Server.Domain.Entities;
 
 namespace Server.Application.Interfaces
 {
@@ -6,8 +7,9 @@ namespace Server.Application.Interfaces
     {
         public Task<FoodCategory> GetFoodCategoryByIdAsync(Guid foodCategoryId);
         public Task<List<FoodCategory>> GetFoodCategorysAsync();
+        public Task<FoodCategory> GetFoodCategoryWithFoodByIdAsync(Guid foodCategoryId);
         public Task<bool> SoftDeleteFoodCategory(Guid foodCategoryId);
-        public Task<bool> CreateFoodCategory(FoodCategory foodCategory);
-        public Task<bool> UpdateFoodCategory(FoodCategory foodCategory);
+        public Task<bool> CreateFoodCategory(CreateFoodCategoryRequest request);
+        public Task<bool> UpdateFoodCategory(UpdateFoodCategoryRequest request);
     }
 }

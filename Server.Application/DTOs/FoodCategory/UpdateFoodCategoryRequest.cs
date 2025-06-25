@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Domain.Entities
+namespace Server.Application.DTOs.FoodCategory
 {
-    public class VitaminCategory : BaseEntity
+    public class UpdateFoodCategoryRequest
     {
-        public string Name { get; set; }    
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public IEnumerable<Vitamin> Vitamins { get; set; }
     }
 }
