@@ -1,6 +1,7 @@
 ﻿using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -12,7 +13,8 @@ namespace Server.Domain.Entities
     {
         public string Title { get; set; }
         public string Body { get; set; }
-        public BlogStatus Status { get; set; } = BlogStatus.Published; 
+        public string? RejectionReason { get; set; }
+        public BlogStatus Status { get; set; } = BlogStatus.Pending; 
         // List of images
         public ICollection<Media> Media { get; set; } = new List<Media>();
         public User BlogCreatedBy { get; set; }
@@ -24,6 +26,10 @@ namespace Server.Domain.Entities
         public ICollection<Bookmark> BookmarkedByUsers { get; set; }
         // Blog can have many likes
         public ICollection<Like> LikedByUsers { get; set; }
+
+        [ForeignKey("Category")]
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
 
     }
 }

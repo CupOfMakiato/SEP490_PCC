@@ -88,6 +88,37 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<List<ViewBlogDTO>>> ViewBlogsByUserId(Guid userId)
+        {
+            var blogs = await _unitOfWork.BlogRepository.GetBlogsByUserId(userId);
+
+            if (blogs == null || !blogs.Any())
+            {
+                return new Result<List<ViewBlogDTO>>
+                {
+                    Error = 1,
+                    Message = "No blogs found for this user.",
+                    Data = null
+                };
+            }
+
+            var result = _mapper.Map<List<ViewBlogDTO>>(blogs);
+
+            foreach (var blogDTO in result)
+            {
+                blogDTO.BookmarkCount = await _unitOfWork.BookmarkRepository.CountBookmarksByBlogId(blogDTO.Id);
+                blogDTO.LikeCount = await _unitOfWork.LikeRepository.CountLikesByBlogId(blogDTO.Id);
+            }
+
+            return new Result<List<ViewBlogDTO>>
+            {
+                Error = 0,
+                Message = "View user's blogs successfully",
+                Data = result
+            };
+        }
+
+
         public async Task<Result<object>> DeleteBlog(Guid blogId)
         {
             var existingBlog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
@@ -115,8 +146,7 @@ namespace Server.Application.Services
         }
         public async Task<Result<object>> UploadBlog(AddBlogDTO addBlogDTO)
         {
-            // 1. Check if user exists
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(addBlogDTO.UserId);
+            var user = await _unitOfWork.UserRepository.GetUserWithRole(addBlogDTO.UserId);
             if (user == null)
             {
                 return new Result<object>
@@ -127,14 +157,40 @@ namespace Server.Application.Services
                 };
             }
 
-            // Create blog
-            var blog = addBlogDTO.ToBlog(); 
+            // check category 
+            var category = await _unitOfWork.CategoryRepository.GetCategoryByName(addBlogDTO.CategoryName);
+            if (category == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = $"Category '{addBlogDTO.CategoryName}' does not exist!",
+                    Data = null
+                };
+            }
+
+            var blog = addBlogDTO.ToBlog();
             blog.Id = Guid.NewGuid();
+            blog.CategoryId = category.Id;
             blog.CreationDate = DateTime.UtcNow;
             blog.BlogTags = new List<BlogTag>();
             blog.Media = new List<Media>();
 
-            // Upload Images (0 to 4 allowed)
+            
+            if (user.Role.RoleName == "HealthExpert" && category.CategoryName != "Pregnancy Nutrition")
+            {
+                blog.Status = BlogStatus.Approved;
+            }
+            else if (user.Role.RoleName == "NutrientSpecialist" && category.CategoryName == "Pregnancy Nutrition")
+            {
+                blog.Status = BlogStatus.Approved;
+            }
+            else
+            {
+                blog.Status = BlogStatus.Pending;
+            }
+
+            // Upload Images
             if (addBlogDTO.Images != null && addBlogDTO.Images.Any())
             {
                 if (addBlogDTO.Images.Count > 4)
@@ -155,15 +211,14 @@ namespace Server.Application.Services
                         blog.Media.Add(new Media
                         {
                             BlogId = blog.Id,
-                            FileName = image.FileName, 
+                            FileName = image.FileName,
                             FileUrl = response.FileUrl,
                             FilePublicId = response.PublicFileId,
-                            FileType = image.ContentType 
+                            FileType = image.ContentType
                         });
                     }
                 }
             }
-
 
             // Handle Tags
             var distinctTags = addBlogDTO.Tags?.Distinct(StringComparer.OrdinalIgnoreCase).ToList() ?? new List<string>();
@@ -208,8 +263,7 @@ namespace Server.Application.Services
                     TagId = tag.Id
                 });
             }
-
-            // Save Blog
+            
             await _unitOfWork.BlogRepository.AddAsync(blog);
             var result = await _unitOfWork.SaveChangeAsync();
 
@@ -220,6 +274,214 @@ namespace Server.Application.Services
                 Data = blog
             };
         }
+
+        //might remove
+        public async Task<Result<object>> ApproveNutrientBlog(Guid blogId, Guid userId)
+        {
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
+            if (blog == null)
+            {
+                return new Result<object> { Error = 1, Message = "Blog not found.", Data = null };
+            }
+
+            if (blog.Status != BlogStatus.Pending)
+            {
+                return new Result<object> { Error = 1, Message = "Only pending blogs can be approved.", Data = null };
+            }
+
+            //if (blog.Category?.CategoryName != "Pregnancy Nutrition")
+            //{
+            //    return new Result<object> { Error = 1, Message = "Nutrient Specialist can only approve 'Pregnancy Nutrition' blogs.", Data = null };
+            //}
+
+            blog.Status = BlogStatus.Approved;
+            blog.ModificationBy = userId;
+            blog.ModificationDate = DateTime.UtcNow;
+
+            _unitOfWork.BlogRepository.Update(blog);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Blog approved by Nutrient Specialist." : "Approval failed.",
+                Data = null
+            };
+        }
+
+        //might remove
+        public async Task<Result<object>> ApproveHealthBlog(Guid blogId, Guid userId)
+        {
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
+            if (blog == null)
+            {
+                return new Result<object> { Error = 1, Message = "Blog not found.", Data = null };
+            }
+
+            if (blog.Status != BlogStatus.Pending)
+            {
+                return new Result<object> { Error = 1, Message = "Only pending blogs can be approved.", Data = null };
+            }
+
+            //if (blog.Category?.CategoryName == "Pregnancy Nutrition")
+            //{
+            //    return new Result<object> { Error = 1, Message = "Health Specialist cannot approve 'Pregnancy Nutrition' blogs.", Data = null };
+            //}
+
+            blog.Status = BlogStatus.Approved;
+            blog.ModificationBy = userId;
+            blog.ModificationDate = DateTime.UtcNow;
+
+            _unitOfWork.BlogRepository.Update(blog);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Blog approved by Health Specialist." : "Approval failed.",
+                Data = null
+            };
+        }
+
+        public async Task<Result<object>> ApproveBlog(Guid blogId, Guid userId)
+        {
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
+            if (blog == null)
+            {
+                return new Result<object> { Error = 1, Message = "Blog not found.", Data = null };
+            }
+
+            if (blog.Status != BlogStatus.Pending)
+            {
+                return new Result<object> { Error = 1, Message = "Only pending blogs can be approved.", Data = null };
+            }
+
+            var approver = await _unitOfWork.UserRepository.GetUserWithRole(userId);
+            if (approver == null)
+            {
+                return new Result<object> { Error = 1, Message = "Approver not found.", Data = null };
+            }
+
+            var categoryName = blog.Category?.CategoryName;
+
+            // Category-based approval logic
+            if (categoryName == "Pregnancy Nutrition")
+            {
+                // Only Nutrient Specialist can approve
+                if (approver.Role.RoleName != "NutrientSpecialist")
+                {
+                    return new Result<object>
+                    {
+                        Error = 1,
+                        Message = "Only Nutrient Specialists can approve blogs in the 'Pregnancy Nutrition' category.",
+                        Data = null
+                    };
+                }
+            }
+            else
+            {
+                // All other categories require Health Expert
+                if (approver.Role.RoleName != "HealthExpert")
+                {
+                    return new Result<object>
+                    {
+                        Error = 1,
+                        Message = "Only Health Experts can approve blogs outside the 'Pregnancy Nutrition' category.",
+                        Data = null
+                    };
+                }
+            }
+
+            blog.Status = BlogStatus.Approved;
+            blog.ModificationBy = userId;
+            blog.ModificationDate = DateTime.UtcNow;
+
+            _unitOfWork.BlogRepository.Update(blog);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Blog approved successfully." : "Approval failed.",
+                Data = null
+            };
+        }
+
+
+
+        public async Task<Result<object>> RejectBlog(Guid blogId, Guid rejectedByUserId, string rejectionReason = null)
+        {
+            var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId); 
+            if (blog == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Blog not found.",
+                    Data = null
+                };
+            }
+
+            if (blog.Status != BlogStatus.Pending)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Only blogs with 'Pending' status can be rejected.",
+                    Data = null
+                };
+            }
+
+            var user = await _unitOfWork.UserRepository.GetUserWithRole(rejectedByUserId);
+            if (user == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User not found.",
+                    Data = null
+                };
+            }
+
+            // Role-based category validation
+            if (user.Role.RoleName == "NutrientSpecialist" && blog.Category?.CategoryName != "Pregnancy Nutrition")
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Nutrient Specialist can only reject 'Pregnancy Nutrition' blogs.",
+                    Data = null
+                };
+            }
+
+            if (user.Role.RoleName == "HealthExpert" && blog.Category?.CategoryName == "Pregnancy Nutrition")
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Health Expert cannot reject 'Pregnancy Nutrition' blogs.",
+                    Data = null
+                };
+            }
+
+            blog.Status = BlogStatus.Rejected;
+            blog.ModificationBy = rejectedByUserId;
+            blog.ModificationDate = DateTime.UtcNow;
+            blog.RejectionReason = string.IsNullOrWhiteSpace(rejectionReason) ? "No reason provided." : rejectionReason;
+
+            _unitOfWork.BlogRepository.Update(blog);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Blog rejected successfully." : "Failed to reject blog.",
+                Data = null
+            };
+        }
+
+
+
         public async Task<Result<object>> EditBlog(EditBlogDTO editBlogDTO)
         {
             var blog = await _unitOfWork.BlogRepository.GetBlogById(editBlogDTO.Id);
@@ -233,8 +495,21 @@ namespace Server.Application.Services
                 };
             }
 
+            // check category 
+            var category = await _unitOfWork.CategoryRepository.GetCategoryByName(editBlogDTO.CategoryName);
+            if (category == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = $"Category '{editBlogDTO.CategoryName}' does not exist!",
+                    Data = null
+                };
+            }
+
             blog.Title = editBlogDTO.Title;
             blog.Body = editBlogDTO.Body;
+            blog.CategoryId = category.Id;
             blog.Status = editBlogDTO.Status;
 
             if (editBlogDTO.Images == null)

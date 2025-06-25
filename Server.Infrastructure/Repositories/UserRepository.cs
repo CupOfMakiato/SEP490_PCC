@@ -83,6 +83,12 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.User.Where(u => u.RoleId == role).ToListAsync();
         }
 
+        public async Task<User> GetUserWithRole(Guid userId)
+        {
+            return await _dbContext.User
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
+        }
 
     }
 }

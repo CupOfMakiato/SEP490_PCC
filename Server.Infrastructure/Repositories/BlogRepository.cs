@@ -30,6 +30,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<Blog>> GetAllBlogs()
         {
             return await _dbContext.Blog
+                .Include(b => b.Category)
                 .Include(c => c.BlogCreatedBy)
                 .Include(c => c.BlogTags)
                     .ThenInclude(bt => bt.Tag)
@@ -42,6 +43,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<Blog> GetBlogById(Guid id)
         {
             return await _dbContext.Blog
+                .Include(b => b.Category)
                 .Include(c => c.BlogCreatedBy)
                 .Include(c => c.BlogTags)
                     .ThenInclude(bt => bt.Tag)
@@ -55,6 +57,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Bookmark
                 .Where(b => b.UserId == userId && !b.IsDeleted)
                 .Select(b => b.Blog)
+                .Include(b => b.Category)
                 .Include(blog => blog.BlogTags)
                 .ThenInclude(bt => bt.Tag)
                 .Include(b => b.BlogCreatedBy)
@@ -63,8 +66,50 @@ namespace Server.Infrastructure.Repositories
                 .Where(b => !b.IsDeleted)
                 .ToListAsync();
         }
-        
-        
+        public async Task<List<Blog>> GetBlogsByUserId(Guid userId)
+        {
+            return await _dbContext.Blog
+                .Include(b => b.Category)
+                .Include(b => b.BlogTags)
+                    .ThenInclude(bt => bt.Tag)
+                .Include(b => b.Media)
+                .Include(b => b.Comment)
+                .Include(b => b.BlogCreatedBy)
+                .Where(b => !b.IsDeleted && b.CreatedBy == userId)
+                .ToListAsync();
+        }
+
+        public async Task<List<Blog>> GetBlogsWithHealthCategory()
+        {
+            return await _dbContext.Blog
+                .Include(b => b.Category)
+                .Include(b => b.BlogTags)
+                    .ThenInclude(bt => bt.Tag)
+                .Include(b => b.BlogCreatedBy)
+                .Include(b => b.Media)
+                .Include(b => b.Comment)
+                .Where(b =>!b.IsDeleted 
+                && b.Category.CategoryName != "Pregnancy Nutrition" 
+                //&& b.BlogTags.Any(bt => bt.Tag.Name == "Health")
+                )
+                .ToListAsync();
+        }
+        public async Task<List<Blog>> GetBlogsWithNutrientCategory()
+        {
+            return await _dbContext.Blog
+                .Include(b => b.Category)
+                .Include(b => b.BlogTags)
+                    .ThenInclude(bt => bt.Tag)
+                .Include(b => b.BlogCreatedBy)
+                .Include(b => b.Media)
+                .Include(b => b.Comment)
+                .Where(b => !b.IsDeleted
+                && b.Category.CategoryName == "Pregnancy Nutrition"
+                )
+                .ToListAsync();
+        }
+
+
 
     }
 }

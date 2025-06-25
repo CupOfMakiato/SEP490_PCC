@@ -47,11 +47,20 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
-        //[Authorize(Policy = "Admin")]
+        [HttpGet("view-blogs-from-user")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewBlogsByUserId(Guid userId)
+        {
+            var result = await _blogService.ViewBlogsByUserId(userId);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Clinic,HealthExpert,NutrientSpecialist")]
         [HttpPost("upload-blog")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> AddNewCategory([FromForm] UploadNewBlogRequest req)
+        public async Task<IActionResult> UploadBlog([FromForm] UploadNewBlogRequest req)
         {
             var validator = new UploadNewBlogRequestValidator();
             var validatorResult = validator.Validate(req);
@@ -74,6 +83,47 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "HealthExpert,NutrientSpecialist")]
+        [HttpPut("approve-blog")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ApproveBlog(Guid blogId, Guid approvedByUserId)
+        {
+            var result = await _blogService.ApproveBlog(blogId, approvedByUserId);
+            return Ok(result);
+        }
+
+        //[Authorize(Policy = "NutrientSpecialist")]
+        //[HttpPut("approve-nutrient-category-blog")]
+        //[ProducesResponseType(200, Type = typeof(Result<object>))]
+        //[ProducesResponseType(400, Type = typeof(Result<object>))]
+        //public async Task<IActionResult> ApproveNutrientBlog(Guid blogId, Guid approvedByUserId)
+        //{
+        //    var result = await _blogService.ApproveNutrientBlog(blogId, approvedByUserId);
+        //    return Ok(result);
+        //}
+
+        //[Authorize(Policy = "HealthExpert")]
+        //[HttpPut("approve-health-category-blog")]
+        //[ProducesResponseType(200, Type = typeof(Result<object>))]
+        //[ProducesResponseType(400, Type = typeof(Result<object>))]
+        //public async Task<IActionResult> ApproveHealthBlog(Guid blogId, Guid approvedByUserId)
+        //{
+        //    var result = await _blogService.ApproveHealthBlog(blogId, approvedByUserId);
+        //    return Ok(result);
+        //}
+
+        [Authorize(Roles = "HealthExpert,NutrientSpecialist")]
+        [HttpPut("reject-blog")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ApproveBlog(Guid blogId, Guid approvedByUserId, string? rejectionReason)
+        {
+            var result = await _blogService.RejectBlog(blogId, approvedByUserId, rejectionReason);
+            return Ok(result);
+        }
+
+        [Authorize(Policy = "Clinic")]
         [HttpPut("edit-blog")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
