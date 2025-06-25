@@ -46,9 +46,8 @@ namespace Server.Infrastructure
             INutrientRepository nutrientRepository,
             ISuggestionRuleRepository suggestionRuleRepository,
             IDiseaseRepository diseaseRepository,
-            IVitaminCategoryRepository vitaminCategoryRepository,
             IGrowthDataRepository growthDataRepository,
-            IJournalRepository journalRepository)
+            IJournalRepository journalRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository)
         {
