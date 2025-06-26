@@ -74,25 +74,28 @@ namespace Server.Application.Services
             };
         }
 
-        public Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId)
+        public async Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId)
         {
-            var growthdata = _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId);
+            var growthdata = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId); 
+
             if (growthdata == null)
             {
-                return Task.FromResult(new Result<ViewGrowthDataDTO>
+                return new Result<ViewGrowthDataDTO>
                 {
                     Error = 1,
                     Message = "Growth data not found",
                     Data = null
-                });
+                };
             }
+
             var result = _mapper.Map<ViewGrowthDataDTO>(growthdata);
-            return Task.FromResult(new Result<ViewGrowthDataDTO>
+
+            return new Result<ViewGrowthDataDTO>
             {
                 Error = 0,
                 Message = "View growth data by id successfully",
                 Data = result
-            });
+            };
         }
 
         // only create new when profile Inactive

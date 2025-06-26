@@ -48,6 +48,7 @@ namespace Server.Infrastructure
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
 
             services.AddScoped<IGrowthDataService, GrowthDataService>();
+            services.AddScoped<IJournalService, JournalService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();

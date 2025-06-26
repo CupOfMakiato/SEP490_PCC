@@ -40,19 +40,36 @@ namespace Server.Infrastructure.Repositories
                 .FirstOrDefaultAsync(j => j.Id == id && !j.IsDeleted);
         }
 
-        public Task<List<Journal>> GetJournalsByGrowthDataId(Guid growthDataId)
+        public async Task<List<Journal>> GetJournalsByGrowthDataId(Guid growthDataId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Journal
+                .Include(j => j.JournalCreatedBy)
+                .Include(j => j.Media)
+                .Where(j => j.GrowthDataId == growthDataId && !j.IsDeleted)
+                .ToListAsync();
         }
 
-        public Task<List<Journal>> GetJournalsByUserId(Guid userId)
+        public async Task<List<Journal>> GetJournalsByUserIdWithGrowthData(Guid growthDataId, Guid userId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Journal
+                .Include(j => j.JournalCreatedBy)
+                .Include(j => j.Media)
+                .Where(j => j.CreatedBy == userId
+                && j.GrowthDataId == growthDataId
+                && !j.IsDeleted)
+                .ToListAsync();
         }
 
-        public Task<List<Journal>> GetJournalsByWeekAndTrimester(int week, int trimester)
+        public async Task<List<Journal>> GetJournalFromGrowthDataByWeekAndTrimester(Guid growthDataId, int week, int trimester)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Journal
+                .Include(j => j.JournalCreatedBy)
+                .Include(j => j.Media)
+                .Where(j => j.CurrentWeek == week 
+                && j.CurrentTrimester == trimester 
+                && j.GrowthDataId == growthDataId
+                && !j.IsDeleted)
+                .ToListAsync();
         }
     }
 }

@@ -10,10 +10,10 @@ namespace Server.Application.Repositories
     public interface IGrowthDataRepository : IGenericRepository<GrowthData>
     {
         Task<List<GrowthData>> GetAllGrowthData();
-        Task<GrowthData> GetGrowthDataById(Guid blogId);
-        Task<GrowthData> GetActiveGrowthDataById(Guid blogId);
+        Task<GrowthData> GetGrowthDataById(Guid growthDataId);
+        Task<GrowthData> GetActiveGrowthDataById(Guid growthDataId);
         Task<GrowthData> GetGrowthDataFromUserWithCurrentWeek(Guid userId, DateTime currentDate);
-        Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid blogId, DateTime currentDate);
+        Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid growthDataId, DateTime currentDate);
         Task<GrowthData> GetGrowthDataByUserId(Guid userId);
     }
 }
