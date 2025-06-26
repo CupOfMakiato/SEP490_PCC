@@ -1,4 +1,5 @@
-﻿using Server.Domain.Entities;
+﻿using Server.Application.DTOs.Food;
+using Server.Domain.Entities;
 
 namespace Server.Application.Interfaces
 {
@@ -8,7 +9,7 @@ namespace Server.Application.Interfaces
         public Task<List<Food>> GetFoodsAsync();
         public Task<bool> SoftDeleteFood(Guid foodId);
         public Task<bool> DeleteFood(Guid foodId);
-        public Task<bool> CreateFood(Food food);
+        public Task<bool> CreateFood(CreateFoodRequest request);
         public Task<bool> UpdateFood(Food food);
         public Task<bool> ApproveFood(Guid foodId);
     }

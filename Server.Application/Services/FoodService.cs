@@ -1,4 +1,5 @@
-﻿using Server.Application.Interfaces;
+﻿using Server.Application.DTOs.Food;
+using Server.Application.Interfaces;
 using Server.Domain.Entities;
 
 namespace Server.Application.Services
@@ -24,9 +25,25 @@ namespace Server.Application.Services
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 
-        public async Task<bool> CreateFood(Food food)
+        public async Task<bool> CreateFood(CreateFoodRequest request)
         {
-            _unitOfWork.FoodRepository.AddAsync(food);
+            var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.FoodCategoryId);
+            if (foodCategory is null) 
+                return false;
+            var nutrients = await _unitOfWork.NutrientRepository.GetByListName(request.FoodNutrientNames);
+            var food = new Food()
+            {
+                Name = request.Name,
+                Description = request.Description,
+                ImageUrl = request.ImageUrl,
+                FoodCategoryId = request.FoodCategoryId,
+                Review = request.Review,
+                SafetyNote = request.SafetyNote,
+                PregnancySafe = request.PregnancySafe,
+                FoodCategory = foodCategory,
+                FoodNutrients = (IEnumerable<FoodNutrient>)nutrients
+            };
+            await _unitOfWork.FoodRepository.AddAsync(food);
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 

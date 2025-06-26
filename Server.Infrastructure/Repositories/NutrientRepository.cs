@@ -25,6 +25,11 @@ namespace Server.Infrastructure.Repositories
             _context.Nutrient.Remove(nutrient);
         }
 
+        public Task<List<Nutrient>> GetByListName(List<string> names)
+        {
+            return _dbSet.Where(n => names.Contains(n.Name)).ToListAsync();
+        }
+
         public async Task<Nutrient> GetNutrientById(Guid nutrientId)
         {
             return await _context.Nutrient.Include(v => v.FoodNutrients)
