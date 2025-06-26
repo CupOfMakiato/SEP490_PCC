@@ -49,5 +49,18 @@ namespace Server.Application.Mappers.JournalExtensions
                 UltraSoundImages = CreateNewJournalEntryForCurrentWeekRequest.UltraSoundImages
             };
         }
+        public static EditJournalEntryDTO ToEditJournalEntryDTO(this EditJournalEntryRequest EditJournalEntryRequest)
+        {
+            return new EditJournalEntryDTO
+            {
+                Id = (Guid)EditJournalEntryRequest.Id,
+                Note = EditJournalEntryRequest.Note,
+                CurrentWeight = EditJournalEntryRequest.CurrentWeight,
+                Symptoms = EditJournalEntryRequest.Symptoms,
+                MoodNotes = EditJournalEntryRequest.MoodNotes,
+                RelatedImages = EditJournalEntryRequest.RelatedImages,
+                UltraSoundImages = EditJournalEntryRequest.UltraSoundImages
+            };
+        }
     }
 }
