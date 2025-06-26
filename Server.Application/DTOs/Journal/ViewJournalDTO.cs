@@ -16,6 +16,6 @@ namespace Server.Application.DTOs.Journal
         public float CurrentWeight { get; set; }
         public string Symptoms { get; set; }
         public string MoodNotes { get; set; }
-        public UserDTO? CreatedByUser { get; set; }
+        public GetUserDTO? CreatedByUser { get; set; }
     }
 }

@@ -35,7 +35,7 @@ namespace Server.API.Controllers
             var result = await _growthDataService.ViewAllGrowthDatas();
             return Ok(result);
         }
-        [HttpGet("view-growthdata-by-id/{growthdataId}")]
+        [HttpGet("view-growthdata-by-id")]
         [ProducesResponseType(200, Type = typeof(ViewGrowthDataDTO))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ViewGrowthDataById(Guid growthdataId)

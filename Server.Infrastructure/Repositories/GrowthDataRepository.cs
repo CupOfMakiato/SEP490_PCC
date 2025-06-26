@@ -26,40 +26,40 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
-                .Include(g => g.Journal)
+                .Include(g => g.Journals)
                 .Where(g => !g.IsDeleted)
                 .ToListAsync();
         }
-        public async Task<GrowthData> GetGrowthDataById(Guid blogId)
+        public async Task<GrowthData> GetGrowthDataById(Guid growthDataId)
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
-                .Include(g => g.Journal)
-                .FirstOrDefaultAsync(g => g.Id == blogId 
+                .Include(g => g.Journals)
+                .FirstOrDefaultAsync(g => g.Id == growthDataId
                 && !g.IsDeleted);
         }
-        public async Task<GrowthData> GetActiveGrowthDataById(Guid blogId)
+        public async Task<GrowthData> GetActiveGrowthDataById(Guid growthDataId)
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
-                .Include(g => g.Journal)
-                .FirstOrDefaultAsync(g => g.Id == blogId
+                .Include(g => g.Journals)
+                .FirstOrDefaultAsync(g => g.Id == growthDataId
                 && g.Status == GrowthDataStatus.Active
                 && !g.IsDeleted);
         }
 
-        public async Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid blogId, DateTime currentDate)
+        public async Task<GrowthData> GetGrowthDataWithCurrentWeek(Guid growthDataId, DateTime currentDate)
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
-                .Include(g => g.Journal)
-                .FirstOrDefaultAsync(g => g.Id == blogId && !g.IsDeleted);
+                .Include(g => g.Journals)
+                .FirstOrDefaultAsync(g => g.Id == growthDataId && !g.IsDeleted);
         }
         public async Task<GrowthData> GetGrowthDataFromUserWithCurrentWeek(Guid userId, DateTime currentDate)
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
-                .Include(g => g.Journal)
+                .Include(g => g.Journals)
                 .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId 
                 && g.Status == GrowthDataStatus.Active 
                 && g.EstimatedDueDate >= currentDate 
@@ -70,7 +70,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
-                .Include(g => g.Journal)
+                .Include(g => g.Journals)
                 .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId && !g.IsDeleted);
         }
 

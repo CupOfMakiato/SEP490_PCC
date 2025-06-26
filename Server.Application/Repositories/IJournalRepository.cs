@@ -12,7 +12,7 @@ namespace Server.Application.Repositories
         Task<List<Journal>> GetAllJournals();
         Task<Journal> GetJournalById(Guid id);
         Task<List<Journal>> GetJournalsByGrowthDataId(Guid growthDataId);
-        Task<List<Journal>> GetJournalsByUserId(Guid userId);
-        Task<List<Journal>> GetJournalsByWeekAndTrimester(int week, int trimester);
+        Task<List<Journal>> GetJournalsByUserIdWithGrowthData(Guid growthDataId, Guid userId);
+        Task<List<Journal>> GetJournalFromGrowthDataByWeekAndTrimester(Guid growthDataId, int week, int trimester);
     }
 }

@@ -15,7 +15,7 @@ namespace Server.API.Controllers
             _bookmarkService = bookmarkService;
         }
 
-        [HttpPost("bookmark/{blogId}")]
+        [HttpPost("toggle/{blogId}")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> BookmarkBlog(Guid blogId)
