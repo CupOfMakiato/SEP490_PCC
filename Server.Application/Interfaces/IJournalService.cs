@@ -16,5 +16,9 @@ namespace Server.Application.Interfaces
         Task<Result<List<ViewJournalDTO>>> ViewJournalsByGrowthDataId(Guid growthDataId);
         // create
         Task<Result<object>> CreateNewJournalEntryForCurrentWeek(CreateNewJournalEntryForCurrentWeekDTO CreateNewJournalEntryForCurrentWeekDTO);
+        // edit
+        Task<Result<object>> EditJournalEntry(EditJournalEntryDTO EditJournalEntryDTO);
+        // delete 
+        Task<Result<object>> DeleteJournal(Guid journalId);
     }
 }

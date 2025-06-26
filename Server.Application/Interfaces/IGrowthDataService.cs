@@ -20,5 +20,7 @@ namespace Server.Application.Interfaces
         Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO CreateNewGrowthDataProfileDTO);
         // edit 
         Task<Result<object>> EditGrowthDataProfile(EditGrowthDataProfileDTO EditGrowthDataProfileDTO);
+        // delete
+        Task<Result<object>> DeleteGrowthData(Guid growthDataId);
     }
 }

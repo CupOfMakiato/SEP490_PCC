@@ -199,7 +199,144 @@ namespace Server.Application.Services
                 Message = result > 0
                     ? $"Journal entry for week {currentWeek} created successfully."
                     : "Failed to create journal entry.",
-                Data = result > 0 ? new { journal.Id, Week = currentWeek } : null
+                Data = result > 0 ? new {CurrentWeek = currentWeek} : null
+            };
+        }
+        public async Task<Result<object>> EditJournalEntry(EditJournalEntryDTO EditJournalEntryDTO)
+        {
+            var journal = await _unitOfWork.JournalRepository.GetJournalById(EditJournalEntryDTO.Id);
+            if (journal == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Journal entry not found.",
+                    Data = null
+                };
+            }
+
+            journal.Note = EditJournalEntryDTO.Note;
+            journal.MoodNotes = (Domain.Enums.Mood)EditJournalEntryDTO.MoodNotes;
+            journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight;
+            journal.Symptoms = (Domain.Enums.Symptom)EditJournalEntryDTO.Symptoms;
+
+            if (EditJournalEntryDTO.RelatedImages != null)
+            {
+                // Delete all previous images uploaded by RelatedImages
+                var existingMedia = journal.Media.ToList(); // All media
+                foreach (var media in existingMedia)
+                {
+                    // delete ALL and reupload fresh if RelatedImages provided
+                    if (!string.IsNullOrEmpty(media.FilePublicId))
+                        await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+                }
+                journal.Media.Clear();
+
+                if (EditJournalEntryDTO.RelatedImages.Any())
+                {
+                    if (EditJournalEntryDTO.RelatedImages.Count > 2)
+                    {
+                        return new Result<object>
+                        {
+                            Error = 1,
+                            Message = "You can upload a maximum of 2 related images.",
+                            Data = null
+                        };
+                    }
+
+                    foreach (var image in EditJournalEntryDTO.RelatedImages)
+                    {
+                        var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
+                        if (response != null)
+                        {
+                            journal.Media.Add(new Media
+                            {
+                                JournalId = journal.Id,
+                                FileName = image.FileName,
+                                FileUrl = response.FileUrl,
+                                FilePublicId = response.PublicFileId,
+                                FileType = image.ContentType
+                            });
+                        }
+                    }
+                }
+            }
+
+            if (EditJournalEntryDTO.UltraSoundImages != null)
+            {
+                // Delete all existing images again if needed
+                var existingMedia = journal.Media.ToList(); 
+                foreach (var media in existingMedia)
+                {
+                    if (!string.IsNullOrEmpty(media.FilePublicId))
+                        await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+                }
+                journal.Media.Clear();
+
+                if (EditJournalEntryDTO.UltraSoundImages.Any())
+                {
+                    if (EditJournalEntryDTO.UltraSoundImages.Count > 2)
+                    {
+                        return new Result<object>
+                        {
+                            Error = 1,
+                            Message = "You can upload a maximum of 2 ultrasound images.",
+                            Data = null
+                        };
+                    }
+
+                    foreach (var image in EditJournalEntryDTO.UltraSoundImages)
+                    {
+                        var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
+                        if (response != null)
+                        {
+                            journal.Media.Add(new Media
+                            {
+                                JournalId = journal.Id,
+                                FileName = image.FileName,
+                                FileUrl = response.FileUrl,
+                                FilePublicId = response.PublicFileId,
+                                FileType = image.ContentType
+                            });
+                        }
+                    }
+                }
+            }
+
+            _unitOfWork.JournalRepository.Update(journal);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Journal updated successfully." : "Failed to update journal.",
+                Data = null
+            };
+        }
+
+        public async Task<Result<object>> DeleteJournal(Guid journalId)
+        {
+            var existingData = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (existingData == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Journal not found",
+                    Data = null
+                };
+            }
+
+            _unitOfWork.JournalRepository.SoftRemove(existingData);
+
+            // Save the changes
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Journal deleted successfully" : "Failed to delete Journal",
+                Data = null
             };
         }
     }

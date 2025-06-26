@@ -70,5 +70,33 @@ namespace Server.API.Controllers
             var result = await _journalService.CreateNewJournalEntryForCurrentWeek(dto);
             return Ok(result);
         }
+        [HttpPut("edit-journal-entry")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> EditJournalEntry([FromForm] EditJournalEntryRequest req)
+        {
+            var validator = new EditJournalEntryRequestValidator();
+            var validationResult = validator.Validate(req);
+            if (validationResult.IsValid == false)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Missing value!",
+                    Data = validationResult.Errors.Select(x => x.ErrorMessage),
+                });
+            }
+            var dto = req.ToEditJournalEntryDTO();
+            var result = await _journalService.EditJournalEntry(dto);
+            return Ok(result);
+        }
+        [HttpDelete("delete-journal")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> DeleteJournal(Guid journalId)
+        {
+            var result = await _journalService.DeleteJournal(journalId);
+            return Ok(result);
+        }
     }
 }

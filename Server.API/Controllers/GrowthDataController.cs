@@ -102,5 +102,14 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("delete-growthdata")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> DeleteJournal(Guid growthDataId)
+        {
+            var result = await _growthDataService.DeleteGrowthData(growthDataId);
+            return Ok(result);
+        }
+
     }
 }
