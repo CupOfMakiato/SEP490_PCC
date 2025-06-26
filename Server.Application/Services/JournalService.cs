@@ -202,5 +202,30 @@ namespace Server.Application.Services
                 Data = result > 0 ? new { journal.Id, Week = currentWeek } : null
             };
         }
+        public async Task<Result<object>> DeleteJournal(Guid journalId)
+        {
+            var existingData = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (existingData == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Journal not found",
+                    Data = null
+                };
+            }
+
+            _unitOfWork.JournalRepository.SoftRemove(existingData);
+
+            // Save the changes
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Journal deleted successfully" : "Failed to delete Journal",
+                Data = null
+            };
+        }
     }
 }

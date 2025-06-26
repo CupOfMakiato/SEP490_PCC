@@ -10,5 +10,6 @@ namespace Server.Domain.Enums
     {
         Active,
         Inactive,
+        Archived, // Abortion or miscarriage
     }
 }

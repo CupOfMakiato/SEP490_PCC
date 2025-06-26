@@ -70,5 +70,13 @@ namespace Server.API.Controllers
             var result = await _journalService.CreateNewJournalEntryForCurrentWeek(dto);
             return Ok(result);
         }
+        [HttpDelete("delete-journal")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> DeleteJournal(Guid journalId)
+        {
+            var result = await _journalService.DeleteJournal(journalId);
+            return Ok(result);
+        }
     }
 }

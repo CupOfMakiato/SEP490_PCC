@@ -196,7 +196,31 @@ namespace Server.Application.Services
                 Data = null
             };
         }
+        public async Task<Result<object>> DeleteGrowthData(Guid growthDataId)
+        {
+            var existingData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthDataId);
+            if (existingData == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "GrowthData not found",
+                    Data = null
+                };
+            }
 
+            _unitOfWork.GrowthDataRepository.SoftRemove(existingData);
+
+            // Save the changes
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "GrowthData deleted successfully" : "Failed to delete GrowthData",
+                Data = null
+            };
+        }
 
     }
 }
