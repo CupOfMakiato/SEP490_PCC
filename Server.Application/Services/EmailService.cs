@@ -5,7 +5,11 @@ using MailKit.Security;
 using MimeKit.Text;
 using MimeKit;
 using MailKit.Net.Smtp;
+using RestSharp;
 using Server.Application.DTOs.User;
+using Org.BouncyCastle.Asn1.Crmf;
+using System.Text.Json;
+using RestSharp.Authenticators;
 
 namespace Server.Application.Services
 {
@@ -20,32 +24,55 @@ namespace Server.Application.Services
             _logger = logger;
         }
 
-        public async Task SendEmailAsync(EmailDTO request)
+        public async Task<bool> SendEmailAsync(EmailDTO request)
         {
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(_configuration["EmailUserName"]));
-            email.To.Add(MailboxAddress.Parse(request.To));
-            email.Subject = request.Subject;
-            email.Body = new TextPart(TextFormat.Html)
-            {
-                Text = request.Body
-            };
-
-            using var smtp = new SmtpClient();
             try
             {
-                await smtp.ConnectAsync(_configuration["EmailHost"], 587, SecureSocketOptions.StartTls);
-                await smtp.AuthenticateAsync(_configuration["EmailUserName"], _configuration["EmailPassword"]);
-                await smtp.SendAsync(email);
+                var apiKey = _configuration["Mailjet:ApiKey"];
+                var apiSecret = _configuration["Mailjet:ApiSecret"];
+                var fromEmail = _configuration["Mailjet:FromEmail"];
+                var fromName = _configuration["Mailjet:FromName"];
+
+                var options = new RestClientOptions("https://api.mailjet.com/v3.1/send")
+                {
+                    Authenticator = new HttpBasicAuthenticator(apiKey, apiSecret)
+                };
+
+                var client = new RestClient(options);
+
+                var requestBody = new
+                {
+                    Messages = new[]
+                    {
+                new
+                {
+                    From = new { Email = fromEmail, Name = fromName },
+                    To = new[] { new { Email = request.To, Name = request.To } },
+                    Subject = request.Subject,
+                    HTMLPart = request.Body
+                }
+                    }
+                };
+
+                var restRequest = new RestRequest()
+                    .AddHeader("Content-Type", "application/json")
+                    .AddJsonBody(JsonSerializer.Serialize(requestBody));
+
+                var response = await client.ExecutePostAsync(restRequest);
+
+                if (response.IsSuccessful)
+                {
+                    _logger.LogInformation("Email sent successfully to {Recipient}", request.To);
+                    return true;
+                }
+
+                _logger.LogError("Failed to send email: {Error}", response.Content);
+                return false;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it as per your needs
-                Console.WriteLine($"Error sending email: {ex.Message}");
-            }
-            finally
-            {
-                await smtp.DisconnectAsync(true);
+                _logger.LogError("Error sending email: {Exception}", ex.Message);
+                return false;
             }
         }
 
@@ -90,7 +117,7 @@ namespace Server.Application.Services
                             <p style='color: #555;'>We have received your registration and it is currently being reviewed by our admin team.</p>
                             <p style='color: #555;'>You will receive a notification once your account is approved. Please be patient during this process.</p>
                             <p style='color: #555;'>Thank you for your understanding.</p>
-                            <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                            <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                         </div>
                     </body>
                     </html>"
@@ -111,7 +138,7 @@ namespace Server.Application.Services
                     <h2 style='color: #333;'>Welcome Back!</h2>
                     <p style='color: #555;'>We are excited to inform you that your account has been reactivated. You can now log in and continue using our system.</p>
                     <p style='color: #555;'>Thank you for being a valued member of our community.</p>
-                    <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                    <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                 </div>
             </body>
             </html>"
@@ -135,7 +162,7 @@ namespace Server.Application.Services
                     <p style='color: #555;'>Reason: {reason}</p>
                     <p style='color: #555;'>If you have any questions or need further assistance, please contact our support team.</p>
                     <p style='color: #555;'>We appreciate your understanding.</p>
-                    <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                    <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                 </div>
             </body>
             </html>"
@@ -157,7 +184,7 @@ namespace Server.Application.Services
                             <p style='color: #555;'>We regret to inform you that your account registration has been rejected.</p>
                             <p style='color: #555;'>Reason: {reason}</p>
                             <p style='color: #555;'>If you have any questions or need further assistance, please contact our support team.</p>
-                            <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                            <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                         </div>
                     </body>
                     </html>"
@@ -176,10 +203,11 @@ namespace Server.Application.Services
                     <html>
                     <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
                         <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
+
                             <h2 style='color: #333;'>Congratulations!</h2>
                             <p style='color: #555;'>Your account has been approved. You can now log in and start using the system.</p>
                             <p style='color: #555;'>Thank you for joining our system.</p>
-                            <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                            <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                         </div>
                     </body>
                     </html>"
@@ -201,7 +229,7 @@ namespace Server.Application.Services
                             <h2 style='color: #333;'>Congratulations!</h2>
                             <p style='color: #555;'>Your service has been approved.</p>
                             <p style='color: #555;'>Thank you for use my website.</p>
-                            <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                            <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                         </div>
                     </body>
                     </html>"
@@ -224,7 +252,7 @@ namespace Server.Application.Services
                             <p style='color: #555;'>We regret to inform you that your service registration has been rejected.</p>
                             <p style='color: #555;'>Reason: {reason}</p>
                             <p style='color: #555;'>If you have any questions or need further assistance, please contact our support team.</p>
-                            <p style='color: #555;'>Best regards,<br />Pet Setvice Platform</p>
+                            <p style='color: #555;'>Best regards,<br />Nestly Care Companion</p>
                         </div>
                     </body>
                     </html>"

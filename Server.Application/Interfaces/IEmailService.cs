@@ -10,7 +10,7 @@ namespace Server.Application.Interfaces
     public interface IEmailService
     {
         // General email functions
-        Task SendEmailAsync(EmailDTO request);
+        Task<bool> SendEmailAsync(EmailDTO request);
 
         // Activation/Deactivation email functions
         Task SendActiveEmailAsync(string email);

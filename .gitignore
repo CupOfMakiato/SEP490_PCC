@@ -364,3 +364,7 @@ FodyWeavers.xsd
 
 **/Migrations/
 /Server.Infrastructure/Migrations/AppDbContextModelSnapshot.cs
+/sql-init
+/docker-compose.yml
+/Server.API/Dockerfile
+/Server.API/Dockerfile-sqlserver
