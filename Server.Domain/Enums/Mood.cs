@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Enums
 {
-    public enum GrowthDataStatus
+    public enum Mood
     {
-        Active,
-        Inactive,
-        Archived, // Abortion or miscarriage
+        Normal = 1,
+        Neutral = 2,
+        Happy = 3,
+        Sad = 4,
+        Angry = 5,
+        Excited = 6,
     }
 }

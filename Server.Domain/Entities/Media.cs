@@ -13,13 +13,13 @@ namespace Server.Domain.Entities
         public string FileUrl { get; set; }
         public string FileType { get; set; }
         public string FilePublicId { get; set; }
-        public Guid BlogId { get; set; }
+        
 
         [ForeignKey("BlogId")]
-        //public Guid CommentID { get; set; }
-
-        //[ForeignKey("CommentID")]
-        //public Comment Comment { get; set; }
-        public Blog Blog { get; set; }
+        public Guid? BlogId { get; set; }
+        public Blog? Blog { get; set; }
+        [ForeignKey("JournalId")]
+        public Guid? JournalId { get; set; }
+        public Journal? Journal { get; set; }
     }
 }

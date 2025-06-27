@@ -20,7 +20,7 @@ namespace Server.Domain.Entities
         public GrowthDataStatus Status { get; set; } = GrowthDataStatus.Active; // can go inactive if user has second prenancy
         public User GrowthDataCreatedBy { get; set; }
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
-        public Journal Journal { get; set; }
+        public ICollection<Journal> Journals { get; set; } = new List<Journal>();
         //public Fetus Fetus { get; set; }
         public int GetGestationalAgeInWeeks(DateTime currentDate)
         {

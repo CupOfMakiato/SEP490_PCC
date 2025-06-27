@@ -17,7 +17,7 @@ namespace Server.Infrastructure.Mappers.JournalProfile
         {
             CreateMap<Journal, ViewJournalDTO>()
             .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src =>
-                src.JournalCreatedBy != null ? new UserDTO { Id = src.JournalCreatedBy.Id, UserName = src.JournalCreatedBy.UserName } : null));
+                src.JournalCreatedBy != null ? new GetUserDTO { Id = src.JournalCreatedBy.Id, UserName = src.JournalCreatedBy.UserName } : null));
         }
     }
 }

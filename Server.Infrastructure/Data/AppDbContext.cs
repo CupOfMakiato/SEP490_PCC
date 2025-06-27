@@ -96,6 +96,20 @@ namespace Server.Infrastructure.Data
                new Category { Id = Guid.Parse("a0a60b5d-5f7c-4a86-9efd-1d87de0e382a"), CategoryName = "Postpartum & Newborn Care", IsActive = true }
            );
 
+            modelBuilder.Entity<GrowthData>().HasData(
+               new GrowthData
+               {
+                   Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
+                   Height = 160,
+                   Weight = 60,
+                   FirstDayOfLastMenstrualPeriod = new DateTime(2024, 11, 26),
+                   EstimatedDueDate = new DateTime(2025, 09, 02),
+                   CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
+                   Status = GrowthDataStatus.Active,
+                   CreationDate = DateTime.Now,
+                   IsDeleted = false
+               }
+            );
 
             //User
             modelBuilder.Entity<User>()
@@ -417,6 +431,34 @@ namespace Server.Infrastructure.Data
                 .HasConversion(
                 v => v.ToString(),
                 v => (GrowthDataStatus)Enum.Parse(typeof(GrowthDataStatus), v));
+
+            // Journal
+            modelBuilder.Entity<Journal>()
+            .Property(s => s.MoodNotes)
+            .HasConversion(v => v.ToString(), v => (Mood)Enum.Parse(typeof(Mood), v));
+
+            modelBuilder.Entity<Journal>()
+            .Property(s => s.Symptoms)
+            .HasConversion(v => v.ToString(), v => (Symptom)Enum.Parse(typeof(Symptom), v));
+
+            modelBuilder.Entity<Journal>()
+            .HasOne(c => c.JournalCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Media
+            modelBuilder.Entity<Media>()
+            .HasOne(m => m.Blog)
+            .WithMany(b => b.Media)
+            .HasForeignKey(m => m.BlogId)
+            .OnDelete(DeleteBehavior.Restrict); 
+
+            modelBuilder.Entity<Media>()
+            .HasOne(m => m.Journal)
+            .WithMany(j => j.Media)
+            .HasForeignKey(m => m.JournalId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

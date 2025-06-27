@@ -74,25 +74,28 @@ namespace Server.Application.Services
             };
         }
 
-        public Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId)
+        public async Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId)
         {
-            var growthdata = _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId);
+            var growthdata = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId); 
+
             if (growthdata == null)
             {
-                return Task.FromResult(new Result<ViewGrowthDataDTO>
+                return new Result<ViewGrowthDataDTO>
                 {
                     Error = 1,
                     Message = "Growth data not found",
                     Data = null
-                });
+                };
             }
+
             var result = _mapper.Map<ViewGrowthDataDTO>(growthdata);
-            return Task.FromResult(new Result<ViewGrowthDataDTO>
+
+            return new Result<ViewGrowthDataDTO>
             {
                 Error = 0,
                 Message = "View growth data by id successfully",
                 Data = result
-            });
+            };
         }
 
         // only create new when profile Inactive
@@ -193,7 +196,31 @@ namespace Server.Application.Services
                 Data = null
             };
         }
+        public async Task<Result<object>> DeleteGrowthData(Guid growthDataId)
+        {
+            var existingData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthDataId);
+            if (existingData == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "GrowthData not found",
+                    Data = null
+                };
+            }
 
+            _unitOfWork.GrowthDataRepository.SoftRemove(existingData);
+
+            // Save the changes
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "GrowthData deleted successfully" : "Failed to delete GrowthData",
+                Data = null
+            };
+        }
 
     }
 }
