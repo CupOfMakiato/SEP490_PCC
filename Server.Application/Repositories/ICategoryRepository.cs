@@ -12,5 +12,6 @@ namespace Server.Application.Repositories
         public Task<ICollection<Category>> GetAllCategories();
         public Task<Category> GetCategoryById(Guid id);
         public Task<Category> GetCategoryByName(string name);
+        Task<List<Category>> GetAllActiveCategories();
     }
 }
