@@ -27,12 +27,21 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<ICollection<Category>> GetAllCategories()
         {
-            return await _dbContext.Category.Include(x => x.SubCategories).ToListAsync();
+            return await _dbContext.Category
+                .Include(x => x.SubCategories).ToListAsync();
         }
 
         public async Task<Category> GetCategoryById(Guid categoryId)
         {
-            return await _dbContext.Category.Include(x => x.SubCategories).Where(p => p.Id == categoryId).FirstOrDefaultAsync();
+            return await _dbContext.Category
+                .Include(x => x.SubCategories).Where(p => p.Id == categoryId).FirstOrDefaultAsync();
+        }
+        public async Task<List<Category>> GetAllActiveCategories()
+        {
+            return await _dbContext.Category
+                .Include(x => x.SubCategories)
+                .Where(c => c.IsActive == true && !c.IsDeleted)
+                .ToListAsync();
         }
 
         public async Task<Category> GetCategoryByName(string name)

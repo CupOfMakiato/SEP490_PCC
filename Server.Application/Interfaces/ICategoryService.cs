@@ -11,11 +11,15 @@ namespace Server.Application.Interfaces
 {
     public interface ICategoryService
     {
+        // view
+        Task<Result<List<ViewCategoryDTO>>> ViewAllActiveCategories();
         Task<Result<object>> AddNewCategory(AddCategoryDTO addCategoryDTO);
         Task<Result<object>> DeleteCategory(Guid categoryId);
         Task<Result<List<ViewCategoryDTO>>> ViewAllCategories();
         Task<Result<Category>> ViewCategoryByName(string name);
         Task<Result<ViewCategoryDTO>> ViewCategoryById(Guid Id);
+        // edit
+        Task<Result<object>> EditCategory(EditCategoryDTO EditCategoryDTO);
 
 
 

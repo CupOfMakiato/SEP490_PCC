@@ -16,14 +16,16 @@ namespace Server.Application.Services
     public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IClaimsService _claimsService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper, ICategoryRepository categoryRepository)
+        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper, ICategoryRepository categoryRepository, IClaimsService claimsService)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _claimsService = claimsService;
         }
 
         public async Task<Result<object>> AddNewCategory(AddCategoryDTO addCategoryDTO)
@@ -40,7 +42,6 @@ namespace Server.Application.Services
             }
             var boardMapper = addCategoryDTO.ToCategory();
 
-            // Save board to database
             await _unitOfWork.CategoryRepository.AddAsync(boardMapper);
             var result = await _unitOfWork.SaveChangeAsync();
 
@@ -51,6 +52,47 @@ namespace Server.Application.Services
                 Data = null
             };
         }
+        public async Task<Result<List<ViewCategoryDTO>>> ViewAllActiveCategories()
+        {
+            var result = _mapper.Map<List<ViewCategoryDTO>>(await _unitOfWork.CategoryRepository.GetAllActiveCategories());
+            return new Result<List<ViewCategoryDTO>>
+            {
+                Error = 0,
+                Message = "view all active categories successfully",
+                Data = result
+            };
+        }
+        public async Task<Result<object>> EditCategory(EditCategoryDTO EditCategoryDTO)
+        {
+            var Category = await _unitOfWork.CategoryRepository.GetByIdAsync(EditCategoryDTO.Id);
+            if (Category == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Didn't find any category, please try again!",
+                    Data = null
+                };
+            }
+            var user = _claimsService.GetCurrentUserId;
+
+            Category.Id = EditCategoryDTO.Id;
+            Category.CategoryName = EditCategoryDTO.CategoryName;
+            Category.ModificationBy = user;
+            Category.IsActive = EditCategoryDTO.IsActive;
+            //Category.ModificationBy = EditCategoryDTO.ModifiedBy;
+            Category.ModificationDate = DateTime.Now;
+
+            _categoryRepository.Update(Category);
+            var result = await _unitOfWork.SaveChangeAsync();
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Edit category successfully" : "Edit category fail",
+                Data = null
+            };
+        }
+        
 
         public async Task<Result<object>> DeleteCategory(Guid Id)
         {

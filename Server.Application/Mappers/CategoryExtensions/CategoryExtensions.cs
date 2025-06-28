@@ -47,5 +47,15 @@ namespace Server.Application.Mappers.CategoryExtensions
 
             };
         }
+        public static EditCategoryDTO ToEditCategoryDTO(this EditCategoryRequest addNewCategoryRequest)
+        {
+            return new EditCategoryDTO
+            {
+                Id = addNewCategoryRequest.Id,
+                //UserId = addNewCategoryRequest.UserId,
+                CategoryName = addNewCategoryRequest.CategoryName,
+                IsActive = addNewCategoryRequest.IsActive,
+            };
+        }
     }
 }
