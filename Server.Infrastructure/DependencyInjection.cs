@@ -46,6 +46,7 @@ namespace Server.Infrastructure
             services.AddScoped<IDiseaseService, DiseaseService>();
             services.AddScoped<ISuggestionRuleService, SuggestionRuleService>();
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
+            services.AddScoped<IClinicService, ClinicService>();
 
             services.AddScoped<IGrowthDataService, GrowthDataService>();
             services.AddScoped<IJournalService, JournalService>();
@@ -77,6 +78,8 @@ namespace Server.Infrastructure
             services.AddScoped<IDiseaseRepository, DiseaseRepository>();
             services.AddScoped<ISuggestionRuleRepository, SuggestionRuleRepository>();
             services.AddScoped<IFoodRecommendationHistoryRepository, FoodRecommendationHistoryRepository>();
+
+            services.AddScoped<IClinicRepository, ClinicRepository>();
 
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();
