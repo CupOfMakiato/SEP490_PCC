@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Clinic;
 using Server.Application.Interfaces;

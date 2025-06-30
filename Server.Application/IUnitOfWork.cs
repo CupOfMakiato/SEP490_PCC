@@ -22,6 +22,7 @@ namespace Server.Application
         public ISuggestionRuleRepository SuggestionRuleRepository { get; }
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository { get; }
         public IClinicRepository ClinicRepository { get; }
+        public IConsultantRepository ConsultantRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

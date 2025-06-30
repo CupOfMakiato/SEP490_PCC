@@ -32,6 +32,7 @@ namespace Server.Infrastructure
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly IClinicRepository _clinicRepository;
+        private readonly IConsultantRepository _consultantRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -51,7 +52,8 @@ namespace Server.Infrastructure
             IJournalRepository journalRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository,
-            IClinicRepository clinicRepository)
+            IClinicRepository clinicRepository,
+            IConsultantRepository consultantRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -72,6 +74,7 @@ namespace Server.Infrastructure
             _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
             _clinicRepository = clinicRepository;
+            _consultantRepository = consultantRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -98,6 +101,8 @@ namespace Server.Infrastructure
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
 
         public IClinicRepository ClinicRepository => _clinicRepository;
+
+        public IConsultantRepository ConsultantRepository => _consultantRepository;
 
         public async Task<int> SaveChangeAsync()
         {

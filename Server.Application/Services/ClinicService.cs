@@ -38,7 +38,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewClinicDTO>> GetClinicByIdAsync(Guid clinicId)
         {
-            var result = _mapper.Map<ViewClinicDTO>(await _clinicRepository.GetByIdAsync(clinicId));
+            var result = _mapper.Map<ViewClinicDTO>(await _clinicRepository.GetClinicByIdAsync(clinicId));
 
             return new Result<ViewClinicDTO>
             {
