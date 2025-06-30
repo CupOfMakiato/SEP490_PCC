@@ -61,7 +61,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAllOrigins",
         builder =>
         {
-            builder.AllowAnyOrigin()
+            builder.WithOrigins(
+                "http://localhost:5173",
+                "https://nestlycare.live",
+                "https://www.nestlycare.live",
+                "http://nestlycare.live"
+                )
                    .AllowAnyHeader()
                    .AllowAnyMethod();
         });
