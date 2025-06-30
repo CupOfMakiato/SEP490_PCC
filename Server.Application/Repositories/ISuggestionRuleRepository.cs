@@ -4,8 +4,8 @@ namespace Server.Application.Repositories
 {
     public interface ISuggestionRuleRepository : IGenericRepository<SuggestionRule>
     {
-        public Task<SuggestionRule> GetSuggestionRule(Guid suggestionRuleId);
-        public Task<List<SuggestionRule>> GetSuggestionRules();
-        public Task<List<SuggestionRule>> GetSuggestionRulesByWeek(int week);
+        Task<SuggestionRule> GetSuggestionRuleById(Guid id);
+        Task<List<SuggestionRule>> GetSuggestionRules();
+        void DeleteSuggestionRule(SuggestionRule rule);
     }
 }

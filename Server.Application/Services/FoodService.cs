@@ -1,4 +1,6 @@
-﻿using Server.Application.Interfaces;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Food;
+using Server.Application.Interfaces;
 using Server.Domain.Entities;
 
 namespace Server.Application.Services
@@ -10,6 +12,49 @@ namespace Server.Application.Services
         public FoodService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Result<Food>> AddNutrientsByNames(AddNutrientsRequest request)
+        {
+            var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.FoodId);
+            if (food is null)
+                return new Result<Food>()
+                {
+                    Error = 1,
+                    Message = "Food is not exist."
+                };
+            List<Nutrient> nutrients = await _unitOfWork.NutrientRepository.GetByListName(request.NutrientsNames);
+            if (nutrients is null)
+                return new Result<Food>()
+                {
+                    Error = 1,
+                    Message = "Didn't find any nutrient."
+                };
+
+            var containedNutrients = new List<Nutrient>();
+            nutrients.ForEach(nutrient =>
+                {
+                    if (food.FoodNutrients.Any(f => f.NutrientId.Equals(nutrient.Id)))
+                        containedNutrients.Add(nutrient);
+                });
+            nutrients.RemoveAll(containedNutrients.Contains);
+            food.FoodNutrients.ToList().AddRange((IEnumerable<FoodNutrient>)nutrients);
+            _unitOfWork.FoodRepository.Update(food);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<Food>()
+                {
+                    Error = 0,
+                    Message = "Add success",
+                    Data = food
+                };
+            }
+
+            return new Result<Food>()
+            {
+                Error = 1,
+                Message = "Add fail"
+            };
         }
 
         public async Task<bool> ApproveFood(Guid foodId)
@@ -24,9 +69,25 @@ namespace Server.Application.Services
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 
-        public async Task<bool> CreateFood(Food food)
+        public async Task<bool> CreateFood(CreateFoodRequest request)
         {
-            _unitOfWork.FoodRepository.AddAsync(food);
+            var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.FoodCategoryId);
+            if (foodCategory is null)
+                return false;
+            var nutrients = await _unitOfWork.NutrientRepository.GetByListName(request.FoodNutrientNames);
+            var food = new Food()
+            {
+                Name = request.Name,
+                Description = request.Description,
+                ImageUrl = request.ImageUrl,
+                FoodCategoryId = request.FoodCategoryId,
+                Review = request.Review,
+                SafetyNote = request.SafetyNote,
+                PregnancySafe = request.PregnancySafe,
+                FoodCategory = foodCategory,
+                FoodNutrients = (ICollection<FoodNutrient>)nutrients
+            };
+            await _unitOfWork.FoodRepository.AddAsync(food);
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 

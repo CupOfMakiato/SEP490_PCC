@@ -1,4 +1,6 @@
-﻿using Server.Application.Interfaces;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Nutrient;
+using Server.Application.Interfaces;
 using Server.Domain.Entities;
 
 namespace Server.Application.Services
@@ -12,22 +14,69 @@ namespace Server.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> ApproveNutrient(Guid nutrientId)
+        public async Task<Result<Nutrient>> ApproveNutrient(Guid nutrientId)
         {
             var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(nutrientId);
             if (nutrient is null)
             {
-                return false;
+                return new Result<Nutrient>()
+                {
+                    Error = 1,
+                    Message = "Nutrient doesn't exist!"
+                };
             }
             nutrient.Review = true;
             _unitOfWork.NutrientRepository.Update(nutrient);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            if(await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<Nutrient>()
+                {
+                    Data = nutrient,
+                    Error = 0,
+                    Message = "Approved"
+                };
+            return new Result<Nutrient>()
+            {
+                Error = 1,
+                Message = "Approve failed"
+            };
         }
 
-        public async Task<bool> CreateNutrient(Nutrient nutrient)
+        public async Task<Result<Nutrient>> CreateNutrient(CreateNutrientRequest request)
         {
-            _unitOfWork.NutrientRepository.AddAsync(nutrient);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            var nutrientCategory = await _unitOfWork.NutrientCategoryRepository.GetByIdAsync
+                (request.CategoryId);
+
+            if (nutrientCategory is null)
+            {
+                return new Result<Nutrient>()
+                {
+                    Message = "Food category is not exist",
+                    Error = 1
+                };
+            }
+
+            var nutrient = new Nutrient()
+            {
+                Description = request.Description,
+                Name = request.Name,
+                CategoryId = request.CategoryId,
+                NutrientCategory = nutrientCategory,
+                ImageUrl = request.ImageUrl,
+                Unit = request.Unit,
+            };
+            await _unitOfWork.NutrientRepository.AddAsync(nutrient);
+
+            if (!(await _unitOfWork.SaveChangeAsync() > 0))
+                return new Result<Nutrient>()
+                {
+                    Message = "Create fail",
+                    Error = 1
+                };
+            return new Result<Nutrient>()
+            {
+                Data = nutrient,
+                Error = 0
+            };
         }
 
         public async Task<bool> DeleteNutrient(Guid nutrientId)

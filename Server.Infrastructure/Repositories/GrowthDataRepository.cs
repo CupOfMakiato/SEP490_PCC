@@ -74,5 +74,16 @@ namespace Server.Infrastructure.Repositories
                 .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId && !g.IsDeleted);
         }
 
+        public async Task<GrowthData> GetActiveGrowthDataByUserId(Guid userId)
+        {
+            return await _dbContext.GrowthData
+                .Include(g => g.GrowthDataCreatedBy)
+                .Include(g => g.Journals)
+                .AsSplitQuery()
+                .SingleAsync(g => 
+                    g.GrowthDataCreatedBy.Id == userId 
+                    && !g.IsDeleted
+                    && g.Status == GrowthDataStatus.Active);
+        }
     }
 }
