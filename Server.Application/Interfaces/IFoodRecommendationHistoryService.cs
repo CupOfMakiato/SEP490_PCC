@@ -20,7 +20,7 @@ namespace Server.Application.Interfaces
         /// <param name="growDataId"></param>
         /// <returns></returns>
         public Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId);
-        public Task<List<FoodRecommendationHistory>> GetGrowthDataMealLog(Guid growDataId);
+        public Task<List<FoodRecommendationHistory>> GetGrowthDataMealLog(Guid userId);
         public Task<bool> CreateFoodRecommendation(Guid growthDataId);
     }
 }

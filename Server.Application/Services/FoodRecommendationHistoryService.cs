@@ -36,11 +36,30 @@ namespace Server.Application.Services
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthId(growDataId);
         }
 
-        public async Task<bool> CreateFoodRecommendation(Guid growthDataId)
+        public async Task<bool> CreateFoodRecommendation(Guid userId)
         {
-            //var lastestGrowthData = await _unitOfWork.Gr
-            var foodsSuggest = await _unitOfWork.SuggestionRuleRepository.GetSuggestionRulesByWeek(1);
-            return true;
+            try
+            {
+                var currentGrowthData = await _unitOfWork.GrowthDataRepository.GetActiveGrowthDataByUserId(userId);
+                
+                //var recommendRules = await _unitOfWork.SuggestionRuleRepository
+
+                var recommendationHistory = new FoodRecommendationHistory()
+                {
+                    RecommededAt = DateTime.Now,
+                    GrowthData = currentGrowthData,
+                    Source = "System",
+
+                };
+
+                await _unitOfWork.FoodRecommendationHistoryRepository.AddAsync(recommendationHistory);
+                return await _unitOfWork.SaveChangeAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync(ex.Message);
+                return false;
+            }    
         }
     }
 }

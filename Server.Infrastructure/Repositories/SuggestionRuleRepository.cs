@@ -34,6 +34,17 @@ namespace Server.Infrastructure.Repositories
                 .Include(r => r.Foods)
                 .ToListAsync();
         }
+
+        public async Task<List<SuggestionRule>> GetSuggestionRulesForUser(int week)
+        {
+            var currentTrimester = week switch
+            {
+                < 14 => 1,
+                < 28 => 2,
+                _ => 3
+            };
+            return await _dbSet.Where(g => week <= g.MaxWeek && week >= g.MinWeek && g.Trimester == currentTrimester && g.IsPositive).ToListAsync();
+        }
     }
 
 }

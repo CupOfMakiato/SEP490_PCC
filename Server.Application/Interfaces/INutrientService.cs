@@ -1,4 +1,6 @@
-﻿using Server.Domain.Entities;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Nutrient;
+using Server.Domain.Entities;
 
 namespace Server.Application.Interfaces
 {
@@ -8,8 +10,8 @@ namespace Server.Application.Interfaces
         public Task<List<Nutrient>> GetNutrientsAsync();
         public Task<bool> SoftDeleteNutrient(Guid nutrientId);
         public Task<bool> DeleteNutrient(Guid nutrientId);
-        public Task<bool> CreateNutrient(Nutrient nutrient);
+        public Task<Result<Nutrient>> CreateNutrient(CreateNutrientRequest request);
         public Task<bool> UpdateNutrient(Nutrient nutrient);
-        public Task<bool> ApproveNutrient(Guid nutrientId);
+        public Task<Result<Nutrient>> ApproveNutrient(Guid nutrientId);
     }
 }
