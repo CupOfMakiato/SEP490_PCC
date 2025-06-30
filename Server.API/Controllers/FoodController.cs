@@ -116,5 +116,30 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPut("AddNutrients")]
+        public async Task<IActionResult> AddNutrients([FromBody] AddNutrientsRequest request)
+        {
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+            if (request.NutrientsNames.Count <= 0)
+                return BadRequest("List cannot be null");
+            if (request.NutrientsNames.Any(string.IsNullOrEmpty))
+                return BadRequest("Element in list cannot be null or empty");
+
+            try
+            {
+                var result = await _foodService.AddNutrientsByNames(request);
+                if (result.Error == 1)
+                {
+                    return BadRequest(result.Message);
+                }
+                return Ok(result.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

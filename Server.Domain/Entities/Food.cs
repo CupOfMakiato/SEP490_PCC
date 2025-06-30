@@ -11,7 +11,7 @@
         public bool Review { get; set; } = false;
         public Guid SuggestionRuleId {  get; set; }
         public FoodCategory FoodCategory { get; set; }
-        public IEnumerable<FoodNutrient> FoodNutrients { get; set; }
+        public ICollection<FoodNutrient> FoodNutrients { get; set; } = new List<FoodNutrient>();
         public SuggestionRule SuggestionRule {  set; get; }
         public ICollection<FoodDiseaseWarning> FoodDiseaseWarning { get; set; } = new List<FoodDiseaseWarning>();
         public ICollection<FoodAllergy> FoodAllergy { get; set; } = new List<FoodAllergy>();

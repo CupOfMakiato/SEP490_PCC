@@ -1,4 +1,5 @@
-﻿using Server.Application.DTOs.Food;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Food;
 using Server.Domain.Entities;
 
 namespace Server.Application.Interfaces
@@ -12,5 +13,6 @@ namespace Server.Application.Interfaces
         public Task<bool> CreateFood(CreateFoodRequest request);
         public Task<bool> UpdateFood(Food food);
         public Task<bool> ApproveFood(Guid foodId);
+        public Task<Result<Food>> AddNutrientsByNames(AddNutrientsRequest request);
     }
 }
