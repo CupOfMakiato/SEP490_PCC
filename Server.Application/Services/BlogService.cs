@@ -460,12 +460,12 @@ namespace Server.Application.Services
                 };
             }
 
-            if (user.Role.RoleName == "HealthExpert" && blog.Category?.BlogCategoryTag == BlogCategoryTag.Health)
-            {
+            if(user.Role.RoleName == "HealthExpert" && blog.Category?.BlogCategoryTag != BlogCategoryTag.Health)
+{
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "Health Expert cannot reject 'Nutrient' blogs.",
+                    Message = "Health Expert can only reject 'Health' blogs.",
                     Data = null
                 };
             }
