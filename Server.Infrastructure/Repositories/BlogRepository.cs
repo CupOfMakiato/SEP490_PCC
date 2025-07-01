@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Server.Infrastructure.Repositories
                 .Include(b => b.Media)
                 .Include(b => b.Comment)
                 .Where(b =>!b.IsDeleted 
-                && b.Category.CategoryName != "Pregnancy Nutrition" 
+                && b.Category.BlogCategoryTag == BlogCategoryTag.Health
                 //&& b.BlogTags.Any(bt => bt.Tag.Name == "Health")
                 )
                 .ToListAsync();
@@ -104,10 +105,10 @@ namespace Server.Infrastructure.Repositories
                 .Include(b => b.Media)
                 .Include(b => b.Comment)
                 .Where(b => !b.IsDeleted
-                && b.Category.CategoryName == "Pregnancy Nutrition"
-                )
+                    && b.Category.BlogCategoryTag == BlogCategoryTag.Nutrient)
                 .ToListAsync();
         }
+
 
 
 

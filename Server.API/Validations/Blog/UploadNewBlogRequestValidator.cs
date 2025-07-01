@@ -8,26 +8,10 @@ namespace Server.API.Validations.Blog
         private readonly long _maxFileSize = 5 * 1024 * 1024; // 5MB
         private readonly string[] _allowedExtensions =
             { ".jpg", ".jpeg", ".png", ".webp" };
-        private static readonly List<string> ValidCategoryNames = new()
-        {
-            "Pregnancy Nutrition",
-            "Prenatal Care",
-            "Mental Health & Wellness",
-            "Labor & Delivery",
-            "Postpartum & Newborn Care"
-        };
         public UploadNewBlogRequestValidator()
         {
-            RuleFor(x => x.CategoryName)
-            .NotEmpty().WithMessage("Category name is required.")
-            .Must(name => ValidCategoryNames.Contains(name))
-            .WithMessage("Category name must be the following name:" +
-            " Pregnancy Nutrition" +
-            " Prenatal Care" +
-            " Mental Health & Wellness" +
-            " Labor & Delivery" +
-            " Postpartum & Newborn Care"
-            );
+            RuleFor(x => x.CategoryId)
+                .NotEmpty().WithMessage("CategoryId is required.");
 
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Title is required.")

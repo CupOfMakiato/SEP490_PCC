@@ -19,7 +19,7 @@ namespace Server.Application.Mappers.BlogExtensions
                 Id = AddBlogDTO.Id,
                 Title = AddBlogDTO.Title,
                 Body = AddBlogDTO.Body,
-                CategoryId = AddBlogDTO.CategoryName != null ? Guid.Parse(AddBlogDTO.CategoryName) : Guid.Empty,
+                CategoryId = AddBlogDTO.CategoryId,
                 Status = AddBlogDTO.Status,
                 BlogTags = new List<BlogTag>(),
                 Media = new List<Media>(),
@@ -35,7 +35,7 @@ namespace Server.Application.Mappers.BlogExtensions
                 UserId = UploadNewBlogRequest.UserId,
                 Title = UploadNewBlogRequest.Title,
                 Body = UploadNewBlogRequest.Body,
-                CategoryName = UploadNewBlogRequest.CategoryName, 
+                CategoryId = UploadNewBlogRequest.CategoryId, 
                 Status = BlogStatus.Pending,
                 Tags = UploadNewBlogRequest.Tags ?? new List<string>(),
                 Images = UploadNewBlogRequest.Images
@@ -49,7 +49,7 @@ namespace Server.Application.Mappers.BlogExtensions
                 Id = editBlogRequest.Id,
                 Title = editBlogRequest.Title,
                 Body = editBlogRequest.Body,
-                CategoryName = editBlogRequest.CategoryName,
+                CategoryId = editBlogRequest.CategoryId,
                 Status = BlogStatus.Edited,
                 Tags = editBlogRequest.Tags ?? new List<string>(),
                 Images = editBlogRequest.Images

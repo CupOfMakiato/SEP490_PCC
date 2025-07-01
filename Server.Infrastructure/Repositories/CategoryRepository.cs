@@ -2,6 +2,7 @@
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -55,5 +56,22 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Category.Include(x => x.SubCategories).Where(p => p.CategoryName == name).FirstOrDefaultAsync();
         }
+        public async Task<List<Category>> GetCategoriesByHealthTag()
+        {
+            return await _dbContext.Category
+                .Include(x => x.SubCategories)
+                .Where(c => c.BlogCategoryTag == BlogCategoryTag.Health
+                && !c.IsDeleted)
+                .ToListAsync(); 
+        }
+        public async Task<List<Category>> GetCategoriesByNutrientTag()
+        {
+            return await _dbContext.Category
+                .Include(x => x.SubCategories)
+                .Where(c => c.BlogCategoryTag == BlogCategoryTag.Nutrient
+                && !c.IsDeleted)
+                .ToListAsync();
+        }
+
     }
 }

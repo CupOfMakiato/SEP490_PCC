@@ -14,5 +14,7 @@ namespace Server.Application.Repositories
         public Task<Category> GetCategoryByName(string name);
         Task<List<Category>> GetAllActiveCategories();
         Task<List<Category>> GetCategoryNotDeleted();
+        Task<List<Category>> GetCategoriesByHealthTag();
+        Task<List<Category>> GetCategoriesByNutrientTag();
     }
 }
