@@ -1,4 +1,6 @@
-﻿using Server.Application.DTOs.Category;
+﻿using Microsoft.AspNetCore.Http;
+using Server.Application.DTOs.Category;
+using Server.Application.DTOs.Media;
 using Server.Application.DTOs.User;
 using Server.Domain.Enums;
 using System;
@@ -17,6 +19,7 @@ namespace Server.Application.DTOs.Blog
         public string CategoryName { get; set; } 
         public BlogStatus Status { get; set; }
         public List<string> Tags { get; set; } // fix later
+        public List<MediaDTO> Images { get; set; }
         public int LikeCount { get; set; }
         //public int CommentCount { get; set; }
         public int BookmarkCount { get; set; }

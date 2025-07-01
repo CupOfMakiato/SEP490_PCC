@@ -13,6 +13,7 @@ namespace Server.Application.Repositories
         Task<List<Media>> GetMediaByBlogId(Guid blogId);
         Task<Media> GetMediaById(Guid id);
         Task<int> GetTotalMediaCount();
+
     }
 }
 
