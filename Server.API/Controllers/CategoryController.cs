@@ -43,6 +43,15 @@ namespace Server.WebAPI.Controllers
 
             return Ok(result);
         }
+        [HttpGet("view-all-categories-not-deleted")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewCategoryDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewAllCategoriesNotDeleted()
+        {
+            var result = await _categoryService.ViewAllCategoriesNotDeleted();
+
+            return Ok(result);
+        }
 
         [HttpGet("view-all-categories-by-name")]
         [ProducesResponseType(200, Type = typeof(Result<ViewCategoryDTO>))]

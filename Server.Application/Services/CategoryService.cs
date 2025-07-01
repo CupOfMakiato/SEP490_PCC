@@ -62,6 +62,17 @@ namespace Server.Application.Services
                 Data = result
             };
         }
+
+        public async Task<Result<List<ViewCategoryDTO>>> ViewAllCategoriesNotDeleted()
+        {
+            var result = _mapper.Map<List<ViewCategoryDTO>>(await _unitOfWork.CategoryRepository.GetCategoryNotDeleted());
+            return new Result<List<ViewCategoryDTO>>
+            {
+                Error = 0,
+                Message = "view all categories successfully",
+                Data = result
+            };
+        }
         public async Task<Result<object>> EditCategory(EditCategoryDTO EditCategoryDTO)
         {
             var Category = await _unitOfWork.CategoryRepository.GetByIdAsync(EditCategoryDTO.Id);

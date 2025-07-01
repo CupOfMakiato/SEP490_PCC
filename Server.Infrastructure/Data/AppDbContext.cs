@@ -80,7 +80,7 @@ namespace Server.Infrastructure.Data
             );
 
             modelBuilder.Entity<User>().HasData(
-               new User { Id = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"), UserName = "Makiato", Email = "passswp@gmail.com", Password = "$2y$10$VtkJppM0TJ1d/fTye4yJWOTe22rx6Fuyf.hDlz7bbw2q9sHkPRqF2", Status = StatusEnums.Active, RoleId = 1, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
+               new User { Id = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"), UserName = "Administrator", Email = "passswp@gmail.com", Password = "$2y$10$4TyXDqqGDcs1xNAgD0mptec9AcdOwPc57jYjE/AzUqBqXmzc1vyie", Status = StatusEnums.Active, RoleId = 1, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("5de81f1c-c715-46c1-b40a-7dcbfe25cafa"), UserName = "TestHealth", Email = "nguyenbr23@gmail.com", Password = "$2y$10$Ll0VAQfmgd6kUzUzmM7dxOkHHUFTd4kD5WZSKVcmdy1jGNGL1giCi", Status = StatusEnums.Active, RoleId = 3, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("7e4fd68f-7a71-4dbf-873a-0605b72a64ec"), UserName = "TestNutrient", Email = "swdproject73@gmail.com", Password = "$2y$10$vpseCsSPCEa7fHNdo7fJX.Fg9x/r2vXjzh3FpmUKezOevJIFKpvMe", Status = StatusEnums.Active, RoleId = 4, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"), UserName = "TestClinic", Email = "nguyenlmse171333@fpt.edu.vn", Password = "$2y$10$3.0ODOCeEea3SbAWoD51Z.x8A8tSZJ3srprmvkw0xvXsbHdH/D9Rq", Status = StatusEnums.Active, RoleId = 5, IsVerified = true, PhoneNumber = "123456789", CreationDate = DateTime.Now, IsDeleted = false },
@@ -89,11 +89,11 @@ namespace Server.Infrastructure.Data
            );
 
             modelBuilder.Entity<Category>().HasData(
-               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition" , IsActive = true },
-               new Category { Id = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"), CategoryName = "Prenatal Care", IsActive = true },
-               new Category { Id = Guid.Parse("371e3ddc-e996-45d3-8d67-2c95026b7f2d"), CategoryName = "Mental Health & Wellness" , IsActive = true },
-               new Category { Id = Guid.Parse("f2080622-9e3d-4d93-a75b-285efbb05dea"), CategoryName = "Labor & Delivery", IsActive = true },
-               new Category { Id = Guid.Parse("a0a60b5d-5f7c-4a86-9efd-1d87de0e382a"), CategoryName = "Postpartum & Newborn Care", IsActive = true }
+               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition", BlogCategoryTag = BlogCategoryTag.Nutrient , IsActive = true },
+               new Category { Id = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"), CategoryName = "Prenatal Care", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
+               new Category { Id = Guid.Parse("371e3ddc-e996-45d3-8d67-2c95026b7f2d"), CategoryName = "Mental Health & Wellness", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
+               new Category { Id = Guid.Parse("f2080622-9e3d-4d93-a75b-285efbb05dea"), CategoryName = "Labor & Delivery", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
+               new Category { Id = Guid.Parse("a0a60b5d-5f7c-4a86-9efd-1d87de0e382a"), CategoryName = "Postpartum & Newborn Care", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true }
            );
 
             modelBuilder.Entity<GrowthData>().HasData(
@@ -459,6 +459,11 @@ namespace Server.Infrastructure.Data
             .WithMany(j => j.Media)
             .HasForeignKey(m => m.JournalId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            // Category
+            modelBuilder.Entity<Category>()
+           .Property(s => s.BlogCategoryTag)
+           .HasConversion(v => v.ToString(), v => (BlogCategoryTag)Enum.Parse(typeof(BlogCategoryTag), v));
 
         }
     }

@@ -18,6 +18,7 @@ namespace Server.Application.Interfaces
         Task<Result<List<ViewCategoryDTO>>> ViewAllCategories();
         Task<Result<Category>> ViewCategoryByName(string name);
         Task<Result<ViewCategoryDTO>> ViewCategoryById(Guid Id);
+        Task<Result<List<ViewCategoryDTO>>> ViewAllCategoriesNotDeleted();
         // edit
         Task<Result<object>> EditCategory(EditCategoryDTO EditCategoryDTO);
 

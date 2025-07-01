@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Server.Application.DTOs.Category
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
         //public Guid ModifiedBy { get; set; } 
+        public BlogCategoryTag BlogCategoryTag { get; set; }
     }
 }

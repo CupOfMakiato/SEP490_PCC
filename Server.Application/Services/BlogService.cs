@@ -158,30 +158,28 @@ namespace Server.Application.Services
             }
 
             // check category 
-            var category = await _unitOfWork.CategoryRepository.GetCategoryByName(addBlogDTO.CategoryName);
+            var category = await _unitOfWork.CategoryRepository.GetCategoryById(addBlogDTO.CategoryId);
             if (category == null)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = $"Category '{addBlogDTO.CategoryName}' does not exist!",
+                    Message = $"Category does not exist!",
                     Data = null
                 };
             }
 
             var blog = addBlogDTO.ToBlog();
-            blog.Id = Guid.NewGuid();
-            blog.CategoryId = category.Id;
             blog.CreationDate = DateTime.UtcNow;
             blog.BlogTags = new List<BlogTag>();
             blog.Media = new List<Media>();
 
             
-            if (user.Role.RoleName == "HealthExpert" && category.CategoryName != "Pregnancy Nutrition")
+            if (user.Role.RoleName == "HealthExpert" && category.BlogCategoryTag == BlogCategoryTag.Health)
             {
                 blog.Status = BlogStatus.Approved;
             }
-            else if (user.Role.RoleName == "NutrientSpecialist" && category.CategoryName == "Pregnancy Nutrition")
+            else if (user.Role.RoleName == "NutrientSpecialist" && category.BlogCategoryTag == BlogCategoryTag.Nutrient)
             {
                 blog.Status = BlogStatus.Approved;
             }
@@ -278,6 +276,8 @@ namespace Server.Application.Services
         //might remove
         public async Task<Result<object>> ApproveNutrientBlog(Guid blogId, Guid userId)
         {
+            var user = _claimsService.GetCurrentUserId;
+
             var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
             if (blog == null)
             {
@@ -295,7 +295,7 @@ namespace Server.Application.Services
             //}
 
             blog.Status = BlogStatus.Approved;
-            blog.ModificationBy = userId;
+            blog.ModificationBy = user;
             blog.ModificationDate = DateTime.UtcNow;
 
             _unitOfWork.BlogRepository.Update(blog);
@@ -312,6 +312,8 @@ namespace Server.Application.Services
         //might remove
         public async Task<Result<object>> ApproveHealthBlog(Guid blogId, Guid userId)
         {
+            var user = _claimsService.GetCurrentUserId;
+
             var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
             if (blog == null)
             {
@@ -329,7 +331,7 @@ namespace Server.Application.Services
             //}
 
             blog.Status = BlogStatus.Approved;
-            blog.ModificationBy = userId;
+            blog.ModificationBy = user;
             blog.ModificationDate = DateTime.UtcNow;
 
             _unitOfWork.BlogRepository.Update(blog);
@@ -345,6 +347,8 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> ApproveBlog(Guid blogId, Guid userId)
         {
+            var user = _claimsService.GetCurrentUserId;
+
             var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId);
             if (blog == null)
             {
@@ -362,10 +366,10 @@ namespace Server.Application.Services
                 return new Result<object> { Error = 1, Message = "Approver not found.", Data = null };
             }
 
-            var categoryName = blog.Category?.CategoryName;
+            var categoryTag = blog.Category?.BlogCategoryTag;
 
             // Category-based approval logic
-            if (categoryName == "Pregnancy Nutrition")
+            if (categoryTag == BlogCategoryTag.Nutrient)
             {
                 // Only Nutrient Specialist can approve
                 if (approver.Role.RoleName != "NutrientSpecialist")
@@ -373,7 +377,7 @@ namespace Server.Application.Services
                     return new Result<object>
                     {
                         Error = 1,
-                        Message = "Only Nutrient Specialists can approve blogs in the 'Pregnancy Nutrition' category.",
+                        Message = "Only Nutrient Specialists can approve blogs in the 'Nutrient' category.",
                         Data = null
                     };
                 }
@@ -386,14 +390,14 @@ namespace Server.Application.Services
                     return new Result<object>
                     {
                         Error = 1,
-                        Message = "Only Health Experts can approve blogs outside the 'Pregnancy Nutrition' category.",
+                        Message = "Only Health Experts can approve blogs outside the 'Nutrient' category.",
                         Data = null
                     };
                 }
             }
 
             blog.Status = BlogStatus.Approved;
-            blog.ModificationBy = userId;
+            blog.ModificationBy = user;
             blog.ModificationDate = DateTime.UtcNow;
 
             _unitOfWork.BlogRepository.Update(blog);
@@ -411,6 +415,8 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> RejectBlog(Guid blogId, Guid rejectedByUserId, string rejectionReason = null)
         {
+            var RejectedBy = _claimsService.GetCurrentUserId;
+
             var blog = await _unitOfWork.BlogRepository.GetBlogById(blogId); 
             if (blog == null)
             {
@@ -444,28 +450,28 @@ namespace Server.Application.Services
             }
 
             // Role-based category validation
-            if (user.Role.RoleName == "NutrientSpecialist" && blog.Category?.CategoryName != "Pregnancy Nutrition")
+            if (user.Role.RoleName == "NutrientSpecialist" && blog.Category?.BlogCategoryTag != BlogCategoryTag.Nutrient)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "Nutrient Specialist can only reject 'Pregnancy Nutrition' blogs.",
+                    Message = "Nutrient Specialist can only reject 'Nutrient' blogs.",
                     Data = null
                 };
             }
 
-            if (user.Role.RoleName == "HealthExpert" && blog.Category?.CategoryName == "Pregnancy Nutrition")
-            {
+            if(user.Role.RoleName == "HealthExpert" && blog.Category?.BlogCategoryTag != BlogCategoryTag.Health)
+{
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "Health Expert cannot reject 'Pregnancy Nutrition' blogs.",
+                    Message = "Health Expert can only reject 'Health' blogs.",
                     Data = null
                 };
             }
 
             blog.Status = BlogStatus.Rejected;
-            blog.ModificationBy = rejectedByUserId;
+            blog.ModificationBy = RejectedBy;
             blog.ModificationDate = DateTime.UtcNow;
             blog.RejectionReason = string.IsNullOrWhiteSpace(rejectionReason) ? "No reason provided." : rejectionReason;
 
@@ -496,21 +502,34 @@ namespace Server.Application.Services
             }
 
             // check category 
-            var category = await _unitOfWork.CategoryRepository.GetCategoryByName(editBlogDTO.CategoryName);
+            var category = await _unitOfWork.CategoryRepository.GetCategoryById((Guid)editBlogDTO.CategoryId);
             if (category == null)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = $"Category '{editBlogDTO.CategoryName}' does not exist!",
+                    Message = $"Category does not exist!",
                     Data = null
                 };
             }
 
-            blog.Title = editBlogDTO.Title;
-            blog.Body = editBlogDTO.Body;
-            blog.CategoryId = category.Id;
-            blog.Status = editBlogDTO.Status;
+            // Check if blog is Rejected
+            if (blog.Status != BlogStatus.Rejected)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Only rejected blogs can be edited.",
+                    Data = null
+                };
+            }
+
+            //blog.Title = editBlogDTO.Title;
+            //blog.Body = editBlogDTO.Body;
+            //blog.CategoryId = category.Id;
+            //blog.Status = editBlogDTO.Status;
+            blog.ModificationBy = _claimsService.GetCurrentUserId;
+            blog.ModificationDate = DateTime.UtcNow;
 
             if (editBlogDTO.Images == null)
             {
