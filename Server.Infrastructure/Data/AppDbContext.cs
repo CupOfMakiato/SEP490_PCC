@@ -89,11 +89,11 @@ namespace Server.Infrastructure.Data
            );
 
             modelBuilder.Entity<Category>().HasData(
-               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition" , IsActive = true },
-               new Category { Id = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"), CategoryName = "Prenatal Care", IsActive = true },
-               new Category { Id = Guid.Parse("371e3ddc-e996-45d3-8d67-2c95026b7f2d"), CategoryName = "Mental Health & Wellness" , IsActive = true },
-               new Category { Id = Guid.Parse("f2080622-9e3d-4d93-a75b-285efbb05dea"), CategoryName = "Labor & Delivery", IsActive = true },
-               new Category { Id = Guid.Parse("a0a60b5d-5f7c-4a86-9efd-1d87de0e382a"), CategoryName = "Postpartum & Newborn Care", IsActive = true }
+               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition", BlogCategoryTag = BlogCategoryTag.Nutrient , IsActive = true },
+               new Category { Id = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"), CategoryName = "Prenatal Care", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
+               new Category { Id = Guid.Parse("371e3ddc-e996-45d3-8d67-2c95026b7f2d"), CategoryName = "Mental Health & Wellness", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
+               new Category { Id = Guid.Parse("f2080622-9e3d-4d93-a75b-285efbb05dea"), CategoryName = "Labor & Delivery", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
+               new Category { Id = Guid.Parse("a0a60b5d-5f7c-4a86-9efd-1d87de0e382a"), CategoryName = "Postpartum & Newborn Care", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true }
            );
 
             modelBuilder.Entity<GrowthData>().HasData(
