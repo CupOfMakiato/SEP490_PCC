@@ -450,7 +450,7 @@ namespace Server.Application.Services
             }
 
             // Role-based category validation
-            if (user.Role.RoleName == "NutrientSpecialist" && blog.Category?.BlogCategoryTag == BlogCategoryTag.Nutrient)
+            if (user.Role.RoleName == "NutrientSpecialist" && blog.Category?.BlogCategoryTag != BlogCategoryTag.Nutrient)
             {
                 return new Result<object>
                 {
