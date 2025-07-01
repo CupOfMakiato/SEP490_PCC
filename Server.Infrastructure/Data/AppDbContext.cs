@@ -460,6 +460,11 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(m => m.JournalId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            // Category
+            modelBuilder.Entity<Category>()
+           .Property(s => s.BlogCategoryTag)
+           .HasConversion(v => v.ToString(), v => (BlogCategoryTag)Enum.Parse(typeof(BlogCategoryTag), v));
+
         }
     }
 }

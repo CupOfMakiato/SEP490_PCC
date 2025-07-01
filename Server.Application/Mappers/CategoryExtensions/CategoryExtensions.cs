@@ -19,6 +19,7 @@ namespace Server.Application.Mappers.CategoryExtensions
             {
                 Id = category.Id,
                 CategoryName = category.CategoryName,
+                BlogCategoryTag = category.BlogCategoryTag,
                 IsActive = category.IsActive,
                 CreatedByUser = category.CategoryCreatedBy.ToUserDTO()
 
@@ -31,6 +32,7 @@ namespace Server.Application.Mappers.CategoryExtensions
                 Id = addCategoryDTO.Id,
                 CategoryName = addCategoryDTO.CategoryName,
                 IsActive = addCategoryDTO.IsActive,
+                BlogCategoryTag = addCategoryDTO.BlogCategoryTag,
                 CreatedBy = addCategoryDTO.UserId,
 
             };
@@ -43,6 +45,7 @@ namespace Server.Application.Mappers.CategoryExtensions
                 Id = (Guid)addNewCategoryRequest.Id,
                 UserId = addNewCategoryRequest.UserId,
                 CategoryName = addNewCategoryRequest.CategoryName,
+                BlogCategoryTag = addNewCategoryRequest.BlogCategoryTag,
                 IsActive = true,
 
             };
@@ -54,6 +57,7 @@ namespace Server.Application.Mappers.CategoryExtensions
                 Id = addNewCategoryRequest.Id,
                 //UserId = addNewCategoryRequest.UserId,
                 CategoryName = addNewCategoryRequest.CategoryName,
+                BlogCategoryTag = addNewCategoryRequest.BlogCategoryTag,
                 IsActive = addNewCategoryRequest.IsActive,
             };
         }
