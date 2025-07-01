@@ -36,6 +36,13 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Category
                 .Include(x => x.SubCategories).Where(p => p.Id == categoryId).FirstOrDefaultAsync();
         }
+        public async Task<List<Category>> GetCategoryNotDeleted()
+        {
+            return await _dbContext.Category
+                .Include(x => x.SubCategories)
+                .Where(c => !c.IsDeleted)
+                .ToListAsync(); 
+        }
         public async Task<List<Category>> GetAllActiveCategories()
         {
             return await _dbContext.Category
