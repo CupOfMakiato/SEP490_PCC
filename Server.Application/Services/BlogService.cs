@@ -513,11 +513,23 @@ namespace Server.Application.Services
                 };
             }
 
-            blog.Title = editBlogDTO.Title;
-            blog.Body = editBlogDTO.Body;
-            blog.CategoryId = category.Id;
-            blog.Status = editBlogDTO.Status;
+            // Check if blog is Rejected
+            if (blog.Status != BlogStatus.Rejected)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Only rejected blogs can be edited.",
+                    Data = null
+                };
+            }
+
+            //blog.Title = editBlogDTO.Title;
+            //blog.Body = editBlogDTO.Body;
+            //blog.CategoryId = category.Id;
+            //blog.Status = editBlogDTO.Status;
             blog.ModificationBy = _claimsService.GetCurrentUserId;
+            blog.ModificationDate = DateTime.UtcNow;
 
             if (editBlogDTO.Images == null)
             {

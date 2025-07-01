@@ -50,7 +50,7 @@ namespace Server.Application.Mappers.BlogExtensions
                 Title = editBlogRequest.Title,
                 Body = editBlogRequest.Body,
                 CategoryId = editBlogRequest.CategoryId,
-                Status = BlogStatus.Edited,
+                Status = BlogStatus.Pending,
                 Tags = editBlogRequest.Tags ?? new List<string>(),
                 Images = editBlogRequest.Images
             };
