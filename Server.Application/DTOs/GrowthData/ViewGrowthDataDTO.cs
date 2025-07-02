@@ -23,7 +23,7 @@ namespace Server.Application.DTOs.GrowthData
         public int CurrentGestationalAgeInWeeks { get; set; }
         public int CurrentTrimester { get; set; }
 
-        public JournalDTO? Journal { get; set; }
+        public List<JournalDTO>? Journal { get; set; }
         public GetUserDTO? CreatedByUser { get; set; }
         public BasicBioMetricDTO? BasicBioMetric { get; set; }
     }
