@@ -43,5 +43,20 @@ namespace Server.Application.Mappers.BasicBioMetricExtensions
                 Notes = CreateBasicBioMetricRequest.Notes
             };
         }
+        public static EditBasicBioMetricDTO ToEditBasicBioMetricDTO(this EditBasicBioMetricRequest EditBasicBioMetricRequest)
+        {
+            return new EditBasicBioMetricDTO
+            {
+                Id = EditBasicBioMetricRequest.Id,
+                //GrowthDataId = EditBasicBioMetricRequest.GrowthDataId,
+                WeightKg = EditBasicBioMetricRequest.WeightKg,
+                HeightCm = EditBasicBioMetricRequest.HeightCm,
+                SystolicBP = EditBasicBioMetricRequest.SystolicBP,
+                DiastolicBP = EditBasicBioMetricRequest.DiastolicBP,
+                HeartRateBPM = EditBasicBioMetricRequest.HeartRateBPM,
+                BloodSugarLevelMgDl = EditBasicBioMetricRequest.BloodSugarLevelMgDl,
+                Notes = EditBasicBioMetricRequest.Notes
+            };
+        }
     }
 }

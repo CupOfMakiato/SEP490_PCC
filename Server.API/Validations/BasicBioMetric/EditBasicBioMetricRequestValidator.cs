@@ -3,12 +3,12 @@ using Server.Application.Abstractions.RequestAndResponse.BasicBioMetric;
 
 namespace Server.API.Validations.BasicBioMetric
 {
-    public class CreateBasicBioMetricRequestValidator : AbstractValidator<CreateBasicBioMetricRequest>
+    public class EditBasicBioMetricRequestValidator : AbstractValidator<EditBasicBioMetricRequest>
     {
-        public CreateBasicBioMetricRequestValidator()
+        public EditBasicBioMetricRequestValidator()
         {
-            RuleFor(x => x.GrowthDataId)
-                .NotEmpty().WithMessage("Growth Data ID is required.");
+            RuleFor(x => x.Id)
+                .NotEmpty().WithMessage("BBM ID is required.");
 
             RuleFor(x => x.WeightKg)
                 .GreaterThan(0).WithMessage("Weight must be greater than 0.")

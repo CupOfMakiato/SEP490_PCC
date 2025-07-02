@@ -66,5 +66,34 @@ namespace Server.API.Controllers
             var result = await _basicBioMetricService.CreateBasicBioMetric(dto);
             return Ok(result);
         }
+        [HttpPut("edit-bbm")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewBasicBioMetricDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> EditJournalEntry([FromForm] EditBasicBioMetricRequest req)
+        {
+            var validator = new EditBasicBioMetricRequestValidator();
+            var validationResult = validator.Validate(req);
+            if (validationResult.IsValid == false)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Missing value!",
+                    Data = validationResult.Errors.Select(x => x.ErrorMessage),
+                });
+            }
+            var dto = req.ToEditBasicBioMetricDTO();
+            var result = await _basicBioMetricService.EditBasicBioMetric(dto);
+            return Ok(result);
+        }
+        // this is not realistic tho
+        [HttpDelete("delete-bbm")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> DeleteBasicBioMetric(Guid bbmId)
+        {
+            var result = await _basicBioMetricService.DeleteBasicBioMetric(bbmId);
+            return Ok(result);
+        }
     }
 }

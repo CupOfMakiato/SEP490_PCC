@@ -7,6 +7,7 @@ using Server.Application.DTOs.Journal;
 using Server.Application.Interfaces;
 using Server.Application.Mappers.BasicBioMetricExtensions;
 using Server.Application.Repositories;
+using Server.Domain.Entities;
 using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -107,6 +108,63 @@ namespace Server.Application.Services
                 Message = result > 0
                     ? "BBM created successfully."
                     : "Failed to create BBM.",
+                Data = null
+            };
+        }
+        public async Task<Result<object>> EditBasicBioMetric(EditBasicBioMetricDTO EditBasicBioMetricDTO)
+        {
+            var user = _claimsService.GetCurrentUserId;
+            var today = _currentTime.GetCurrentTime().Date;
+            var exsitingbbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(EditBasicBioMetricDTO.Id);
+            if (exsitingbbm == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "BBM not found.",
+                    Data = null
+                };
+            }
+
+            exsitingbbm.WeightKg = EditBasicBioMetricDTO.WeightKg ?? exsitingbbm.WeightKg;
+            exsitingbbm.HeightCm = EditBasicBioMetricDTO.HeightCm ?? exsitingbbm.HeightCm;
+            exsitingbbm.SystolicBP = EditBasicBioMetricDTO.SystolicBP;
+            exsitingbbm.DiastolicBP = EditBasicBioMetricDTO.DiastolicBP;
+            exsitingbbm.HeartRateBPM = EditBasicBioMetricDTO.HeartRateBPM;
+            exsitingbbm.BloodSugarLevelMgDl = EditBasicBioMetricDTO.BloodSugarLevelMgDl;
+            exsitingbbm.Notes = EditBasicBioMetricDTO.Notes;
+            exsitingbbm.ModificationBy = user;
+            exsitingbbm.ModificationDate = today;
+
+            _unitOfWork.BasicBioMetricRepository.Update(exsitingbbm);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "BBM updated successfully." : "Failed to update BBM.",
+                Data = null
+            };
+        }
+        public async Task<Result<object>> DeleteBasicBioMetric(Guid bbmId)
+        {
+            var bbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(bbmId);
+            if (bbm == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "BBM not found.",
+                    Data = null
+                };
+            }
+
+            _unitOfWork.BasicBioMetricRepository.SoftRemove(bbm);
+            var result = await _unitOfWork.SaveChangeAsync();
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "BBM deleted successfully." : "Failed to delete BBM.",
                 Data = null
             };
         }

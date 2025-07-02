@@ -15,5 +15,9 @@ namespace Server.Application.Interfaces
         Task<Result<ViewBasicBioMetricDTO>> ViewBasicBioMetricById(Guid bbmId);
         // create
         Task<Result<object>> CreateBasicBioMetric(CreateBasicBioMetricDTO CreateBasicBioMetricDTO);
+        // edit
+        Task<Result<object>> EditBasicBioMetric(EditBasicBioMetricDTO EditBasicBioMetricDTO);
+        // delete
+        Task<Result<object>> DeleteBasicBioMetric(Guid bbmId);
     }
 }
