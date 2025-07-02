@@ -2,8 +2,12 @@
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.BasicBioMetric;
 using Server.Application.DTOs.Blog;
+using Server.Application.DTOs.GrowthData;
+using Server.Application.DTOs.Journal;
 using Server.Application.Interfaces;
+using Server.Application.Mappers.BasicBioMetricExtensions;
 using Server.Application.Repositories;
+using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +22,16 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IClaimsService _claimsService;
+        private readonly ICurrentTime _currentTime;
 
-        public BasicBioMetricService(IUnitOfWork unitOfWork, IMapper mapper, IBasicBioMetricRepository basicBioMetricRepository, 
-            IClaimsService claimsService)
+        public BasicBioMetricService(IUnitOfWork unitOfWork, IMapper mapper, IBasicBioMetricRepository basicBioMetricRepository,
+            IClaimsService claimsService, ICurrentTime currentTime)
         {
             _basicBioMetricRepository = basicBioMetricRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _claimsService = claimsService;
+            _currentTime = currentTime;
         }
         public async Task<Result<List<ViewBasicBioMetricDTO>>> ViewAllBasicBioMetrics()
         {
@@ -62,6 +68,46 @@ namespace Server.Application.Services
                 Error = 0,
                 Message = "View BBM successfully",
                 Data = result
+            };
+        }
+        public async Task<Result<object>> CreateBasicBioMetric(CreateBasicBioMetricDTO CreateBasicBioMetricDTO)
+        {
+            var user = _claimsService.GetCurrentUserId;
+            var today = _currentTime.GetCurrentTime().Date;
+
+            var growthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(CreateBasicBioMetricDTO.GrowthDataId);
+            if (growthData == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Growth data not found.",
+                    Data = null
+                };
+            }
+            if (growthData.BasicBioMetric != null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Basic biometric already exists for this growth data.",
+                    Data = null
+                };
+            }
+            var bbm = CreateBasicBioMetricDTO.ToBBM();
+            bbm.CreatedBy = user;
+            bbm.CreationDate = today;
+
+            await _unitOfWork.BasicBioMetricRepository.AddAsync(bbm);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0
+                    ? "BBM created successfully."
+                    : "Failed to create BBM.",
+                Data = null
             };
         }
     }

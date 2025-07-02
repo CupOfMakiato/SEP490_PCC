@@ -13,5 +13,7 @@ namespace Server.Application.Interfaces
         // view
         Task<Result<List<ViewBasicBioMetricDTO>>> ViewAllBasicBioMetrics();
         Task<Result<ViewBasicBioMetricDTO>> ViewBasicBioMetricById(Guid bbmId);
+        // create
+        Task<Result<object>> CreateBasicBioMetric(CreateBasicBioMetricDTO CreateBasicBioMetricDTO);
     }
 }
