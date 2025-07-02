@@ -17,16 +17,10 @@ namespace Server.API.Validations.GrowthData
             RuleFor(x => x.Id)
                 .NotEmpty()
                 .WithMessage("Growth data profile ID is required.");
-
-            RuleFor(x => x.Height)
+            RuleFor(x => x.PreWeight)
                 .GreaterThan(0)
                 .LessThan(300)
-                .WithMessage("Height must be between 1 and 299 cm.");
-
-            RuleFor(x => x.Weight)
-                .GreaterThan(0)
-                .LessThan(500)
-                .WithMessage("Weight must be between 1 and 499 kg.");
+                .WithMessage("Weight must be between 1 and 299 kg.");
 
             RuleFor(x => x.FirstDayOfLastMenstrualPeriod)
                 .NotEmpty()

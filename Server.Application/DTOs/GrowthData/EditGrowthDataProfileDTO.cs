@@ -14,7 +14,6 @@ namespace Server.Application.DTOs.GrowthData
         public DateTime EstimatedDueDate { get; set; }
         public int GestationalAgeInWeeks { get; set; }
         public GrowthDataStatus Status { get; set; }
-        public int Height { get; set; }
-        public int Weight { get; set; }
+        public float PreWeight { get; set; }
     }
 }
