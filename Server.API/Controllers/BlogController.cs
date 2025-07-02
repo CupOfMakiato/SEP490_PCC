@@ -58,7 +58,7 @@ namespace Server.API.Controllers
 
         [Authorize(Roles = "Clinic,HealthExpert,NutrientSpecialist")]
         [HttpPost("upload-blog")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> UploadBlog([FromForm] UploadNewBlogRequest req)
         {
@@ -85,7 +85,7 @@ namespace Server.API.Controllers
 
         [Authorize(Roles = "HealthExpert,NutrientSpecialist")]
         [HttpPut("approve-blog")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ApproveBlog(Guid blogId, Guid approvedByUserId)
         {
@@ -115,7 +115,7 @@ namespace Server.API.Controllers
 
         [Authorize(Roles = "HealthExpert,NutrientSpecialist")]
         [HttpPut("reject-blog")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ApproveBlog(Guid blogId, Guid approvedByUserId, string? rejectionReason)
         {
@@ -125,7 +125,7 @@ namespace Server.API.Controllers
 
         [Authorize(Policy = "Clinic")]
         [HttpPut("edit-blog")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> EditBlog([FromForm] EditBlogRequest req)
         {
