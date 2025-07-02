@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Server.Application.DTOs.BasicBioMetric;
 using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
 using Server.Application.DTOs.User;
@@ -18,6 +19,7 @@ namespace Server.Infrastructure.Mappers.JournalProfile
             CreateMap<Journal, ViewJournalDTO>()
             .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src =>
                 src.JournalCreatedBy != null ? new GetUserDTO { Id = src.JournalCreatedBy.Id, UserName = src.JournalCreatedBy.UserName } : null));
+            CreateMap<Journal, JournalDTO>().ReverseMap();
         }
     }
 }
