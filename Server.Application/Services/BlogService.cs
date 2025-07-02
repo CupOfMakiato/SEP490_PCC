@@ -4,6 +4,7 @@ using Server.Application.Abstractions.Shared;
 using Server.Application.Abstractions.ThirdPartyService.CloudinaryService;
 using Server.Application.DTOs.Blog;
 using Server.Application.DTOs.Category;
+using Server.Application.DTOs.Media;
 using Server.Application.DTOs.Tag;
 using Server.Application.Interfaces;
 using Server.Application.Mappers.BlogExtensions;

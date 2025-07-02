@@ -1,4 +1,5 @@
-﻿using Server.Application.DTOs.Fetus;
+﻿using Server.Application.DTOs.BasicBioMetric;
+using Server.Application.DTOs.Fetus;
 using Server.Application.DTOs.Journal;
 using Server.Application.DTOs.User;
 using Server.Domain.Entities;
@@ -15,8 +16,7 @@ namespace Server.Application.DTOs.GrowthData
     {
         public Guid Id { get; set; }
         //public DateTime DateOfPregnancy { get; set; }
-        public string Height { get; set; }
-        public string Weight { get; set; }
+        public float PreWeight { get; set; }
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
         public int GestationalAgeInWeeks { get; set; } 
         public DateTime EstimatedDueDate { get; set; }
@@ -25,5 +25,6 @@ namespace Server.Application.DTOs.GrowthData
 
         public JournalDTO? Journal { get; set; }
         public GetUserDTO? CreatedByUser { get; set; }
+        public BasicBioMetricDTO? BasicBioMetric { get; set; }
     }
 }

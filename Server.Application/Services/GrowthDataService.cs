@@ -164,9 +164,6 @@ namespace Server.Application.Services
 
             var today = _currentTime.GetCurrentTime().Date;
 
-            growthData.Height = EditGrowthDataProfileDTO.Height;
-            growthData.Weight = EditGrowthDataProfileDTO.Weight;
-
             // If LMP has changed then recalculate EDD and gestational age
             if (growthData.FirstDayOfLastMenstrualPeriod != EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod)
             {

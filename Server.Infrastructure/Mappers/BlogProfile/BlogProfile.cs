@@ -28,6 +28,9 @@ namespace Server.Infrastructure.Mappers.BlogProfile
                     .Select(bt => bt.Tag.Name)
                     .ToList()))
 
+            .ForMember(dest => dest.Images, opt => opt.MapFrom(src =>
+                src.Media))
+
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src =>
                 src.Category != null ? src.Category.CategoryName : null)) 
 
@@ -35,6 +38,7 @@ namespace Server.Infrastructure.Mappers.BlogProfile
 
             .ForMember(dest => dest.LikeCount, opt => opt.Ignore()
             );
+
         }
     }
 }

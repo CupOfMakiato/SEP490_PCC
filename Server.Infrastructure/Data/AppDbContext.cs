@@ -30,6 +30,7 @@ namespace Server.Infrastructure.Data
 
         // Pregnancy Tracking
         public DbSet<GrowthData> GrowthData { get; set; }
+        public DbSet<BasicBioMetric> BasicBioMetric { get; set; }
         //public DbSet<Fetus> Fetus { get; set; }
         public DbSet<Reminder> Reminder { get; set; }
         public DbSet<Journal> Journal { get; set; }
@@ -100,8 +101,8 @@ namespace Server.Infrastructure.Data
                new GrowthData
                {
                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
-                   Height = 160,
-                   Weight = 60,
+                   //Height = 160,
+                   //Weight = 60,
                    FirstDayOfLastMenstrualPeriod = new DateTime(2024, 11, 26),
                    EstimatedDueDate = new DateTime(2025, 09, 02),
                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
@@ -110,6 +111,19 @@ namespace Server.Infrastructure.Data
                    IsDeleted = false
                }
             );
+            modelBuilder.Entity<BasicBioMetric>().HasData(
+                new BasicBioMetric
+                {
+                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e7"),
+                    GrowthDataId = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
+                    HeightCm = 160,
+                    WeightKg = 60,
+                    Notes = "I have no chronic diseases!",
+                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
+                    CreationDate = DateTime.Now,
+                    IsDeleted = false
+                }
+                );
 
             //User
             modelBuilder.Entity<User>()
@@ -465,6 +479,18 @@ namespace Server.Infrastructure.Data
            .Property(s => s.BlogCategoryTag)
            .HasConversion(v => v.ToString(), v => (BlogCategoryTag)Enum.Parse(typeof(BlogCategoryTag), v));
 
+            // BasicBioMetric
+            modelBuilder.Entity<BasicBioMetric>()
+            .HasOne(b => b.GrowthData)
+            .WithOne(g => g.BasicBioMetric)
+            .HasForeignKey<BasicBioMetric>(b => b.GrowthDataId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<BasicBioMetric>()
+            .HasOne(c => c.BasicBioMetricCreatedBy)
+            .WithMany()
+            .HasForeignKey(c => c.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

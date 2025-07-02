@@ -10,9 +10,8 @@ namespace Server.Domain.Entities
 {
     public class GrowthData : BaseEntity
     {
-        //public DateTime DateOfPregnancy { get; set; }
-        public int Height { get; set; }
-        public int Weight { get; set; }
+        //public int Height { get; set; } // might remove
+        public float PreWeight { get; set; } // Weight before pregnancy
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
         public int GestationalAgeInWeeks { get; set; } = 40;
         public DateTime EstimatedDueDate { get; set; }
@@ -21,7 +20,9 @@ namespace Server.Domain.Entities
         public User GrowthDataCreatedBy { get; set; }
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
         public ICollection<Journal> Journals { get; set; } = new List<Journal>();
-        //public Fetus Fetus { get; set; }
+        public BasicBioMetric BasicBioMetric { get; set; } // Basic biometrics like weight, height, blood pressure, etc. // 1 - 1
+
+        //public Fetus Fetus { get; set; } // this is static data
         public int GetGestationalAgeInWeeks(DateTime currentDate)
         {
             var weeks = (EstimatedDueDate.Date - FirstDayOfLastMenstrualPeriod.Date).Days / 7;

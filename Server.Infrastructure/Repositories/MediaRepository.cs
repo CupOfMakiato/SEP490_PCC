@@ -33,7 +33,11 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<List<Media>> GetMediaByBlogId(Guid blogId)
         {
-            return await _dbContext.Media.Where(a => a.BlogId == blogId).ToListAsync();
+            return await _dbContext.Media
+                .Where(a => a.BlogId == blogId
+                && !a.IsDeleted
+                )
+                .ToListAsync();
         }
 
         public async Task<Media> GetMediaById(Guid id)

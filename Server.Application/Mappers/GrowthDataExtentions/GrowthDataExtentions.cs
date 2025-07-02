@@ -23,8 +23,7 @@ namespace Server.Application.Mappers.GrowthDataExtentions
             var growthData = new GrowthData
             {
                 Id = CreateNewGrowthDataProfileDTO.Id,
-                Height = CreateNewGrowthDataProfileDTO.Height,
-                Weight = CreateNewGrowthDataProfileDTO.Weight,
+                PreWeight = CreateNewGrowthDataProfileDTO.PreWeight,
                 FirstDayOfLastMenstrualPeriod = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod,
                 EstimatedDueDate = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280),
                 CreatedBy = CreateNewGrowthDataProfileDTO.UserId,
@@ -42,8 +41,7 @@ namespace Server.Application.Mappers.GrowthDataExtentions
                 Id = (Guid)CreateNewGrowthDataProfileDTORequest.Id,
                 UserId = CreateNewGrowthDataProfileDTORequest.UserId,
                 FirstDayOfLastMenstrualPeriod = CreateNewGrowthDataProfileDTORequest.FirstDayOfLastMenstrualPeriod,
-                Height = CreateNewGrowthDataProfileDTORequest.Height,
-                Weight = CreateNewGrowthDataProfileDTORequest.Weight,
+                PreWeight = CreateNewGrowthDataProfileDTORequest.PreWeight,
             };
         }
 
@@ -56,8 +54,7 @@ namespace Server.Application.Mappers.GrowthDataExtentions
             return new EditGrowthDataProfileDTO
             {
                 Id = (Guid)EditGrowthDataProfileRequest.Id,
-                Height = EditGrowthDataProfileRequest.Height,
-                Weight = EditGrowthDataProfileRequest.Weight,
+                PreWeight = (float)EditGrowthDataProfileRequest.PreWeight,
                 FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileRequest.FirstDayOfLastMenstrualPeriod,
                 EstimatedDueDate = estimatedDueDate,
             };
@@ -98,9 +95,9 @@ namespace Server.Application.Mappers.GrowthDataExtentions
                 ;
         }
 
-        public static bool IsValidHeightWeight(this EditGrowthDataProfileDTO dto)
+        public static bool IsValidWeight(this EditGrowthDataProfileDTO dto)
         {
-            return dto.Height > 0 && dto.Height < 300 && dto.Weight > 0 && dto.Weight < 500;
+            return dto.PreWeight > 0 && dto.PreWeight < 300;
         }
 
         public static int GetCurrentTrimester(this EditGrowthDataProfileDTO dto, ICurrentTime currentTime)
