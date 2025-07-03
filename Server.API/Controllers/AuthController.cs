@@ -110,6 +110,7 @@ namespace Server.WebAPI.Controllers
         [HttpPost("user/logout")]
         public async Task<IActionResult> Logout([FromBody] Guid userId)
         {
+            Response.Cookies.Delete("accessToken");
             Response.Cookies.Delete("refreshToken");
             await _authService.DeleteRefreshToken(userId);
             return Ok(new Result<object>
