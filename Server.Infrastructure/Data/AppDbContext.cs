@@ -417,6 +417,12 @@ namespace Server.Infrastructure.Data
                 .HasForeignKey(cs => cs.ConsultationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Slot>()
+                .HasOne(cs => cs.Schedule)
+                .WithMany()
+                .HasForeignKey(cs => cs.ScheduleId)
+                .OnDelete(DeleteBehavior.Restrict);
+
 
             // GrowthData
 
