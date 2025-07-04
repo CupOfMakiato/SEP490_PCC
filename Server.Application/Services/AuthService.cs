@@ -107,6 +107,7 @@ namespace Server.Application.Services
                 {
                     throw new Exception("User with this email or phone number already exists.");
                 }
+
                 var otp = GenerateOtp();
                 var user = new User
                 {
@@ -263,6 +264,28 @@ namespace Server.Application.Services
             user.OtpExpiryTime = null;
 
             await _userRepository.UpdateAsync(user);
+            return true;
+        }
+
+        public async Task<bool> ResendOtp(string email)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+
+            if (user == null)
+                throw new KeyNotFoundException("User not found.");
+
+            if (user.IsVerified)
+                throw new InvalidOperationException("Account is already verified!");
+
+            // Regenerate OTP
+            var newOtp = GenerateOtp();
+            user.Otp = newOtp;
+            user.OtpExpiryTime = DateTime.UtcNow.AddMinutes(10);
+
+            await _userRepository.UpdateAsync(user);
+
+            await _emailService.ReSendOtpEmail(user.Email, newOtp);
+
             return true;
         }
 

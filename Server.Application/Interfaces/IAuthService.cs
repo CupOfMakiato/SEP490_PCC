@@ -18,7 +18,10 @@ namespace Server.Application.Interfaces
         Task<User> GetByVerificationToken(string token);
         Task<bool> VerifyOtpAsync(string email, string otp);
 
-        
+        // Resend OTP
+        Task<bool> ResendOtp(string email);
+
+
 
         //REGISTER Shop
         //Task RegisterShopAsync(ShopRegisterDTO shopRegisterDTO);

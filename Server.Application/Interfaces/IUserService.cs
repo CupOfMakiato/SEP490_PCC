@@ -15,5 +15,7 @@ namespace Server.Application.Interfaces
 
         Task<UserDTO> GetUserById(Guid id);
         Task<Result<User>> GetCurrentUserById();
+        // Delete
+        Task<User> HardDeleteUser(Guid userId);
     }
 }

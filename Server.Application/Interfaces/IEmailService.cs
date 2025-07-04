@@ -19,6 +19,7 @@ namespace Server.Application.Interfaces
         // Verification and OTP email functions
         Task SendVerificationEmailAsync(string email, string token);
         Task SendOtpEmailAsync(string email, string otp);
+        Task ReSendOtpEmail(string email, string otp);
         // Status update email functions
         Task SendPendingEmailAsync(string email);
         Task SendApprovalEmailAsync(string email);

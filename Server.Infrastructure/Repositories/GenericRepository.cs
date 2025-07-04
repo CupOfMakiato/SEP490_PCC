@@ -4,6 +4,7 @@ using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Application.Commons;
+using System.Linq.Expressions;
 
 namespace Server.Infrastructure.Repositories
 {
@@ -41,6 +42,15 @@ namespace Server.Infrastructure.Repositories
             entity.DeletionDate = _timeService.GetCurrentTime();
             entity.DeleteBy = _claimsService.GetCurrentUserId;
             _dbSet.Update(entity);
+        }
+        public void HardRemove(TEntity entity)
+        {
+            _dbSet.Remove(entity);
+        }
+
+        public async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.Where(predicate).ToListAsync();
         }
 
         public void Update(TEntity entity)

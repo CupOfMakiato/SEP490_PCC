@@ -102,6 +102,18 @@ namespace Server.Application.Services
             await SendEmailAsync(emailDto);
         }
 
+        public async Task ReSendOtpEmail(string email, string otp)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = "New Email Re-Verification OTP",
+                Body = $"Your OTP for email verification is: {otp}"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+
         //PENDING MAIL
         public async Task SendPendingEmailAsync(string email)
         {

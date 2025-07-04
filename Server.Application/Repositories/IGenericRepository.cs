@@ -1,5 +1,6 @@
 ﻿using Server.Domain.Entities;
 using Server.Application.Commons;
+using System.Linq.Expressions;
 
 namespace Server.Application.Repositories
 {
@@ -11,6 +12,8 @@ namespace Server.Application.Repositories
         void Update(TEntity entity);
         void UpdateRange(List<TEntity> entities);
         void SoftRemove(TEntity entity);
+        void HardRemove(TEntity entity);
+        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         Task AddRangeAsync(List<TEntity> entities);
         void SoftRemoveRange(List<TEntity> entities);
 

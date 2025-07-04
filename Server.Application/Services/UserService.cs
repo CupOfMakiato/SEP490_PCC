@@ -91,5 +91,17 @@ namespace Server.Application.Services
             return new Result<User>() { Error = 0, Message = "Success", Data = user };
         }
 
+        public async Task<User> HardDeleteUser(Guid userId)
+        {
+            var user = await _userRepository.GetUserById(userId);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+
+            _userRepository.HardRemove(user);
+            return user;
+
+        }
     }
 }
