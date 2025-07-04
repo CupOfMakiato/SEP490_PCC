@@ -23,6 +23,13 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("view-schedule/{scheduleId}")]
+        public async Task<IActionResult> GetScheduleById(Guid scheduleId)
+        {
+            var result = await _scheduleService.GetScheduleByIdAsync(scheduleId);
+            return Ok(result);
+        }
+
         [HttpPost("create-schedule")]
         public async Task<IActionResult> CreateSchedule(AddScheduleDTO addScheduleDTO)
         {

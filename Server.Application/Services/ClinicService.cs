@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
-using Server.Application.DTOs.Category;
 using Server.Application.DTOs.Clinic;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;

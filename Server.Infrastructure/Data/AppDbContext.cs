@@ -25,7 +25,6 @@ namespace Server.Infrastructure.Data
         public DbSet<Consultant> Consultant { get; set; }
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<Consultation> Consultation { get; set; }
-        public DbSet<Slot> Slot { get; set; }
         public DbSet<Session> Session { get; set; }
 
         // Pregnancy Tracking
@@ -391,39 +390,6 @@ namespace Server.Infrastructure.Data
                 .HasForeignKey(c => c.ClinicId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Slot
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultant)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultantId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Clinic)
-                .WithMany()
-                .HasForeignKey(cs => cs.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.BookedByUser)
-                .WithMany()
-                .HasForeignKey(cs => cs.BookedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultation)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultationId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Schedule)
-                .WithMany()
-                .HasForeignKey(cs => cs.ScheduleId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-
             // GrowthData
 
             modelBuilder.Entity<GrowthData>()
@@ -466,6 +432,18 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(m => m.JournalId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            // Schedule
+            modelBuilder.Entity<Schedule>()
+            .HasOne(s => s.Consultant)
+            .WithMany()
+            .HasForeignKey(s => s.ConsultantId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Schedule>()
+            .HasOne(s => s.BookedByUser)
+            .WithMany()
+            .HasForeignKey(s => s.BookedByUserId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -36,7 +36,13 @@ namespace Server.Application.Services
 
             var user = new User
             {
-                //properties...
+                Id = Guid.NewGuid(),
+                RoleId = consultant.RoleId, // Assuming 1 is the role ID for Consultant
+                UserName = consultant.UserName,
+                Password = consultant.Password,
+                DateOfBirth = consultant.DateOfBirth,
+                PhoneNumber = consultant.PhoneNumber,
+                Email = consultant.Email
             };
 
             await _unitOfWork.UserRepository.AddAsync(user);

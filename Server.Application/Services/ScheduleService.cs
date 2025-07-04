@@ -48,6 +48,19 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<ViewScheduleDTO>> GetScheduleByIdAsync(Guid scheduleId)
+        {
+            var scheduleMapper = _mapper.Map<ViewScheduleDTO>(
+                await _scheduleRepository.GetScheduleByIdAsync(scheduleId));
+
+            return new Result<ViewScheduleDTO>
+            {
+                Error = scheduleMapper is null ? 1 : 0,
+                Message = scheduleMapper is null ? "Schedule not found" : "View schedule successfully",
+                Data = scheduleMapper
+            };
+        }
+
         public async Task<Result<List<ViewScheduleDTO>>> GetSchedulesAsync(Guid consultantId)
         {
             var scheduleMapper = _mapper.Map<List<ViewScheduleDTO>>(await _scheduleRepository.GetSchedulesAsync(consultantId));

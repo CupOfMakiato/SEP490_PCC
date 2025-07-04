@@ -18,6 +18,13 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<Schedule> GetScheduleByIdAsync(Guid id)
+        {
+            return await _context.Schedule.Include(s => s.Consultant)
+                                          .Include(s => s.BookedByUser)
+                                          .FirstOrDefaultAsync(s => s.Id == id && !s.IsDeleted);
+        }
+
         public async Task<List<Schedule>> GetSchedulesAsync(Guid consultantId)
         {
             return await _context.Schedule.Where(s => s.ConsultantId == consultantId && !s.IsDeleted)
