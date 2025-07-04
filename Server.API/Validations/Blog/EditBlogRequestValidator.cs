@@ -12,11 +12,10 @@ namespace Server.API.Validations.Blog
         public EditBlogRequestValidator()
         {
             RuleFor(x => x.Title)
-                .NotEmpty().WithMessage("Title is required.")
                 .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");
 
             RuleFor(x => x.Body)
-                .NotEmpty().WithMessage("Content is required.");
+                .MaximumLength(500).WithMessage("Body must not exceed 500 characters.");
 
             RuleFor(x => x.Tags)
                 .Must(tags => tags == null || tags.Count <= 10)

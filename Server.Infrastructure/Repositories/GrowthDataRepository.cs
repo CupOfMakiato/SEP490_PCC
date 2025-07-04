@@ -27,6 +27,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .Where(g => !g.IsDeleted)
                 .ToListAsync();
         }
@@ -35,6 +36,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .FirstOrDefaultAsync(g => g.Id == growthDataId
                 && !g.IsDeleted);
         }
@@ -43,6 +45,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .FirstOrDefaultAsync(g => g.Id == growthDataId
                 && g.Status == GrowthDataStatus.Active
                 && !g.IsDeleted);
@@ -53,6 +56,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .FirstOrDefaultAsync(g => g.Id == growthDataId && !g.IsDeleted);
         }
         public async Task<GrowthData> GetGrowthDataFromUserWithCurrentWeek(Guid userId, DateTime currentDate)
@@ -60,6 +64,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId 
                 && g.Status == GrowthDataStatus.Active 
                 && g.EstimatedDueDate >= currentDate 
@@ -71,6 +76,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .FirstOrDefaultAsync(g => g.GrowthDataCreatedBy.Id == userId && !g.IsDeleted);
         }
 
@@ -79,6 +85,7 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.GrowthData
                 .Include(g => g.GrowthDataCreatedBy)
                 .Include(g => g.Journals)
+                .Include(g => g.BasicBioMetric)
                 .AsSplitQuery()
                 .SingleAsync(g => 
                     g.GrowthDataCreatedBy.Id == userId 

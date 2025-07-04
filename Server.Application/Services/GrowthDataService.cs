@@ -35,10 +35,19 @@ namespace Server.Application.Services
 
         public async Task<Result<List<ViewGrowthDataDTO>>> ViewAllGrowthDatas()
         {
+            var currentdate = _currentTime.GetCurrentTime().Date;
             var growthdatas = await _unitOfWork.GrowthDataRepository.GetAllGrowthData();
 
             var result = _mapper.Map<List<ViewGrowthDataDTO>>(growthdatas);
+            for (int i = 0; i < result.Count; i++)
+            {
+                var entity = growthdatas[i]; 
+                var dto = result[i];         
 
+                dto.CurrentGestationalAgeInWeeks = entity.GetCurrentGestationalAgeInWeeks(currentdate);
+                dto.CurrentTrimester = entity.GetCurrentTrimester(currentdate);
+                dto.GestationalAgeInWeeks = entity.GetGestationalAgeInWeeks(currentdate);
+            }
             return new Result<List<ViewGrowthDataDTO>>
             {
                 Error = 0,
@@ -76,9 +85,10 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId)
         {
-            var growthdata = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId); 
+            var currentDate = _currentTime.GetCurrentTime().Date;
+            var growthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthdataId);
 
-            if (growthdata == null)
+            if (growthData == null)
             {
                 return new Result<ViewGrowthDataDTO>
                 {
@@ -88,7 +98,11 @@ namespace Server.Application.Services
                 };
             }
 
-            var result = _mapper.Map<ViewGrowthDataDTO>(growthdata);
+            var result = _mapper.Map<ViewGrowthDataDTO>(growthData);
+
+            result.CurrentGestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(currentDate);
+            result.CurrentTrimester = growthData.GetCurrentTrimester(currentDate);
+            result.GestationalAgeInWeeks = growthData.GetGestationalAgeInWeeks(currentDate);
 
             return new Result<ViewGrowthDataDTO>
             {

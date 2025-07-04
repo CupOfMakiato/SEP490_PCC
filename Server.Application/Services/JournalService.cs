@@ -204,6 +204,8 @@ namespace Server.Application.Services
         }
         public async Task<Result<object>> EditJournalEntry(EditJournalEntryDTO EditJournalEntryDTO)
         {
+            var user = _claimsService.GetCurrentUserId;
+
             var journal = await _unitOfWork.JournalRepository.GetJournalById(EditJournalEntryDTO.Id);
             if (journal == null)
             {
@@ -219,6 +221,8 @@ namespace Server.Application.Services
             journal.MoodNotes = (Domain.Enums.Mood)EditJournalEntryDTO.MoodNotes;
             journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight;
             journal.Symptoms = (Domain.Enums.Symptom)EditJournalEntryDTO.Symptoms;
+            journal.ModificationBy = user;
+            journal.ModificationDate = _currentTime.GetCurrentTime();
 
             if (EditJournalEntryDTO.RelatedImages != null)
             {

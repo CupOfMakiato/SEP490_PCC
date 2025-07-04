@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Server.Application.DTOs.BasicBioMetric;
 using Server.Application.DTOs.GrowthData;
+using Server.Application.DTOs.Media;
 using Server.Application.DTOs.User;
 using Server.Domain.Entities;
 using System;
@@ -16,8 +17,9 @@ namespace Server.Infrastructure.Mappers.MetricProfile
         public MetricProfile()
         {
             CreateMap<BasicBioMetric, ViewBasicBioMetricDTO>()
-            .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src =>
+            .ForMember(dest => dest.CreatedByUser, opt => opt.MapFrom(src =>
                 src.BasicBioMetricCreatedBy != null ? new GetUserDTO { Id = src.BasicBioMetricCreatedBy.Id, UserName = src.BasicBioMetricCreatedBy.UserName } : null));
+            CreateMap<BasicBioMetric, BasicBioMetricDTO>().ReverseMap();
         }
     }
 }

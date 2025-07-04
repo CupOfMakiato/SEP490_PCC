@@ -29,6 +29,7 @@ namespace Server.Infrastructure
         private readonly IDiseaseRepository _diseaseRepository;
         private readonly IGrowthDataRepository _growthDataRepository;
         private readonly IJournalRepository _journalRepository;
+        private readonly IBasicBioMetricRepository _basicBioMetricRepository;
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
 
@@ -49,7 +50,8 @@ namespace Server.Infrastructure
             IGrowthDataRepository growthDataRepository,
             IJournalRepository journalRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
-            INutrientCategoryRepository nutrientCategoryRepository)
+            INutrientCategoryRepository nutrientCategoryRepository,
+            IBasicBioMetricRepository basicBioMetricRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -69,6 +71,7 @@ namespace Server.Infrastructure
             _journalRepository = journalRepository;
             _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
+            _basicBioMetricRepository = basicBioMetricRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -83,6 +86,7 @@ namespace Server.Infrastructure
 
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
         public IJournalRepository JournalRepository => _journalRepository;
+        public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
 
         public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
 

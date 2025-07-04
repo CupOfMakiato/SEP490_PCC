@@ -49,7 +49,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("create-new-journal-entry")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewJournalDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> CreateNewJournalEntry([FromForm] CreateNewJournalEntryForCurrentWeekRequest req)
         {
@@ -71,7 +71,7 @@ namespace Server.API.Controllers
             return Ok(result);
         }
         [HttpPut("edit-journal-entry")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewJournalDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> EditJournalEntry([FromForm] EditJournalEntryRequest req)
         {

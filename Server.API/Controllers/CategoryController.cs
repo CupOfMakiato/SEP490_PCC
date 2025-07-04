@@ -78,7 +78,7 @@ namespace Server.WebAPI.Controllers
         }
 
         [HttpPost("add-new-category")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCategoryDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> AddNewCategory([FromForm] AddNewCategoryRequest req)
         {
@@ -104,7 +104,7 @@ namespace Server.WebAPI.Controllers
         }
 
         [HttpPut("edit-category")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCategoryDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> EditCategory([FromForm] EditCategoryRequest req)
         {

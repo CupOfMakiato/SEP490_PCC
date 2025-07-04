@@ -47,8 +47,9 @@ namespace Server.Infrastructure
             services.AddScoped<ISuggestionRuleService, SuggestionRuleService>();
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
 
-            services.AddScoped<IGrowthDataService, GrowthDataService>();
+            services.AddScoped<IGrowthDataService, GrowthDataService>();            
             services.AddScoped<IJournalService, JournalService>();
+            services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -80,6 +81,7 @@ namespace Server.Infrastructure
 
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();
+            services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));
