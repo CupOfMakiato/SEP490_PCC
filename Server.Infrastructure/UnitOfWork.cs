@@ -34,6 +34,8 @@ namespace Server.Infrastructure
         private readonly IClinicRepository _clinicRepository;
         private readonly IConsultantRepository _consultantRepository;
         private readonly IScheduleRepository _scheduleRepository;
+        private readonly IClinicWorkRuleRepository _clinicWorkRuleRepository;
+        private readonly IDailyScheduleRepository _dailyScheduleRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -55,7 +57,9 @@ namespace Server.Infrastructure
             INutrientCategoryRepository nutrientCategoryRepository,
             IClinicRepository clinicRepository,
             IConsultantRepository consultantRepository,
-            IScheduleRepository scheduleRepository)
+            IScheduleRepository scheduleRepository,
+            IClinicWorkRuleRepository clinicWorkRuleRepository,
+            IDailyScheduleRepository dailyScheduleRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -78,6 +82,8 @@ namespace Server.Infrastructure
             _clinicRepository = clinicRepository;
             _consultantRepository = consultantRepository;
             _scheduleRepository = scheduleRepository;
+            _clinicWorkRuleRepository = clinicWorkRuleRepository;
+            _dailyScheduleRepository = dailyScheduleRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -108,6 +114,10 @@ namespace Server.Infrastructure
         public IConsultantRepository ConsultantRepository => _consultantRepository;
 
         public IScheduleRepository ScheduleRepository => _scheduleRepository;
+
+        public IClinicWorkRuleRepository ClinicWorkRuleRepository => _clinicWorkRuleRepository;
+
+        public IDailyScheduleRepository DailyScheduleRepository => _dailyScheduleRepository;
 
         public async Task<int> SaveChangeAsync()
         {

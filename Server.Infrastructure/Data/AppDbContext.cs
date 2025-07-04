@@ -20,6 +20,8 @@ namespace Server.Infrastructure.Data
         public DbSet<Staff> Staff { get; set; }
         public DbSet<Clinic> Clinic { get; set; }
         public DbSet<Feedback> Feedback { get; set; }
+        public DbSet<ClinicWorkRule> ClinicWorkRule { get; set; }
+        public DbSet<DailySchedule> DailySchedule { get; set; }
 
         // Consultant and Scheduling
         public DbSet<Consultant> Consultant { get; set; }
@@ -66,6 +68,9 @@ namespace Server.Infrastructure.Data
 
         // Messaging
         public DbSet<Message> Messages { get; set; }
+
+        // Doctor
+        public DbSet<Doctor> Doctor { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -444,6 +449,28 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(s => s.BookedByUserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            // Clinic Work Rule
+            modelBuilder.Entity<ClinicWorkRule>()
+            .HasOne(c => c.Clinic)
+            .WithMany()
+            .HasForeignKey(c => c.ClinicId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Daily Schedule
+            modelBuilder.Entity<DailySchedule>()
+            .HasOne(d => d.ClinicWorkRule)
+            .WithMany(d => d.DailySchedules)
+            .HasForeignKey(d => d.ClinicWorkRuleId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Doctor Profile
+            modelBuilder.Entity<Doctor>()
+            .HasOne(d => d.Clinic)
+            .WithMany()
+            .HasForeignKey(d => d.ClinicId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

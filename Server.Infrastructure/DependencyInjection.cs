@@ -49,6 +49,8 @@ namespace Server.Infrastructure
             services.AddScoped<IClinicService, ClinicService>();
             services.AddScoped<IConsultantService, ConsultantService>();
             services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IClinicWorkRuleService, ClinicWorkRuleService>();
+            services.AddScoped<IDailyScheduleService, DailyScheduleService>();
 
             services.AddScoped<IGrowthDataService, GrowthDataService>();
             services.AddScoped<IJournalService, JournalService>();
@@ -84,6 +86,8 @@ namespace Server.Infrastructure
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IConsultantRepository, ConsultantRepository>();
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<IClinicWorkRuleRepository, ClinicWorkRuleRepository>();
+            services.AddScoped<IDailyScheduleRepository, DailyScheduleRepository>();
 
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();

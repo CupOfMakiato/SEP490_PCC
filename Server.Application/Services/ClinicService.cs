@@ -20,18 +20,18 @@ namespace Server.Application.Services
             _clinicRepository = clinicRepository;
         }
 
-        public async Task<Result<object>> CreateClinic(AddClinicDTO clinic)
+        public async Task<Result<ViewClinicDTO>> CreateClinic(AddClinicDTO clinic)
         {
             var clinicMapper = _mapper.Map<Clinic>(clinic);
 
             await _unitOfWork.ClinicRepository.AddAsync(clinicMapper);
             var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<object>
+            return new Result<ViewClinicDTO>
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Add new clinic successfully" : "Add new clinic fail",
-                Data = null
+                Data = _mapper.Map<ViewClinicDTO>(clinicMapper)
             };
         }
 
@@ -71,17 +71,17 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<object>> SoftDeleteClinic(Guid clinicId)
+        public async Task<Result<bool>> SoftDeleteClinic(Guid clinicId)
         {
             var clinic = await _unitOfWork.ClinicRepository.GetByIdAsync(clinicId);
 
             if (clinic == null)
             {
-                return new Result<object>
+                return new Result<bool>
                 {
                     Error = 1,
                     Message = "Didn't find any clinic, please try again!",
-                    Data = null
+                    Data = false
                 };
             }
 
@@ -89,25 +89,25 @@ namespace Server.Application.Services
 
             var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<object>
+            return new Result<bool>
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove clinic successfully" : "Remove clinic fail",
-                Data = result
+                Data = true
             };
         }
 
-        public async Task<Result<object>> UpdateClinic(UpdateClinicDTO clinic)
+        public async Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic)
         {
             var clinicObj = await _unitOfWork.ClinicRepository.GetByIdAsync(clinic.Id);
 
             if (clinicObj is null)
             {
-                return new Result<object>
+                return new Result<ViewClinicDTO>
                 {
                     Error = 1,
                     Message = "Didn't find any clinic, please try again!",
-                    Data = null
+                    Data = _mapper.Map<ViewClinicDTO>(clinicObj)
                 };
             }
 
@@ -117,11 +117,11 @@ namespace Server.Application.Services
 
             var result = _unitOfWork.SaveChangeAsync().Result;
 
-            return new Result<object>
+            return new Result<ViewClinicDTO>
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Update clinic successfully" : "Update clinic fail",
-                Data = null
+                Data = _mapper.Map<ViewClinicDTO>(clinicObj)
             };
         }
     }

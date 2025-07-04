@@ -8,8 +8,8 @@ namespace Server.Application.Interfaces
         public Task<Result<ViewClinicDTO>> GetClinicByIdAsync(Guid clinicId);
         public Task<Result<List<ViewClinicDTO>>> GetClinicByNameAsync(string name);
         public Task<Result<List<ViewClinicDTO>>> GetClinicsAsync();
-        public Task<Result<object>> SoftDeleteClinic(Guid clinicId);
-        public Task<Result<object>> CreateClinic(AddClinicDTO clinic);
-        public Task<Result<object>> UpdateClinic(UpdateClinicDTO clinic);
+        public Task<Result<bool>> SoftDeleteClinic(Guid clinicId);
+        public Task<Result<ViewClinicDTO>> CreateClinic(AddClinicDTO clinic);
+        public Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic);
     }
 }

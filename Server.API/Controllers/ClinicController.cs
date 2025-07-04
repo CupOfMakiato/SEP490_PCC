@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Clinic;
 using Server.Application.Interfaces;
 
@@ -17,8 +16,6 @@ namespace Server.API.Controllers
         }
 
         [HttpGet("view-all-clinics")]
-        [ProducesResponseType(200, Type = typeof(Result<ViewClinicDTO>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> GetAllClinics()
         {
             var result = await _clinicService.GetClinicsAsync();
@@ -26,8 +23,6 @@ namespace Server.API.Controllers
             return Ok(result);
         }
         [HttpGet("view-all-clinics-by-name")]
-        [ProducesResponseType(200, Type = typeof(Result<ViewClinicDTO>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ViewClinicsByName(string name)
         {
             var result = await _clinicService.GetClinicByNameAsync(name);
@@ -37,8 +32,6 @@ namespace Server.API.Controllers
 
 
         [HttpGet("view-clinic-by-id/{clinicId}")]
-        [ProducesResponseType(200, Type = typeof(ViewClinicDTO))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ViewClinicById(Guid clinicId)
         {
             var clinic = await _clinicService.GetClinicByIdAsync(clinicId);
@@ -50,8 +43,6 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("create-clinic")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> CreateClinic(AddClinicDTO addClinicDTO)
         {
             var result = await _clinicService.CreateClinic(addClinicDTO);
@@ -60,8 +51,6 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("update-clinic")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> UpdateClinic(UpdateClinicDTO updateClinicDTO)
         {
             var result = await _clinicService.UpdateClinic(updateClinicDTO);
