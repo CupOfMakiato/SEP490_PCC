@@ -491,6 +491,32 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
+
+
+            //SuggestionRule
+            modelBuilder.Entity<SuggestionRule>()
+            .HasOne(s => s.NutrientCategory)
+            .WithOne(n => n.SuggestionRule)
+            .HasForeignKey<SuggestionRule>(s => s.NutrientCategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SuggestionRule>()
+            .HasOne(s => s.Nutrient)
+            .WithOne(n => n.SuggestionRule)
+            .HasForeignKey<SuggestionRule>(s => s.NutrientId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SuggestionRule>()
+                .Property(s => s.AgeRange)
+                .IsRequired();
+
+            modelBuilder.Entity<SuggestionRule>()
+                .Property(s => s.Trimester)
+                .IsRequired();
+
+            modelBuilder.Entity<SuggestionRule>()
+                .Property(s => s.NutrientCategory)
+                .IsRequired();
         }
     }
 }
