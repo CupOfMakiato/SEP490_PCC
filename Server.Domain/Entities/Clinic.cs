@@ -13,6 +13,7 @@ namespace Server.Domain.Entities
         public string Description { get; set; }
         public string Phone { get; set; }
         public bool IsInsuranceAccepted { get; set; }
+        public bool IsApproved { get; set; }
 
         public ICollection<Consultant> Consultants { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }

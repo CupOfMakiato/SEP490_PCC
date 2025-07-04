@@ -20,11 +20,42 @@ namespace Server.Application.Services
             _clinicRepository = clinicRepository;
         }
 
+        public async Task<Result<bool>> ApproveClinic(Guid clinicId)
+        {
+            var clinic = await _clinicRepository.GetByIdAsync(clinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            clinic.IsApproved = true;
+
+            _clinicRepository.Update(clinic);
+
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<bool>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Approve clinic successfully" : "Approve clinic fail",
+                Data = true
+            };
+        }
+
         public async Task<Result<ViewClinicDTO>> CreateClinic(AddClinicDTO clinic)
         {
             var clinicMapper = _mapper.Map<Clinic>(clinic);
 
-            await _unitOfWork.ClinicRepository.AddAsync(clinicMapper);
+            clinicMapper.IsApproved = false; // Default to not approved when created
+
+            await _clinicRepository.AddAsync(clinicMapper);
+
             var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<ViewClinicDTO>
@@ -71,6 +102,34 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<bool>> RejectClinic(Guid clinicId)
+        {
+            var clinic = await _clinicRepository.GetByIdAsync(clinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            clinic.IsApproved = false;
+
+            _clinicRepository.Update(clinic);
+
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<bool>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Reject clinic successfully" : "Reject clinic fail",
+                Data = true
+            };
+        }
+
         public async Task<Result<bool>> SoftDeleteClinic(Guid clinicId)
         {
             var clinic = await _unitOfWork.ClinicRepository.GetByIdAsync(clinicId);
@@ -113,7 +172,7 @@ namespace Server.Application.Services
 
             _mapper.Map(clinic, clinicObj);
 
-            _unitOfWork.ClinicRepository.Update(clinicObj);
+            _clinicRepository.Update(clinicObj);
 
             var result = _unitOfWork.SaveChangeAsync().Result;
 

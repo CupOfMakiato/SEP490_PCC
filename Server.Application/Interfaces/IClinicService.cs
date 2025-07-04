@@ -11,5 +11,7 @@ namespace Server.Application.Interfaces
         public Task<Result<bool>> SoftDeleteClinic(Guid clinicId);
         public Task<Result<ViewClinicDTO>> CreateClinic(AddClinicDTO clinic);
         public Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic);
+        public Task<Result<bool>> ApproveClinic(Guid clinicId);
+        public Task<Result<bool>> RejectClinic(Guid clinicId);
     }
 }
