@@ -1,9 +1,14 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Consultant;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 
 namespace Server.Application.Services
 {
@@ -12,21 +17,26 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IConsultantRepository _consultantRepository;
+        private readonly IEmailService _emailService;
 
-        public ConsultantService(IUnitOfWork unitOfWork, IMapper mapper, IConsultantRepository consultantRepository)
+        public ConsultantService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IConsultantRepository consultantRepository,
+            IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _consultantRepository = consultantRepository;
+            _emailService = emailService;
         }
 
-        public async Task<Result<object>> CreateConsultant(AddConsultantDTO consultant)
+        public async Task<Result<ViewConsultantDTO>> CreateConsultant(AddConsultantDTO consultant)
         {
             var clinic = await _unitOfWork.ClinicRepository.GetByIdAsync(consultant.ClinicId);
 
             if (clinic == null)
             {
-                return new Result<object>
+                return new Result<ViewConsultantDTO>
                 {
                     Error = 1,
                     Message = "Clinic not found, please try again!",
@@ -34,18 +44,31 @@ namespace Server.Application.Services
                 };
             }
 
+            if (await _unitOfWork.UserRepository.ExistsAsync(u => u.Email == consultant.Email))
+            {
+                throw new Exception("User with this email or phone number already exists.");
+            }
+
+            var otp = GenerateOtp();
+
             var user = new User
             {
-                Id = Guid.NewGuid(),
-                RoleId = consultant.RoleId, // Assuming 1 is the role ID for Consultant
                 UserName = consultant.UserName,
-                Password = consultant.Password,
-                DateOfBirth = consultant.DateOfBirth,
+                Email = consultant.Email,
+                Password = HashPassword(consultant.PasswordHash),
+                Balance = 0,
                 PhoneNumber = consultant.PhoneNumber,
-                Email = consultant.Email
+                Status = StatusEnums.Pending,
+                Otp = otp,
+                IsStaff = false,
+                RoleId = 6, // Assuming 6 is the role ID for consultants
+                CreationDate = DateTime.Now,
+                OtpExpiryTime = DateTime.UtcNow.AddMinutes(10)
             };
 
             await _unitOfWork.UserRepository.AddAsync(user);
+
+            await _emailService.SendOtpEmailAsync(user.Email, otp);
 
             var consultantMapper = _mapper.Map<Consultant>(consultant);
 
@@ -55,7 +78,7 @@ namespace Server.Application.Services
             await _unitOfWork.ConsultantRepository.AddAsync(consultantMapper);
             var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<object>
+            return new Result<ViewConsultantDTO>
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Add new consultant successfully" : "Add new consultant fail",
@@ -99,17 +122,17 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<object>> SoftDeleteConsultant(Guid consultantId)
+        public async Task<Result<bool>> SoftDeleteConsultant(Guid consultantId)
         {
             var consultant = await _unitOfWork.ConsultantRepository.GetByIdAsync(consultantId);
 
             if (consultant == null)
             {
-                return new Result<object>
+                return new Result<bool>
                 {
                     Error = 1,
                     Message = "Didn't find any consultant, please try again!",
-                    Data = null
+                    Data = false
                 };
             }
 
@@ -117,46 +140,56 @@ namespace Server.Application.Services
 
             var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<object>
+            return new Result<bool>
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove consultant successfully" : "Remove consultant fail",
-                Data = result
+                Data = true
             };
         }
 
-        public async Task<Result<object>> UpdateConsultant(UpdateConsultantDTO consultant)
+        public async Task<Result<ViewConsultantDTO>> UpdateConsultant(UpdateConsultantDTO consultant)
         {
-            //var consultantObj = await _unitOfWork.ConsultantRepository.GetByIdAsync(consultant.Id);
+            var consultantObj = await _unitOfWork.ConsultantRepository.GetByIdAsync(consultant.Id);
 
-            //if (consultantObj is null)
-            //{
-            //    return new Result<object>
-            //    {
-            //        Error = 1,
-            //        Message = "Didn't find any consultant, please try again!",
-            //        Data = null
-            //    };
-            //}
-
-            //_mapper.Map(consultant, consultantObj);
-
-            //_unitOfWork.ConsultantRepository.Update(consultantObj);
-
-            //var result = _unitOfWork.SaveChangeAsync().Result;
-
-            //return new Result<object>
-            //{
-            //    Error = result > 0 ? 0 : 1,
-            //    Message = result > 0 ? "Update consultant successfully" : "Update consultant fail",
-            //    Data = null
-            //};
-            return new Result<object>
+            if (consultantObj is null)
             {
-                Error = 1,
-                Message = "Update consultant functionality is not implemented yet!",
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = null
+                };
+            }
+
+            _mapper.Map(consultant, consultantObj);
+
+            _unitOfWork.ConsultantRepository.Update(consultantObj);
+
+            var result = _unitOfWork.SaveChangeAsync().Result;
+
+            return new Result<ViewConsultantDTO>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Update consultant successfully" : "Update consultant fail",
                 Data = null
             };
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        private string GenerateOtp()
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var byteArray = new byte[4];
+                rng.GetBytes(byteArray);
+                var otp = BitConverter.ToUInt32(byteArray, 0) % 1000000; // Generate a 6-digit OTP
+                return otp.ToString("D6");
+            }
         }
     }
 }

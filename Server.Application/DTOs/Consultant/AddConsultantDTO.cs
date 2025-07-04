@@ -1,4 +1,6 @@
-﻿namespace Server.Application.DTOs.Consultant
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Server.Application.DTOs.Consultant
 {
     public class AddConsultantDTO
     {
@@ -8,11 +10,11 @@
         public string Gender { get; set; }
         public DateTime JoinedAt { get; set; }
         public bool IsCurrentlyConsulting { get; set; }
-        public int RoleId { get; set; }
         public string UserName { get; set; }
-        public string? Password { get; set; }
+        public string PasswordHash { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Consultant;
 using Server.Application.Interfaces;
 
@@ -17,8 +16,6 @@ namespace Server.API.Controllers
         }
 
         [HttpGet("view-all-consultants")]
-        [ProducesResponseType(200, Type = typeof(Result<ViewConsultantDTO>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> GetAllConsultants()
         {
             var result = await _consultantService.GetConsultantsAsync();
@@ -26,8 +23,6 @@ namespace Server.API.Controllers
             return Ok(result);
         }
         [HttpGet("view-all-consultants-by-name")]
-        [ProducesResponseType(200, Type = typeof(Result<ViewConsultantDTO>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ViewConsultantsByName(string name)
         {
             var result = await _consultantService.GetConsultantByNameAsync(name);
@@ -37,8 +32,6 @@ namespace Server.API.Controllers
 
 
         [HttpGet("view-consultant-by-id/{consultantId}")]
-        [ProducesResponseType(200, Type = typeof(ViewConsultantDTO))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> ViewConsultantById(Guid consultantId)
         {
             var consultant = await _consultantService.GetConsultantByIdAsync(consultantId);
@@ -50,8 +43,6 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("create-consultant")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> CreateConsultant(AddConsultantDTO addConsultantDTO)
         {
             var result = await _consultantService.CreateConsultant(addConsultantDTO);
@@ -60,11 +51,17 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("update-consultant")]
-        [ProducesResponseType(200, Type = typeof(Result<object>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> UpdateConsultant(UpdateConsultantDTO updateConsultantDTO)
         {
             var result = await _consultantService.UpdateConsultant(updateConsultantDTO);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("soft-delete-consultant/{consultantId}")]
+        public async Task<IActionResult> SoftDeleteConsultant(Guid consultantId)
+        {
+            var result = await _consultantService.SoftDeleteConsultant(consultantId);
 
             return Ok(result);
         }
