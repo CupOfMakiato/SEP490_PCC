@@ -25,6 +25,30 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.User.Where(u => u.RoleId != 1).ToListAsync();
         }
+        public async Task<List<User>> GetAllStaff()
+        {
+            return await _dbContext.User
+                .Where(u => u.RoleId == 3 || u.RoleId == 4)
+                //.Where(u => !u.IsDeleted)
+                .ToListAsync();
+        }
+        public async Task<List<User>> GetAllClinic()
+        {
+            return await _dbContext.User
+                .Where(u => u.RoleId == 5)
+                //.Where(u => !u.IsDeleted)
+                .ToListAsync();
+        }
+        public async Task<User> GetUserByName(string userName)
+        {
+            return await _dbContext.User
+                .FirstOrDefaultAsync(u => u.UserName == userName);
+        }
+        public async Task<User> AddUser(User user)
+        {
+            await _dbContext.User.AddAsync(user);
+            return user;
+        }
         public async Task<User> FindByEmail(string email)
         {
             return await _dbContext.User

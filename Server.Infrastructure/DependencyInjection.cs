@@ -54,6 +54,8 @@ namespace Server.Infrastructure
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
 
+            services.AddScoped<IAdminService, AdminService>();
+
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
             services.AddScoped<EmailService>();
