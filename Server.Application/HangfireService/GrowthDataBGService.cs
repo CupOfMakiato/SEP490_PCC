@@ -1,4 +1,5 @@
-﻿using Server.Application.HangfireInterface;
+﻿using Microsoft.Extensions.Logging;
+using Server.Application.HangfireInterface;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Enums;
@@ -14,12 +15,15 @@ namespace Server.Application.HangfireService
     {
         private readonly ICurrentTime _currentTime;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<GrowthDataBGService> _logger;
         public GrowthDataBGService(
             IUnitOfWork unitOfWork,
-            ICurrentTime currentTime)
+            ICurrentTime currentTime,
+            ILogger<GrowthDataBGService> logger)
         {
             _unitOfWork = unitOfWork;
             _currentTime = currentTime;
+            _logger = logger;
         }
         public async Task InactivateExpiredGrowthDataProfiles()
         {
@@ -32,7 +36,7 @@ namespace Server.Application.HangfireService
             {
                 growthData.Status = GrowthDataStatus.Inactive;
                 _unitOfWork.GrowthDataRepository.Update(growthData);
-                Console.WriteLine($"[Hangfire] Marked GrowthData ID: {growthData.Id} as Inactive");
+                _logger.LogInformation($"[Hangfire] Marked GrowthData ID: {growthData.Id} as Inactive");
             }
 
             if (expiredGrowthDataList.Any())

@@ -1,4 +1,5 @@
-﻿using Server.Application.HangfireInterface;
+﻿using Microsoft.Extensions.Logging;
+using Server.Application.HangfireInterface;
 using Server.Application.Repositories;
 using Server.Domain.Enums;
 using System;
@@ -13,12 +14,15 @@ namespace Server.Application.HangfireService
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<AccountCleanupService> _logger;
 
         public AccountCleanupService(IUserRepository userRepository, 
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            ILogger<AccountCleanupService> logger)
         {
             _userRepository = userRepository;
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task DeleteUnverifiedAccountsOlderThanOneMonthAsync()
@@ -35,7 +39,7 @@ namespace Server.Application.HangfireService
             foreach (var user in expiredUsers)
             {
                 _userRepository.HardRemove(user);
-                Console.WriteLine($"Deleted unverified user: {user.Email}");
+                _logger.LogInformation($"[Hangfire] Deleted unverified user: {user.Email}");
 
             }
             if (expiredUsers.Any())

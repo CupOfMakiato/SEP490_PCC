@@ -180,7 +180,7 @@ namespace Server.WebAPI.Controllers
                 return BadRequest(new { ex.Message });
             }
         }
-        [HttpPost("user/auth/resend-otp")]
+        [HttpPost("user/otp/resend-otp")]
         public async Task<IActionResult> ResendOtp([FromBody] ResendOtpRequestDTO request)
         {
             try
