@@ -29,12 +29,11 @@ namespace Server.Application.Services
         private readonly IConfiguration _configuration;
         private readonly IOtpService _otpService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRoleRepository _roleRepository;
 
         public AdminService(IAuthRepository authRepository, TokenGenerators tokenGenerators,
             IUserRepository userRepository, IHttpContextAccessor httpContextAccessor,
             IEmailService emailService, IConfiguration configuration, IOtpService otpService,
-            IMapper mapper, IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+            IMapper mapper, IUnitOfWork unitOfWork)
         {
             _authRepository = authRepository;
             _tokenGenerators = tokenGenerators;
@@ -45,7 +44,6 @@ namespace Server.Application.Services
             _otpService = otpService;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _roleRepository = roleRepository;
         }
         public async Task<Result<List<GetUserDTO>>> ViewAllUsers()
         {
