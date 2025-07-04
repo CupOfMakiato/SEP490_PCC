@@ -88,6 +88,7 @@ namespace Server.Infrastructure
 
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
+            services.AddScoped<IGrowthDataBGService, GrowthDataBGService>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

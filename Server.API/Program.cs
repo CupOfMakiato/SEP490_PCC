@@ -97,6 +97,11 @@ using (var scope = app.Services.CreateScope())
         Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time which is... 17:00 UTC idk lol
         //Cron.MinuteInterval(1) // Run every minute for testing
     );
+    recurringJobManager.AddOrUpdate<IGrowthDataBGService>(
+        "send-daily-summary-emails",
+        job => job.InactivateExpiredGrowthDataProfiles(),
+        Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
+    );
 }
 
 
