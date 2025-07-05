@@ -51,6 +51,14 @@ namespace Server.API.Controllers
             var result = await _growthDataService.ViewGrowthDataWithCurrentWeek(userId, currentDate);
             return Ok(result);
         }
+        [HttpGet("view-growthdata-by-user-id")]
+        [ProducesResponseType(200, Type = typeof(ViewGrowthDataDTO))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewGrowthDataByUserId(Guid userId)
+        {
+            var result = await _growthDataService.ViewGrowthDataByUserId(userId);
+            return Ok(result);
+        }
 
         [HttpPost("create-new-growthdata-profile")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]

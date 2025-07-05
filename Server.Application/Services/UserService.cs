@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Server.Application.Abstractions.Shared;
@@ -21,11 +22,15 @@ namespace Server.Application.Services
         private readonly IRedisService _redisService;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IClaimsService _claimsService;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICloudinaryService _cloudinaryService;
+        private readonly IMapper _mapper;
 
         public UserService(IUserRepository userRepository, IConfiguration configuration,
             IAuthRepository authRepository, IEmailService emailService, IRedisService redisService,
             TokenGenerators tokenGenerators, IHttpContextAccessor httpContextAccessor,
-            ICategoryRepository categoryRepository, IClaimsService claimsService)
+            ICategoryRepository categoryRepository, IClaimsService claimsService, IUnitOfWork unitOfWork,
+            ICloudinaryService cloudinaryService, IMapper mapper)
         {
             _userRepository = userRepository;
             _configuration = configuration;
@@ -36,6 +41,9 @@ namespace Server.Application.Services
             _redisService = redisService;
             _categoryRepository = categoryRepository;
             _claimsService = claimsService;
+            _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
+            _mapper = mapper;
         }
 
         public async Task<IList<User>> GetALl()
@@ -70,25 +78,31 @@ namespace Server.Application.Services
             await _userRepository.UpdateAsync(user);
         }
 
-        public async Task<Result<User>> GetCurrentUserById()
+        public async Task<Result<GetUserDTO>> GetCurrentUserById()
         {
             var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token == null)
-                return new Result<User>() { Error = 1, Message = "Token not found", Data = null };
+                return new Result<GetUserDTO>() { Error = 1, Message = "Token not found", Data = null };
 
             var jwtToken = new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
 
             if (jwtToken == null)
-                return new Result<User>() { Error = 1, Message = "Invalid token", Data = null };
+                return new Result<GetUserDTO>() { Error = 1, Message = "Invalid token", Data = null };
             var userId = Guid.Parse(jwtToken.Claims.First(claim => claim.Type == "id").Value);
-            var user = await _userRepository.GetByIdAsync(userId);
+            var user = await _userRepository.GetUserById(userId);
 
             if (user == null)
-                return new Result<User>() { Error = 1, Message = "User not found", Data = null };
+                return new Result<GetUserDTO>() { Error = 1, Message = "User not found", Data = null };
 
             // This should return success when user is found
-            return new Result<User>() { Error = 0, Message = "Success", Data = user };
+            var userDto = _mapper.Map<GetUserDTO>(user);
+            return new Result<GetUserDTO>
+            {
+                Error = 0,
+                Message = "Success",
+                Data = userDto
+            };
         }
 
         public async Task<User> HardDeleteUser(Guid userId)
@@ -103,5 +117,91 @@ namespace Server.Application.Services
             return user;
 
         }
+        public async Task<Result<object>> UploadAvatar(Guid userId, IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return new Result<object> { Error = 1, Message = "No file selected." };
+            }
+
+            const long maxFileSize = 5 * 1024 * 1024; // 5MB
+            if (file.Length > maxFileSize)
+            {
+                return new Result<object> { Error = 1, Message = "File size exceeds 5MB." };
+            }
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Invalid file type. Only JPG, PNG, and GIF are allowed."
+                };
+            }
+
+            var user = await _unitOfWork.UserRepository.GetUserById(userId);
+            if (user == null)
+            {
+                return new Result<object> { Error = 1, Message = "User not found." };
+            }
+
+            if (user.Avatar != null)
+            {
+                var deleteResult = await _cloudinaryService.DeleteFileAsync(user.Avatar.FilePublicId);
+                if (deleteResult == null || deleteResult.Result != "ok")
+                {
+                    return new Result<object>
+                    {
+                        Error = 1,
+                        Message = "Failed to delete old avatar from Cloudinary."
+                    };
+                }
+            }
+
+            var uploadResult = await _cloudinaryService.UploadAvatarImage(file.FileName, file, user);
+            if (uploadResult == null || string.IsNullOrEmpty(uploadResult.FileUrl))
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Failed to upload avatar to Cloudinary."
+                };
+            }
+
+            var newAvatar = new Media
+            {
+                Id = Guid.NewGuid(),
+                FileName = file.FileName,
+                FileUrl = uploadResult.FileUrl,
+                FileType = file.ContentType,
+                FilePublicId = uploadResult.PublicFileId,
+                CreatedBy = userId,
+                CreationDate = DateTime.Today,
+                UserId = user.Id
+            };
+
+            await _unitOfWork.MediaRepository.AddAsync(newAvatar);
+
+            user.Avatar = newAvatar;
+
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Avatar uploaded successfully." : "Failed to upload avatar.",
+                Data = new
+                {
+                    FileUrl = uploadResult.FileUrl,
+                    PublicId = uploadResult.PublicFileId
+                }
+            };
+        }
+
+
+
     }
 }
