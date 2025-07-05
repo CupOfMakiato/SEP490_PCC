@@ -11,6 +11,6 @@ namespace Server.Application.Abstractions.RequestAndResponse.GrowthData
         public Guid? Id { get; set; }
         public Guid UserId { get; set; }
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
-        public float PreWeight { get; set; }
+        public float? PreWeight { get; set; }
     }
 }

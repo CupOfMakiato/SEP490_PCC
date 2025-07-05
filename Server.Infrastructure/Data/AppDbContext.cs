@@ -474,6 +474,13 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(m => m.JournalId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Avatar)
+            .WithOne(m => m.User)
+            .HasForeignKey<Media>(m => m.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
             // Category
             modelBuilder.Entity<Category>()
            .Property(s => s.BlogCategoryTag)

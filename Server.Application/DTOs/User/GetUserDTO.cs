@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Application.DTOs.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Server.Application.DTOs.User
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string Status { get; set; }
+        public MediaDTO? Avatar { get; set; }
     }
 }

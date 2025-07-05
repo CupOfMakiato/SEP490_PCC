@@ -16,6 +16,7 @@ namespace Server.Application.Interfaces
         Task<Result<List<ViewGrowthDataDTO>>> ViewAllGrowthDatas();
         Task<Result<ViewGrowthDataDTO>> ViewGrowthDataById(Guid growthdataId);
         Task<Result<ViewGrowthDataDTO>> ViewGrowthDataWithCurrentWeek(Guid userId, DateTime currentDate);
+        Task<Result<ViewGrowthDataDTO>> ViewGrowthDataByUserId(Guid userId);
         // create
         Task<Result<object>> CreateNewGrowthDataProfile(CreateNewGrowthDataProfileDTO CreateNewGrowthDataProfileDTO);
         // edit 

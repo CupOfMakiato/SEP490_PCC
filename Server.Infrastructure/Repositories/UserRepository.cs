@@ -69,7 +69,10 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<User> GetUserByEmail(string email)
         {
-            return await _dbContext.User.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == email);
+            return await _dbContext.User
+                .Include(u => u.Avatar)
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public async Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)
@@ -79,18 +82,23 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<User> GetUserById(int userId)
         {
-            var user = await _dbContext.User.FindAsync(userId);
+            var user = await _dbContext.User
+                .FindAsync(userId);
             return user;
         }
 
         public async Task<User> GetAllUserById(Guid id)
         {
-            return await _dbContext.User.FirstOrDefaultAsync(i => i.Id == id);
+            return await _dbContext.User
+                .Include(u => u.Avatar)
+                .FirstOrDefaultAsync(i => i.Id == id);
         }
 
         public async Task<User> GetUserById(Guid userId)
         {
-            return await _dbContext.User.FirstOrDefaultAsync(u => u.Id == userId);
+            return await _dbContext.User
+                .Include(u => u.Avatar)
+                .FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<User> GetUserByVerificationToken(string token)
@@ -104,13 +112,16 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<List<User>> GetUsersByRole(int role)
         {
-            return await _dbContext.User.Where(u => u.RoleId == role).ToListAsync();
+            return await _dbContext.User
+                .Include(u => u.Avatar)
+                .Where(u => u.RoleId == role).ToListAsync();
         }
 
         public async Task<User> GetUserWithRole(Guid userId)
         {
             return await _dbContext.User
                 .Include(u => u.Role)
+                .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
         }
 

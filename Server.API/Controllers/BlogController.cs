@@ -123,7 +123,7 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
-        [Authorize(Policy = "Clinic")]
+        [Authorize(Roles = "Clinic,HealthExpert,NutrientSpecialist")]
         [HttpPut("edit-blog")]
         [ProducesResponseType(200, Type = typeof(Result<ViewBlogDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]

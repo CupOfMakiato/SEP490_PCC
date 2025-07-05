@@ -15,5 +15,6 @@ namespace Server.Application.Interfaces
         Task<DeletionResult> DeleteFileAsync(string publicId);
         Task<CloudinaryResponse> UploadBlogImage(string fileName, IFormFile file, Blog blog);
         Task<CloudinaryResponse> UploadJournalImage(string fileName, IFormFile file, Journal journal);
+        Task<CloudinaryResponse> UploadAvatarImage(string fileName, IFormFile file, User avatar);
     }
 }

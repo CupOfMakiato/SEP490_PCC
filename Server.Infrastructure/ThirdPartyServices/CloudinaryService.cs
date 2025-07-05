@@ -79,6 +79,26 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
+        public async Task<CloudinaryResponse> UploadAvatarImage(string fileName, IFormFile file, User avatar)
+        {
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(fileName, file.OpenReadStream()),
+                PublicId = $"{avatar.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
+                Overwrite = true,
+                Folder = "avatar"
+            };
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            if (uploadResult.Error != null)
+            {
+                return null; // Handle upload failure
+            }
+            return new CloudinaryResponse
+            {
+                FileUrl = uploadResult.SecureUrl.ToString(),
+                PublicFileId = uploadResult.PublicId
+            };
+        }
 
     }
 }

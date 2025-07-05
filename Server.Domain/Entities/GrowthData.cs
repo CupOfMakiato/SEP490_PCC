@@ -23,15 +23,15 @@ namespace Server.Domain.Entities
         public BasicBioMetric BasicBioMetric { get; set; } // Basic biometrics like weight, height, blood pressure, etc. // 1 - 1
 
         //public Fetus Fetus { get; set; } // this is static data
-        public int GetGestationalAgeInWeeks(DateTime currentDate)
+        public int GetGestationalAgeInWeeks()
         {
             var weeks = (EstimatedDueDate.Date - FirstDayOfLastMenstrualPeriod.Date).Days / 7;
-            return Math.Clamp(weeks, 0, 40);
+            return Math.Clamp(weeks, 1, 40);
         }
         public int GetCurrentGestationalAgeInWeeks(DateTime currentDate)
         {
             var weeks = (currentDate.Date - FirstDayOfLastMenstrualPeriod.Date).Days / 7;
-            return Math.Clamp(weeks, 0, 40);
+            return Math.Clamp(weeks, 1, 40);
         }
 
         public int GetCurrentTrimester(DateTime currentDate)
