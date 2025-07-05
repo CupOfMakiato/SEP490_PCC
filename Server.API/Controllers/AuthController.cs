@@ -110,6 +110,7 @@ namespace Server.WebAPI.Controllers
         [HttpPost("user/logout")]
         public async Task<IActionResult> Logout([FromBody] Guid userId)
         {
+            Response.Cookies.Delete("accessToken");
             Response.Cookies.Delete("refreshToken");
             await _authService.DeleteRefreshToken(userId);
             return Ok(new Result<object>
@@ -177,6 +178,31 @@ namespace Server.WebAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { ex.Message });
+            }
+        }
+        [HttpPost("user/otp/resend-otp")]
+        public async Task<IActionResult> ResendOtp([FromBody] ResendOtpRequestDTO request)
+        {
+            try
+            {
+                var result = await _authService.ResendOtp(request.Email);
+                return Ok(new
+                {
+                    message = "OTP has been resent successfully.",
+                    success = result
+                });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "An unexpected error occurred.", details = ex.Message });
             }
         }
 

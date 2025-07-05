@@ -18,13 +18,24 @@ namespace Server.WebAPI.Middlewares
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            _stopwatch.Restart();
-            _logger.LogInformation("Performance Tracking: Request started.");
+            var path = context.Request.Path;
+            var method = context.Request.Method;
 
-            await next(context); // Call next middleware in the pipeline
+            if (!path.StartsWithSegments("/api"))
+            {
+                await next(context);
+                return;
+            }
+
+            _stopwatch.Restart();
+            _logger.LogInformation($"[Performance] {method} {path} - Started");
+
+            await next(context);
 
             _stopwatch.Stop();
-            _logger.LogInformation($"Performance Tracking: Request ended. Time taken: {_stopwatch.ElapsedMilliseconds} ms.");
+            var statusCode = context.Response.StatusCode;
+            _logger.LogInformation($"[Performance] {method} {path} - Completed with status {statusCode} in {_stopwatch.ElapsedMilliseconds} ms");
         }
+
     }
 }

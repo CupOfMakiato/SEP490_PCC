@@ -18,6 +18,9 @@ using Server.Application.Settings.CloudinaryService;
 using Server.Infrastructure.ThirdPartyServices;
 using StackExchange.Redis;
 using Server.Application.Utils;
+using Server.Application.HangfireInterface;
+using Server.Application.HangfireService;
+using Hangfire;
 
 namespace Server.Infrastructure
 {
@@ -51,6 +54,8 @@ namespace Server.Infrastructure
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
 
+            services.AddScoped<IAdminService, AdminService>();
+
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
             services.AddScoped<EmailService>();
@@ -83,6 +88,10 @@ namespace Server.Infrastructure
             services.AddScoped<IJournalRepository, JournalRepository>();
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
 
+            // Hangfire
+            services.AddScoped<IAccountCleanupService, AccountCleanupService>();
+            services.AddScoped<IGrowthDataBGService, GrowthDataBGService>();
+
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));
 
@@ -95,6 +104,12 @@ namespace Server.Infrastructure
             //services.AddSingleton<IConnectionMultiplexer>(sp =>
             //    ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!)
             //);
+
+            // Hangfire DB
+            services.AddHangfire(options =>
+            {
+                options.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
+            });
 
             return services;
         }

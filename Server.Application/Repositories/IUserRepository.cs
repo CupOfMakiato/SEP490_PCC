@@ -6,10 +6,15 @@ namespace Server.Application.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        //view 
         Task<IList<User>> GetALl();
+        Task<List<User>> GetAllStaff();
+        Task<List<User>> GetAllClinic();
         Task<User?> FindByEmail(string email);
+        Task<User> GetUserByName(string userName);
         Task UpdateAsync(User user);
         Task AddAsync(User user);
+        Task<User> AddUser(User user);
         Task<User> GetUserByEmail(string email);
         Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate);
         Task<User> GetUserById(Guid userId);

@@ -29,7 +29,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<bool> DeleteRefreshToken(Guid userId)
         {
             var user = await _dbContext.User.FirstOrDefaultAsync(u => u.Id == userId);
-            user.RefreshToken = "";
+            user.RefreshToken = null;
             return await SaveChange();
         }
 

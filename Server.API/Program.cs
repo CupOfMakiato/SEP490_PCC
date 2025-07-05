@@ -1,8 +1,11 @@
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Server.Application;
 using Server.Application.Commons;
+using Server.Application.HangfireInterface;
 using Server.Infrastructure;
 using Server.Infrastructure.Hubs;
 using Server.WebAPI;
@@ -79,8 +82,27 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 
+builder.Services.AddHangfireServer();
+
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var recurringJobManager = scope.ServiceProvider.GetRequiredService<IRecurringJobManager>();
+
+    recurringJobManager.AddOrUpdate<IAccountCleanupService>(
+        "delete-unverified-accounts",
+        job => job.DeleteUnverifiedAccountsOlderThanOneMonthAsync(),
+        Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time which is... 17:00 UTC idk lol
+        //Cron.MinuteInterval(1) // Run every minute for testing
+    );
+    recurringJobManager.AddOrUpdate<IGrowthDataBGService>(
+        "send-daily-summary-emails",
+        job => job.InactivateExpiredGrowthDataProfiles(),
+        Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
+    );
+}
 
 
 app.UseSwagger();
@@ -120,7 +142,9 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
-app.MapHealthChecks("/healthchecks");
+app.UseHangfireDashboard("/hangfire");
+
+app.MapHealthChecks("/healthchecks"); 
 
 app.MapControllers();
 

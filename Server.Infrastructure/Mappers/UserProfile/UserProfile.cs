@@ -15,6 +15,8 @@ namespace Server.Infrastructure.Mappers.UserProfile
         {
             CreateMap<User, UserDTO>()
             .ForMember(dest => dest.Balance, opt => opt.MapFrom(src => 0));
+
+            CreateMap<User, GetUserDTO>().ReverseMap();
         }
     }
 }

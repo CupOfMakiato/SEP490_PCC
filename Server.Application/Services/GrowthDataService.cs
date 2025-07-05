@@ -192,9 +192,9 @@ namespace Server.Application.Services
                 growthData.GestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(today);
             }
 
-            growthData.Status = growthData.EstimatedDueDate < today
-                ? GrowthDataStatus.Inactive
-                : GrowthDataStatus.Active;
+            //growthData.Status = growthData.EstimatedDueDate < today
+            //    ? GrowthDataStatus.Inactive
+            //    : GrowthDataStatus.Active;
 
 
             _unitOfWork.GrowthDataRepository.Update(growthData);
