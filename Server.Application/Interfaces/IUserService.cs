@@ -15,7 +15,7 @@ namespace Server.Application.Interfaces
 
 
         Task<UserDTO> GetUserById(Guid id);
-        Task<Result<GetUserDTO>> GetCurrentUserById();
+        Task<Result<UserDTO>> GetCurrentUserById();
         // Delete
         Task<User> HardDeleteUser(Guid userId);
         //upload avatar

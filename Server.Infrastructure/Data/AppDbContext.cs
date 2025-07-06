@@ -34,6 +34,8 @@ namespace Server.Infrastructure.Data
         //public DbSet<Fetus> Fetus { get; set; }
         public DbSet<Reminder> Reminder { get; set; }
         public DbSet<Journal> Journal { get; set; }
+        //public DbSet<RecordedSymptom> RecordedSymptom { get; set; }
+        //public DbSet<JournalSymptom> JournalSymptoms { get; set; }
 
         // Disease Management
         public DbSet<Disease> Disease { get; set; }
@@ -498,6 +500,22 @@ namespace Server.Infrastructure.Data
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
+
+            // Symptom
+            //modelBuilder.Entity<JournalSymptom>()
+            //.HasKey(bt => new { bt.JournalId, bt.RecordedSymptomId });
+
+            //modelBuilder.Entity<JournalSymptom>()
+            //.HasOne(bt => bt.Journal)
+            //.WithMany(b => b.JournalSymptoms)
+            //.HasForeignKey(bt => bt.JournalId)
+            //.OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<JournalSymptom>()
+            //.HasOne(bt => bt.RecordedSymptom)
+            //.WithMany(t => t.JournalSymptoms)
+            //.HasForeignKey(bt => bt.RecordedSymptomId)
+            //.OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
