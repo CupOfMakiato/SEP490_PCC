@@ -1,4 +1,5 @@
-﻿using Server.Application.Interfaces;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.Interfaces;
 using Server.Domain.Entities;
 
 namespace Server.Application.Services
@@ -36,13 +37,34 @@ namespace Server.Application.Services
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthId(growDataId);
         }
 
-        public async Task<bool> CreateFoodRecommendation(Guid userId)
+        public async Task<Result<FoodRecommendationHistory>> CreateFoodRecommendation(Guid userId)
         {
             try
             {
                 var currentGrowthData = await _unitOfWork.GrowthDataRepository.GetActiveGrowthDataByUserId(userId);
+                if (currentGrowthData is null)
+                    return new Result<FoodRecommendationHistory>()
+                    {
+                        Error = 1,
+                        Message = "Current GrowData of this user doesn't exist",
+                    };
+
+                //User dont include current growthData
+                var user = await _unitOfWork.UserRepository.GetUserById(userId); 
+
+                var currentTrimester = currentGrowthData.GetCurrentTrimester(DateTime.Now);
+  
+                var ageGroup = await _unitOfWork.AgeGroupRepository.GetGroupByUserDateOfBirthAndTrimester((DateTime)user.DateOfBirth, currentTrimester);
+                if (currentGrowthData is null)
+                    return new Result<FoodRecommendationHistory>()
+                    {
+                        Error = 1,
+                        Message = "User's age are not in my system, please go to hospital",
+                    };
+
+                var energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupAndTrimester(DateTime.Now.Year - user.DateOfBirth.Value.Year, currentTrimester);
+
                 
-                //var recommendRules = await _unitOfWork.SuggestionRuleRepository
 
                 var recommendationHistory = new FoodRecommendationHistory()
                 {
@@ -53,12 +75,30 @@ namespace Server.Application.Services
                 };
 
                 await _unitOfWork.FoodRecommendationHistoryRepository.AddAsync(recommendationHistory);
-                return await _unitOfWork.SaveChangeAsync() > 0;
+                if (await _unitOfWork.SaveChangeAsync() > 0)
+                {
+                    return new Result<FoodRecommendationHistory>()
+                    {
+                        Error = 0,
+                        Message = "Create success",
+                        Data = recommendationHistory
+                    };
+                }
+
+                return new Result<FoodRecommendationHistory>()
+                {
+                    Error = 1,
+                    Message = "Create fail",
+                };
             }
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync(ex.Message);
-                return false;
+                return new Result<FoodRecommendationHistory>()
+                {
+                    Error = 1,
+                    Message = ex.Message
+                };
             }    
         }
     }

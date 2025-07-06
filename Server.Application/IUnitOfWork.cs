@@ -23,6 +23,8 @@ namespace Server.Application
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository { get; }
         public IMediaRepository MediaRepository { get; }
         public IBasicBioMetricRepository BasicBioMetricRepository { get; }
+        public IAgeGroupRepository AgeGroupRepository { get; }
+        public IEnergySuggestionRepository EnergySuggestionRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

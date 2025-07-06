@@ -82,6 +82,8 @@ namespace Server.Infrastructure
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
+            services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
+            services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

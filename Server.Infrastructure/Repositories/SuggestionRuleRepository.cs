@@ -43,7 +43,7 @@ namespace Server.Infrastructure.Repositories
                 < 28 => 2,
                 _ => 3
             };
-            return await _dbSet.Where(g => week <= g.MaxWeek && week >= g.MinWeek && g.Trimester == currentTrimester && g.IsPositive).ToListAsync();
+            return await _dbSet.Where(g => g.Trimester == currentTrimester && g.IsPositive).ToListAsync();
         }
     }
 

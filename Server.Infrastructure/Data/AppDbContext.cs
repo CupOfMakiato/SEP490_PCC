@@ -65,6 +65,9 @@ namespace Server.Infrastructure.Data
         public DbSet<Like> Like { get; set; }
         public DbSet<Tag> Tag { get; set; }
         public DbSet<Comment> Comment { get; set; }
+        public DbSet<EnergySuggestion> EnergySuggestion { get; set; }
+        public DbSet<AgeGroup> AgeGroup { get; set; }
+        public DbSet<NutrientSuggetion> NutrientSuggetion { get; set; }
 
         // Messaging
         public DbSet<Message> Messages { get; set; }

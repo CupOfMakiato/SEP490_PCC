@@ -30,6 +30,8 @@ namespace Server.Infrastructure
         private readonly IGrowthDataRepository _growthDataRepository;
         private readonly IJournalRepository _journalRepository;
         private readonly IBasicBioMetricRepository _basicBioMetricRepository;
+        private readonly IAgeGroupRepository _ageGroupRepository;
+        private readonly IEnergySuggestionRepository _energySuggestionRepository;
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
 
@@ -51,6 +53,8 @@ namespace Server.Infrastructure
             IJournalRepository journalRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository,
+            IAgeGroupRepository ageGroupRepository,
+            IEnergySuggestionRepository energySuggestionRepository,
             IBasicBioMetricRepository basicBioMetricRepository)
         {
             _dbContext = dbContext;
@@ -72,6 +76,8 @@ namespace Server.Infrastructure
             _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
             _basicBioMetricRepository = basicBioMetricRepository;
+            _ageGroupRepository = ageGroupRepository;
+            _energySuggestionRepository = energySuggestionRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -96,7 +102,9 @@ namespace Server.Infrastructure
         public IDiseaseRepository DiseaseRepository => _diseaseRepository;
         public IMediaRepository MediaRepository => _mediaRepository;
         public ISuggestionRuleRepository SuggestionRuleRepository => _suggestionRuleRepository;
+        public IAgeGroupRepository AgeGroupRepository => _ageGroupRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
+        public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
 
         public async Task<int> SaveChangeAsync()
         {
