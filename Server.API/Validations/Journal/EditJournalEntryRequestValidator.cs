@@ -16,8 +16,8 @@ namespace Server.API.Validations.Journal
             RuleFor(x => x.CurrentWeight)
                 .NotEmpty().WithMessage("Current weight is required.")
                 .GreaterThan(0).WithMessage("Current weight must be greater than 0.");
-            RuleFor(x => x.Symptoms)
-                .NotEmpty().WithMessage("Symptoms are required.");
+            RuleFor(x => x.SymptomNames)
+                .NotEmpty().WithMessage("SymptomNames are required.");
             RuleFor(x => x.MoodNotes)
                 .NotEmpty().WithMessage("Mood notes are required.");
 

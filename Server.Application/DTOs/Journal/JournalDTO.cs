@@ -13,7 +13,7 @@ namespace Server.Application.DTOs.Journal
         public int CurrentTrimester { get; set; }
         public string Note { get; set; }
         public float CurrentWeight { get; set; }
-        public string Symptoms { get; set; }
-        public string MoodNotes { get; set; }
+        public List<string> Symptoms { get; set; }
+        public string Mood { get; set; }
     }
 }

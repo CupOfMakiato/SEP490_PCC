@@ -9,10 +9,10 @@ namespace Server.Domain.Entities
 {
     public class JournalSymptom
     {
-        //public Guid JournalId { get; set; }
-        //public Journal Journal { get; set; }
+        public Guid JournalId { get; set; }
+        public Journal Journal { get; set; }
 
-        //public Guid RecordedSymptomId { get; set; }
-        //public RecordedSymptom RecordedSymptom { get; set; }
+        public Guid RecordedSymptomId { get; set; }
+        public RecordedSymptom RecordedSymptom { get; set; }
     }
 }

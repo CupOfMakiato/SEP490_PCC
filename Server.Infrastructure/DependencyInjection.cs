@@ -53,6 +53,7 @@ namespace Server.Infrastructure
             services.AddScoped<IGrowthDataService, GrowthDataService>();            
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
+            services.AddScoped<ISymptomService, SymptomService>();
 
             services.AddScoped<IAdminService, AdminService>();
 
@@ -87,6 +88,7 @@ namespace Server.Infrastructure
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
+            services.AddScoped<ISymptomRepository, SymptomRepository>();
 
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
