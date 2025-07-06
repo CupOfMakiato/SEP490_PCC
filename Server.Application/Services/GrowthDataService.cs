@@ -46,7 +46,7 @@ namespace Server.Application.Services
 
                 dto.CurrentGestationalAgeInWeeks = entity.GetCurrentGestationalAgeInWeeks(currentdate);
                 dto.CurrentTrimester = entity.GetCurrentTrimester(currentdate);
-                dto.GestationalAgeInWeeks = entity.GetGestationalAgeInWeeks(currentdate);
+                dto.GestationalAgeInWeeks = entity.GetGestationalAgeInWeeks();
             }
             return new Result<List<ViewGrowthDataDTO>>
             {
@@ -73,7 +73,7 @@ namespace Server.Application.Services
             var result = _mapper.Map<ViewGrowthDataDTO>(growth);
             result.CurrentGestationalAgeInWeeks = growth.GetCurrentGestationalAgeInWeeks(currentDate);
             result.CurrentTrimester = growth.GetCurrentTrimester(currentDate);
-            result.GestationalAgeInWeeks = growth.GetGestationalAgeInWeeks(currentDate);
+            result.GestationalAgeInWeeks = growth.GetGestationalAgeInWeeks();
 
             return new Result<ViewGrowthDataDTO>
             {
@@ -102,12 +102,40 @@ namespace Server.Application.Services
 
             result.CurrentGestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(currentDate);
             result.CurrentTrimester = growthData.GetCurrentTrimester(currentDate);
-            result.GestationalAgeInWeeks = growthData.GetGestationalAgeInWeeks(currentDate);
+            result.GestationalAgeInWeeks = growthData.GetGestationalAgeInWeeks();
 
             return new Result<ViewGrowthDataDTO>
             {
                 Error = 0,
                 Message = "View growth data by id successfully",
+                Data = result
+            };
+        }
+        public async Task<Result<ViewGrowthDataDTO>> ViewGrowthDataByUserId(Guid userId)
+        {
+            var currentDate = _currentTime.GetCurrentTime().Date;
+            var growthData = await _unitOfWork.GrowthDataRepository.GetActiveGrowthDataByUserId(userId);
+
+            if (growthData == null)
+            {
+                return new Result<ViewGrowthDataDTO>
+                {
+                    Error = 1,
+                    Message = "Growth data not found",
+                    Data = null
+                };
+            }
+
+            var result = _mapper.Map<ViewGrowthDataDTO>(growthData);
+
+            result.CurrentGestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(currentDate);
+            result.CurrentTrimester = growthData.GetCurrentTrimester(currentDate);
+            result.GestationalAgeInWeeks = growthData.GetGestationalAgeInWeeks();
+
+            return new Result<ViewGrowthDataDTO>
+            {
+                Error = 0,
+                Message = "View growth data by user id successfully",
                 Data = result
             };
         }
@@ -145,6 +173,7 @@ namespace Server.Application.Services
 
             var growthData = CreateNewGrowthDataProfileDTO.ToGrowthData(_currentTime);
             growthData.Id = Guid.NewGuid();
+            growthData.PreWeight = CreateNewGrowthDataProfileDTO.PreWeight ?? growthData.PreWeight;
             growthData.FirstDayOfLastMenstrualPeriod = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod;
             growthData.EstimatedDueDate = estimatedDueDate;
             growthData.GestationalAgeInWeeks = 40;

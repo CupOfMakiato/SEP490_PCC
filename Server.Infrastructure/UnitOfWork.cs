@@ -51,7 +51,8 @@ namespace Server.Infrastructure
             IJournalRepository journalRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository,
-            IBasicBioMetricRepository basicBioMetricRepository)
+            IBasicBioMetricRepository basicBioMetricRepository,
+            IMediaRepository mediaRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -72,6 +73,7 @@ namespace Server.Infrastructure
             _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
             _basicBioMetricRepository = basicBioMetricRepository;
+            _mediaRepository = mediaRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;

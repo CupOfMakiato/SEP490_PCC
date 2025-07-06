@@ -14,6 +14,6 @@ namespace Server.Application.DTOs.GrowthData
         public Guid UserId { get; set; }
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
         public GrowthDataStatus Status { get; set; }
-        public float PreWeight { get; set; }
+        public float? PreWeight { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace Server.Application.Mappers.GrowthDataExtentions
             var growthData = new GrowthData
             {
                 Id = CreateNewGrowthDataProfileDTO.Id,
-                PreWeight = CreateNewGrowthDataProfileDTO.PreWeight,
+                PreWeight = (float)CreateNewGrowthDataProfileDTO.PreWeight,
                 FirstDayOfLastMenstrualPeriod = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod,
                 EstimatedDueDate = CreateNewGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280),
                 CreatedBy = CreateNewGrowthDataProfileDTO.UserId,
@@ -54,7 +54,7 @@ namespace Server.Application.Mappers.GrowthDataExtentions
             return new EditGrowthDataProfileDTO
             {
                 Id = (Guid)EditGrowthDataProfileRequest.Id,
-                PreWeight = (float)EditGrowthDataProfileRequest.PreWeight,
+                PreWeight = EditGrowthDataProfileRequest.PreWeight,
                 FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileRequest.FirstDayOfLastMenstrualPeriod,
                 EstimatedDueDate = estimatedDueDate,
             };

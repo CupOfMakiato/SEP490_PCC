@@ -22,6 +22,8 @@ namespace Server.Domain.Entities
         public string? ResetToken { get; set; }
         public DateTime? ResetTokenExpiry { get; set; }
         public bool? IsStaff { get; set; } = false;
+        // Avatar image
+        public Media? Avatar { get; set; }
 
         [ForeignKey("RoleId")]
         public Role Role { get; set; }

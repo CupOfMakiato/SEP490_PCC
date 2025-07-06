@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Http;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.User;
 using Server.Application.Repositories;
@@ -14,8 +15,10 @@ namespace Server.Application.Interfaces
 
 
         Task<UserDTO> GetUserById(Guid id);
-        Task<Result<User>> GetCurrentUserById();
+        Task<Result<GetUserDTO>> GetCurrentUserById();
         // Delete
         Task<User> HardDeleteUser(Guid userId);
+        //upload avatar
+        Task<Result<object>> UploadAvatar(Guid userId, IFormFile file);
     }
 }
