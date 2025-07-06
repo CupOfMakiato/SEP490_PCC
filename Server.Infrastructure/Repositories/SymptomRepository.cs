@@ -65,6 +65,24 @@ namespace Server.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<bool> IsSymptomNameDuplicateForUser(string name, Guid userId)
+        {
+            return await _dbContext.RecordedSymptom
+                .AnyAsync(s =>
+                    !s.IsTemplate &&
+                    s.CreatedBy == userId &&
+                    s.IsActive &&
+                    !s.IsDeleted &&
+                    s.SymptomName.ToLower() == name.ToLower()
+                );
+        }
+        public async Task<bool> IsTemplateSymptomExistsByName(string name)
+        {
+            return await _dbContext.RecordedSymptom
+                .AnyAsync(s => s.IsTemplate &&
+                               !s.IsDeleted &&
+                               s.SymptomName.ToLower() == name);
+        }
 
 
     }

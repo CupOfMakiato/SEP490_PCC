@@ -17,14 +17,17 @@ namespace Server.Application.Services
         private readonly ISymptomRepository _symptomRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IClaimsService _claimsService;
         public SymptomService(ISymptomRepository symptomRepository,
             IUnitOfWork unitOfWork,
-            IMapper mapper
+            IMapper mapper,
+            IClaimsService claimsService
             )
         {
             _symptomRepository = symptomRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _claimsService = claimsService;
         }
         public async Task<Result<List<ViewSymptomDTO>>> ViewAllSymptoms()
         {
@@ -40,12 +43,12 @@ namespace Server.Application.Services
         public async Task<Result<List<ViewSymptomDTO>>> ViewAllSymptomsForUser(Guid userId)
         {
             var symptoms = await _symptomRepository.GetAllSymptomsForUser(userId);
-            var result = _mapper.Map<List<ViewSymptomDTO>>(userId);
+            var result = _mapper.Map<List<ViewSymptomDTO>>(symptoms);
 
             return new Result<List<ViewSymptomDTO>>
             {
                 Error = 0,
-                Message = "Retrieved symptoms successfully",
+                Message = "Retrieved all symptoms plus cumtom-added successfully",
                 Data = result
             };
         }
@@ -73,6 +76,7 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> AddNewCustomSymptom(AddSymptomDTO addSymptomDTO)
         {
+            var currentuser = _claimsService.GetCurrentUserId;
             var user = await _unitOfWork.UserRepository.GetByIdAsync(addSymptomDTO.UserId);
             if (user == null)
             {
@@ -84,13 +88,28 @@ namespace Server.Application.Services
                 };
             }
 
-            var existing = await _symptomRepository.GetSymptomByName(addSymptomDTO.SymptomName);
-            if (existing != null)
+            var customName = addSymptomDTO.SymptomName.Trim().ToLower();
+
+            var templateName = await _symptomRepository.IsTemplateSymptomExistsByName(customName);
+            if (templateName)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "Symptom with this name already exists!",
+                    Message = "A template symptom with this name already exists.",
+                    Data = null
+                };
+            }
+
+            var existing = await _unitOfWork.SymptomRepository.GetCustomSymptomsByUser(addSymptomDTO.UserId);
+            var isDuplicate = await _unitOfWork.SymptomRepository.IsSymptomNameDuplicateForUser(addSymptomDTO.SymptomName, addSymptomDTO.UserId);
+
+            if (isDuplicate)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "You already have a symptom with this name.",
                     Data = null
                 };
             }
@@ -99,7 +118,7 @@ namespace Server.Application.Services
             {
                 SymptomName = addSymptomDTO.SymptomName,
                 IsTemplate = false,
-                CreatedBy = addSymptomDTO.UserId,
+                CreatedBy = currentuser,
                 CreationDate = DateTime.Now,
                 IsActive = true
             };
@@ -114,5 +133,6 @@ namespace Server.Application.Services
                 Data = symptom.Id
             };
         }
+
     }
 }

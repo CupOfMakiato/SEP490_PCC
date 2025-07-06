@@ -49,6 +49,16 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("view-all-symptoms-for-user")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewSymptomDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewAllSymptomsForUser()
+        {
+            var user = _claimsService.GetCurrentUserId;
+            var result = await _symptomService.ViewAllSymptomsForUser(user);
+            return Ok(result);
+        }
+
         [HttpPost("add-new-custom-symptom")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
