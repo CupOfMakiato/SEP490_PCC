@@ -730,7 +730,7 @@ namespace Server.Application.Services
 
             blog.Title = editBlogDTO.Title ?? blog.Title;
             blog.Body = editBlogDTO.Body ?? blog.Body;
-            //blog.Status = editBlogDTO.Status;
+            blog.Status = editBlogDTO.Status ?? blog.Status;
             blog.ModificationBy = _claimsService.GetCurrentUserId;
             blog.ModificationDate = DateTime.UtcNow;
 
