@@ -40,6 +40,18 @@ namespace Server.Application.Services
                     Data = null
                 };
             }
+
+            var existingCategory = await _unitOfWork.CategoryRepository.GetCategoryByName(addCategoryDTO.CategoryName);
+            if (existingCategory != null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Category with the same name already exists!",
+                    Data = null
+                };
+            }
+
             var boardMapper = addCategoryDTO.ToCategory();
 
             await _unitOfWork.CategoryRepository.AddAsync(boardMapper);
@@ -85,12 +97,24 @@ namespace Server.Application.Services
                     Data = null
                 };
             }
+
+            var existingCategory = await _unitOfWork.CategoryRepository.GetCategoryByName(EditCategoryDTO.CategoryName);
+            if (existingCategory != null && existingCategory.Id != EditCategoryDTO.Id)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Category with the same name already exists!",
+                    Data = null
+                };
+            }
             var user = _claimsService.GetCurrentUserId;
 
             Category.Id = EditCategoryDTO.Id;
             Category.CategoryName = EditCategoryDTO.CategoryName;
             Category.ModificationBy = user;
             Category.IsActive = EditCategoryDTO.IsActive;
+            Category.BlogCategoryTag = EditCategoryDTO.BlogCategoryTag;
             //Category.ModificationBy = EditCategoryDTO.ModifiedBy;
             Category.ModificationDate = DateTime.Now;
 

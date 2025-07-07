@@ -54,7 +54,9 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<Category> GetCategoryByName(string name)
         {
-            return await _dbContext.Category.Include(x => x.SubCategories).Where(p => p.CategoryName == name).FirstOrDefaultAsync();
+            return await _dbContext.Category
+                .Include(x => x.SubCategories)
+                .Where(p => p.CategoryName.ToLower() == name.Trim().ToLower()).FirstOrDefaultAsync();
         }
         public async Task<List<Category>> GetCategoriesByHealthTag()
         {
