@@ -491,6 +491,7 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> EditBlog(EditBlogDTO editBlogDTO)
         {
+            var currentUser = _claimsService.GetCurrentUserId;
             var blog = await _unitOfWork.BlogRepository.GetBlogById(editBlogDTO.Id);
             if (blog == null)
             {
@@ -498,6 +499,39 @@ namespace Server.Application.Services
                 {
                     Error = 1,
                     Message = "Blog not found",
+                    Data = null
+                };
+            }
+            var user = await _unitOfWork.UserRepository.GetUserWithRole(currentUser);
+            if (user == null)
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = $"User not found!",
+                    Data = null
+                };
+
+            var role = user.Role?.RoleName;
+            if (role == "Clinic")
+            {
+                if (blog.Status != BlogStatus.Rejected)
+                    return new Result<object>
+                    {
+                        Error = 1,
+                        Message = "Clinic users can only edit blogs that are rejected.",
+                        Data = null
+                    };
+            }
+            else if (role == "HealthExpert" || role == "NutrientSpecialist")
+            {
+                blog.Status = BlogStatus.Edited;
+            }
+            else
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "You are not authorized to edit this blog.",
                     Data = null
                 };
             }
