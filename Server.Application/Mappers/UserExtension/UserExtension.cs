@@ -18,7 +18,7 @@ namespace Server.Application.Mappers.UserExtension
                 Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
-                Balance = 0,
+                //Balance = 0,
             };
         }
     }

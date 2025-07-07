@@ -78,26 +78,26 @@ namespace Server.Application.Services
             await _userRepository.UpdateAsync(user);
         }
 
-        public async Task<Result<GetUserDTO>> GetCurrentUserById()
+        public async Task<Result<UserDTO>> GetCurrentUserById()
         {
             var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token == null)
-                return new Result<GetUserDTO>() { Error = 1, Message = "Token not found", Data = null };
+                return new Result<UserDTO>() { Error = 1, Message = "Token not found", Data = null };
 
             var jwtToken = new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
 
             if (jwtToken == null)
-                return new Result<GetUserDTO>() { Error = 1, Message = "Invalid token", Data = null };
+                return new Result<UserDTO>() { Error = 1, Message = "Invalid token", Data = null };
             var userId = Guid.Parse(jwtToken.Claims.First(claim => claim.Type == "id").Value);
             var user = await _userRepository.GetUserById(userId);
 
             if (user == null)
-                return new Result<GetUserDTO>() { Error = 1, Message = "User not found", Data = null };
+                return new Result<UserDTO>() { Error = 1, Message = "User not found", Data = null };
 
             // This should return success when user is found
-            var userDto = _mapper.Map<GetUserDTO>(user);
-            return new Result<GetUserDTO>
+            var userDto = _mapper.Map<UserDTO>(user);
+            return new Result<UserDTO>
             {
                 Error = 0,
                 Message = "Success",

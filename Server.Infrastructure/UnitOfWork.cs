@@ -32,6 +32,7 @@ namespace Server.Infrastructure
         private readonly IBasicBioMetricRepository _basicBioMetricRepository;
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
+        private readonly ISymptomRepository _symptomRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -52,7 +53,8 @@ namespace Server.Infrastructure
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository,
             IBasicBioMetricRepository basicBioMetricRepository,
-            IMediaRepository mediaRepository)
+            IMediaRepository mediaRepository,
+            ISymptomRepository symptomRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -74,6 +76,7 @@ namespace Server.Infrastructure
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
             _basicBioMetricRepository = basicBioMetricRepository;
             _mediaRepository = mediaRepository;
+            _symptomRepository = symptomRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -99,6 +102,7 @@ namespace Server.Infrastructure
         public IMediaRepository MediaRepository => _mediaRepository;
         public ISuggestionRuleRepository SuggestionRuleRepository => _suggestionRuleRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
+        public ISymptomRepository SymptomRepository => _symptomRepository;
 
         public async Task<int> SaveChangeAsync()
         {

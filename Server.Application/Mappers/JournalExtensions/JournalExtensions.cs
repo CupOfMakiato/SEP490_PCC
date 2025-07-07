@@ -1,4 +1,5 @@
-﻿using Server.Application.Abstractions.RequestAndResponse.GrowthData;
+﻿using Server.Application.Abstractions.RequestAndResponse.Blog;
+using Server.Application.Abstractions.RequestAndResponse.GrowthData;
 using Server.Application.Abstractions.RequestAndResponse.Journal;
 using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
@@ -24,7 +25,7 @@ namespace Server.Application.Mappers.JournalExtensions
                 CurrentTrimester = CreateNewJournalEntryForCurrentWeekDTO.CurrentTrimester,
                 Note = CreateNewJournalEntryForCurrentWeekDTO.Note,
                 CurrentWeight = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
-                Symptoms = (Domain.Enums.Symptom)CreateNewJournalEntryForCurrentWeekDTO.Symptoms,
+                JournalSymptoms = new List<JournalSymptom>(),
                 MoodNotes = (Domain.Enums.Mood)CreateNewJournalEntryForCurrentWeekDTO.MoodNotes,
                 Media = new List<Media>(),
                 CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId
@@ -43,7 +44,7 @@ namespace Server.Application.Mappers.JournalExtensions
                 CurrentTrimester = CreateNewJournalEntryForCurrentWeekRequest.CurrentTrimester,
                 Note = CreateNewJournalEntryForCurrentWeekRequest.Note,
                 CurrentWeight = CreateNewJournalEntryForCurrentWeekRequest.CurrentWeight,
-                Symptoms = CreateNewJournalEntryForCurrentWeekRequest.Symptoms,
+                SymptomNames = CreateNewJournalEntryForCurrentWeekRequest.SymptomNames ?? new List<string>(),
                 MoodNotes = CreateNewJournalEntryForCurrentWeekRequest.MoodNotes,
                 RelatedImages = CreateNewJournalEntryForCurrentWeekRequest.RelatedImages,
                 UltraSoundImages = CreateNewJournalEntryForCurrentWeekRequest.UltraSoundImages
@@ -56,7 +57,7 @@ namespace Server.Application.Mappers.JournalExtensions
                 Id = (Guid)EditJournalEntryRequest.Id,
                 Note = EditJournalEntryRequest.Note,
                 CurrentWeight = EditJournalEntryRequest.CurrentWeight,
-                Symptoms = EditJournalEntryRequest.Symptoms,
+                SymptomNames = EditJournalEntryRequest.SymptomNames ?? new List<string>(),
                 MoodNotes = EditJournalEntryRequest.MoodNotes,
                 RelatedImages = EditJournalEntryRequest.RelatedImages,
                 UltraSoundImages = EditJournalEntryRequest.UltraSoundImages

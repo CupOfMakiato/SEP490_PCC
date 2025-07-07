@@ -18,7 +18,7 @@ namespace Server.Application.DTOs.Journal
         public int CurrentTrimester { get; set; }
         public string Note { get; set; }
         public float CurrentWeight { get; set; }
-        public Symptom? Symptoms { get; set; }
+        public List<string> SymptomNames { get; set; } = new();
         public Mood? MoodNotes { get; set; }
         public List<IFormFile>? RelatedImages { get; set; }
         public List<IFormFile>? UltraSoundImages { get; set; }

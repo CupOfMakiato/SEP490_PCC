@@ -24,9 +24,12 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
+        private readonly ISymptomService _symptomService;
 
 
-        public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository, ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService)
+        public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
+            ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
+            ISymptomService symptomService)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -34,6 +37,7 @@ namespace Server.Application.Services
             _currentTime = currentTime;
             _claimsService = claimsService;
             _cloudinaryService = cloudinaryService;
+            _symptomService = symptomService;
         }
         public async Task<Result<List<ViewJournalDTO>>> ViewAllJournals()
         {
@@ -132,6 +136,26 @@ namespace Server.Application.Services
 
             var journal = CreateNewJournalEntryForCurrentWeekDTO.ToJournal();
 
+            // ➕ Add symptoms
+            foreach (var name in CreateNewJournalEntryForCurrentWeekDTO.SymptomNames.Distinct())
+            {
+                var newSymptom = new RecordedSymptom
+                {
+                    SymptomName = name,
+                    IsTemplate = false,
+                    CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId,
+                    CreationDate = _currentTime.GetCurrentTime(),
+                    IsActive = true
+                };
+
+                await _unitOfWork.SymptomRepository.AddAsync(newSymptom);
+                journal.JournalSymptoms.Add(new JournalSymptom
+                {
+                    Journal = journal,
+                    RecordedSymptom = newSymptom
+                });
+            }
+
             // Upload Images
             if (CreateNewJournalEntryForCurrentWeekDTO.RelatedImages != null && CreateNewJournalEntryForCurrentWeekDTO.RelatedImages.Any())
             {
@@ -220,9 +244,30 @@ namespace Server.Application.Services
             journal.Note = EditJournalEntryDTO.Note;
             journal.MoodNotes = (Domain.Enums.Mood)EditJournalEntryDTO.MoodNotes;
             journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight;
-            journal.Symptoms = (Domain.Enums.Symptom)EditJournalEntryDTO.Symptoms;
+            
             journal.ModificationBy = user;
             journal.ModificationDate = _currentTime.GetCurrentTime();
+
+            journal.JournalSymptoms.Clear();
+            foreach (var name in EditJournalEntryDTO.SymptomNames.Distinct())
+            {
+                var newSymptom = new RecordedSymptom
+                {
+                    SymptomName = name,
+                    IsTemplate = false,
+                    CreatedBy = user,
+                    CreationDate = _currentTime.GetCurrentTime(),
+                    IsActive = true
+                };
+
+                await _unitOfWork.SymptomRepository.AddAsync(newSymptom);
+                journal.JournalSymptoms.Add(new JournalSymptom
+                {
+                    Journal = journal,
+                    RecordedSymptom = newSymptom
+                });
+            }
+
 
             if (EditJournalEntryDTO.RelatedImages != null)
             {

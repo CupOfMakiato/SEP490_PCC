@@ -13,8 +13,7 @@ namespace Server.Infrastructure.Mappers.UserProfile
     {
         public UserProfile()
         {
-            CreateMap<User, UserDTO>()
-            .ForMember(dest => dest.Balance, opt => opt.MapFrom(src => 0));
+            CreateMap<User, UserDTO>().ReverseMap();
 
             CreateMap<User, GetUserDTO>().ReverseMap();
         }
