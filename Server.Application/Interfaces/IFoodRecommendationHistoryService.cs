@@ -1,4 +1,5 @@
-﻿using Server.Domain.Entities;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Domain.Entities;
 
 namespace Server.Application.Interfaces
 {
@@ -21,6 +22,6 @@ namespace Server.Application.Interfaces
         /// <returns></returns>
         public Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId);
         public Task<List<FoodRecommendationHistory>> GetGrowthDataMealLog(Guid userId);
-        public Task<bool> CreateFoodRecommendation(Guid growthDataId);
+        public Task<Result<FoodRecommendationHistory>> CreateFoodRecommendation(Guid growthDataId);
     }
 }

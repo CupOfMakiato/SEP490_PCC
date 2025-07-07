@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server.Domain.Entities
+﻿namespace Server.Domain.Entities
 {
     public class SuggestionRule : BaseEntity
     {
-        public int? MinWeek { get; set; }
-        public int? MaxWeek { get; set; }
-        public int? Trimester { get; set; }
-
+        public int Trimester { get; set; }
+        public int AgeRange { get; set; }
+        public double PercentageOfEnergyRecommend { get; set; }
+        public double PercentageOfEnergy { get; set; }
         public string Condition { get; set; }
         public string Note { get; set; }
 
@@ -20,5 +14,9 @@ namespace Server.Domain.Entities
         public ICollection<Disease> Diseases { get; set; }
 
         public bool IsPositive { get; set; }
+        public Guid NutrientCategoryId { get; set; }
+        public NutrientCategory NutrientCategory { get; set; } = new NutrientCategory();
+        public Guid NutrientId { get; set; }
+        public Nutrient Nutrient { get; set; } = new Nutrient();
     }
 }

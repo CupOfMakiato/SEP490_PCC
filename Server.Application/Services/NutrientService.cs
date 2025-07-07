@@ -62,7 +62,6 @@ namespace Server.Application.Services
                 CategoryId = request.CategoryId,
                 NutrientCategory = nutrientCategory,
                 ImageUrl = request.ImageUrl,
-                Unit = request.Unit,
             };
             await _unitOfWork.NutrientRepository.AddAsync(nutrient);
 
