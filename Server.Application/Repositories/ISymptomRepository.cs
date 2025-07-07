@@ -17,5 +17,6 @@ namespace Server.Application.Repositories
         Task<List<RecordedSymptom>> GetCustomSymptomsByUser(Guid userId);
         Task<bool> IsSymptomNameDuplicateForUser(string name, Guid userId);
         Task<bool> IsTemplateSymptomExistsByName(string name);
+        Task<RecordedSymptom?> FindReusableSymptom(string name, Guid userId);
     }
 }

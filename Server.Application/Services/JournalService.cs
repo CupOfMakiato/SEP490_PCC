@@ -3,6 +3,8 @@ using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Blog;
 using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
+using Server.Application.DTOs.Symptom;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Mappers.JournalExtensions;
 using Server.Application.Repositories;
@@ -11,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,11 +28,12 @@ namespace Server.Application.Services
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
         private readonly ISymptomService _symptomService;
+        private readonly ISymptomRepository _symptomRepository;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
-            ISymptomService symptomService)
+            ISymptomService symptomService, ISymptomRepository symptomRepository)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -38,12 +42,47 @@ namespace Server.Application.Services
             _claimsService = claimsService;
             _cloudinaryService = cloudinaryService;
             _symptomService = symptomService;
+            _symptomRepository = symptomRepository;
         }
+        private async Task<ViewJournalDTO> MapJournalToViewJournalDTO(Journal journal)
+        {
+            // manual mapper hehehe hetcuu
+            var userId = journal.CreatedBy;
+            var allSymptoms = await _symptomRepository.GetAllSymptomsForUser((Guid)userId);
+
+            return new ViewJournalDTO
+            {
+                Id = journal.Id,
+                CurrentWeek = journal.CurrentWeek,
+                CurrentTrimester = journal.CurrentTrimester,
+                Note = journal.Note,
+                CurrentWeight = journal.CurrentWeight,
+                Mood = journal.MoodNotes.ToString(),
+                CreatedByUser = journal.JournalCreatedBy != null
+                    ? new GetUserDTO
+                    {
+                        Id = journal.JournalCreatedBy.Id,
+                        UserName = journal.JournalCreatedBy.UserName
+                    }
+                    : null,
+                Symptoms = allSymptoms.Select(s => new SymptomDTO
+                {
+                    SymptomName = s.SymptomName,
+                    IsTemplate = s.IsTemplate
+                }).ToList()
+            };
+        }
+
         public async Task<Result<List<ViewJournalDTO>>> ViewAllJournals()
         {
             var journals = await _unitOfWork.JournalRepository.GetAllJournals();
+            var result = new List<ViewJournalDTO>();
 
-            var result = _mapper.Map<List<ViewJournalDTO>>(journals);
+            foreach (var journal in journals)
+            {
+                var dto = await MapJournalToViewJournalDTO(journal);
+                result.Add(dto);
+            }
 
             return new Result<List<ViewJournalDTO>>
             {
@@ -52,46 +91,59 @@ namespace Server.Application.Services
                 Data = result
             };
         }
-        public Task<Result<ViewJournalDTO>> ViewJournalById(Guid journalId)
+
+        public async Task<Result<ViewJournalDTO>> ViewJournalById(Guid journalId)
         {
-            var growthdata = _unitOfWork.JournalRepository.GetJournalById(journalId);
-            if (growthdata == null)
+            var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (journal == null)
             {
-                return Task.FromResult(new Result<ViewJournalDTO>
+                return new Result<ViewJournalDTO>
                 {
                     Error = 1,
-                    Message = "journal not found",
+                    Message = "Journal not found",
                     Data = null
-                });
+                };
             }
-            var result = _mapper.Map<ViewJournalDTO>(growthdata);
-            return Task.FromResult(new Result<ViewJournalDTO>
+
+            var dto = await MapJournalToViewJournalDTO(journal);
+
+            return new Result<ViewJournalDTO>
             {
                 Error = 0,
                 Message = "View journal by id successfully",
-                Data = result
-            });
+                Data = dto
+            };
         }
-        public Task<Result<List<ViewJournalDTO>>> ViewJournalsByGrowthDataId(Guid growthDataId)
+
+        public async Task<Result<List<ViewJournalDTO>>> ViewJournalsByGrowthDataId(Guid growthDataId)
         {
-            var journals = _unitOfWork.JournalRepository.GetJournalsByGrowthDataId(growthDataId);
-            if (journals == null)
+            var journals = await _unitOfWork.JournalRepository.GetJournalsByGrowthDataId(growthDataId);
+            if (journals == null || !journals.Any())
             {
-                return Task.FromResult(new Result<List<ViewJournalDTO>>
+                return new Result<List<ViewJournalDTO>>
                 {
                     Error = 1,
                     Message = "No journals found for this growth data",
                     Data = null
-                });
+                };
             }
-            var result = _mapper.Map<List<ViewJournalDTO>>(journals);
-            return Task.FromResult(new Result<List<ViewJournalDTO>>
+
+            var result = new List<ViewJournalDTO>();
+
+            foreach (var journal in journals)
+            {
+                var dto = await MapJournalToViewJournalDTO(journal);
+                result.Add(dto);
+            }
+
+            return new Result<List<ViewJournalDTO>>
             {
                 Error = 0,
                 Message = "View journals by growth data id successfully",
                 Data = result
-            });
+            };
         }
+
         public async Task<Result<object>> CreateNewJournalEntryForCurrentWeek(CreateNewJournalEntryForCurrentWeekDTO CreateNewJournalEntryForCurrentWeekDTO)
         {
             //var GetCurrentUserId = _claimsService.GetCurrentUserId;
@@ -136,23 +188,14 @@ namespace Server.Application.Services
 
             var journal = CreateNewJournalEntryForCurrentWeekDTO.ToJournal();
 
-            // ➕ Add symptoms
-            foreach (var name in CreateNewJournalEntryForCurrentWeekDTO.SymptomNames.Distinct())
-            {
-                var newSymptom = new RecordedSymptom
-                {
-                    SymptomName = name,
-                    IsTemplate = false,
-                    CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId,
-                    CreationDate = _currentTime.GetCurrentTime(),
-                    IsActive = true
-                };
+            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(CreateNewJournalEntryForCurrentWeekDTO.UserId, CreateNewJournalEntryForCurrentWeekDTO.SymptomNames);
 
-                await _unitOfWork.SymptomRepository.AddAsync(newSymptom);
+            foreach (var symptom in resolvedSymptoms)
+            {
                 journal.JournalSymptoms.Add(new JournalSymptom
                 {
                     Journal = journal,
-                    RecordedSymptom = newSymptom
+                    RecordedSymptom = symptom
                 });
             }
 

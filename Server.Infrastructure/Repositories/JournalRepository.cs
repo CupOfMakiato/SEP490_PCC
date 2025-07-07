@@ -28,6 +28,8 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Journal
                 .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
                 .Include(j => j.Media)
                 .Where(j => !j.IsDeleted)
                 .ToListAsync();
@@ -36,6 +38,8 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Journal
                 .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
                 .Include(j => j.Media)
                 .FirstOrDefaultAsync(j => j.Id == id && !j.IsDeleted);
         }
@@ -44,6 +48,8 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Journal
                 .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
                 .Include(j => j.Media)
                 .Where(j => j.GrowthDataId == growthDataId && !j.IsDeleted)
                 .ToListAsync();
@@ -53,6 +59,8 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Journal
                 .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
                 .Include(j => j.Media)
                 .Where(j => j.CreatedBy == userId
                 && j.GrowthDataId == growthDataId
@@ -64,6 +72,8 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Journal
                 .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
                 .Include(j => j.Media)
                 .Where(j => j.CurrentWeek == week 
                 && j.CurrentTrimester == trimester 

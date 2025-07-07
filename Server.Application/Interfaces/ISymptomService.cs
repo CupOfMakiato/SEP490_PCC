@@ -15,5 +15,6 @@ namespace Server.Application.Interfaces
         Task<Result<List<ViewSymptomDTO>>> ViewAllSymptomsForUser(Guid userId);
         Task<Result<ViewSymptomDTO>> ViewSymptomById(Guid id);
         Task<Result<object>> AddNewCustomSymptom(AddSymptomDTO addSymptomDTO);
+        Task<List<RecordedSymptom>> ReuseExistingOrAddNewCustom(Guid userId, IEnumerable<string> symptomNames);
     }
 }

@@ -133,6 +133,37 @@ namespace Server.Application.Services
                 Data = symptom.Id
             };
         }
+        public async Task<List<RecordedSymptom>> ReuseExistingOrAddNewCustom(Guid userId, IEnumerable<string> symptomNames)
+        {
+            var user = _claimsService.GetCurrentUserId;
+            var resolved = new List<RecordedSymptom>();
+
+            foreach (var name in symptomNames.Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                var existingSymptom = await _symptomRepository.FindReusableSymptom(name, userId);
+
+                if (existingSymptom != null)
+                {
+                    resolved.Add(existingSymptom);
+                }
+                else
+                {
+                    var newSymptom = new RecordedSymptom
+                    {
+                        SymptomName = name.Trim(),
+                        IsTemplate = false,
+                        CreatedBy = user,
+                        CreationDate = DateTime.Now,
+                        IsActive = true
+                    };
+
+                    await _symptomRepository.AddAsync(newSymptom);
+                    resolved.Add(newSymptom);
+                }
+            }
+
+            return resolved;
+        }
 
     }
 }
