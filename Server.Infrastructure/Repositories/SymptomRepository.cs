@@ -83,6 +83,17 @@ namespace Server.Infrastructure.Repositories
                                !s.IsDeleted &&
                                s.SymptomName.ToLower() == name);
         }
+        public async Task<RecordedSymptom?> FindReusableSymptom(string name, Guid userId)
+        {
+            var simplifiedString = name.Trim().ToLower();
+
+            return await _dbContext.RecordedSymptom
+                .FirstOrDefaultAsync(s =>
+                    !s.IsDeleted &&
+                    s.SymptomName.ToLower() == simplifiedString &&
+                    (s.IsTemplate || s.CreatedBy == userId));
+        }
+
 
 
     }
