@@ -30,6 +30,8 @@ namespace Server.Infrastructure
         private readonly IGrowthDataRepository _growthDataRepository;
         private readonly IJournalRepository _journalRepository;
         private readonly IBasicBioMetricRepository _basicBioMetricRepository;
+        private readonly IAgeGroupRepository _ageGroupRepository;
+        private readonly IEnergySuggestionRepository _energySuggestionRepository;
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
@@ -54,7 +56,9 @@ namespace Server.Infrastructure
             INutrientCategoryRepository nutrientCategoryRepository,
             IBasicBioMetricRepository basicBioMetricRepository,
             IMediaRepository mediaRepository,
-            ISymptomRepository symptomRepository)
+            ISymptomRepository symptomRepository,
+            IAgeGroupRepository ageGroupRepository,
+            IEnergySuggestionRepository energySuggestionRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -77,6 +81,8 @@ namespace Server.Infrastructure
             _basicBioMetricRepository = basicBioMetricRepository;
             _mediaRepository = mediaRepository;
             _symptomRepository = symptomRepository;
+            _ageGroupRepository = ageGroupRepository;
+            _energySuggestionRepository = energySuggestionRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -101,8 +107,10 @@ namespace Server.Infrastructure
         public IDiseaseRepository DiseaseRepository => _diseaseRepository;
         public IMediaRepository MediaRepository => _mediaRepository;
         public ISuggestionRuleRepository SuggestionRuleRepository => _suggestionRuleRepository;
+        public IAgeGroupRepository AgeGroupRepository => _ageGroupRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
         public ISymptomRepository SymptomRepository => _symptomRepository;
+        public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
 
         public async Task<int> SaveChangeAsync()
         {

@@ -90,6 +90,10 @@ namespace Server.Infrastructure
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
             services.AddScoped<ISymptomRepository, SymptomRepository>();
 
+            services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
+            services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
+            
+
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
             services.AddScoped<IGrowthDataBGService, GrowthDataBGService>();
