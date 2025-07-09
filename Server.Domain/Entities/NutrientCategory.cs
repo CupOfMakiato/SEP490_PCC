@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }    
         public string Description { get; set; } = string.Empty;
-        public SuggestionRule SuggestionRule { get; set; }
+        //public SuggestionRule SuggestionRule { get; set; }
         public IEnumerable<Nutrient> Nutrients { get; set; }
     }
 }

@@ -29,14 +29,17 @@ namespace Server.WebAPI.Controllers
         private readonly IUserService _userService;
         private readonly IEmailService _emailService;
         private readonly HttpClient _httpClient;
+        private readonly IGoogleService _googleService;
 
-        public AuthController(PasswordService passwordService, IAuthService authService, IUserService userService, IEmailService emailService, HttpClient httpClient)
+        public AuthController(PasswordService passwordService, IAuthService authService, IUserService userService,
+            IEmailService emailService, HttpClient httpClient, IGoogleService googleService)
         {
             _passwordService = passwordService;
             _authService = authService;
             _userService = userService;
             _emailService = emailService;
             _httpClient = httpClient;
+            _googleService = googleService;
         }
 
         [HttpPost("user/login")]
@@ -69,12 +72,69 @@ namespace Server.WebAPI.Controllers
             }
         }
 
-        [HttpGet("login-google")]
-        public IActionResult Login()
+        [HttpGet("callback")]
+        public async Task<IActionResult> CallbackLoginGoogle([FromQuery] string code)
         {
-            // Chuyển hướng đến Google để xác thực
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+            var result = await _googleService.GoogleCallback(code);
+            return Content(result, "application/json");
+        }
+
+        [HttpPost("google-login")]
+        public async Task<IActionResult> LoginWithGoogle([FromBody] GoogleUserRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.IdToken))
+            {
+                return BadRequest("Invalid request data.");
+            }
+
+            try
+            {
+                var token = await _googleService.AuthenticateGoogleUser(request);
+                if (token.Code == 1)
+                {
+                    return BadRequest(token.Error);
+                }
+                Response.Cookies.Append("refreshToken", token.RefreshToken, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    Path = "/",
+                    SameSite = SameSiteMode.Strict,
+                });
+                return Ok(new Result<object>
+                {
+                    Error = 0,
+                    Message = "Success",
+                    Data = new
+                    {
+                        TokenType = "Bearer",
+                        token.AccessToken,
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
+        }
+
+        [HttpPost("google-signup")]
+        public async Task<IActionResult> RegisterWithGoogle([FromBody] GoogleUserRequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.IdToken))
+            {
+                return BadRequest("Invalid request data.");
+            }
+
+            try
+            {
+                var result = await _googleService.RegisterWithGoogle(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { ex.Message });
+            }
         }
 
         [HttpPost("token/refresh")]

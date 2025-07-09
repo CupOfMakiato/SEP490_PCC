@@ -568,11 +568,11 @@ namespace Server.Infrastructure.Data
 
 
             //SuggestionRule
-            modelBuilder.Entity<SuggestionRule>()
-            .HasOne(s => s.NutrientCategory)
-            .WithOne(n => n.SuggestionRule)
-            .HasForeignKey<SuggestionRule>(s => s.NutrientCategoryId)
-            .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<SuggestionRule>()
+            //.HasOne(s => s.NutrientCategory)
+            //.WithOne(n => n.SuggestionRule)
+            //.HasForeignKey<SuggestionRule>(s => s.NutrientCategoryId)
+            //.OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SuggestionRule>()
             .HasOne(s => s.Nutrient)
@@ -588,9 +588,16 @@ namespace Server.Infrastructure.Data
                 .Property(s => s.Trimester)
                 .IsRequired();
 
-            modelBuilder.Entity<SuggestionRule>()
-                .Property(s => s.NutrientCategory)
-                .IsRequired();
+            //modelBuilder.Entity<SuggestionRule>()
+            //    .Property(s => s.NutrientCategory)
+            //    .IsRequired();
+
+            // NutrientSuggetion
+            modelBuilder.Entity<NutrientSuggetion>()
+            .HasOne(s => s.EnergySuggestion)
+            .WithOne(n => n.NutrientSuggetion)
+            .HasForeignKey<EnergySuggestion>(s => s.NutrientSuggetionId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             // Symptom
             modelBuilder.Entity<JournalSymptom>()

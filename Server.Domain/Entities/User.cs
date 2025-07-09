@@ -24,6 +24,9 @@ namespace Server.Domain.Entities
         public bool? IsStaff { get; set; } = false;
         // Avatar image
         public Media? Avatar { get; set; }
+        // OAuth
+        public string? Provider { get; set; }
+        public string? ProviderKey { get; set; }
 
         [ForeignKey("RoleId")]
         public Role Role { get; set; }
