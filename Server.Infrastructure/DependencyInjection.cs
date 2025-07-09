@@ -62,6 +62,7 @@ namespace Server.Infrastructure
             services.AddScoped<EmailService>();
             services.AddScoped<IRedisService, RedisService>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.AddScoped<IGoogleService, GoogleService>();
 
             services.AddMemoryCache();
 

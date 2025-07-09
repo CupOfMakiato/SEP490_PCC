@@ -51,7 +51,12 @@ builder.Services.AddAuthentication(options =>
             ClockSkew = System.TimeSpan.Zero
         };
     })
-    .AddCookie();
+    .AddCookie()
+    .AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+    {
+        options.ClientId = builder.Configuration["GoogleAPI:ClientId"];
+        options.ClientSecret = builder.Configuration["GoogleAPI:SecretCode"];
+    });
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -66,6 +71,7 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins(
                 "http://localhost:5173",
+                "https://localhost:5173",
                 "https://nestlycare.live",
                 "https://www.nestlycare.live",
                 "http://nestlycare.live"
