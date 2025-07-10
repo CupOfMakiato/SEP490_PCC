@@ -56,8 +56,8 @@ namespace Server.Application.Services
             var redirectUri = _configuration["GoogleAPI:RedirectUri"];
 
             var url = $"https://accounts.google.com/o/oauth2/auth" +
-                      $"?client_id={clientId}" +
-                      $"&redirect_uri={redirectUri}" +
+                      $"?client_id={Uri.EscapeDataString(clientId)}" +
+                      $"&redirect_uri={Uri.EscapeDataString(redirectUri)}" +
                       $"&response_type=code" +
                       $"&scope=email%20profile" +
                       $"&access_type=offline";
