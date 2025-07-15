@@ -21,6 +21,11 @@ namespace Server.Infrastructure.Mappers.UserProfile
             .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar))
                 
             .ReverseMap();
+            CreateMap<User, EditUserDTO>()
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+            .ForMember(dest => dest.DateOfBirth, opt => opt.MapFrom(src => src.DateOfBirth))
+            .ReverseMap();
         }
     }
 }

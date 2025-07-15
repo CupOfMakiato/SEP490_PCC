@@ -200,8 +200,36 @@ namespace Server.Application.Services
                 }
             };
         }
+        public async Task<Result<object>> EditUserProfile(EditUserDTO EditUserDTO)
+        {
+            var user = await _userRepository.GetUserById(EditUserDTO.Id);
+            if (user == null)
+            {
+                return new Result<object> 
+                { 
+                    Error = 1, 
+                    Message = "User not found." 
+                };
+            }
+            user.UserName = EditUserDTO.UserName ?? user.UserName;
+            user.PhoneNumber = EditUserDTO.PhoneNumber ?? user.PhoneNumber;
+            user.DateOfBirth = EditUserDTO?.DateOfBirth ?? user.DateOfBirth;
 
+            await _userRepository.UpdateAsync(user);
 
+            return new Result<object>
+            {
+                Error = 0,
+                Message = "User profile updated successfully.",
+                Data = new
+                {
+                    //user.Id,
+                    user.UserName,
+                    user.PhoneNumber,
+                    user.DateOfBirth
+                }
+            };
+        }
 
     }
 }
