@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Server.Application.Abstractions.Shared;
@@ -200,8 +201,35 @@ namespace Server.Application.Services
                 }
             };
         }
+        public async Task<Result<object>> EditUserProfile(EditUserDTO EditUserDTO)
+        {
+            var user = await _userRepository.GetUserById(EditUserDTO.Id);
+            if (user == null)
+            {
+                return new Result<object> 
+                { 
+                    Error = 1, 
+                    Message = "User not found." 
+                };
+            }
+            user.UserName = EditUserDTO.UserName ?? user.UserName;
+            user.PhoneNumber = EditUserDTO.PhoneNumber ?? user.PhoneNumber;
+            user.DateOfBirth = EditUserDTO?.DateOfBirth ?? user.DateOfBirth;
 
-
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+            var result = await _unitOfWork.SaveChangeAsync();
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Avatar uploaded successfully." : "Failed to upload avatar.",
+                Data = new
+                {
+                    user.UserName,
+                    user.PhoneNumber,
+                    user.DateOfBirth
+                }
+            };
+        }
 
     }
 }

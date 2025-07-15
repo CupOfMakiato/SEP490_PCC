@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -60,6 +61,14 @@ namespace Server.WebAPI.Controllers
                 });
             }
 
+        }
+        [HttpPut("edit-user-profile")]
+        [ProducesResponseType(200, Type = typeof(Result<EditUserDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> EditUserProfile([FromForm] EditUserDTO editUserDTO)
+        {
+            var result = await _userService.EditUserProfile(editUserDTO);
+            return Ok(result);
         }
     }
 }

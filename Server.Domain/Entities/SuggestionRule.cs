@@ -14,8 +14,8 @@
         public ICollection<Disease> Diseases { get; set; }
 
         public bool IsPositive { get; set; }
-        public Guid NutrientCategoryId { get; set; }
-        public NutrientCategory NutrientCategory { get; set; } = new NutrientCategory();
+        //public Guid NutrientCategoryId { get; set; }
+        //public NutrientCategory NutrientCategory { get; set; } = new NutrientCategory();
         public Guid NutrientId { get; set; }
         public Nutrient Nutrient { get; set; } = new Nutrient();
     }

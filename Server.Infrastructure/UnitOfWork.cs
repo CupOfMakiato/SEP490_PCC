@@ -35,6 +35,7 @@ namespace Server.Infrastructure
         private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
+        private readonly ICustomChecklistRepository _customChecklistRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -58,7 +59,8 @@ namespace Server.Infrastructure
             IMediaRepository mediaRepository,
             ISymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
-            IEnergySuggestionRepository energySuggestionRepository)
+            IEnergySuggestionRepository energySuggestionRepository,
+            ICustomChecklistRepository customChecklistRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -83,6 +85,7 @@ namespace Server.Infrastructure
             _symptomRepository = symptomRepository;
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
+            _customChecklistRepository = customChecklistRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -96,6 +99,7 @@ namespace Server.Infrastructure
         public ILikeRepository LikeRepository => _likeRepository;
 
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
+        public ICustomChecklistRepository CustomChecklistRepository => _customChecklistRepository;
         public IJournalRepository JournalRepository => _journalRepository;
         public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
 

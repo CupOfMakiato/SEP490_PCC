@@ -15,5 +15,6 @@ namespace Server.Application.DTOs.User
         public string PhoneNo { get; set; }
         public string Status { get; set; }
         public MediaDTO? Avatar { get; set; }
+        public int RoleId { get; set; }
     }
 }

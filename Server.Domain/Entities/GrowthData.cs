@@ -21,6 +21,8 @@ namespace Server.Domain.Entities
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
         public ICollection<Journal> Journals { get; set; } = new List<Journal>();
         public BasicBioMetric BasicBioMetric { get; set; } // Basic biometrics like weight, height, blood pressure, etc. // 1 - 1
+        public ICollection<TailoredCheckupReminder> TailoredCheckupReminders { get; set; } = new List<TailoredCheckupReminder>();
+        public ICollection<CustomChecklist> CustomChecklists { get; set; } = new List<CustomChecklist>();
 
         //public Fetus Fetus { get; set; } // this is static data
         public int GetGestationalAgeInWeeks()
