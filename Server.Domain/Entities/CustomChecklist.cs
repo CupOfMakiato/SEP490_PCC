@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Entities
 {
-    public class TrimesterChecklist : BaseEntity
+    public class CustomChecklist : BaseEntity
     {
         public string TaskName { get; set; }
         public int Trimester { get; set; } // 1, 2, 3
-        public int Order { get; set; }
-
-        public Guid GrowthDataId { get; set; }
-        public GrowthData GrowthData { get; set; }
-        public bool IsTemplate { get; set; } = true; 
-
         public bool IsCompleted { get; set; } = false;
         public DateTime? CompletedDate { get; set; }
+        public string? Notes { get; set; }
+        public bool IsActive { get; set; } = true;
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        
+        public Guid GrowthDataId { get; set; }
+        public GrowthData GrowthData { get; set; }
     }
 }
