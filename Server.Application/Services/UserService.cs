@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Server.Application.Abstractions.Shared;
@@ -215,15 +216,14 @@ namespace Server.Application.Services
             user.PhoneNumber = EditUserDTO.PhoneNumber ?? user.PhoneNumber;
             user.DateOfBirth = EditUserDTO?.DateOfBirth ?? user.DateOfBirth;
 
-            await _userRepository.UpdateAsync(user);
-
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+            var result = await _unitOfWork.SaveChangeAsync();
             return new Result<object>
             {
-                Error = 0,
-                Message = "User profile updated successfully.",
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Avatar uploaded successfully." : "Failed to upload avatar.",
                 Data = new
                 {
-                    //user.Id,
                     user.UserName,
                     user.PhoneNumber,
                     user.DateOfBirth
