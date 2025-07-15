@@ -15,7 +15,12 @@ namespace Server.Infrastructure.Mappers.UserProfile
         {
             CreateMap<User, UserDTO>().ReverseMap();
 
-            CreateMap<User, GetUserDTO>().ReverseMap();
+            CreateMap<User, GetUserDTO>()
+            .ForMember(dest => dest.PhoneNo, opt => opt.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()))
+            .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar))
+                
+            .ReverseMap();
         }
     }
 }

@@ -1,14 +1,7 @@
 ﻿using Server.Application.DTOs.BasicBioMetric;
-using Server.Application.DTOs.Fetus;
 using Server.Application.DTOs.Journal;
 using Server.Application.DTOs.User;
-using Server.Domain.Entities;
-using Server.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Server.Application.DTOs.UserChecklist;
 
 namespace Server.Application.DTOs.GrowthData
 {
@@ -26,5 +19,7 @@ namespace Server.Application.DTOs.GrowthData
         public List<JournalDTO>? Journal { get; set; }
         public GetUserDTO? CreatedByUser { get; set; }
         public BasicBioMetricDTO? BasicBioMetric { get; set; }
+        public List<CustomChecklistDTO>? CustomChecklist { get; set; }
+        //public List<CheckupReminder>? CheckupReminders { get; set; }
     }
 }
