@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.CustomChecklist;
 using Server.Application.DTOs.Symptom;
+using Server.Application.DTOs.Tag;
 using Server.Application.DTOs.UserChecklist;
 using Server.Application.Interfaces;
+using Server.Application.Mappers.CustomChecklistExtensions;
 using Server.Application.Repositories;
 using Server.Domain.Enums;
 
@@ -89,6 +92,32 @@ namespace Server.Application.Services
                 Error = 0,
                 Message = "Checklist retrieved successfully",
                 Data = _mapper.Map<ViewCustomChecklistDTO>(customChecklist)
+            };
+        }
+        public async Task<Result<object>> CreateNewCustomChecklist(CreateCustomChecklistDTO CreateCustomChecklistDTO)
+        {
+            var user = _claimsService.GetCurrentUserId;
+            if (user == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User does not exist!",
+                    Data = null
+                };
+            }
+            var checklist = CreateCustomChecklistDTO.ToCustomChecklist();
+            
+            checklist.CreatedBy = user;
+            checklist.CreationDate = DateTime.UtcNow;
+
+            await _unitOfWork.CustomChecklistRepository.AddAsync(checklist);
+            var result = await _unitOfWork.SaveChangeAsync();
+            return new Result<object>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Add new checklist successfully" : "Add new checklist fail",
+                Data = CreateCustomChecklistDTO
             };
         }
 

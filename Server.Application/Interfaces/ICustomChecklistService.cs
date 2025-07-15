@@ -1,4 +1,5 @@
 ﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.CustomChecklist;
 using Server.Application.DTOs.UserChecklist;
 using System;
 using System.Collections.Generic;
@@ -10,12 +11,14 @@ namespace Server.Application.Interfaces
 {
     public interface ICustomChecklistService
     {
-        //view
+        // view
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllCustomChecklists();
         Task<Result<ViewCustomChecklistDTO>> ViewCustomChecklistById(Guid id);
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllInCompleteChecklist();
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllCompleteChecklist();
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllActiveCustomChecklists();
+        // create
+        Task<Result<object>> CreateNewCustomChecklist(CreateCustomChecklistDTO CreateCustomChecklistDTO);
 
     }
 }
