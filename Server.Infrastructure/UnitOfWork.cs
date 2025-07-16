@@ -32,7 +32,6 @@ namespace Server.Infrastructure
         private readonly IBasicBioMetricRepository _basicBioMetricRepository;
         private readonly IAgeGroupRepository _ageGroupRepository;
         private readonly IEnergySuggestionRepository _energySuggestionRepository;
-        private readonly ISuggestionRuleRepository _suggestionRuleRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
 
@@ -48,7 +47,6 @@ namespace Server.Infrastructure
             IFoodCategoryRepository foodCategoryRepository,
             IFoodRepository foodRepository,
             INutrientRepository nutrientRepository,
-            ISuggestionRuleRepository suggestionRuleRepository,
             IDiseaseRepository diseaseRepository,
             IGrowthDataRepository growthDataRepository,
             IJournalRepository journalRepository,
@@ -76,7 +74,6 @@ namespace Server.Infrastructure
             _diseaseRepository = diseaseRepository;
             _growthDataRepository = growthDataRepository;
             _journalRepository = journalRepository;
-            _suggestionRuleRepository = suggestionRuleRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
             _basicBioMetricRepository = basicBioMetricRepository;
             _mediaRepository = mediaRepository;
@@ -106,7 +103,6 @@ namespace Server.Infrastructure
         public INutrientCategoryRepository NutrientCategoryRepository => _nutrientCategoryRepository;
         public IDiseaseRepository DiseaseRepository => _diseaseRepository;
         public IMediaRepository MediaRepository => _mediaRepository;
-        public ISuggestionRuleRepository SuggestionRuleRepository => _suggestionRuleRepository;
         public IAgeGroupRepository AgeGroupRepository => _ageGroupRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
         public ISymptomRepository SymptomRepository => _symptomRepository;

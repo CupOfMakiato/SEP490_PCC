@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Entities
 {
-    public class FoodRecommendationHistory : BaseEntity
+    public class DishesRecommendationHistory : BaseEntity
     {
         public DateTime RecommededAt { get; set; } = DateTime.Now;
         /// <summary>
@@ -15,22 +15,11 @@ namespace Server.Domain.Entities
         /// </summary>
         public string Source { get; set; } //Json - Nếu mà có tư vấn viên thì thêm vô Id của nó
         public string Reason { get; set; } = string.Empty;
+        public int PregnancyWeek { get; set; }
 
         [ForeignKey("GrowthDataId")]
         public Guid GrowthDataId { get; set; }
         public GrowthData GrowthData { get; set; }
-        public List<FoodRecommendationHistoryVersion> Versions { get; set; }
-
-        public int PregnancyWeek()
-        {
-            if (Versions is null)
-            {
-                throw new ArgumentNullException(nameof(Versions));
-            }
-
-            var lastedVersion = Versions?.OrderByDescending(v => v.Version).FirstOrDefault();
-            var pregnancyWeek = (int)((DateTime.Now - lastedVersion.FirstDateOfPregnancy).TotalDays / 7);
-            return pregnancyWeek;
-        }
+        public List<HistoryDish> HistoryDishes { get; set; }
     }
 }

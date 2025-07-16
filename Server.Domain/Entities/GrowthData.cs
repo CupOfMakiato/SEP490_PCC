@@ -15,7 +15,7 @@ namespace Server.Domain.Entities
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
         public int GestationalAgeInWeeks { get; set; } = 40;
         public DateTime EstimatedDueDate { get; set; }
-        public IEnumerable<FoodRecommendationHistory> FoodRecommendationHistories { get; set; }
+        public IEnumerable<DishesRecommendationHistory> FoodRecommendationHistories { get; set; }
         public GrowthDataStatus Status { get; set; } = GrowthDataStatus.Active; // can go inactive if user has second prenancy
         public User GrowthDataCreatedBy { get; set; }
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
