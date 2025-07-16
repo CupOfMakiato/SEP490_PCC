@@ -23,11 +23,14 @@ namespace Server.Infrastructure.Repositories
         }
         public async Task<IList<User>> GetALl()
         {
-            return await _dbContext.User.Where(u => u.RoleId != 1).ToListAsync();
+            return await _dbContext.User
+                .Include(u => u.Avatar)
+                .Where(u => u.RoleId != 1).ToListAsync();
         }
         public async Task<List<User>> GetAllStaff()
         {
             return await _dbContext.User
+                .Include(u => u.Avatar)
                 .Where(u => u.RoleId == 3 || u.RoleId == 4)
                 //.Where(u => !u.IsDeleted)
                 .ToListAsync();
@@ -35,6 +38,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<User>> GetAllClinic()
         {
             return await _dbContext.User
+                .Include(u => u.Avatar)
                 .Where(u => u.RoleId == 5)
                 //.Where(u => !u.IsDeleted)
                 .ToListAsync();
@@ -42,6 +46,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<User> GetUserByName(string userName)
         {
             return await _dbContext.User
+                .Include(u => u.Avatar)
                 .FirstOrDefaultAsync(u => u.UserName == userName);
         }
         public async Task<User> AddUser(User user)

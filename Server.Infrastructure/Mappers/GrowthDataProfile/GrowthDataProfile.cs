@@ -4,6 +4,7 @@ using Server.Application.DTOs.Blog;
 using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
 using Server.Application.DTOs.User;
+using Server.Application.DTOs.UserChecklist;
 using Server.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,13 @@ namespace Server.Infrastructure.Mappers.GrowthDataProfile
             .ForMember(dest => dest.Journal, opt => opt.MapFrom(src =>
                 src.Journals))
             .ForMember(dest => dest.BasicBioMetric, opt => opt.MapFrom(src =>
-                src.BasicBioMetric)
+                src.BasicBioMetric))
+
+            .ForMember(dest => dest.CustomChecklist, opt => opt.MapFrom(src =>
+                src.CustomChecklists)
             );
+
+
         }
     }
 }

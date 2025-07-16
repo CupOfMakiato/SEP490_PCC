@@ -32,7 +32,8 @@ namespace Server.Infrastructure.Data
         public DbSet<GrowthData> GrowthData { get; set; }
         public DbSet<BasicBioMetric> BasicBioMetric { get; set; }
         //public DbSet<Fetus> Fetus { get; set; }
-        public DbSet<Reminder> Reminder { get; set; }
+        public DbSet<CustomChecklist> CustomChecklist { get; set; }
+        public DbSet<TailoredCheckupReminder> TailoredCheckupReminder { get; set; }
         public DbSet<Journal> Journal { get; set; }
         public DbSet<RecordedSymptom> RecordedSymptom { get; set; }
         public DbSet<JournalSymptom> JournalSymptoms { get; set; }
@@ -582,6 +583,35 @@ namespace Server.Infrastructure.Data
             .WithMany(t => t.JournalSymptoms)
             .HasForeignKey(bt => bt.RecordedSymptomId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            // TailoredCheckupReminder
+
+            modelBuilder.Entity<TailoredCheckupReminder>()
+                .Property(s => s.Type)
+                .HasConversion(v => v.ToString(), v => (CheckupType)Enum.Parse(typeof(CheckupType), v));
+
+            modelBuilder.Entity<TailoredCheckupReminder>()
+                .Property(s => s.CheckupStatus)
+                .HasConversion(v => v.ToString(), v => (CheckupStatus)Enum.Parse(typeof(CheckupStatus), v));
+
+            modelBuilder.Entity<TailoredCheckupReminder>()
+            .HasOne(uc => uc.GrowthData)
+            .WithMany(gd => gd.TailoredCheckupReminders)
+            .HasForeignKey(uc => uc.GrowthDataId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            // CustomChecklist
+
+            modelBuilder.Entity<CustomChecklist>()
+            .HasOne(uc => uc.GrowthData)
+            .WithMany(gd => gd.CustomChecklists)
+            .HasForeignKey(uc => uc.GrowthDataId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+            ChecklistSeedData.SeedData(modelBuilder);
+
+
+
         }
     }
 }

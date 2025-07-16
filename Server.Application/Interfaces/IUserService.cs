@@ -20,5 +20,8 @@ namespace Server.Application.Interfaces
         Task<User> HardDeleteUser(Guid userId);
         //upload avatar
         Task<Result<object>> UploadAvatar(Guid userId, IFormFile file);
+        //edit profile
+        Task<Result<object>> EditUserProfile(EditUserDTO EditUserDTO);
+
     }
 }

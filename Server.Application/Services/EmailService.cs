@@ -10,6 +10,8 @@ using Server.Application.DTOs.User;
 using Org.BouncyCastle.Asn1.Crmf;
 using System.Text.Json;
 using RestSharp.Authenticators;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace Server.Application.Services
 {
@@ -24,54 +26,106 @@ namespace Server.Application.Services
             _logger = logger;
         }
 
+        //public async Task<bool> SendEmailAsync(EmailDTO request)
+        //{
+        //    try
+        //    {
+        //        var apiKey = _configuration["Mailjet:ApiKey"];
+        //        var apiSecret = _configuration["Mailjet:ApiSecret"];
+        //        var fromEmail = _configuration["Mailjet:FromEmail"];
+        //        var fromName = _configuration["Mailjet:FromName"];
+
+        //        var options = new RestClientOptions("https://api.mailjet.com/v3.1/send")
+        //        {
+        //            Authenticator = new HttpBasicAuthenticator(apiKey, apiSecret)
+        //        };
+
+        //        var client = new RestClient(options);
+
+        //        var requestBody = new
+        //        {
+        //            Messages = new[]
+        //            {
+        //        new
+        //        {
+        //            From = new { Email = fromEmail, Name = fromName },
+        //            To = new[] { new { Email = request.To, Name = request.To } },
+        //            Subject = request.Subject,
+        //            HTMLPart = request.Body
+        //        }
+        //    }
+        //        };
+
+        //        var jsonBody = JsonSerializer.Serialize(requestBody);
+
+        //        var restRequest = new RestRequest()
+        //            .AddHeader("Content-Type", "application/json")
+        //            .AddStringBody(jsonBody, DataFormat.Json);
+
+        //        var response = await client.ExecutePostAsync(restRequest);
+
+        //        if (response.IsSuccessful)
+        //        {
+        //            _logger.LogInformation("✅ Email sent successfully to {Recipient}", request.To);
+        //            return true;
+        //        }
+
+        //        _logger.LogError("""
+        //Failed to send email to {Recipient}
+        //→ StatusCode: {StatusCode}
+        //→ Response Content: {Content}
+        //→ ErrorMessage: {ErrorMessage}
+        //→ Sent JSON: {JsonBody}
+        //""", request.To, response.StatusCode, response.Content, response.ErrorMessage, jsonBody);
+
+        //        return false;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError("""
+        //Exception while sending email:
+        //→ Message: {ExceptionMessage}
+        //→ StackTrace: {StackTrace}
+        //""", ex.Message, ex.StackTrace);
+
+        //        return false;
+        //    }
+        //}
         public async Task<bool> SendEmailAsync(EmailDTO request)
         {
             try
             {
-                var apiKey = _configuration["Mailjet:ApiKey"];
-                var apiSecret = _configuration["Mailjet:ApiSecret"];
-                var fromEmail = _configuration["Mailjet:FromEmail"];
-                var fromName = _configuration["Mailjet:FromName"];
+                var apiKey = _configuration["Resend:ApiKey"];
+                var fromEmail = _configuration["Resend:FromEmail"];
+                var toEmail = request.To;
 
-                var options = new RestClientOptions("https://api.mailjet.com/v3.1/send")
+                var httpClient = new HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+
+                var payload = new
                 {
-                    Authenticator = new HttpBasicAuthenticator(apiKey, apiSecret)
+                    from = fromEmail,
+                    to = new[] { toEmail },
+                    subject = request.Subject,
+                    html = request.Body
                 };
 
-                var client = new RestClient(options);
+                var json = JsonSerializer.Serialize(payload);
+                var response = await httpClient.PostAsync("https://api.resend.com/emails", new StringContent(json, Encoding.UTF8, "application/json"));
+                var content = await response.Content.ReadAsStringAsync();
 
-                var requestBody = new
+                if (response.IsSuccessStatusCode)
                 {
-                    Messages = new[]
-                    {
-                new
-                {
-                    From = new { Email = fromEmail, Name = fromName },
-                    To = new[] { new { Email = request.To, Name = request.To } },
-                    Subject = request.Subject,
-                    HTMLPart = request.Body
-                }
-                    }
-                };
-
-                var restRequest = new RestRequest()
-                    .AddHeader("Content-Type", "application/json")
-                    .AddJsonBody(JsonSerializer.Serialize(requestBody));
-
-                var response = await client.ExecutePostAsync(restRequest);
-
-                if (response.IsSuccessful)
-                {
-                    _logger.LogInformation("Email sent successfully to {Recipient}", request.To);
+                    _logger.LogInformation("Resend: Email sent to {Recipient}", toEmail);
                     return true;
                 }
 
-                _logger.LogError("Failed to send email: {Error}", response.Content);
+                _logger.LogError("Resend failed: {Status} - {Content}", response.StatusCode, content);
                 return false;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error sending email: {Exception}", ex.Message);
+                _logger.LogError(ex, "Exception while sending email via Resend");
                 return false;
             }
         }

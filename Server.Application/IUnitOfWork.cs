@@ -25,6 +25,7 @@ namespace Server.Application
         public IAgeGroupRepository AgeGroupRepository { get; }
         public IEnergySuggestionRepository EnergySuggestionRepository { get; }
         public ISymptomRepository SymptomRepository{ get; }
+        public ICustomChecklistRepository CustomChecklistRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
