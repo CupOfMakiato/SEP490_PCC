@@ -26,7 +26,7 @@ namespace Server.Infrastructure.Data
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<Consultation> Consultation { get; set; }
         public DbSet<Slot> Slot { get; set; }
-        public DbSet<Session> Session { get; set; }
+        //public DbSet<Session> Session { get; set; }
 
         // Pregnancy Tracking
         public DbSet<GrowthData> GrowthData { get; set; }
@@ -472,38 +472,6 @@ namespace Server.Infrastructure.Data
                 .HasOne(c => c.Consultant)
                 .WithMany()
                 .HasForeignKey(c => c.ConsultantId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Consultation>()
-                .HasOne(c => c.Clinic)
-                .WithMany()
-                .HasForeignKey(c => c.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Slot
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultant)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultantId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Clinic)
-                .WithMany()
-                .HasForeignKey(cs => cs.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.BookedByUser)
-                .WithMany()
-                .HasForeignKey(cs => cs.BookedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultation)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 
