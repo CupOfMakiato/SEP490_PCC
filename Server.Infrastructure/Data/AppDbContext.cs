@@ -467,38 +467,6 @@ namespace Server.Infrastructure.Data
                 .HasForeignKey(c => c.ConsultantId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Consultation>()
-                .HasOne(c => c.Clinic)
-                .WithMany()
-                .HasForeignKey(c => c.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Slot
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultant)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultantId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Clinic)
-                .WithMany()
-                .HasForeignKey(cs => cs.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.BookedByUser)
-                .WithMany()
-                .HasForeignKey(cs => cs.BookedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultation)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultationId)
-                .OnDelete(DeleteBehavior.Restrict);
-
 
             // GrowthData
 
