@@ -6,7 +6,7 @@ using Server.Infrastructure.Data;
 
 namespace Server.Infrastructure.Repositories
 {
-    public class FoodRecommendationHistoryRepository : GenericRepository<FoodRecommendationHistory>, IFoodRecommendationHistoryRepository
+    public class FoodRecommendationHistoryRepository : GenericRepository<DishesRecommendationHistory>, IFoodRecommendationHistoryRepository
     {
         public FoodRecommendationHistoryRepository(AppDbContext dbContext,
             ICurrentTime timeService,
@@ -17,53 +17,48 @@ namespace Server.Infrastructure.Repositories
         {
         }
 
-        public async Task<FoodRecommendationHistory> GetByGrowthIdAndDate(Guid growthId, DateOnly date)
+        public async Task<DishesRecommendationHistory> GetByGrowthIdAndDate(Guid growthId, DateOnly date)
         {
             return await _dbSet
-                .Include(frh => frh.Versions.OrderByDescending(v => v.Version).First())
                 .FirstOrDefaultAsync(frh => frh.GrowthDataId.Equals(growthId)
                 && frh.CreationDate.Date.Equals(date)
-                && frh.PregnancyWeek() > 0
-                && frh.PregnancyWeek() <= 40);
+                && frh.PregnancyWeek > 0
+                && frh.PregnancyWeek <= 40);
         }
 
-        public async Task<FoodRecommendationHistory> GetByGrowthIdAndWeek(Guid growthId, int week)
+        public async Task<DishesRecommendationHistory> GetByGrowthIdAndWeek(Guid growthId, int week)
         {
             return await _dbSet
-                .Include(frh => frh.Versions.OrderByDescending(v => v.Version).First())
-                .FirstOrDefaultAsync(frh => frh.GrowthDataId.Equals(growthId) && frh.PregnancyWeek() == week);
+                .FirstOrDefaultAsync(frh => frh.GrowthDataId.Equals(growthId) && frh.PregnancyWeek == week);
         }
 
-        public async Task<FoodRecommendationHistory> GetByGrowthIdAndWeekInMonth(Guid growthId, int week, int month)
+        public async Task<DishesRecommendationHistory> GetByGrowthIdAndWeekInMonth(Guid growthId, int week, int month)
         {
             return await _dbSet
-                .Include(frh => frh.Versions.OrderByDescending(v => v.Version).First())
-                .FirstOrDefaultAsync(frh => frh.GrowthDataId.Equals(growthId) && frh.PregnancyWeek() == week + month * 4);
+                .FirstOrDefaultAsync(frh => frh.GrowthDataId.Equals(growthId) && frh.PregnancyWeek == week + month * 4);
         }
 
-        public async Task<FoodRecommendationHistory> GetFoodRecommendationHistoryById(Guid id)
+        public async Task<DishesRecommendationHistory> GetFoodRecommendationHistoryById(Guid id)
         {
             return await _dbSet.Include(frh => frh.GrowthData).FirstOrDefaultAsync(frh => frh.Equals(id));
         }
 
-        public async Task<List<FoodRecommendationHistory>> GetFoodRecommendationHistorys()
+        public async Task<List<DishesRecommendationHistory>> GetFoodRecommendationHistorys()
         {
             return await _dbSet.Include(frh => frh.GrowthData).ToListAsync();
         }
 
-        public async Task<FoodRecommendationHistory> GetInCurrentWeekByGrowthId(Guid growthId)
+        public async Task<DishesRecommendationHistory> GetInCurrentWeekByGrowthId(Guid growthId)
         {
             return await _dbSet
-                .Include(frh => frh.Versions.OrderByDescending(v => v.Version).First())
                 .Where(frh => frh.GrowthDataId.Equals(growthId))
                 .OrderByDescending(frh => frh.RecommededAt)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<FoodRecommendationHistory>> GetByGrowthId(Guid growthId)
+        public async Task<List<DishesRecommendationHistory>> GetByGrowthId(Guid growthId)
         {
             return await _dbSet
-                .Include(frh => frh.Versions.OrderByDescending(v => v.Version).First())
                 .Where(frh => frh.GrowthDataId.Equals(growthId))
                 .OrderByDescending(frh => frh.RecommededAt)
                 .ToListAsync();

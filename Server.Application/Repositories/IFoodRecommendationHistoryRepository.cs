@@ -2,14 +2,14 @@
 
 namespace Server.Application.Repositories
 {
-    public interface IFoodRecommendationHistoryRepository : IGenericRepository<FoodRecommendationHistory>
+    public interface IFoodRecommendationHistoryRepository : IGenericRepository<DishesRecommendationHistory>
     {
-        public Task<FoodRecommendationHistory> GetFoodRecommendationHistoryById(Guid id);
-        public Task<List<FoodRecommendationHistory>> GetFoodRecommendationHistorys();
-        public Task<FoodRecommendationHistory> GetByGrowthIdAndDate(Guid growthId, DateOnly date);
-        public Task<FoodRecommendationHistory> GetByGrowthIdAndWeek(Guid growthId, int week);
-        public Task<FoodRecommendationHistory> GetByGrowthIdAndWeekInMonth(Guid growthId, int week, int Month);
-        public Task<FoodRecommendationHistory> GetInCurrentWeekByGrowthId(Guid growthId);
-        public Task<List<FoodRecommendationHistory>> GetByGrowthId(Guid growthId);
+        public Task<DishesRecommendationHistory> GetFoodRecommendationHistoryById(Guid id);
+        public Task<List<DishesRecommendationHistory>> GetFoodRecommendationHistorys();
+        public Task<DishesRecommendationHistory> GetByGrowthIdAndDate(Guid growthId, DateOnly date);
+        public Task<DishesRecommendationHistory> GetByGrowthIdAndWeek(Guid growthId, int week);
+        public Task<DishesRecommendationHistory> GetByGrowthIdAndWeekInMonth(Guid growthId, int week, int Month);
+        public Task<DishesRecommendationHistory> GetInCurrentWeekByGrowthId(Guid growthId);
+        public Task<List<DishesRecommendationHistory>> GetByGrowthId(Guid growthId);
     }
 }
