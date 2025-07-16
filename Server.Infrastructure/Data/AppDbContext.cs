@@ -265,6 +265,12 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
 
+            //EnergySuggestion
+            modelBuilder.Entity<EnergySuggestion>()
+            .HasOne(es => es.NutrientSuggetion)
+            .WithOne(ns => ns.EnergySuggestion)
+            .HasForeignKey<EnergySuggestion>(es => es.NutrientSuggetionId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             // blogtag
 
