@@ -35,7 +35,6 @@ namespace Server.Infrastructure.Repositories
             return await _context.Food.Include(f => f.FoodNutrients)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.SuggestionRule)
                                       .Include(f => f.FoodDiseaseWarning)
                                       .FirstOrDefaultAsync(f => f.Id.Equals(foodId));
         }
@@ -45,7 +44,6 @@ namespace Server.Infrastructure.Repositories
             return await _context.Food.Include(f => f.FoodNutrients)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.SuggestionRule)
                                       .Include(f => f.FoodDiseaseWarning)
                                       .ToListAsync();
         }

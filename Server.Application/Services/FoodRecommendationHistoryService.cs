@@ -12,38 +12,38 @@ namespace Server.Application.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId, DateOnly date)
+        public async Task<DishesRecommendationHistory> UserViewMealLog(Guid growDataId, DateOnly date)
         {
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthIdAndDate(growDataId, date);
         }
 
-        public async Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId, int week)
+        public async Task<DishesRecommendationHistory> UserViewMealLog(Guid growDataId, int week)
         {
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthIdAndWeek(growDataId, week);
         }
 
-        public async Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId, int weekInMonth, int month)
+        public async Task<DishesRecommendationHistory> UserViewMealLog(Guid growDataId, int weekInMonth, int month)
         {
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthIdAndWeekInMonth(growDataId, weekInMonth, month);
         }
 
-        public async Task<FoodRecommendationHistory> UserViewMealLog(Guid growDataId)
+        public async Task<DishesRecommendationHistory> UserViewMealLog(Guid growDataId)
         {
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetInCurrentWeekByGrowthId(growDataId);
         }
 
-        public async Task<List<FoodRecommendationHistory>> GetGrowthDataMealLog(Guid growDataId)
+        public async Task<List<DishesRecommendationHistory>> GetGrowthDataMealLog(Guid growDataId)
         {
             return await _unitOfWork.FoodRecommendationHistoryRepository.GetByGrowthId(growDataId);
         }
 
-        public async Task<Result<FoodRecommendationHistory>> CreateFoodRecommendation(Guid userId)
+        public async Task<Result<DishesRecommendationHistory>> CreateFoodRecommendation(Guid userId)
         {
             try
             {
                 var currentGrowthData = await _unitOfWork.GrowthDataRepository.GetActiveGrowthDataByUserId(userId);
                 if (currentGrowthData is null)
-                    return new Result<FoodRecommendationHistory>()
+                    return new Result<DishesRecommendationHistory>()
                     {
                         Error = 1,
                         Message = "Current GrowData of this user doesn't exist",
@@ -56,7 +56,7 @@ namespace Server.Application.Services
   
                 var ageGroup = await _unitOfWork.AgeGroupRepository.GetGroupByUserDateOfBirthAndTrimester((DateTime)user.DateOfBirth, currentTrimester);
                 if (currentGrowthData is null)
-                    return new Result<FoodRecommendationHistory>()
+                    return new Result<DishesRecommendationHistory>()
                     {
                         Error = 1,
                         Message = "User's age are not in my system, please go to hospital",
@@ -66,7 +66,7 @@ namespace Server.Application.Services
 
                 
 
-                var recommendationHistory = new FoodRecommendationHistory()
+                var recommendationHistory = new DishesRecommendationHistory()
                 {
                     RecommededAt = DateTime.Now,
                     GrowthData = currentGrowthData,
@@ -77,7 +77,7 @@ namespace Server.Application.Services
                 await _unitOfWork.FoodRecommendationHistoryRepository.AddAsync(recommendationHistory);
                 if (await _unitOfWork.SaveChangeAsync() > 0)
                 {
-                    return new Result<FoodRecommendationHistory>()
+                    return new Result<DishesRecommendationHistory>()
                     {
                         Error = 0,
                         Message = "Create success",
@@ -85,7 +85,7 @@ namespace Server.Application.Services
                     };
                 }
 
-                return new Result<FoodRecommendationHistory>()
+                return new Result<DishesRecommendationHistory>()
                 {
                     Error = 1,
                     Message = "Create fail",
@@ -94,7 +94,7 @@ namespace Server.Application.Services
             catch (Exception ex)
             {
                 await Console.Out.WriteLineAsync(ex.Message);
-                return new Result<FoodRecommendationHistory>()
+                return new Result<DishesRecommendationHistory>()
                 {
                     Error = 1,
                     Message = ex.Message

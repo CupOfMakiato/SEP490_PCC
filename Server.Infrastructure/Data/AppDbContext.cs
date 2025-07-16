@@ -55,9 +55,10 @@ namespace Server.Infrastructure.Data
         public DbSet<Nutrient> Nutrient { get; set; }
         public DbSet<NutrientCategory> NutrientCategory { get; set; }
         public DbSet<FoodNutrient> FoodNutrient { get; set; }
-        public DbSet<SuggestionRule> SuggestionRule { get; set; }
-        public DbSet<FoodRecommendationHistory> FoodRecommendationHistory { get; set; }
-        public DbSet<FoodRecommendationHistoryVersion> FoodRecommendationHistoryVersion { get; set; }
+        public DbSet<DishesRecommendationHistory> FoodRecommendationHistory { get; set; }
+        public DbSet<Meal> Meals { get; set; }
+        public DbSet<Dish> Dishes { get; set; }
+        public DbSet<FoodDish> FoodDishes { get; set; }
 
         // Blogging System
         public DbSet<Category> Category { get; set; }
@@ -71,6 +72,7 @@ namespace Server.Infrastructure.Data
         public DbSet<EnergySuggestion> EnergySuggestion { get; set; }
         public DbSet<AgeGroup> AgeGroup { get; set; }
         public DbSet<NutrientSuggetion> NutrientSuggetion { get; set; }
+        public DbSet<HistoryDish> HistoryDishes { get; set; }
 
         // Messaging
         public DbSet<Message> Messages { get; set; }
@@ -298,17 +300,6 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(bt => bt.NutrientId)
             .OnDelete(DeleteBehavior.Restrict);
 
-            //FoodRecommendationHistory
-
-            modelBuilder.Entity<FoodRecommendationHistoryVersion>()
-                .HasOne(frhv => frhv.FoodRecommendationHistory)
-                .WithMany(frhv => frhv.Versions)
-                .HasForeignKey(frhv => frhv.FoodRecommendationHistoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<FoodRecommendationHistoryVersion>()
-                .HasKey(frhv => frhv.Id);
-
             // DiseaseGrowthData
 
             modelBuilder.Entity<DiseaseGrowthData>()
@@ -325,6 +316,16 @@ namespace Server.Infrastructure.Data
             .WithMany(t => t.DiseaseGrowthData)
             .HasForeignKey(bt => bt.GrowDataId)
             .OnDelete(DeleteBehavior.Restrict);
+
+            //Dishs
+            modelBuilder.Entity<FoodDish>()
+            .HasKey(fd => new { fd.FoodId, fd.DishId });
+
+            modelBuilder.Entity<DishMeal>()
+            .HasKey(dm => new { dm.DishId, dm.MealId });
+
+            modelBuilder.Entity<HistoryDish>()
+            .HasKey(hd => new { hd.DishId, hd.DishesRecommendationHistoryId });
 
             // FoodAllergy
 
@@ -565,39 +566,6 @@ namespace Server.Infrastructure.Data
             .HasOne(c => c.BasicBioMetricCreatedBy)
             .WithMany()
             .HasForeignKey(c => c.CreatedBy)
-            .OnDelete(DeleteBehavior.Restrict);
-
-
-            //SuggestionRule
-            //modelBuilder.Entity<SuggestionRule>()
-            //.HasOne(s => s.NutrientCategory)
-            //.WithOne(n => n.SuggestionRule)
-            //.HasForeignKey<SuggestionRule>(s => s.NutrientCategoryId)
-            //.OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SuggestionRule>()
-            .HasOne(s => s.Nutrient)
-            .WithOne(n => n.SuggestionRule)
-            .HasForeignKey<SuggestionRule>(s => s.NutrientId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SuggestionRule>()
-                .Property(s => s.AgeRange)
-                .IsRequired();
-
-            modelBuilder.Entity<SuggestionRule>()
-                .Property(s => s.Trimester)
-                .IsRequired();
-
-            //modelBuilder.Entity<SuggestionRule>()
-            //    .Property(s => s.NutrientCategory)
-            //    .IsRequired();
-
-            // NutrientSuggetion
-            modelBuilder.Entity<NutrientSuggetion>()
-            .HasOne(s => s.EnergySuggestion)
-            .WithOne(n => n.NutrientSuggetion)
-            .HasForeignKey<EnergySuggestion>(s => s.NutrientSuggetionId)
             .OnDelete(DeleteBehavior.Restrict);
 
             // Symptom
