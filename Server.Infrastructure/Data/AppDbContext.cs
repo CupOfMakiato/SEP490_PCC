@@ -26,7 +26,7 @@ namespace Server.Infrastructure.Data
         public DbSet<Schedule> Schedule { get; set; }
         public DbSet<Consultation> Consultation { get; set; }
         public DbSet<Slot> Slot { get; set; }
-        public DbSet<Session> Session { get; set; }
+        //public DbSet<Session> Session { get; set; }
 
         // Pregnancy Tracking
         public DbSet<GrowthData> GrowthData { get; set; }
@@ -265,6 +265,12 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(c => c.CreatedBy)
             .OnDelete(DeleteBehavior.Restrict);
 
+            //EnergySuggestion
+            modelBuilder.Entity<EnergySuggestion>()
+            .HasOne(es => es.NutrientSuggetion)
+            .WithOne(ns => ns.EnergySuggestion)
+            .HasForeignKey<EnergySuggestion>(es => es.NutrientSuggetionId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             // blogtag
 
