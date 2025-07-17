@@ -16,6 +16,7 @@ namespace Server.Application.Repositories
         Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester);
         Task<List<CustomChecklist>> ViewAllCompletedChecklists();
         Task<List<CustomChecklist>> ViewAllInCompleteChecklists();
+        Task<List<CustomChecklist>> GetAllInActiveCustomChecklists();
 
     }
 }

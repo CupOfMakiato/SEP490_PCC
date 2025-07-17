@@ -11,6 +11,7 @@ using Server.Application.Services;
 using Server.Application.Abstractions.RequestAndResponse.CustomChecklist;
 using Server.Application.Mappers.CustomChecklistExtensions;
 using Server.API.Validations.CustomChecklist;
+using Server.Domain.Entities;
 
 namespace Server.API.Controllers
 {
@@ -28,6 +29,22 @@ namespace Server.API.Controllers
             _unitOfWork = unitOfWork;
             _claimsService = claimsService;
             _customChecklistService = customChecklistService;
+        }
+        [HttpGet("view-all-custom-checklists")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewCustomChecklistDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewAllCustomChecklists()
+        {
+            var result = await _customChecklistService.ViewAllCustomChecklists();
+            return Ok(result);
+        }
+        [HttpGet("view-all-archived-custom-checklists")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewCustomChecklistDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewAllArchiveCustomChecklists()
+        {
+            var result = await _customChecklistService.ViewAllArchiveCustomChecklists();
+            return Ok(result);
         }
         [HttpGet("view-all-active-custom-checklists")]
         [ProducesResponseType(200, Type = typeof(Result<List<ViewCustomChecklistDTO>>))]
@@ -64,7 +81,7 @@ namespace Server.API.Controllers
         [HttpPost("create-a-new-custom-checklist")]
         [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> UploadBlog([FromForm] CreateNewCustomChecklistRequest req)
+        public async Task<IActionResult> CreateNewCustomChecklist([FromForm] CreateNewCustomChecklistRequest req)
         {
             var validator = new CreateNewCustomChecklistRequestValidator();
             var validatorResult = validator.Validate(req);
@@ -83,5 +100,68 @@ namespace Server.API.Controllers
 
             return Ok(result);
         }
+        [HttpPut("edit-custom-checklist-info")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> UploadBlog([FromForm] EditCustomChecklistInfoRequest req)
+        {
+            var validator = new EditCustomChecklistInfoRequestValidator();
+            var validatorResult = validator.Validate(req);
+            if (validatorResult.IsValid == false)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Missing value!",
+                    Data = validatorResult.Errors.Select(x => x.ErrorMessage),
+                });
+            }
+
+            var checklist = req.ToEditCustomChecklistInfoDTO();
+            var result = await _customChecklistService.EditCustomChecklistInfo(checklist);
+
+            return Ok(result);
+        }
+        [HttpPut("mark-checklist-as-complete")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> MarkChecklistAsComplete(Guid ChecklistId)
+        {
+            var result = await _customChecklistService.MarkChecklistAsComplete(ChecklistId);
+            return Ok(result);
+        }
+        [HttpPut("mark-checklist-as-incomplete")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> MarkChecklistAsInComplete(Guid ChecklistId)
+        {
+            var result = await _customChecklistService.MarkChecklistAsInComplete(ChecklistId);
+            return Ok(result);
+        }
+        [HttpPut("archive-checklist")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ArchiveCustomChecklist(Guid ChecklistId)
+        {
+            var result = await _customChecklistService.ArchiveCustomChecklist(ChecklistId);
+            return Ok(result);
+        }
+        [HttpPut("unarchive-checklist")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> UnArchiveCustomChecklist(Guid ChecklistId)
+        {
+            var result = await _customChecklistService.UnArchiveCustomChecklist(ChecklistId);
+            return Ok(result);
+        }
+        [HttpDelete("delete-custom-checklist")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> DeleteCustomChecklist(Guid ChecklistId)
+        {
+            var result = await _customChecklistService.DeleteCustomChecklist(ChecklistId);
+            return Ok(result);
+        }
     }
 }
+    

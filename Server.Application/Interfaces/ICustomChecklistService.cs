@@ -17,8 +17,17 @@ namespace Server.Application.Interfaces
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllInCompleteChecklist();
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllCompleteChecklist();
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllActiveCustomChecklists();
+        Task<Result<List<ViewCustomChecklistDTO>>> ViewAllArchiveCustomChecklists();
         // create
         Task<Result<object>> CreateNewCustomChecklist(CreateCustomChecklistDTO CreateCustomChecklistDTO);
+        //edit
+        Task<Result<object>> EditCustomChecklistInfo(EditCustomChecklistInfoDTO EditCustomChecklistInfoDTO);
+        Task<Result<object>> MarkChecklistAsComplete(Guid ChecklistId);
+        Task<Result<object>> MarkChecklistAsInComplete(Guid ChecklistId);
+        Task<Result<object>> ArchiveCustomChecklist(Guid ChecklistId);
+        Task<Result<object>> UnArchiveCustomChecklist(Guid ChecklistId);
+        //delete
+        Task<Result<object>> DeleteCustomChecklist(Guid ChecklistId);
 
     }
 }

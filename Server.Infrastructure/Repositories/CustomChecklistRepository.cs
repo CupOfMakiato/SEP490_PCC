@@ -30,6 +30,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.CustomChecklist
                 .Include(c => c.GrowthData)
+                .Where(c => !c.IsDeleted)
                 .ToListAsync();
         }
         public async Task<List<CustomChecklist>> GetAllActiveCustomChecklists()
@@ -37,6 +38,13 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.CustomChecklist
                 .Include(c => c.GrowthData)
                 .Where(c => c.IsActive && !c.IsDeleted)
+                .ToListAsync();
+        }
+        public async Task<List<CustomChecklist>> GetAllInActiveCustomChecklists()
+        {
+            return await _dbContext.CustomChecklist
+                .Include(c => c.GrowthData)
+                .Where(c => c.IsActive == false && !c.IsDeleted)
                 .ToListAsync();
         }
         public async Task<CustomChecklist> GetCustomChecklistById(Guid id)
