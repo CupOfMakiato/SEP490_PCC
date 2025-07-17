@@ -7,6 +7,7 @@ using Server.Application.DTOs.UserChecklist;
 using Server.Application.Interfaces;
 using Server.Application.Mappers.CustomChecklistExtensions;
 using Server.Application.Repositories;
+using Server.Domain.Entities;
 using Server.Domain.Enums;
 
 namespace Server.Application.Services
@@ -105,15 +106,36 @@ namespace Server.Application.Services
                 Data = _mapper.Map<ViewCustomChecklistDTO>(customChecklist)
             };
         }
+        public async Task<Result<List<ViewCustomChecklistDTO>>> ViewCustomChecklistsByTrimester(int trimester)
+        {
+            var currentUser = _claimsService.GetCurrentUserId;
+            if (currentUser == null || currentUser == Guid.Empty)
+            {
+                return new Result<List<ViewCustomChecklistDTO>>
+                {
+                    Error = 1,
+                    Message = "User does not found!",
+                    Data = null
+                };
+            }
+            var checklists = await _customChecklistRepository.GetCustomChecklistsByTrimester(trimester, currentUser);
+            var result = _mapper.Map<List<ViewCustomChecklistDTO>>(checklists);
+            return new Result<List<ViewCustomChecklistDTO>>
+            {
+                Error = 0,
+                Message = "Retrieved custom checklists by trimester successfully",
+                Data = result
+            };
+        }
         public async Task<Result<object>> CreateNewCustomChecklist(CreateCustomChecklistDTO CreateCustomChecklistDTO)
         {
             var user = _claimsService.GetCurrentUserId;
-            if (user == null)
+            if (user == null || user == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }
@@ -134,12 +156,12 @@ namespace Server.Application.Services
         public async Task<Result<object>> EditCustomChecklistInfo(EditCustomChecklistInfoDTO EditCustomChecklistInfoDTO)
         {
             var userId = _claimsService.GetCurrentUserId;
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }
@@ -173,12 +195,12 @@ namespace Server.Application.Services
         public async Task<Result<object>> MarkChecklistAsComplete(Guid ChecklistId)
         {
             var userId = _claimsService.GetCurrentUserId;
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }
@@ -222,12 +244,12 @@ namespace Server.Application.Services
         public async Task<Result<object>> MarkChecklistAsInComplete(Guid ChecklistId)
         {
             var userId = _claimsService.GetCurrentUserId;
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }
@@ -270,12 +292,12 @@ namespace Server.Application.Services
         public async Task<Result<object>> ArchiveCustomChecklist(Guid ChecklistId)
         {
             var userId = _claimsService.GetCurrentUserId;
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }
@@ -319,12 +341,12 @@ namespace Server.Application.Services
         public async Task<Result<object>> UnArchiveCustomChecklist(Guid ChecklistId)
         {
             var userId = _claimsService.GetCurrentUserId;
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }
@@ -368,12 +390,12 @@ namespace Server.Application.Services
         public async Task<Result<object>> DeleteCustomChecklist(Guid ChecklistId)
         {
             var userId = _claimsService.GetCurrentUserId;
-            if (userId == null)
+            if (userId == null || userId == Guid.Empty)
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "User does not exist!",
+                    Message = "User does not found!",
                     Data = null
                 };
             }

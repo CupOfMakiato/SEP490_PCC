@@ -75,11 +75,13 @@ namespace Server.Infrastructure.Repositories
                 .Where(c => c.GrowthDataId == growthDataId && c.IsActive && !c.IsDeleted)
                 .ToListAsync();
         }
-        public async Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester)
+        public async Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester, Guid userId)
         {
             return await _dbContext.CustomChecklist
                 .Include(c => c.GrowthData)
-                .Where(c => c.Trimester == trimester && c.IsActive && !c.IsDeleted)
+                .Where(
+                c => c.Trimester == trimester && c.IsActive && !c.IsDeleted &&
+                c.CreatedBy == userId)
                 .ToListAsync();
         }
     }
