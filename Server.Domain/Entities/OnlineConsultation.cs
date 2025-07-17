@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Entities
 {
-    public class Consultation : BaseEntity
+    public class OnlineConsultation : BaseEntity
     {
         public Guid UserId { get; set; }
         public Guid ConsultantId { get; set; }
         //public Guid ClinicId { get; set; }
         //public Guid? JournalId { get; set; }
-        public string ConsultationType { get; set; }
         public string Mode { get; set; }
         public string Status { get; set; }
         public string JoinUrl { get; set; }
@@ -24,6 +24,8 @@ namespace Server.Domain.Entities
 
         public User User { get; set; }
         public Consultant Consultant { get; set; }
+        public Guid? UserSubscriptionId { get; set; }
+        public UserSubscription UserSubscription { get; set; }
         //public Clinic Clinic { get; set; }
     }
 }

@@ -23,8 +23,7 @@ namespace Server.Domain.Entities
         public BasicBioMetric BasicBioMetric { get; set; } // Basic biometrics like weight, height, blood pressure, etc. // 1 - 1
         public ICollection<TailoredCheckupReminder> TailoredCheckupReminders { get; set; } = new List<TailoredCheckupReminder>();
         public ICollection<CustomChecklist> CustomChecklists { get; set; } = new List<CustomChecklist>();
-
-        //public Fetus Fetus { get; set; } // this is static data
+        //public ICollection<FetusDevelopment> FetusDevelopments { get; set; }
         public int GetGestationalAgeInWeeks()
         {
             var weeks = (EstimatedDueDate.Date - FirstDayOfLastMenstrualPeriod.Date).Days / 7;
