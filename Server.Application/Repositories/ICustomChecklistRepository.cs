@@ -13,9 +13,10 @@ namespace Server.Application.Repositories
         Task<List<CustomChecklist>> GetAllActiveCustomChecklists();
         Task<CustomChecklist> GetCustomChecklistById(Guid id);
         Task<List<CustomChecklist>> GetCustomChecklistsByGrowthDataId(Guid growthDataId);
-        Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester);
+        Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester, Guid userId);
         Task<List<CustomChecklist>> ViewAllCompletedChecklists();
         Task<List<CustomChecklist>> ViewAllInCompleteChecklists();
+        Task<List<CustomChecklist>> GetAllInActiveCustomChecklists();
 
     }
 }

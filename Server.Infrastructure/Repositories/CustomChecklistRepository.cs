@@ -30,6 +30,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.CustomChecklist
                 .Include(c => c.GrowthData)
+                .Where(c => !c.IsDeleted)
                 .ToListAsync();
         }
         public async Task<List<CustomChecklist>> GetAllActiveCustomChecklists()
@@ -37,6 +38,13 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.CustomChecklist
                 .Include(c => c.GrowthData)
                 .Where(c => c.IsActive && !c.IsDeleted)
+                .ToListAsync();
+        }
+        public async Task<List<CustomChecklist>> GetAllInActiveCustomChecklists()
+        {
+            return await _dbContext.CustomChecklist
+                .Include(c => c.GrowthData)
+                .Where(c => c.IsActive == false && !c.IsDeleted)
                 .ToListAsync();
         }
         public async Task<CustomChecklist> GetCustomChecklistById(Guid id)
@@ -67,11 +75,13 @@ namespace Server.Infrastructure.Repositories
                 .Where(c => c.GrowthDataId == growthDataId && c.IsActive && !c.IsDeleted)
                 .ToListAsync();
         }
-        public async Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester)
+        public async Task<List<CustomChecklist>> GetCustomChecklistsByTrimester(int trimester, Guid userId)
         {
             return await _dbContext.CustomChecklist
                 .Include(c => c.GrowthData)
-                .Where(c => c.Trimester == trimester && c.IsActive && !c.IsDeleted)
+                .Where(
+                c => c.Trimester == trimester && c.IsActive && !c.IsDeleted &&
+                c.CreatedBy == userId)
                 .ToListAsync();
         }
     }
