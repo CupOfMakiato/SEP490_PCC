@@ -71,6 +71,10 @@ namespace Server.Infrastructure.Data
 
         // Doctor
         public DbSet<Doctor> Doctor { get; set; }
+
+        // Attendance
+        public DbSet<Attendance> Attendance { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -469,6 +473,20 @@ namespace Server.Infrastructure.Data
             .HasOne(d => d.Clinic)
             .WithMany()
             .HasForeignKey(d => d.ClinicId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+            // Attendance
+            modelBuilder.Entity<Attendance>()
+            .HasOne(a => a.Consultant)
+            .WithMany()
+            .HasForeignKey(a => a.ConsultantId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Attendance>()
+            .HasOne(a => a.Clinic)
+            .WithMany()
+            .HasForeignKey(a => a.ClinicId)
             .OnDelete(DeleteBehavior.Restrict);
 
         }

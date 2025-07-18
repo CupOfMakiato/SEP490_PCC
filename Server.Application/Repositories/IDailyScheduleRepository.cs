@@ -4,5 +4,6 @@ namespace Server.Application.Repositories
 {
     public interface IDailyScheduleRepository : IGenericRepository<DailySchedule>
     {
+        Task<DailySchedule?> GetDailyScheduleForAttendanceAsync(Guid clinicId, DayOfWeek dayOfWeek);
     }
 }

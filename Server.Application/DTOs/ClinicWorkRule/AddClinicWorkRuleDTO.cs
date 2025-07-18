@@ -6,6 +6,6 @@ namespace Server.Application.DTOs.ClinicWorkRule
     {
         public Guid ClinicId { get; set; }
         public string Annoucement { get; set; }
-        public ICollection<AddDailyScheduleDTO>? DailySchedules { get; set; }
+        public ICollection<GetDailyScheduleDTO>? DailySchedules { get; set; }
     }
 }

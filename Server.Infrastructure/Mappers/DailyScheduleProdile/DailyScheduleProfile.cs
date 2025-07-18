@@ -11,6 +11,7 @@ namespace Server.Infrastructure.Mappers.DailyScheduleProdile
             CreateMap<ViewDailyScheduleDTO, DailySchedule>().ReverseMap();
             CreateMap<AddDailyScheduleDTO, DailySchedule>().ReverseMap();
             CreateMap<UpdateDailyScheduleDTO, DailySchedule>().ReverseMap();
+            CreateMap<GetDailyScheduleDTO, DailySchedule>().ReverseMap();
         }
     }
 }
