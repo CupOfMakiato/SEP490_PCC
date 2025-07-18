@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server.Domain.Entities
+﻿namespace Server.Application.DTOs.Consultation
 {
-    public class Consultation : BaseEntity
+    public class AddConsultationDTO
     {
         public Guid UserId { get; set; }
         public Guid ConsultantId { get; set; }
         public Guid ClinicId { get; set; }
-        //public Guid? JournalId { get; set; }
         public int Trimester { get; set; }
         public string ConsultationType { get; set; }
         public string Mode { get; set; }
@@ -22,9 +15,5 @@ namespace Server.Domain.Entities
         public string Diagnosis { get; set; }
         public string Notes { get; set; }
         public bool FollowUpRequired { get; set; }
-
-        public User User { get; set; }
-        public Consultant Consultant { get; set; }
-        public Clinic Clinic { get; set; }
     }
 }

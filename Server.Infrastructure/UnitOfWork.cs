@@ -37,6 +37,7 @@ namespace Server.Infrastructure
         private readonly IClinicWorkRuleRepository _clinicWorkRuleRepository;
         private readonly IDailyScheduleRepository _dailyScheduleRepository;
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IConsultationRepository _consultationRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -61,7 +62,8 @@ namespace Server.Infrastructure
             IScheduleRepository scheduleRepository,
             IClinicWorkRuleRepository clinicWorkRuleRepository,
             IDailyScheduleRepository dailyScheduleRepository,
-            IDoctorRepository doctorRepository)
+            IDoctorRepository doctorRepository,
+            IConsultationRepository consultationRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -87,6 +89,7 @@ namespace Server.Infrastructure
             _clinicWorkRuleRepository = clinicWorkRuleRepository;
             _dailyScheduleRepository = dailyScheduleRepository;
             _doctorRepository = doctorRepository;
+            _consultationRepository = consultationRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -123,6 +126,8 @@ namespace Server.Infrastructure
         public IDailyScheduleRepository DailyScheduleRepository => _dailyScheduleRepository;
 
         public IDoctorRepository DoctorRepository => _doctorRepository;
+
+        public IConsultationRepository ConsultationRepository => _consultationRepository;
 
         public async Task<int> SaveChangeAsync()
         {
