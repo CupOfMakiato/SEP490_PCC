@@ -35,5 +35,34 @@ namespace Server.Infrastructure.Repositories
             return await _context.Clinic.Where(c => !c.IsDeleted)
                                         .ToListAsync();
         }
+
+        public async Task<List<Clinic>> SuggestClinicsAsync(string? address = null,
+            string? specialization = null,
+            string? workPosition = null)
+        {
+            var query = _context.Clinic
+            .Include(c => c.Consultants)
+            .Include(c => c.Feedbacks)
+            .Include(c => c.Doctors)
+            .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                query = query.Where(c => c.Address.Contains(address));
+            }
+
+            if (!string.IsNullOrWhiteSpace(specialization))
+            {
+                query = query.Where(c => c.Consultants.Any(con => con.Specialization.Contains(specialization)) ||
+                                         c.Doctors.Any(doc => doc.Specialization.Contains(specialization)));
+            }
+
+            if (!string.IsNullOrWhiteSpace(workPosition))
+            {
+                query = query.Where(c => c.Doctors.Any(doc => doc.WorkPosition.Contains(workPosition)));
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

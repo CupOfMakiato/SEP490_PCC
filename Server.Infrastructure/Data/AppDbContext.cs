@@ -471,7 +471,7 @@ namespace Server.Infrastructure.Data
             // Doctor Profile
             modelBuilder.Entity<Doctor>()
             .HasOne(d => d.Clinic)
-            .WithMany()
+            .WithMany(d => d.Doctors)
             .HasForeignKey(d => d.ClinicId)
             .OnDelete(DeleteBehavior.Restrict);
 

@@ -7,5 +7,8 @@ namespace Server.Application.Repositories
         public Task<Clinic> GetClinicByIdAsync(Guid clinicId);
         public Task<List<Clinic>> GetClinicByNameAsync(string name);
         public Task<List<Clinic>> GetClinicsAsync();
+        public Task<List<Clinic>> SuggestClinicsAsync(string? address = null,
+            string? specialization = null,
+            string? workPosition = null);
     }
 }

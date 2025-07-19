@@ -156,6 +156,21 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<List<ViewClinicDTO>>> SuggestClinicsAsync(string? address = null,
+            string? specialization = null,
+            string? workPosition = null)
+        {
+            var result = _mapper.Map<List<ViewClinicDTO>>
+                (await _clinicRepository.SuggestClinicsAsync(address, specialization, workPosition));
+
+            return new Result<List<ViewClinicDTO>>
+            {
+                Error = 0,
+                Message = "View all clinics successfully",
+                Data = result
+            };
+        }
+
         public async Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic)
         {
             var clinicObj = await _unitOfWork.ClinicRepository.GetByIdAsync(clinic.Id);

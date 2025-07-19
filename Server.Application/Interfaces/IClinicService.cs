@@ -13,5 +13,8 @@ namespace Server.Application.Interfaces
         public Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic);
         public Task<Result<bool>> ApproveClinic(Guid clinicId);
         public Task<Result<bool>> RejectClinic(Guid clinicId);
+        public Task<Result<List<ViewClinicDTO>>> SuggestClinicsAsync(string? address = null,
+            string? specialization = null,
+            string? workPosition = null);
     }
 }
