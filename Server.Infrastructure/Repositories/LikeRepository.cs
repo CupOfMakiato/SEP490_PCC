@@ -28,6 +28,13 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Like
                 .ToListAsync();
         }
+        public async Task<List<Like>> GetAllLikedBlogsFromUser(Guid userId)
+        {
+            return await _dbContext.Like
+                .Include(b => b.Blog)
+                .Where(b => b.UserId == userId && !b.IsDeleted)
+                .ToListAsync();
+        }
         public async Task<Like> IsBlogLikedByUser(Guid blogId, Guid userId)
         {
             return await _dbContext.Like

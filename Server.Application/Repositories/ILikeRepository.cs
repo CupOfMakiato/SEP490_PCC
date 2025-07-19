@@ -11,6 +11,7 @@ namespace Server.Application.Repositories
     {
         // view
         Task<List<Like>> GetAllLikes();
+        Task<List<Like>> GetAllLikedBlogsFromUser(Guid userId);
         // count
         Task<int> CountLikesByBlogId(Guid blogId);
         // check like
