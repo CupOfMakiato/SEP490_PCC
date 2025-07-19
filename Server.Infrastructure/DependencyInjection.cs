@@ -56,6 +56,8 @@ namespace Server.Infrastructure
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
             services.AddScoped<ISymptomService, SymptomService>();
 
+            services.AddScoped<IClinicService, ClinicService>();
+
             services.AddScoped<IAdminService, AdminService>();
 
             services.AddScoped<PasswordService>();
@@ -94,7 +96,9 @@ namespace Server.Infrastructure
 
             services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
-            
+
+            services.AddScoped<IClinicRepository, ClinicRepository>();
+
 
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
