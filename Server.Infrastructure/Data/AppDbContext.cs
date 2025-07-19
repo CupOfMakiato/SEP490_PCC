@@ -83,6 +83,9 @@ namespace Server.Infrastructure.Data
         public DbSet<UserSubscription> UserSubscription { get; set; }
         public DbSet<Payment> Payment { get; set; }
 
+        // Doctor
+        public DbSet<Doctor> Doctor { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -621,6 +624,14 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<SubscriptionPlan>()
                 .Property(s => s.SubscriptionName)
                 .HasConversion(v => v.ToString(), v => (SubscriptionName)Enum.Parse(typeof(SubscriptionName), v));
+
+            // Doctor
+
+            modelBuilder.Entity<Doctor>()
+                .HasOne(d => d.Clinic)
+                .WithMany(c => c.Doctors)
+                .HasForeignKey(d => d.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }
