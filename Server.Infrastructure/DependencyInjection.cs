@@ -58,6 +58,7 @@ namespace Server.Infrastructure
 
             services.AddScoped<IClinicService, ClinicService>();
             services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IConsultantService, ConsultantService>();
 
             services.AddScoped<IAdminService, AdminService>();
 
@@ -100,6 +101,7 @@ namespace Server.Infrastructure
 
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IConsultantRepository, ConsultantRepository>();
 
 
             // Hangfire

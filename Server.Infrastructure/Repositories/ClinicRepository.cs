@@ -20,7 +20,7 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<Clinic> GetClinicByIdAsync(Guid clinicId)
         {
-            return await _context.Clinic.Include(c => c.Consultants)
+            return await _context.Clinic.Include(c => c.Consultants).ThenInclude(c => c.User)
                                         .Include(c => c.Doctors)
                                         .Include(c => c.Feedbacks)
                                         .FirstOrDefaultAsync(c => c.Id.Equals(clinicId)

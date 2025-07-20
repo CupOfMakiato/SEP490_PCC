@@ -28,6 +28,7 @@ namespace Server.Application
         public ICustomChecklistRepository CustomChecklistRepository { get; }
         public IClinicRepository ClinicRepository { get; }
         public IDoctorRepository DoctorRepository { get; }
+        public IConsultantRepository ConsultantRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

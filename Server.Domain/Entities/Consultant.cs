@@ -16,6 +16,7 @@ namespace Server.Domain.Entities
         public string Gender { get; set; }
         public DateTime JoinedAt { get; set; }
         public bool IsCurrentlyConsulting { get; set; }
+        public int ExperienceYears { get; set; }
 
         public User User { get; set; }
         public Clinic Clinic { get; set; }
