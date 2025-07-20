@@ -20,23 +20,90 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<Clinic> GetClinicByIdAsync(Guid clinicId)
         {
-            return await _context.Clinic.Include(c => c.Consultants).ThenInclude(c => c.User)
-                                        .Include(c => c.Doctors)
-                                        .Include(c => c.Feedbacks)
-                                        .FirstOrDefaultAsync(c => c.Id.Equals(clinicId)
-                                                               && !c.IsDeleted
-                                                               && c.IsActive);
+            return await _context.Clinic
+                    .Where(c => c.Id == clinicId && !c.IsDeleted && c.IsActive)
+                    .Select(c => new Clinic
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Address = c.Address,
+                        Description = c.Description,
+                        Phone = c.Phone,
+                        Email = c.Email,
+                        IsInsuranceAccepted = c.IsInsuranceAccepted,
+                        IsActive = c.IsActive,
+                        Specializations = c.Specializations,
+                        ImageUrl = c.ImageUrl,
+                        Consultants = c.Consultants
+                            .Where(con => !con.IsDeleted)
+                            .Select(con => new Consultant
+                            {
+                                Id = con.Id,
+                                UserId = con.UserId,
+                                ClinicId = con.ClinicId,
+                                User = con.User,
+                                IsDeleted = con.IsDeleted
+                            }).ToList(),
+                        Doctors = c.Doctors
+                            .Where(doc => !doc.IsDeleted)
+                            .Select(doc => new Doctor
+                            {
+                                Id = doc.Id,
+                                IsDeleted = doc.IsDeleted
+                            }).ToList(),
+                        Feedbacks = c.Feedbacks
+                            .Where(fb => !fb.IsDeleted)
+                            .Select(fb => new Feedback
+                            {
+                                Id = fb.Id,
+                                IsDeleted = fb.IsDeleted
+                            }).ToList()
+                    })
+                    .FirstOrDefaultAsync();
         }
 
         public async Task<List<Clinic>> GetClinicByNameAsync(string name)
         {
-            return await _context.Clinic.Where(c => c.Name.Contains(name)
-                                               && !c.IsDeleted
-                                               && c.IsActive)
-                                        .Include(c => c.Consultants)
-                                        .Include(c => c.Doctors)
-                                        .Include(c => c.Feedbacks)
-                                        .ToListAsync();
+            return await _context.Clinic
+                    .Where(c => c.Name.Contains(name) && !c.IsDeleted && c.IsActive)
+                    .Select(c => new Clinic
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        Address = c.Address,
+                        Description = c.Description,
+                        Phone = c.Phone,
+                        Email = c.Email,
+                        IsInsuranceAccepted = c.IsInsuranceAccepted,
+                        IsActive = c.IsActive,
+                        Specializations = c.Specializations,
+                        ImageUrl = c.ImageUrl,
+                        Consultants = c.Consultants
+                            .Where(con => !con.IsDeleted)
+                            .Select(con => new Consultant
+                            {
+                                Id = con.Id,
+                                UserId = con.UserId,
+                                ClinicId = con.ClinicId,
+                                User = con.User,
+                                IsDeleted = con.IsDeleted
+                            }).ToList(),
+                        Doctors = c.Doctors
+                            .Where(doc => !doc.IsDeleted)
+                            .Select(doc => new Doctor
+                            {
+                                Id = doc.Id,
+                                IsDeleted = doc.IsDeleted
+                            }).ToList(),
+                        Feedbacks = c.Feedbacks
+                            .Where(fb => !fb.IsDeleted)
+                            .Select(fb => new Feedback
+                            {
+                                Id = fb.Id,
+                                IsDeleted = fb.IsDeleted
+                            }).ToList()
+                    })
+                    .ToListAsync();
         }
 
         public async Task<List<Clinic>> GetClinicsAsync()
