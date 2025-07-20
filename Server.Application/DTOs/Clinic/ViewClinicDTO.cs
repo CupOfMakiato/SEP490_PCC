@@ -1,4 +1,5 @@
 ﻿using Server.Application.DTOs.Consultant;
+using Server.Application.DTOs.Doctor;
 
 namespace Server.Application.DTOs.Clinic
 {
@@ -13,5 +14,6 @@ namespace Server.Application.DTOs.Clinic
         public string Specializations { get; set; }
         public string ImageUrl { get; set; }
         public ICollection<ViewConsultantDTO> Consultants { get; set; }
+        public ICollection<ViewDoctorDTO> Doctors { get; set; }
     }
 }
