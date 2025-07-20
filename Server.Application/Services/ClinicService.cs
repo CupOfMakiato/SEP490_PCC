@@ -166,7 +166,17 @@ namespace Server.Application.Services
                 {
                     Error = 1,
                     Message = "Didn't find any clinic, please try again!",
-                    Data = _mapper.Map<ViewClinicDTO>(clinicObj)
+                    Data = null
+                };
+            }
+
+            if (!clinicObj.IsActive)
+            {
+                return new Result<ViewClinicDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot update",
+                    Data = null
                 };
             }
 

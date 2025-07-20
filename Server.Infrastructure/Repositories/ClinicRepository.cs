@@ -21,6 +21,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<Clinic> GetClinicByIdAsync(Guid clinicId)
         {
             return await _context.Clinic.Include(c => c.Consultants)
+                                        .Include(c => c.Doctors)
                                         .Include(c => c.Feedbacks)
                                         .FirstOrDefaultAsync(c => c.Id.Equals(clinicId)
                                                                && !c.IsDeleted
@@ -32,6 +33,9 @@ namespace Server.Infrastructure.Repositories
             return await _context.Clinic.Where(c => c.Name.Contains(name)
                                                && !c.IsDeleted
                                                && c.IsActive)
+                                        .Include(c => c.Consultants)
+                                        .Include(c => c.Doctors)
+                                        .Include(c => c.Feedbacks)
                                         .ToListAsync();
         }
 
