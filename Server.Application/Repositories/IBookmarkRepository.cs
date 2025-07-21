@@ -11,6 +11,7 @@ namespace Server.Application.Repositories
     {
         // view
         Task<List<Bookmark>> GetAllBookmarks();
+        Task<List<Bookmark>> GetAllBookmarkedBlogFromUser(Guid userId);
 
         // count
         Task<int> CountBookmarksByBlogId(Guid blogId);

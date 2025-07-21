@@ -29,6 +29,13 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Bookmark
                 .ToListAsync();
         }
+        public async Task<List<Bookmark>> GetAllBookmarkedBlogFromUser(Guid userId)
+        {
+            return await _dbContext.Bookmark
+                .Include(b => b.Blog)
+                .Where(b => b.UserId == userId && !b.IsDeleted)
+                .ToListAsync();
+        }
         public async Task<Bookmark> IsBlogBookmarkedByUser(Guid blogId, Guid userId)
         {
             return await _dbContext.Bookmark

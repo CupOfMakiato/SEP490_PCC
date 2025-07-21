@@ -34,5 +34,14 @@ namespace Server.Application.Mappers.CustomChecklistExtensions
                 Trimester = CreateNewCustomChecklistRequest.Trimester,
             };
         }
+        public static EditCustomChecklistInfoDTO ToEditCustomChecklistInfoDTO(this EditCustomChecklistInfoRequest EditCustomChecklistInfoRequest)
+        {
+            return new EditCustomChecklistInfoDTO
+            {
+                Id = EditCustomChecklistInfoRequest.Id,
+                TaskName = EditCustomChecklistInfoRequest.TaskName,
+                Trimester = EditCustomChecklistInfoRequest.Trimester
+            };
+        }
     }
 }

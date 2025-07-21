@@ -24,9 +24,10 @@ namespace Server.Infrastructure.Data
         // Consultant and Scheduling
         public DbSet<Consultant> Consultant { get; set; }
         public DbSet<Schedule> Schedule { get; set; }
-        public DbSet<Consultation> Consultation { get; set; }
+        public DbSet<OnlineConsultation> OnlineConsultation { get; set; }
+        public DbSet<OfflineConsultation> OfflineConsultation { get; set; }
         public DbSet<Slot> Slot { get; set; }
-        public DbSet<Session> Session { get; set; }
+        //public DbSet<Session> Session { get; set; }
 
         // Pregnancy Tracking
         public DbSet<GrowthData> GrowthData { get; set; }
@@ -78,6 +79,12 @@ namespace Server.Infrastructure.Data
 
         // Messaging
         public DbSet<Message> Messages { get; set; }
+
+        // Payment and Subscription
+        public DbSet<SubscriptionPlan> SubscriptionPlan { get; set; }
+        public DbSet<UserSubscription> UserSubscription { get; set; }
+        public DbSet<Payment> Payment { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -467,50 +474,23 @@ namespace Server.Infrastructure.Data
 
             // Consultation
 
-            modelBuilder.Entity<Consultation>()
+            modelBuilder.Entity<OnlineConsultation>()
                 .HasOne(c => c.User)
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Consultation>()
+            modelBuilder.Entity<OnlineConsultation>()
                 .HasOne(c => c.Consultant)
                 .WithMany()
                 .HasForeignKey(c => c.ConsultantId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Consultation>()
-                .HasOne(c => c.Clinic)
-                .WithMany()
-                .HasForeignKey(c => c.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            // Slot
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultant)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultantId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Clinic)
-                .WithMany()
-                .HasForeignKey(cs => cs.ClinicId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.BookedByUser)
-                .WithMany()
-                .HasForeignKey(cs => cs.BookedByUserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Slot>()
-                .HasOne(cs => cs.Consultation)
-                .WithMany()
-                .HasForeignKey(cs => cs.ConsultationId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<OfflineConsultation>()
+                .Property(f => f.ConsultationType)
+                .HasConversion(
+                v => v.ToString(),
+                v => (ConsultationType)Enum.Parse(typeof(ConsultationType), v));
 
             // GrowthData
 
@@ -621,7 +601,31 @@ namespace Server.Infrastructure.Data
 
             ChecklistSeedData.SeedData(modelBuilder);
 
+            // SubscriptionPlan
 
+            modelBuilder.Entity<UserSubscription>()
+            .HasOne(us => us.SubscriptionPlan)
+            .WithMany(sp => sp.UserSubscriptions)
+            .HasForeignKey(us => us.SubscriptionPlanId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserSubscription>()
+            .HasOne(us => us.User)
+            .WithMany(u => u.UserSubscriptions)
+            .HasForeignKey(us => us.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserSubscription>()
+                .Property(s => s.PaymentMethod)
+                .HasConversion(v => v.ToString(), v => (PaymentMethod)Enum.Parse(typeof(PaymentMethod), v));
+
+            modelBuilder.Entity<SubscriptionPlan>()
+                .Property(s => s.SubscriptionType)
+                .HasConversion(v => v.ToString(), v => (SubscriptionType)Enum.Parse(typeof(SubscriptionType), v));
+
+            modelBuilder.Entity<SubscriptionPlan>()
+                .Property(s => s.SubscriptionName)
+                .HasConversion(v => v.ToString(), v => (SubscriptionName)Enum.Parse(typeof(SubscriptionName), v));
 
         }
     }
