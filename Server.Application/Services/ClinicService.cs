@@ -22,7 +22,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> ApproveClinic(Guid clinicId)
         {
-            var clinic = await _clinicRepository.GetByIdAsync(clinicId);
+            var clinic = await _clinicRepository.GetClinicToApproveAsync(clinicId);
 
             if (clinic == null)
             {
@@ -104,7 +104,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> RejectClinic(Guid clinicId)
         {
-            var clinic = await _clinicRepository.GetByIdAsync(clinicId);
+            var clinic = await _clinicRepository.GetClinicByIdAsync(clinicId);
 
             if (clinic == null)
             {
@@ -132,7 +132,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> SoftDeleteClinic(Guid clinicId)
         {
-            var clinic = await _clinicRepository.GetByIdAsync(clinicId);
+            var clinic = await _clinicRepository.GetClinicByIdAsync(clinicId);
 
             if (clinic == null)
             {
@@ -158,7 +158,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic)
         {
-            var clinicObj = await _clinicRepository.GetByIdAsync(clinic.Id);
+            var clinicObj = await _clinicRepository.GetClinicByIdAsync(clinic.Id);
 
             if (clinicObj is null)
             {

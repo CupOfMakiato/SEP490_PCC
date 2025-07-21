@@ -111,5 +111,11 @@ namespace Server.Infrastructure.Repositories
             return await _context.Clinic.Where(c => !c.IsDeleted && c.IsActive)
                                         .ToListAsync();
         }
+
+        public async Task<Clinic> GetClinicToApproveAsync(Guid clinicId)
+        {
+            return await _context.Clinic.FirstOrDefaultAsync
+                        (c => c.Id == clinicId && !c.IsDeleted);
+        }
     }
 }
