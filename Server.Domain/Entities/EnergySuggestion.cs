@@ -14,7 +14,6 @@
         public double AdditionalCalories { get; set; } //50 - 250 - 450
         public Guid AgeGroupId { get; set; }
         public AgeGroup AgeGroup { get; set; }
-        public Guid NutrientSuggetionId { get; set; }
-        public NutrientSuggetion NutrientSuggetion { get; set; }
+        public List<ESAttribute> Attributes { get; set; }
     }
 }
