@@ -1,4 +1,5 @@
-﻿using Server.Application.DTOs.User;
+﻿using Server.Application.DTOs.Schedule;
+using Server.Application.DTOs.User;
 
 namespace Server.Application.DTOs.Consultant
 {
@@ -13,5 +14,6 @@ namespace Server.Application.DTOs.Consultant
         public bool IsCurrentlyConsulting { get; set; }
         public int ExperienceYears { get; set; }
         public GetUserDTO User { get; set; }
+        public ICollection<ViewScheduleDTO> Schedules { get; set; }
     }
 }

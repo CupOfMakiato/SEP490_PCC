@@ -20,8 +20,42 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<Consultant> GetConsultantByIdAsync(Guid consultantId)
         {
-            return await _context.Consultant.Include(c => c.User)
-                .FirstOrDefaultAsync(c => c.Id.Equals(consultantId) && !c.IsDeleted);
+            return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
+                                            .Select(c => new Consultant
+                                            {
+                                                Id = c.Id,
+                                                UserId = c.UserId,
+                                                ClinicId = c.ClinicId,
+                                                User = c.User != null && !c.User.IsDeleted ? c.User : null,
+                                                Schedules = c.Schedules
+                                                    .Where(s => !s.IsDeleted && s.Slot != null && !s.Slot.IsDeleted)
+                                                    .Select(s => new Schedule
+                                                    {
+                                                        Id = s.Id,
+                                                        SlotId = s.SlotId,
+                                                        ConsultantId = s.ConsultantId,
+                                                        Slot = s.Slot != null && !s.Slot.IsDeleted ? s.Slot : null,
+                                                        IsDeleted = s.IsDeleted
+                                                    }).ToList(),
+                                                IsDeleted = c.IsDeleted
+                                            })
+                                            .FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> HasOverlappingScheduleAsync(Guid consultantId, DateTime startTime, DateTime endTime)
+        {
+            if (startTime >= endTime)
+                return true;
+
+            return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
+                                            .SelectMany(c => c.Schedules)
+                                            .AnyAsync(s =>
+                                                !s.IsDeleted &&
+                                                s.Slot != null &&
+                                                !s.Slot.IsDeleted &&
+                                                startTime < s.Slot.EndTime &&
+                                                endTime > s.Slot.StartTime
+                                            );
         }
     }
 }

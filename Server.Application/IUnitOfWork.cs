@@ -29,6 +29,8 @@ namespace Server.Application
         public IClinicRepository ClinicRepository { get; }
         public IDoctorRepository DoctorRepository { get; }
         public IConsultantRepository ConsultantRepository { get; }
+        public IScheduleRepository ScheduleRepository { get; }
+        public ISlotRepository SlotRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
