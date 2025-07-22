@@ -11,6 +11,8 @@ namespace Server.Infrastructure.Mappers.OnlineConsultationProfile
             CreateMap<ViewOnlineConsultationDTO, OnlineConsultation>().ReverseMap()
                 .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id));
 
+            CreateMap<AddOnlineConsultationDTO, OnlineConsultation>().ReverseMap();
+
             CreateMap<UpdateOnlineConsultationDTO, OnlineConsultation>().ReverseMap();
         }
     }

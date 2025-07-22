@@ -15,10 +15,18 @@ namespace Server.API.Controllers
             _onlineConsultationService = onlineConsultationService;
         }
 
-        [HttpGet("view-all-online-consultations/{consultantId}")]
-        public async Task<IActionResult> GetOnlineConsultations(Guid consultantId, [FromQuery] string? status)
+        [HttpGet("view-all-online-consultations-by-consultant-id/{consultantId}")]
+        public async Task<IActionResult> GetOnlineConsultationsByConsultantId(Guid consultantId)
         {
-            var result = await _onlineConsultationService.GetOnlineConsultationsAsync(consultantId, status);
+            var result = await _onlineConsultationService.GetOnlineConsultationsByConsultantIdAsync(consultantId);
+
+            return Ok(result);
+        }
+
+        [HttpGet("view-all-online-consultations-by-user-id/{userId}")]
+        public async Task<IActionResult> GetOnlineConsultationsByUserId(Guid userId)
+        {
+            var result = await _onlineConsultationService.GetOnlineConsultationsByUserIdAsync(userId);
 
             return Ok(result);
         }
@@ -31,10 +39,10 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("book-online-consultation")]
-        public async Task<IActionResult> BookOnlineConsultation([FromBody] AddOnlineConsultationDTO onlineConsultation)
+        [HttpPost("create-online-consultation")]
+        public async Task<IActionResult> CreateOnlineConsultation([FromBody] AddOnlineConsultationDTO onlineConsultation)
         {
-            var result = await _onlineConsultationService.BookOnlineConsultationAsync(onlineConsultation);
+            var result = await _onlineConsultationService.CreateOnlineConsultation(onlineConsultation);
 
             return Ok(result);
         }
@@ -43,22 +51,6 @@ namespace Server.API.Controllers
         public async Task<IActionResult> UpdateOnlineConsultation([FromBody] UpdateOnlineConsultationDTO onlineConsultation)
         {
             var result = await _onlineConsultationService.UpdateOnlineConsultation(onlineConsultation);
-
-            return Ok(result);
-        }
-
-        [HttpPut("cancel-online-consultation/{onlineConsultationId}")]
-        public async Task<IActionResult> CancelOnlineConsultation(Guid onlineConsultationId)
-        {
-            var result = await _onlineConsultationService.CancelOnlineConsultationAsync(onlineConsultationId);
-
-            return Ok(result);
-        }
-
-        [HttpPut("confirm-online-consultation/{onlineConsultationId}")]
-        public async Task<IActionResult> ConfirmOnlineConsultation(Guid onlineConsultationId)
-        {
-            var result = await _onlineConsultationService.ConfirmOnlineConsultationAsync(onlineConsultationId);
 
             return Ok(result);
         }

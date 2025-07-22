@@ -13,19 +13,20 @@ namespace Server.Domain.Entities
         public Guid ConsultantId { get; set; }
         //public Guid ClinicId { get; set; }
         //public Guid? JournalId { get; set; }
-        public string Mode { get; set; }
-        public string Status { get; set; }
-        public string? JoinUrl { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int SessionCount { get; set; }
-        public string? Notes { get; set; }
-        public bool IsPregnancyRelated { get; set; }
+        public int Trimester { get; set; }
+        public DateTime Date { get; set; }
+        public int GestationalWeek { get; set; } // Tuần thai khi tư vấn (tuần thứ mấy của thai kỳ)
+        public string Summary { get; set; } // Nội dung tư vấn chính
+        public string? ConsultantNote { get; set; }
+        public string? UserNote { get; set; }
+        public string? VitalSigns { get; set; } // Các chỉ số/đánh giá quan trọng trong buổi tư vấn, Ví dụ: huyết áp, nhịp tim, cân nặng...
+        public string? Recommendations { get; set; } // Hướng dẫn, lời khuyên
+        public string? AttachmentUrl { get; set; } // Link tới hồ sơ hoặc tài liệu đính kèm (PDF/ảnh siêu âm, v.v.)
 
         public User User { get; set; }
         public Consultant Consultant { get; set; }
-        public Guid? UserSubscriptionId { get; set; }
-        public UserSubscription UserSubscription { get; set; }
+        //public Guid? UserSubscriptionId { get; set; }
+        //public UserSubscription UserSubscription { get; set; }
         //public Clinic Clinic { get; set; }
     }
 }

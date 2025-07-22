@@ -31,15 +31,27 @@ namespace Server.Infrastructure.Repositories
             return await _context.OnlineConsultation
                 .Include(oc => oc.User)
                 .Include(oc => oc.Consultant)
+                .ThenInclude(oc => oc.User)
                 .FirstOrDefaultAsync(oc => oc.Id == onlineConsultationId && !oc.IsDeleted);
         }
 
-        public async Task<List<OnlineConsultation>> GetOnlineConsultationsByConsultantIdAsync(Guid consultantId, string? status)
+        public async Task<List<OnlineConsultation>> GetOnlineConsultationsByConsultantIdAsync(Guid consultantId)
         {
             return await _context.OnlineConsultation
                 .Include(oc => oc.User)
                 .Include(oc => oc.Consultant)
-                .Where(oc => oc.ConsultantId == consultantId && !oc.IsDeleted && (status == null || oc.Status == status))
+                .ThenInclude(oc => oc.User)
+                .Where(oc => oc.ConsultantId == consultantId && !oc.IsDeleted)
+                .ToListAsync();
+        }
+
+        public async Task<List<OnlineConsultation>> GetOnlineConsultationsByUserIdAsync(Guid userId)
+        {
+            return await _context.OnlineConsultation
+                .Include(oc => oc.User)
+                .Include(oc => oc.Consultant)
+                .ThenInclude(oc => oc.User)
+                .Where(oc => oc.UserId == userId && !oc.IsDeleted)
                 .ToListAsync();
         }
     }

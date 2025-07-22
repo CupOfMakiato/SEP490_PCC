@@ -2,9 +2,16 @@
 {
     public class AddOnlineConsultationDTO
     {
-        public Guid ScheduleId { get; set; }
         public Guid UserId { get; set; }
         public Guid ConsultantId { get; set; }
-        public string? Notes { get; set; }
+        public int Trimester { get; set; }
+        public DateTime Date { get; set; }
+        public int GestationalWeek { get; set; }
+        public string Summary { get; set; }
+        public string? ConsultantNote { get; set; }
+        public string? UserNote { get; set; }
+        public string? VitalSigns { get; set; }
+        public string? Recommendations { get; set; }
+        public string? AttachmentUrl { get; set; }
     }
 }

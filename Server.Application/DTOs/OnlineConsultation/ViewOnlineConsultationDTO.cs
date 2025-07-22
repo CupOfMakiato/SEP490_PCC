@@ -6,14 +6,15 @@ namespace Server.Application.DTOs.OnlineConsultation
     public class ViewOnlineConsultationDTO
     {
         public Guid Id { get; set; }
-        public string Mode { get; set; }
-        public string Status { get; set; }
-        public string? JoinUrl { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public int SessionCount { get; set; }
-        public string? Notes { get; set; }
-        public bool IsPregnancyRelated { get; set; }
+        public int Trimester { get; set; }
+        public DateTime Date { get; set; }
+        public int GestationalWeek { get; set; }
+        public string Summary { get; set; }
+        public string? ConsultantNote { get; set; }
+        public string? UserNote { get; set; }
+        public string? VitalSigns { get; set; }
+        public string? Recommendations { get; set; }
+        public string? AttachmentUrl { get; set; }
 
         public GetUserDTO User { get; set; }
         public ViewConsultantDTO Consultant { get; set; }
