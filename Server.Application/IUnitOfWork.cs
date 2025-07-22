@@ -31,6 +31,7 @@ namespace Server.Application
         public IConsultantRepository ConsultantRepository { get; }
         public IScheduleRepository ScheduleRepository { get; }
         public ISlotRepository SlotRepository { get; }
+        public IOnlineConsultationRepository OnlineConsultationRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

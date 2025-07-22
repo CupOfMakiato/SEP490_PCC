@@ -60,6 +60,7 @@ namespace Server.Infrastructure
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IConsultantService, ConsultantService>();
             services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IOnlineConsultationService, OnlineConsultationService>();
 
             services.AddScoped<IAdminService, AdminService>();
 
@@ -105,6 +106,7 @@ namespace Server.Infrastructure
             services.AddScoped<IConsultantRepository, ConsultantRepository>();
             services.AddScoped<IScheduleRepository, ScheduleRepository>();
             services.AddScoped<ISlotRepository, SlotRepository>();
+            services.AddScoped<IOnlineConsultationRepository, OnlineConsultationRepository>();
 
 
             // Hangfire

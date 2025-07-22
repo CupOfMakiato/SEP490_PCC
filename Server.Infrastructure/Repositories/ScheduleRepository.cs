@@ -18,12 +18,19 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<Schedule> GetScheduleByIdAsync(Guid scheduleId)
+        public async Task<Schedule> GetScheduleByIdAsync(Guid scheduleId)
         {
-            return _context.Schedule
+            return await _context.Schedule
                 .Include(s => s.Slot)
                 .FirstOrDefaultAsync(s => s.Id == scheduleId
                                         && !s.IsDeleted);
+        }
+
+        public async Task<Schedule> GetScheduleAvailableByIdAsync(Guid scheduleId)
+        {
+            return await _context.Schedule
+                .Include(s => s.Slot)
+                .FirstOrDefaultAsync(s => s.Id == scheduleId && !s.IsDeleted && s.Slot.IsAvailable);
         }
     }
 }
