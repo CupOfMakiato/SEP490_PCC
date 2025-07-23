@@ -9,7 +9,18 @@ namespace Server.Domain.Entities
 {
     public class OfflineConsultation : BaseEntity
     {
+        public Guid UserId { get; set; }
+        public Guid ClinicId { get; set; }
+        public Guid ConsultantId { get; set; }
         public ConsultationType ConsultationType { get; set; } = ConsultationType.OneTime;
-        // w.i.p
+        public string Status { get; set; } //"Pending", "Confirmed", "Cancelled" v.v.
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string? HealthNote { get; set; } // Vấn đề về sức khỏe
+        public string? Attachment { get; set; }
+
+        public User User { get; set; }
+        public Clinic Clinic { get; set; }
+        public Consultant Consultant { get; set; }
     }
 }

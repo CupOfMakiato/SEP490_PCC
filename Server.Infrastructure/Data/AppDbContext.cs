@@ -497,6 +497,24 @@ namespace Server.Infrastructure.Data
                 v => v.ToString(),
                 v => (ConsultationType)Enum.Parse(typeof(ConsultationType), v));
 
+            modelBuilder.Entity<OfflineConsultation>()
+                .HasOne(c => c.Consultant)
+                .WithMany()
+                .HasForeignKey(c => c.ConsultantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OfflineConsultation>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OfflineConsultation>()
+                .HasOne(c => c.Clinic)
+                .WithMany()
+                .HasForeignKey(c => c.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // GrowthData
 
             modelBuilder.Entity<GrowthData>()
