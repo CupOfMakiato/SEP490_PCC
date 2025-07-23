@@ -41,6 +41,8 @@ namespace Server.Infrastructure
         private readonly IScheduleRepository _scheduleRepository;
         private readonly ISlotRepository _slotRepository;
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
+        private readonly IMessageRepository _messageRepository;
+        private readonly IChatThreadRepository _chatThreadRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -70,7 +72,9 @@ namespace Server.Infrastructure
             IConsultantRepository consultantRepository,
             IScheduleRepository scheduleRepository,
             ISlotRepository slotRepository,
-            IOnlineConsultationRepository onlineConsultationRepository)
+            IOnlineConsultationRepository onlineConsultationRepository,
+            IMessageRepository messageRepository,
+            IChatThreadRepository chatThreadRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -101,6 +105,8 @@ namespace Server.Infrastructure
             _scheduleRepository = scheduleRepository;
             _slotRepository = slotRepository;
             _onlineConsultationRepository = onlineConsultationRepository;
+            _messageRepository = messageRepository;
+            _chatThreadRepository = chatThreadRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -141,6 +147,10 @@ namespace Server.Infrastructure
         public ISlotRepository SlotRepository => _slotRepository;
 
         public IOnlineConsultationRepository OnlineConsultationRepository => _onlineConsultationRepository;
+
+        public IMessageRepository MessageRepository => _messageRepository;
+
+        public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
 
         public async Task<int> SaveChangeAsync()
         {

@@ -77,6 +77,7 @@ namespace Server.Infrastructure.Data
 
         // Messaging
         public DbSet<Message> Messages { get; set; }
+        public DbSet<ChatThread> ChatThread { get; set; }
 
         // Payment and Subscription
         public DbSet<SubscriptionPlan> SubscriptionPlan { get; set; }
@@ -458,16 +459,22 @@ namespace Server.Infrastructure.Data
 
             // Message 
 
-            modelBuilder.Entity<Message>()
-                .HasOne(m => m.Sender)
+            modelBuilder.Entity<ChatThread>()
+                .HasOne(m => m.User)
                 .WithMany()
-                .HasForeignKey(m => m.SenderId)
+                .HasForeignKey(m => m.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ChatThread>()
+                .HasOne(m => m.Consultant)
+                .WithMany()
+                .HasForeignKey(m => m.ConsultantId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Message>()
-                .HasOne(m => m.Receiver)
-                .WithMany()
-                .HasForeignKey(m => m.ReceiverId)
+                .HasOne(m => m.ChatThread)
+                .WithMany(ct => ct.Messages)
+                .HasForeignKey(m => m.ChatThreadId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Consultation

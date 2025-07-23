@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Server.Application;
 using Server.Application.Commons;
 using Server.Application.HangfireInterface;
+using Server.Domain.Entities;
 using Server.Infrastructure;
 using Server.Infrastructure.Hubs;
 using Server.WebAPI;
@@ -133,7 +134,7 @@ app.UseExceptionHandler("/Error");
 
 app.UseCors("AllowAllOrigins");
 
-
+app.MapHub<MessageHub>("/messageHub");
 
 
 // Middleware for performance tracking

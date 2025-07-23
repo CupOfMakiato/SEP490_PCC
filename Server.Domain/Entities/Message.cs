@@ -8,18 +8,16 @@ namespace Server.Domain.Entities
 {
     public class Message : BaseEntity
     {
+        public Guid ChatThreadId { get; set; }
         public Guid SenderId { get; set; }
-        public Guid ReceiverId { get; set; }
         public string MessageText { get; set; }
-        public string MessageType { get; set; } 
+        public string MessageType { get; set; } = "text";
         public bool IsRead { get; set; }
-        public DateTime SentAt { get; set; }
+        public DateTime SentAt { get; set; } = DateTime.UtcNow;
         public DateTime ReadAt { get; set; }
-
-        public User Sender { get; set; }
-        public User Receiver { get; set; }
 
         // List of images
         public ICollection<Media> Media { get; set; } = new List<Media>();
+        public ChatThread ChatThread { get; set; }
     }
 }
