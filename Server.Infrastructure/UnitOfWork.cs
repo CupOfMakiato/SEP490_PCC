@@ -43,6 +43,7 @@ namespace Server.Infrastructure
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
         private readonly IMessageRepository _messageRepository;
         private readonly IChatThreadRepository _chatThreadRepository;
+        private readonly IOfflineConsultationRepository _offlineConsultationRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -74,7 +75,8 @@ namespace Server.Infrastructure
             ISlotRepository slotRepository,
             IOnlineConsultationRepository onlineConsultationRepository,
             IMessageRepository messageRepository,
-            IChatThreadRepository chatThreadRepository)
+            IChatThreadRepository chatThreadRepository,
+            IOfflineConsultationRepository offlineConsultationRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -107,6 +109,7 @@ namespace Server.Infrastructure
             _onlineConsultationRepository = onlineConsultationRepository;
             _messageRepository = messageRepository;
             _chatThreadRepository = chatThreadRepository;
+            _offlineConsultationRepository = offlineConsultationRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -151,6 +154,8 @@ namespace Server.Infrastructure
         public IMessageRepository MessageRepository => _messageRepository;
 
         public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
+
+        public IOfflineConsultationRepository OfflineConsultationRepository => _offlineConsultationRepository;
 
         public async Task<int> SaveChangeAsync()
         {

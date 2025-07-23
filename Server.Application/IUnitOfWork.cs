@@ -34,6 +34,7 @@ namespace Server.Application
         public IOnlineConsultationRepository OnlineConsultationRepository { get; }
         public IMessageRepository MessageRepository { get; }
         public IChatThreadRepository ChatThreadRepository { get; }
+        public IOfflineConsultationRepository OfflineConsultationRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
