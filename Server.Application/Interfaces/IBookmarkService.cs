@@ -12,5 +12,6 @@ namespace Server.Application.Interfaces
     {
         Task<Result<List<ViewAllBookmarkDTO>>> ViewAllBookmarkedBlogFromUser(Guid userId);
         Task BookmarkABlog(Guid blogId);
+        Task<Result<object>> SoftDeleteBookmark(Guid blogId);
     }
 }

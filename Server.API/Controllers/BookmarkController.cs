@@ -54,5 +54,25 @@ namespace Server.API.Controllers
                 });
             }
         }
+        [HttpDelete("delete/{blogId}")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> SoftDeleteBookmark(Guid blogId)
+        {
+            try
+            {
+                var result = await _bookmarkService.SoftDeleteBookmark(blogId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Failed to delete bookmark",
+                    Data = ex.Message
+                });
+            }
+        }
     }
 }

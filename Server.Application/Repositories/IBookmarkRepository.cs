@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Application.Repositories
 {
-    public interface IBookmarkRepository : IGenericRepository<Bookmark>
+    public interface IBookmarkRepository : IConfigRepository<Bookmark>
     {
         // view
         Task<List<Bookmark>> GetAllBookmarks();
