@@ -35,12 +35,18 @@ namespace Server.Infrastructure.Repositories
                         Specializations = c.Specializations,
                         ImageUrl = c.ImageUrl,
                         Consultants = c.Consultants
-                            .Where(con => !con.IsDeleted)
+                            .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
                             .Select(con => new Consultant
                             {
                                 Id = con.Id,
+                                Specialization = con.Specialization,
+                                Certificate = con.Certificate,
+                                Status = con.Status,
+                                Gender = con.Gender,
+                                JoinedAt = con.JoinedAt,
+                                IsCurrentlyConsulting = con.IsCurrentlyConsulting,
+                                ExperienceYears = con.ExperienceYears,
                                 UserId = con.UserId,
-                                ClinicId = con.ClinicId,
                                 User = con.User,
                                 IsDeleted = con.IsDeleted
                             }).ToList(),
@@ -49,6 +55,16 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
+                                FullName = doc.FullName,
+                                Gender = doc.Gender,
+                                DateOfBirth = doc.DateOfBirth,
+                                PhoneNumber = doc.PhoneNumber,
+                                Email = doc.Email,
+                                Specialization = doc.Specialization,
+                                ExperienceYear = doc.ExperienceYear,
+                                Degree = doc.Degree,
+                                WorkPosition = doc.WorkPosition,
+                                Description = doc.Description,
                                 IsDeleted = doc.IsDeleted
                             }).ToList(),
                         Feedbacks = c.Feedbacks
@@ -79,12 +95,18 @@ namespace Server.Infrastructure.Repositories
                         Specializations = c.Specializations,
                         ImageUrl = c.ImageUrl,
                         Consultants = c.Consultants
-                            .Where(con => !con.IsDeleted)
+                            .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
                             .Select(con => new Consultant
                             {
                                 Id = con.Id,
+                                Specialization = con.Specialization,
+                                Certificate = con.Certificate,
+                                Status = con.Status,
+                                Gender = con.Gender,
+                                JoinedAt = con.JoinedAt,
+                                IsCurrentlyConsulting = con.IsCurrentlyConsulting,
+                                ExperienceYears = con.ExperienceYears,
                                 UserId = con.UserId,
-                                ClinicId = con.ClinicId,
                                 User = con.User,
                                 IsDeleted = con.IsDeleted
                             }).ToList(),
@@ -93,6 +115,16 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
+                                FullName = doc.FullName,
+                                Gender = doc.Gender,
+                                DateOfBirth = doc.DateOfBirth,
+                                PhoneNumber = doc.PhoneNumber,
+                                Email = doc.Email,
+                                Specialization = doc.Specialization,
+                                ExperienceYear = doc.ExperienceYear,
+                                Degree = doc.Degree,
+                                WorkPosition = doc.WorkPosition,
+                                Description = doc.Description,
                                 IsDeleted = doc.IsDeleted
                             }).ToList(),
                         Feedbacks = c.Feedbacks
