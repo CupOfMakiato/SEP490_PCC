@@ -26,7 +26,6 @@ namespace Server.Infrastructure.Repositories
                                             {
                                                 Id = c.Id,                                                Specialization = c.Specialization,
                                                 Certificate = c.Certificate,
-                                                Status = c.Status,
                                                 Gender = c.Gender,
                                                 JoinedAt = c.JoinedAt,
                                                 IsCurrentlyConsulting = c.IsCurrentlyConsulting,

@@ -96,7 +96,8 @@ namespace Server.Infrastructure.Data
                new Role { Id = 3, RoleName = "HealthExpert" },
                new Role { Id = 4, RoleName = "NutrientSpecialist" },
                new Role { Id = 5, RoleName = "Clinic" },
-               new Role { Id = 6, RoleName = "Consultant" }
+               new Role { Id = 6, RoleName = "Consultant" },
+               new Role { Id = 7, RoleName = "Doctor" }
             );
 
             modelBuilder.Entity<User>().HasData(
@@ -650,6 +651,20 @@ namespace Server.Infrastructure.Data
                 .Property(s => s.SubscriptionName)
                 .HasConversion(v => v.ToString(), v => (SubscriptionName)Enum.Parse(typeof(SubscriptionName), v));
 
+            // Consultant
+
+            modelBuilder.Entity<Consultant>()
+                .HasOne(d => d.Clinic)
+                .WithMany(c => c.Consultants)
+                .HasForeignKey(d => d.ClinicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Consultant>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Consultant)
+                .HasForeignKey<Consultant>(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Doctor
 
             modelBuilder.Entity<Doctor>()
@@ -658,6 +673,31 @@ namespace Server.Infrastructure.Data
                 .HasForeignKey(d => d.ClinicId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Doctor>()
+                .HasOne(d => d.User)
+                .WithOne(c => c.Doctor)
+                .HasForeignKey<Doctor>(d => d.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Schedule
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Consultant)
+                .WithMany(c => c.Schedules)
+                .HasForeignKey(s => s.ConsultantId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Slot)
+                .WithMany()
+                .HasForeignKey(s => s.SlotId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(s => s.Doctor)
+                .WithMany(c => c.Schedules)
+                .HasForeignKey(s => s.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

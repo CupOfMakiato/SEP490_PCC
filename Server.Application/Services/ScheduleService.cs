@@ -154,7 +154,7 @@ namespace Server.Application.Services
 
             var overlappingSlotExists = await _unitOfWork.ConsultantRepository.HasOverlappingScheduleAsync
                                         (
-                                            scheduleObj.ConsultantId,
+                                            scheduleObj.ConsultantId.Value,
                                             schedule.Slot.StartTime,
                                             schedule.Slot.EndTime,
                                             scheduleObj.Slot.DayOfWeek

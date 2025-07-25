@@ -41,7 +41,6 @@ namespace Server.Infrastructure.Repositories
                                 Id = con.Id,
                                 Specialization = con.Specialization,
                                 Certificate = con.Certificate,
-                                Status = con.Status,
                                 Gender = con.Gender,
                                 JoinedAt = con.JoinedAt,
                                 IsCurrentlyConsulting = con.IsCurrentlyConsulting,
@@ -55,14 +54,9 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
-                                FullName = doc.FullName,
                                 Gender = doc.Gender,
-                                DateOfBirth = doc.DateOfBirth,
-                                PhoneNumber = doc.PhoneNumber,
-                                Email = doc.Email,
                                 Specialization = doc.Specialization,
                                 ExperienceYear = doc.ExperienceYear,
-                                Degree = doc.Degree,
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
                                 IsDeleted = doc.IsDeleted
@@ -101,7 +95,6 @@ namespace Server.Infrastructure.Repositories
                                 Id = con.Id,
                                 Specialization = con.Specialization,
                                 Certificate = con.Certificate,
-                                Status = con.Status,
                                 Gender = con.Gender,
                                 JoinedAt = con.JoinedAt,
                                 IsCurrentlyConsulting = con.IsCurrentlyConsulting,
@@ -115,14 +108,9 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
-                                FullName = doc.FullName,
                                 Gender = doc.Gender,
-                                DateOfBirth = doc.DateOfBirth,
-                                PhoneNumber = doc.PhoneNumber,
-                                Email = doc.Email,
                                 Specialization = doc.Specialization,
                                 ExperienceYear = doc.ExperienceYear,
-                                Degree = doc.Degree,
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
                                 IsDeleted = doc.IsDeleted
