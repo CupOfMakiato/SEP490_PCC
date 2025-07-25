@@ -104,7 +104,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> RejectClinic(Guid clinicId)
         {
-            var clinic = await _clinicRepository.GetClinicByIdAsync(clinicId);
+            var clinic = await _clinicRepository.GetClinicToApproveAsync(clinicId);
 
             if (clinic == null)
             {

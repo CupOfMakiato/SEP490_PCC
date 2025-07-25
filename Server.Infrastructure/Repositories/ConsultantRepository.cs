@@ -1,5 +1,4 @@
-﻿using Hangfire;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -24,7 +23,8 @@ namespace Server.Infrastructure.Repositories
             return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
                                             .Select(c => new Consultant
                                             {
-                                                Id = c.Id,                                                Specialization = c.Specialization,
+                                                Id = c.Id,
+                                                Specialization = c.Specialization,
                                                 Certificate = c.Certificate,
                                                 Gender = c.Gender,
                                                 JoinedAt = c.JoinedAt,
