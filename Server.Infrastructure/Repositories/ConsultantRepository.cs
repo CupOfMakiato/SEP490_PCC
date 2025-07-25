@@ -48,7 +48,7 @@ namespace Server.Infrastructure.Repositories
                                             .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> HasOverlappingScheduleAsync(Guid consultantId, DateTime startTime, DateTime endTime)
+        public async Task<bool> HasOverlappingScheduleAsync(Guid consultantId, DateTime startTime, DateTime endTime, int dayOfWeek)
         {
             if (startTime >= endTime)
                 return true;
@@ -59,6 +59,7 @@ namespace Server.Infrastructure.Repositories
                                                 !s.IsDeleted &&
                                                 s.Slot != null &&
                                                 !s.Slot.IsDeleted &&
+                                                s.Slot.DayOfWeek == dayOfWeek &&
                                                 startTime < s.Slot.EndTime &&
                                                 endTime > s.Slot.StartTime
                                             );

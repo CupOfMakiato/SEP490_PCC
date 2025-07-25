@@ -39,7 +39,8 @@ namespace Server.Application.Services
                                         (
                                             schedule.ConsultantId,
                                             schedule.Slot.StartTime,
-                                            schedule.Slot.EndTime
+                                            schedule.Slot.EndTime,
+                                            schedule.Slot.DayOfWeek
                                         );
 
             if (overlappingSlotExists)
@@ -155,7 +156,8 @@ namespace Server.Application.Services
                                         (
                                             scheduleObj.ConsultantId,
                                             schedule.Slot.StartTime,
-                                            schedule.Slot.EndTime
+                                            schedule.Slot.EndTime,
+                                            scheduleObj.Slot.DayOfWeek
                                         );
 
             if (overlappingSlotExists)
