@@ -41,7 +41,7 @@ namespace Server.Application.Services
         {
             var userId = _claimsService.GetCurrentUserId;
 
-            var like = await _likeRepository.IsBlogLikedByUser(userId, blogId);
+            var like = await _likeRepository.IsBlogLikedByUser(blogId, userId);
 
             if (like == null)
             {
@@ -67,6 +67,30 @@ namespace Server.Application.Services
             }
 
             await _unitOfWork.SaveChangeAsync();
+        }
+        public async Task<Result<object>> SoftDeleteLike(Guid blogId)
+        {
+            var userId = _claimsService.GetCurrentUserId;
+
+            var bookmark = await _likeRepository.IsBlogLikedByUser(blogId, userId);
+
+            if (bookmark == null || bookmark.IsDeleted)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Like not found or already deleted"
+                };
+            }
+
+            bookmark.IsDeleted = true;
+            await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = 0,
+                Message = "Like removed successfully"
+            };
         }
     }
 }

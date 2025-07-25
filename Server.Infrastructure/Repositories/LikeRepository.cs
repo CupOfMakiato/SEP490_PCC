@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Server.Infrastructure.Repositories
 {
-    public class LikeRepository : GenericRepository<Like>, ILikeRepository
+    public class LikeRepository : ConfigRepository<Like>, ILikeRepository
     {
         private readonly AppDbContext _dbContext;
         public LikeRepository(AppDbContext dbContext,
@@ -32,12 +32,16 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.Like
                 .Include(b => b.Blog)
+                .Include(b => b.User)
                 .Where(b => b.UserId == userId && !b.IsDeleted)
                 .ToListAsync();
         }
         public async Task<Like> IsBlogLikedByUser(Guid blogId, Guid userId)
         {
             return await _dbContext.Like
+                .Include(b => b.Blog)
+                .Include(b => b.User)
+                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(b => b.UserId == userId && b.BlogId == blogId);
         }
         public async Task<int> CountLikesByBlogId(Guid blogId)

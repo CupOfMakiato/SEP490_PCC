@@ -44,7 +44,7 @@ namespace Server.Application.Services
         {
             var userId = _claimsService.GetCurrentUserId;
 
-            var bookmark = await _bookmarkRepository.IsBlogBookmarkedByUser(userId, blogId);
+            var bookmark = await _bookmarkRepository.IsBlogBookmarkedByUser(blogId, userId);
 
             if (bookmark == null)
             {
@@ -71,7 +71,31 @@ namespace Server.Application.Services
 
             await _unitOfWork.SaveChangeAsync();
         }
+        public async Task<Result<object>> SoftDeleteBookmark(Guid blogId)
+        {
+            var userId = _claimsService.GetCurrentUserId;
 
-        
+            var bookmark = await _bookmarkRepository.IsBlogBookmarkedByUser(blogId, userId);
+
+            if (bookmark == null || bookmark.IsDeleted)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Bookmark already deleted"
+                };
+            }
+
+            bookmark.IsDeleted = true;
+            await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = 0,
+                Message = "Bookmark removed successfully"
+            };
+        }
+
+
     }
 }

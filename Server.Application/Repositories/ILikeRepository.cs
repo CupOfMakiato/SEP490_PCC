@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Application.Repositories
 {
-    public interface ILikeRepository : IGenericRepository<Like>
+    public interface ILikeRepository : IConfigRepository<Like>
     {
         // view
         Task<List<Like>> GetAllLikes();

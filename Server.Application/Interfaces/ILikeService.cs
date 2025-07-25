@@ -12,5 +12,6 @@ namespace Server.Application.Interfaces
     {
         Task LikeABlog(Guid blogId);
         Task<Result<List<ViewAllLikeDTO>>> ViewAllLikedBlogFromUser(Guid userId);
+        Task<Result<object>> SoftDeleteLike(Guid blogId);
     }
 }
