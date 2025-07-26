@@ -37,7 +37,9 @@ namespace Server.Infrastructure.Mappers.BlogProfile
             .ForMember(dest => dest.BookmarkCount, opt => opt.Ignore())
 
             .ForMember(dest => dest.LikeCount, opt => opt.Ignore()
-            );
+            )
+            .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => src.CreationDate))
+            ;
 
         }
     }

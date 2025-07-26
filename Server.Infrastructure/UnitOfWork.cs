@@ -35,6 +35,7 @@ namespace Server.Infrastructure
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
+        private readonly ITailoredCheckupReminderRepository _tailoredCheckupReminderRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -58,7 +59,8 @@ namespace Server.Infrastructure
             ISymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
-            ICustomChecklistRepository customChecklistRepository)
+            ICustomChecklistRepository customChecklistRepository,
+            ITailoredCheckupReminderRepository tailoredCheckupReminderRepository)
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -83,6 +85,7 @@ namespace Server.Infrastructure
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
             _customChecklistRepository = customChecklistRepository;
+            _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -97,6 +100,7 @@ namespace Server.Infrastructure
 
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
         public ICustomChecklistRepository CustomChecklistRepository => _customChecklistRepository;
+        public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository => _tailoredCheckupReminderRepository;
         public IJournalRepository JournalRepository => _journalRepository;
         public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
 

@@ -414,7 +414,7 @@ namespace Server.Application.Services
             return new Result<object>
             {
                 Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Marked checklist as complete successfully" : "Failed to mark checklist as complete",
+                Message = result > 0 ? "Delete checklist successfully" : "Failed to delete checklist",
                 Data = null
             };
         }

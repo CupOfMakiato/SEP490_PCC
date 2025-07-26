@@ -42,7 +42,6 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Bookmark
                 .Include(b => b.Blog)
                 .Include(b => b.User)
-                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(b => b.UserId == userId && b.BlogId == blogId);
         }
         public async Task<int> CountBookmarksByBlogId(Guid blogId)

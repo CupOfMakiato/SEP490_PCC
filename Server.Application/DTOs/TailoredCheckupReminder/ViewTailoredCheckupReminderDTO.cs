@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.Domain.Entities
+namespace Server.Application.DTOs.TailoredCheckupReminder
 {
-    public class TailoredCheckupReminder : BaseEntity
+    public class ViewTailoredCheckupReminderDTO
     {
-        // note this is usually created by consultant for checkup if emergency
+        public Guid Id { get; set; }
+        public Guid GrowthDataId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
 
@@ -24,7 +25,6 @@ namespace Server.Domain.Entities
 
         public string? Note { get; set; }
         public bool IsActive { get; set; } = true;
-        public Guid GrowthDataId { get; set; }
-        public GrowthData GrowthData { get; set; }
+        
     }
 }
