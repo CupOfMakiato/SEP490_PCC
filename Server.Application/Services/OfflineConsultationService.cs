@@ -55,7 +55,7 @@ namespace Server.Application.Services
             }
 
             var clinic = await _unitOfWork.ClinicRepository
-                .GetClinicByIdAsync(offlineConsultation.ClinicId);
+                .GetClinicByIdAsync(doctor.ClinicId);
 
             if (clinic == null)
             {
@@ -63,6 +63,22 @@ namespace Server.Application.Services
                 {
                     Error = 1,
                     Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            var hasOverlap = await _unitOfWork.DoctorRepository
+                .HasOverlappingScheduleAsync(offlineConsultation.DoctorId,
+                    offlineConsultation.Schedule.Slot.StartTime,
+                    offlineConsultation.Schedule.Slot.EndTime,
+                    offlineConsultation.Schedule.Slot.DayOfWeek);
+
+            if (hasOverlap)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "The selected time slot overlaps with an existing schedule for this doctor.",
                     Data = false
                 };
             }
@@ -109,7 +125,7 @@ namespace Server.Application.Services
             {
                 UserId = offlineConsultation.UserId,
                 DoctorId = offlineConsultation.DoctorId,
-                ClinicId = offlineConsultation.ClinicId,
+                ClinicId = doctor.ClinicId,
                 ConsultationType = offlineConsultation.ConsultationType,
                 Status = "Confirmed",
                 StartDate = offlineConsultation.Schedule.Slot.StartTime,
@@ -125,6 +141,8 @@ namespace Server.Application.Services
 
             if (result > 0)
             {
+                var dayOfWeekName = GetDayOfWeekName(offlineConsulattionMapper.DayOfWeek);
+
                 // Send email to user
                 if (!string.IsNullOrEmpty(user.Email))
                 {
@@ -134,7 +152,7 @@ namespace Server.Application.Services
                         Subject = "Offline Consultation Booked",
                         Body = $"Your offline consultation with Dr. {doctor.FullName ?? "Doctor"}" +
                                $" at {clinic.Name} has been successfully booked for " +
-                               $"{offlineConsulattionMapper.DayOfWeek}, " +
+                               $"{dayOfWeekName}, " +
                                $"{offlineConsulattionMapper.StartDate: dd/MM/yyyy HH:mm}."
                     };
 
@@ -149,7 +167,7 @@ namespace Server.Application.Services
                         To = doctor.User.Email,
                         Subject = "Offline Consultation Booked",
                         Body = $"You have a new offline consultation booked with {user.UserName} " +
-                               $"at {clinic.Name} for {offlineConsulattionMapper.DayOfWeek}, " +
+                               $"at {clinic.Name} for {dayOfWeekName}, " +
                                $"{offlineConsulattionMapper.StartDate: dd/MM/yyyy HH:mm}."
                     };
                     await _emailService.SendEmailAsync(emailDoctorDTO);
@@ -315,6 +333,8 @@ namespace Server.Application.Services
 
                 var doctor = await _unitOfWork.DoctorRepository.GetDoctorByIdAsync(consultation.DoctorId);
 
+                var dayOfWeekName = GetDayOfWeekName(consultation.DayOfWeek);
+
                 // Doctor.User may be null if not included, so check and load if needed
                 var doctorUser = doctor?.User;
 
@@ -329,7 +349,7 @@ namespace Server.Application.Services
                         To = user.Email,
                         Subject = "Offline Consultation Reminder",
                         Body = $"This is a reminder for your offline consultation scheduled at" +
-                        $" {consultation.DayOfWeek}, {consultation.StartDate:yyyy-MM-dd HH:mm}."
+                        $" {dayOfWeekName}, {consultation.StartDate:yyyy-MM-dd HH:mm}."
                     };
 
                     await _emailService.SendEmailAsync(emailUserDTO);
@@ -343,7 +363,7 @@ namespace Server.Application.Services
                         To = doctorUser.Email,
                         Subject = "Offline Consultation Reminder",
                         Body = $"This is a reminder that you have an offline consultation scheduled" +
-                        $" with {user.UserName} at {consultation.DayOfWeek},  {consultation.StartDate:yyyy-MM-dd HH:mm}."
+                        $" with {user.UserName} at {dayOfWeekName},  {consultation.StartDate:yyyy-MM-dd HH:mm}."
                     };
 
                     await _emailService.SendEmailAsync(emailDoctorDTO);
@@ -376,6 +396,13 @@ namespace Server.Application.Services
                 Message = result > 0 ? "Remove offline consultation successfully" : "Remove offline consultation fail",
                 Data = true
             };
+        }
+
+        private static string GetDayOfWeekName(int dayOfWeek)
+        {
+            return Enum.IsDefined(typeof(DayOfWeek), dayOfWeek)
+                ? ((DayOfWeek)dayOfWeek).ToString()
+                : "Unknown";
         }
     }
 }
