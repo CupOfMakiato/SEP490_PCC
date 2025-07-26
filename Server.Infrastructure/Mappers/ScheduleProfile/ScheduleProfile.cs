@@ -11,6 +11,7 @@ namespace Server.Infrastructure.Mappers.ScheduleProfile
             CreateMap<ViewScheduleDTO, Schedule>().ReverseMap();
             CreateMap<AddScheduleDTO, Schedule>().ReverseMap();
             CreateMap<UpdateScheduleDTO, Schedule>().ReverseMap();
+            CreateMap<AddDoctorScheduleDTO, Schedule>().ReverseMap();
         }
     }
 }

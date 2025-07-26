@@ -35,34 +35,21 @@ namespace Server.Application.Services
                 };
             }
 
-            var consultant = await _unitOfWork.ConsultantRepository
-                .GetByIdAsync(offlineConsultation.ConsultantId);
+            var doctor = await _unitOfWork.DoctorRepository
+                .GetDoctorByIdAsync(offlineConsultation.DoctorId);
 
-            if (consultant == null)
+            if (doctor == null)
             {
                 return new Result<bool>
                 {
                     Error = 1,
-                    Message = "Didn't find any consultant, please try again!",
-                    Data = false
-                };
-            }
-
-            var schedule = await _unitOfWork.ScheduleRepository
-                .GetScheduleAvailableByIdAsync(offlineConsultation.ScheduleId);
-
-            if (schedule == null)
-            {
-                return new Result<bool>
-                {
-                    Error = 1,
-                    Message = "Didn't find any schedule, please try again!",
+                    Message = "Didn't find any doctor, please try again!",
                     Data = false
                 };
             }
 
             var clinic = await _unitOfWork.ClinicRepository
-                .GetByIdAsync(offlineConsultation.ClinicId);
+                .GetClinicByIdAsync(offlineConsultation.ClinicId);
 
             if (clinic == null)
             {
@@ -74,15 +61,40 @@ namespace Server.Application.Services
                 };
             }
 
-            var availableSchdeule = await _unitOfWork.ScheduleRepository
-                .GetScheduleAvailableByIdAsync(offlineConsultation.ScheduleId);
+            var slot = _mapper.Map<Slot>(offlineConsultation.Schedule.Slot);
 
-            if (availableSchdeule == null)
+            slot.IsAvailable = false;
+
+            await _unitOfWork.SlotRepository.AddAsync(slot);
+
+            var slotSaveResult = await _unitOfWork.SaveChangeAsync();
+
+            if (slotSaveResult <= 0)
             {
                 return new Result<bool>
                 {
                     Error = 1,
-                    Message = "Schedule is not available or does not exist.",
+                    Message = "Failed to create slot.",
+                    Data = false
+                };
+            }
+
+            var scheduleEntity = new Schedule
+            {
+                SlotId = slot.Id,
+                DoctorId = offlineConsultation.DoctorId
+            };
+
+            await _unitOfWork.ScheduleRepository.AddAsync(scheduleEntity);
+
+            var scheduleSaveResult = await _unitOfWork.SaveChangeAsync();
+
+            if (scheduleSaveResult <= 0)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Failed to create schedule.",
                     Data = false
                 };
             }
@@ -90,12 +102,13 @@ namespace Server.Application.Services
             var offlineConsulattionMapper = new OfflineConsultation
             {
                 UserId = offlineConsultation.UserId,
-                ConsultantId = offlineConsultation.ConsultantId,
+                DoctorId = offlineConsultation.DoctorId,
                 ClinicId = offlineConsultation.ClinicId,
                 ConsultationType = offlineConsultation.ConsultationType,
                 Status = "Pending",
-                StartDate = availableSchdeule.Slot.StartTime,
-                EndDate = availableSchdeule.Slot.EndTime,
+                StartDate = offlineConsultation.Schedule.Slot.StartTime,
+                EndDate = offlineConsultation.Schedule.Slot.EndTime,
+                DayOfWeek = offlineConsultation.Schedule.Slot.DayOfWeek,
                 HealthNote = offlineConsultation.HealthNote,
                 Attachment = offlineConsultation.Attachment
             };
@@ -112,111 +125,111 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<bool>> CancelOfflineConsultationAsync(Guid offlineConsultationId)
-        {
-            var offlineConsultation = await _offlineConsultationRepository
-                .GetOfflineConsultationByOfflineConsultationIdAsync(offlineConsultationId);
+        //public async Task<Result<bool>> CancelOfflineConsultationAsync(Guid offlineConsultationId)
+        //{
+        //    var offlineConsultation = await _offlineConsultationRepository
+        //        .GetOfflineConsultationByOfflineConsultationIdAsync(offlineConsultationId);
 
-            if (offlineConsultation == null)
-            {
-                return new Result<bool>
-                {
-                    Error = 1,
-                    Message = "Didn't find any offline consultation, please try again!",
-                    Data = false
-                };
-            }
+        //    if (offlineConsultation == null)
+        //    {
+        //        return new Result<bool>
+        //        {
+        //            Error = 1,
+        //            Message = "Didn't find any offline consultation, please try again!",
+        //            Data = false
+        //        };
+        //    }
 
-            offlineConsultation.Status = "Cancelled";
+        //    offlineConsultation.Status = "Cancelled";
 
-            _offlineConsultationRepository.Update(offlineConsultation);
+        //    _offlineConsultationRepository.Update(offlineConsultation);
 
-            var consultant = await _unitOfWork.ConsultantRepository
-                .GetConsultantByIdAsync(offlineConsultation.ConsultantId);
+        //    var consultant = await _unitOfWork.ConsultantRepository
+        //        .GetConsultantByIdAsync(offlineConsultation.ConsultantId);
 
-            if (consultant != null)
-            {
-                var scheduleList = await _unitOfWork.ScheduleRepository
-                    .FindAsync(s =>
-                        s.ConsultantId == consultant.Id &&
-                        s.Slot != null &&
-                        s.Slot.StartTime == offlineConsultation.StartDate &&
-                        s.Slot.EndTime == offlineConsultation.EndDate);
+        //    if (consultant != null)
+        //    {
+        //        var scheduleList = await _unitOfWork.ScheduleRepository
+        //            .FindAsync(s =>
+        //                s.ConsultantId == consultant.Id &&
+        //                s.Slot != null &&
+        //                s.Slot.StartTime == offlineConsultation.StartDate &&
+        //                s.Slot.EndTime == offlineConsultation.EndDate);
 
-                var scheduleEntity = scheduleList.FirstOrDefault();
-                if (scheduleEntity?.Slot != null)
-                {
-                    var slot = await _unitOfWork.SlotRepository.GetByIdAsync(scheduleEntity.Slot.Id);
-                    if (slot != null)
-                    {
-                        slot.IsAvailable = false;
-                        _unitOfWork.SlotRepository.Update(slot);
-                    }
-                }
-            }
+        //        var scheduleEntity = scheduleList.FirstOrDefault();
+        //        if (scheduleEntity?.Slot != null)
+        //        {
+        //            var slot = await _unitOfWork.SlotRepository.GetByIdAsync(scheduleEntity.Slot.Id);
+        //            if (slot != null)
+        //            {
+        //                slot.IsAvailable = false;
+        //                _unitOfWork.SlotRepository.Update(slot);
+        //            }
+        //        }
+        //    }
 
-            var result = await _unitOfWork.SaveChangeAsync();
+        //    var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<bool>
-            {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Cancel offline consultation successfully" : "Cancel offline consultation fail",
-                Data = true
-            };
-        }
+        //    return new Result<bool>
+        //    {
+        //        Error = result > 0 ? 0 : 1,
+        //        Message = result > 0 ? "Cancel offline consultation successfully" : "Cancel offline consultation fail",
+        //        Data = true
+        //    };
+        //}
 
-        public async Task<Result<bool>> ConfirmOfflineConsultationAsync(Guid offlineConsultationId)
-        {
-            var offlineConsultation = await _offlineConsultationRepository
-                .GetOfflineConsultationByOfflineConsultationIdAsync(offlineConsultationId);
+        //public async Task<Result<bool>> ConfirmOfflineConsultationAsync(Guid offlineConsultationId)
+        //{
+        //    var offlineConsultation = await _offlineConsultationRepository
+        //        .GetOfflineConsultationByOfflineConsultationIdAsync(offlineConsultationId);
 
-            if (offlineConsultation == null)
-            {
-                return new Result<bool>
-                {
-                    Error = 1,
-                    Message = "Didn't find any offline consultation, please try again!",
-                    Data = false
-                };
-            }
+        //    if (offlineConsultation == null)
+        //    {
+        //        return new Result<bool>
+        //        {
+        //            Error = 1,
+        //            Message = "Didn't find any offline consultation, please try again!",
+        //            Data = false
+        //        };
+        //    }
 
-            offlineConsultation.Status = "Confirmed";
+        //    offlineConsultation.Status = "Confirmed";
 
-            _offlineConsultationRepository.Update(offlineConsultation);
+        //    _offlineConsultationRepository.Update(offlineConsultation);
 
-            var consultant = await _unitOfWork.ConsultantRepository
-                .GetConsultantByIdAsync(offlineConsultation.ConsultantId);
+        //    var consultant = await _unitOfWork.ConsultantRepository
+        //        .GetConsultantByIdAsync(offlineConsultation.ConsultantId);
 
-            if (consultant != null)
-            {
-                var scheduleList = await _unitOfWork.ScheduleRepository
-                    .FindAsync(s =>
-                        s.ConsultantId == consultant.Id &&
-                        s.Slot != null &&
-                        s.Slot.StartTime == offlineConsultation.StartDate &&
-                        s.Slot.EndTime == offlineConsultation.EndDate);
+        //    if (consultant != null)
+        //    {
+        //        var scheduleList = await _unitOfWork.ScheduleRepository
+        //            .FindAsync(s =>
+        //                s.ConsultantId == consultant.Id &&
+        //                s.Slot != null &&
+        //                s.Slot.StartTime == offlineConsultation.StartDate &&
+        //                s.Slot.EndTime == offlineConsultation.EndDate);
 
-                var scheduleEntity = scheduleList.FirstOrDefault();
-                if (scheduleEntity?.Slot != null)
-                {
-                    var slot = await _unitOfWork.SlotRepository.GetByIdAsync(scheduleEntity.Slot.Id);
-                    if (slot != null)
-                    {
-                        slot.IsAvailable = false;
-                        _unitOfWork.SlotRepository.Update(slot);
-                    }
-                }
-            }
+        //        var scheduleEntity = scheduleList.FirstOrDefault();
+        //        if (scheduleEntity?.Slot != null)
+        //        {
+        //            var slot = await _unitOfWork.SlotRepository.GetByIdAsync(scheduleEntity.Slot.Id);
+        //            if (slot != null)
+        //            {
+        //                slot.IsAvailable = false;
+        //                _unitOfWork.SlotRepository.Update(slot);
+        //            }
+        //        }
+        //    }
 
-            var result = await _unitOfWork.SaveChangeAsync();
+        //    var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<bool>
-            {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Confirm offline consultation successfully" : "Confirm offline consultation fail",
-                Data = true
-            };
-        }
+        //    return new Result<bool>
+        //    {
+        //        Error = result > 0 ? 0 : 1,
+        //        Message = result > 0 ? "Confirm offline consultation successfully" : "Confirm offline consultation fail",
+        //        Data = true
+        //    };
+        //}
 
         public async Task<Result<ViewOfflineConsultationDTO>> GetOfflineConsultationByIdAsync(Guid offlineConsultationId)
         {

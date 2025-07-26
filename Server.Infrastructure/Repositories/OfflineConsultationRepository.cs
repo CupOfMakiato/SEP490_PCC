@@ -22,7 +22,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.OfflineConsultation
                 .Where(oc =>
-                    (oc.ConsultantId == userId || oc.UserId == userId)
+                    (oc.DoctorId == userId || oc.UserId == userId)
                     && !oc.IsDeleted
                     && (status == null || oc.Status == status)
                 )
@@ -38,17 +38,30 @@ namespace Server.Infrastructure.Repositories
                     Id = oc.Id,
                     UserId = oc.UserId,
                     ClinicId = oc.ClinicId,
-                    ConsultantId = oc.ConsultantId,
+                    DoctorId = oc.DoctorId,
+                    ConsultationType = oc.ConsultationType,
+                    Status = oc.Status,
+                    StartDate = oc.StartDate,
+                    EndDate = oc.EndDate,
+                    DayOfWeek = oc.DayOfWeek,
+                    HealthNote = oc.HealthNote,
+                    Attachment = oc.Attachment,
                     User = oc.User != null && !oc.User.IsDeleted ? oc.User : null,
                     Clinic = oc.Clinic != null && !oc.Clinic.IsDeleted ? oc.Clinic : null,
-                    Consultant = oc.Consultant != null && !oc.Consultant.IsDeleted
-                        ? new Consultant
+                    Doctor = oc.Doctor != null && !oc.Doctor.IsDeleted
+                        ? new Doctor
                         {
-                            Id = oc.Consultant.Id,
-                            UserId = oc.Consultant.UserId,
-                            ClinicId = oc.Consultant.ClinicId,
-                            User = oc.Consultant.User != null && !oc.Consultant.User.IsDeleted ? oc.Consultant.User : null,
-                            IsDeleted = oc.Consultant.IsDeleted
+                            Id = oc.Doctor.Id,
+                            UserId = oc.Doctor.UserId,
+                            ClinicId = oc.Doctor.ClinicId,
+                            Gender = oc.Doctor.Gender,
+                            Specialization = oc.Doctor.Specialization,
+                            Certificate = oc.Doctor.Certificate,
+                            ExperienceYear = oc.Doctor.ExperienceYear,
+                            WorkPosition = oc.Doctor.WorkPosition,
+                            Description = oc.Doctor.Description,
+                            User = oc.Doctor.User != null && !oc.Doctor.User.IsDeleted ? oc.Doctor.User : null,
+                            IsDeleted = oc.Doctor.IsDeleted
                         }
                         : null,
                     IsDeleted = oc.IsDeleted

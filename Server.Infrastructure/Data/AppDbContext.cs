@@ -499,9 +499,9 @@ namespace Server.Infrastructure.Data
                 v => (ConsultationType)Enum.Parse(typeof(ConsultationType), v));
 
             modelBuilder.Entity<OfflineConsultation>()
-                .HasOne(c => c.Consultant)
+                .HasOne(c => c.Doctor)
                 .WithMany()
-                .HasForeignKey(c => c.ConsultantId)
+                .HasForeignKey(c => c.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<OfflineConsultation>()

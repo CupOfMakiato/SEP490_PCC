@@ -39,21 +39,21 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("cancel-offline-consultation/{offlineConsultationId}")]
-        public async Task<IActionResult> CancelOfflineConsultation(Guid offlineConsultationId)
-        {
-            var result = await _offlineConsultationService.CancelOfflineConsultationAsync(offlineConsultationId);
+        //[HttpPut("cancel-offline-consultation/{offlineConsultationId}")]
+        //public async Task<IActionResult> CancelOfflineConsultation(Guid offlineConsultationId)
+        //{
+        //    var result = await _offlineConsultationService.CancelOfflineConsultationAsync(offlineConsultationId);
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
-        [HttpPut("confirm-offline-consultation/{offlineConsultationId}")]
-        public async Task<IActionResult> ConfirmOfflineConsultation(Guid offlineConsultationId)
-        {
-            var result = await _offlineConsultationService.ConfirmOfflineConsultationAsync(offlineConsultationId);
+        //[HttpPut("confirm-offline-consultation/{offlineConsultationId}")]
+        //public async Task<IActionResult> ConfirmOfflineConsultation(Guid offlineConsultationId)
+        //{
+        //    var result = await _offlineConsultationService.ConfirmOfflineConsultationAsync(offlineConsultationId);
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
         [HttpDelete("soft-delete-offline-consultation/{offlineConsultationId}")]
         public async Task<IActionResult> SoftDeleteOfflineConsultation(Guid offlineConsultationId)
