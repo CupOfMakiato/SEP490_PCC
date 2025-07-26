@@ -113,6 +113,8 @@ namespace Server.Infrastructure
             services.AddScoped<IChatThreadRepository, ChatThreadRepository>();
             services.AddScoped<IOfflineConsultationRepository, OfflineConsultationRepository>();
 
+            // Background Services
+            services.AddHostedService<ConsultationReminderBackgroundService>();
 
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();

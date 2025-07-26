@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.OfflineConsultation;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -12,12 +13,17 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IOfflineConsultationRepository _offlineConsultationRepository;
+        private readonly IEmailService _emailService;
 
-        public OfflineConsultationService(IUnitOfWork unitOfWork, IMapper mapper, IOfflineConsultationRepository offlineConsultationRepository)
+        public OfflineConsultationService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IOfflineConsultationRepository offlineConsultationRepository,
+            IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _offlineConsultationRepository = offlineConsultationRepository;
+            _emailService = emailService;
         }
 
         public async Task<Result<bool>> BookOfflineConsultationAsync(BookingOfflineConsultationDTO offlineConsultation)
@@ -105,7 +111,7 @@ namespace Server.Application.Services
                 DoctorId = offlineConsultation.DoctorId,
                 ClinicId = offlineConsultation.ClinicId,
                 ConsultationType = offlineConsultation.ConsultationType,
-                Status = "Pending",
+                Status = "Confirmed",
                 StartDate = offlineConsultation.Schedule.Slot.StartTime,
                 EndDate = offlineConsultation.Schedule.Slot.EndTime,
                 DayOfWeek = offlineConsultation.Schedule.Slot.DayOfWeek,
@@ -116,6 +122,39 @@ namespace Server.Application.Services
             await _offlineConsultationRepository.AddAsync(offlineConsulattionMapper);
 
             var result = await _unitOfWork.SaveChangeAsync();
+
+            if (result > 0)
+            {
+                // Send email to user
+                if (!string.IsNullOrEmpty(user.Email))
+                {
+                    var emailUserDTO = new EmailDTO
+                    {
+                        To = user.Email,
+                        Subject = "Offline Consultation Booked",
+                        Body = $"Your offline consultation with Dr. {doctor.FullName ?? "Doctor"}" +
+                               $" at {clinic.Name} has been successfully booked for " +
+                               $"{offlineConsulattionMapper.DayOfWeek}, " +
+                               $"{offlineConsulattionMapper.StartDate: dd/MM/yyyy HH:mm}."
+                    };
+
+                    await _emailService.SendEmailAsync(emailUserDTO);
+                }
+
+                // Send email to doctor
+                if (!string.IsNullOrEmpty(doctor.User.Email))
+                {
+                    var emailDoctorDTO = new EmailDTO
+                    {
+                        To = doctor.User.Email,
+                        Subject = "Offline Consultation Booked",
+                        Body = $"You have a new offline consultation booked with {user.UserName} " +
+                               $"at {clinic.Name} for {offlineConsulattionMapper.DayOfWeek}, " +
+                               $"{offlineConsulattionMapper.StartDate: dd/MM/yyyy HH:mm}."
+                    };
+                    await _emailService.SendEmailAsync(emailDoctorDTO);
+                }
+            }
 
             return new Result<bool>
             {
@@ -255,6 +294,61 @@ namespace Server.Application.Services
                 Message = "View offline consultation successfully",
                 Data = result
             };
+        }
+
+        public async Task SendOfflineConsultationRemindersAsync()
+        {
+            var tomorrow = DateTime.UtcNow.Date.AddDays(1);
+            var dayAfterTomorrow = tomorrow.AddDays(1);
+
+            // Get all consultations scheduled for tomorrow and confirmed
+            var consultations = await _offlineConsultationRepository
+                .FindAsync(c =>
+                    c.StartDate >= tomorrow &&
+                    c.StartDate < dayAfterTomorrow &&
+                    c.Status == "Confirmed");
+
+            foreach (var consultation in consultations)
+            {
+                // Get user and doctor
+                var user = await _unitOfWork.UserRepository.GetByIdAsync(consultation.UserId);
+
+                var doctor = await _unitOfWork.DoctorRepository.GetDoctorByIdAsync(consultation.DoctorId);
+
+                // Doctor.User may be null if not included, so check and load if needed
+                var doctorUser = doctor?.User;
+
+                if (doctorUser == null && doctor != null)
+                    doctorUser = await _unitOfWork.UserRepository.GetByIdAsync(doctor.UserId);
+
+                // Send reminder to user
+                if (user != null && !string.IsNullOrEmpty(user.Email))
+                {
+                    var emailUserDTO = new EmailDTO
+                    {
+                        To = user.Email,
+                        Subject = "Offline Consultation Reminder",
+                        Body = $"This is a reminder for your offline consultation scheduled at" +
+                        $" {consultation.DayOfWeek}, {consultation.StartDate:yyyy-MM-dd HH:mm}."
+                    };
+
+                    await _emailService.SendEmailAsync(emailUserDTO);
+                }
+
+                // Send reminder to doctor
+                if (doctorUser != null && !string.IsNullOrEmpty(doctorUser.Email))
+                {
+                    var emailDoctorDTO = new EmailDTO
+                    {
+                        To = doctorUser.Email,
+                        Subject = "Offline Consultation Reminder",
+                        Body = $"This is a reminder that you have an offline consultation scheduled" +
+                        $" with {user.UserName} at {consultation.DayOfWeek},  {consultation.StartDate:yyyy-MM-dd HH:mm}."
+                    };
+
+                    await _emailService.SendEmailAsync(emailDoctorDTO);
+                }
+            }
         }
 
         public async Task<Result<bool>> SoftDeleteOfflineConsultation(Guid offlineConsultationId)

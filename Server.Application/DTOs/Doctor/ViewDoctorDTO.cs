@@ -6,6 +6,7 @@ namespace Server.Application.DTOs.Doctor
     public class ViewDoctorDTO
     {
         public Guid Id { get; set; }
+        public string FullName { get; set; }
         public string Gender { get; set; }
         public string Specialization { get; set; }
         public string Certificate { get; set; }
