@@ -1,4 +1,6 @@
-﻿namespace Server.Application.DTOs.OnlineConsultation
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Server.Application.DTOs.OnlineConsultation
 {
     public class UpdateOnlineConsultationDTO
     {
@@ -11,6 +13,6 @@
         public string? UserNote { get; set; }
         public string? VitalSigns { get; set; }
         public string? Recommendations { get; set; }
-        public string? AttachmentUrl { get; set; }
+        public List<IFormFile>? Attachments { get; set; }
     }
 }

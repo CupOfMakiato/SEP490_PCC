@@ -18,10 +18,10 @@ namespace Server.Domain.Entities
         public DateTime EndDate { get; set; }
         public int DayOfWeek { get; set; } // 0 = Sunday
         public string? HealthNote { get; set; } // Vấn đề về sức khỏe
-        public string? Attachment { get; set; }
 
         public User User { get; set; }
         public Clinic Clinic { get; set; }
         public Doctor Doctor { get; set; }
+        public ICollection<Media?> Attachments { get; set; }
     }
 }

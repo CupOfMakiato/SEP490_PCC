@@ -32,7 +32,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("book-offline-consultation")]
-        public async Task<IActionResult> BookOfflineConsultation([FromBody] BookingOfflineConsultationDTO offlineConsultation)
+        public async Task<IActionResult> BookOfflineConsultation([FromForm] BookingOfflineConsultationDTO offlineConsultation)
         {
             var result = await _offlineConsultationService.BookOfflineConsultationAsync(offlineConsultation);
 

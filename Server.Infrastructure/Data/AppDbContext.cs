@@ -564,6 +564,17 @@ namespace Server.Infrastructure.Data
             .HasForeignKey<Media>(m => m.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Media>()
+            .HasOne(u => u.OfflineConsultation)
+            .WithMany(m => m.Attachments)
+            .HasForeignKey(m => m.OfflineConsultationId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Media>()
+            .HasOne(u => u.OnlineConsultation)
+            .WithMany(m => m.Attachments)
+            .HasForeignKey(m => m.OnlineConsultationId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             // Category
             modelBuilder.Entity<Category>()

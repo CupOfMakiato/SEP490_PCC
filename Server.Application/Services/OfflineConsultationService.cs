@@ -14,16 +14,19 @@ namespace Server.Application.Services
         private readonly IMapper _mapper;
         private readonly IOfflineConsultationRepository _offlineConsultationRepository;
         private readonly IEmailService _emailService;
+        private readonly ICloudinaryService _cloudinaryService;
 
         public OfflineConsultationService(IUnitOfWork unitOfWork,
             IMapper mapper,
             IOfflineConsultationRepository offlineConsultationRepository,
-            IEmailService emailService)
+            IEmailService emailService,
+            ICloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _offlineConsultationRepository = offlineConsultationRepository;
             _emailService = emailService;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<Result<bool>> BookOfflineConsultationAsync(BookingOfflineConsultationDTO offlineConsultation)
@@ -121,8 +124,11 @@ namespace Server.Application.Services
                 };
             }
 
+            var attachments = new List<Media>();
+
             var offlineConsulattionMapper = new OfflineConsultation
             {
+                Id = Guid.NewGuid(),
                 UserId = offlineConsultation.UserId,
                 DoctorId = offlineConsultation.DoctorId,
                 ClinicId = doctor.ClinicId,
@@ -132,12 +138,50 @@ namespace Server.Application.Services
                 EndDate = offlineConsultation.Schedule.Slot.EndTime,
                 DayOfWeek = offlineConsultation.Schedule.Slot.DayOfWeek,
                 HealthNote = offlineConsultation.HealthNote,
-                Attachment = offlineConsultation.Attachment
+                Attachments = attachments
             };
 
             await _offlineConsultationRepository.AddAsync(offlineConsulattionMapper);
 
             var result = await _unitOfWork.SaveChangeAsync();
+
+            if (result <= 0)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Failed to book offline consultation.",
+                    Data = false
+                };
+            }
+
+            if (offlineConsultation.Attachments != null && offlineConsultation.Attachments.Any())
+            {
+                foreach (var file in offlineConsultation.Attachments)
+                {
+                    var response = await _cloudinaryService.UploadOfflineConsultationAttachment(
+                        file.FileName, file, offlineConsulattionMapper);
+
+                    if (response != null)
+                    {
+                        var media = new Media
+                        {
+                            OfflineConsultationId = offlineConsulattionMapper.Id,
+                            FileName = file.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = file.ContentType
+                        };
+                        await _unitOfWork.MediaRepository.AddAsync(media);
+                        if (await _unitOfWork.SaveChangeAsync() > 0)
+                            offlineConsulattionMapper.Attachments.Add(media);
+                    }
+                }
+
+                _offlineConsultationRepository.Update(offlineConsulattionMapper);
+
+                await _unitOfWork.SaveChangeAsync();
+            }
 
             if (result > 0)
             {
@@ -176,8 +220,8 @@ namespace Server.Application.Services
 
             return new Result<bool>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Offline consultation booked successfully" : "Book offline consultation fail",
+                Error = 0,
+                Message = "Offline consultation booked successfully",
                 Data = true
             };
         }

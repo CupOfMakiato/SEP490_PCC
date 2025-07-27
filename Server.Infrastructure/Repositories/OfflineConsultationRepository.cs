@@ -45,7 +45,9 @@ namespace Server.Infrastructure.Repositories
                     EndDate = oc.EndDate,
                     DayOfWeek = oc.DayOfWeek,
                     HealthNote = oc.HealthNote,
-                    Attachment = oc.Attachment,
+                    Attachments = oc.Attachments != null && oc.Attachments.Any()
+                        ? oc.Attachments.Where(a => a != null && !a.IsDeleted).ToList()
+                        : new List<Media>(),
                     User = oc.User != null && !oc.User.IsDeleted ? oc.User : null,
                     Clinic = oc.Clinic != null && !oc.Clinic.IsDeleted ? oc.Clinic : null,
                     Doctor = oc.Doctor != null && !oc.Doctor.IsDeleted

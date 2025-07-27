@@ -21,10 +21,10 @@ namespace Server.Domain.Entities
         public string? UserNote { get; set; }
         public string? VitalSigns { get; set; } // Các chỉ số/đánh giá quan trọng trong buổi tư vấn, Ví dụ: huyết áp, nhịp tim, cân nặng...
         public string? Recommendations { get; set; } // Hướng dẫn, lời khuyên
-        public string? AttachmentUrl { get; set; } // Link tới hồ sơ hoặc tài liệu đính kèm (PDF/ảnh siêu âm, v.v.)
-
+        
         public User User { get; set; }
         public Consultant Consultant { get; set; }
+        public ICollection<Media> Attachments { get; set; }
         //public Guid? UserSubscriptionId { get; set; }
         //public UserSubscription UserSubscription { get; set; }
         //public Clinic Clinic { get; set; }

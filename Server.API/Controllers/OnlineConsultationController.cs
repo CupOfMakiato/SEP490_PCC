@@ -40,7 +40,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("create-online-consultation")]
-        public async Task<IActionResult> CreateOnlineConsultation([FromBody] AddOnlineConsultationDTO onlineConsultation)
+        public async Task<IActionResult> CreateOnlineConsultation([FromForm] AddOnlineConsultationDTO onlineConsultation)
         {
             var result = await _onlineConsultationService.CreateOnlineConsultation(onlineConsultation);
 

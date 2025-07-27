@@ -24,5 +24,9 @@ namespace Server.Domain.Entities
         [ForeignKey("UserId")]
         public Guid? UserId { get; set; } 
         public User? User { get; set; }
+        public Guid? OfflineConsultationId { get; set; }
+        public OfflineConsultation? OfflineConsultation { get; set; }
+        public Guid? OnlineConsultationId { get; set; }
+        public OnlineConsultation? OnlineConsultation { get; set; }
     }
 }

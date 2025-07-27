@@ -12,15 +12,18 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
+        private readonly ICloudinaryService _cloudinaryService;
 
         public OnlineConsultationService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            IOnlineConsultationRepository onlineConsultationRepository)
+            IOnlineConsultationRepository onlineConsultationRepository,
+            ICloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _onlineConsultationRepository = onlineConsultationRepository;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<Result<ViewOnlineConsultationDTO>> CreateOnlineConsultation(AddOnlineConsultationDTO onlineConsultation)
@@ -51,16 +54,69 @@ namespace Server.Application.Services
                 };
             }
 
-            var onlineConsultationMapper = _mapper.Map<OnlineConsultation>(onlineConsultation);
+            var attachments = new List<Media>();
+
+            var onlineConsultationMapper = new OnlineConsultation
+            {
+                UserId = onlineConsultation.UserId,
+                ConsultantId = onlineConsultation.ConsultantId,
+                Trimester = onlineConsultation.Trimester,
+                Date = onlineConsultation.Date,
+                GestationalWeek = onlineConsultation.GestationalWeek,
+                Summary = onlineConsultation.Summary,
+                ConsultantNote = onlineConsultation.ConsultantNote,
+                UserNote = onlineConsultation.UserNote,
+                VitalSigns = onlineConsultation.VitalSigns,
+                Recommendations = onlineConsultation.Recommendations,
+                Attachments = attachments
+            };
 
             await _onlineConsultationRepository.AddAsync(onlineConsultationMapper);
 
             var result = await _unitOfWork.SaveChangeAsync();
 
+            if (result <= 0)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Create online consultation fail",
+                    Data = null
+                };
+            }
+
+            if (onlineConsultation.Attachments != null && onlineConsultation.Attachments.Any())
+            {
+                foreach (var file in onlineConsultation.Attachments)
+                {
+                    var response = await _cloudinaryService.UploadOnlineConsultationAttachment(
+                        file.FileName, file, onlineConsultationMapper);
+
+                    if (response != null)
+                    {
+                        var media = new Media
+                        {
+                            OnlineConsultationId = onlineConsultationMapper.Id,
+                            FileName = file.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = file.ContentType,
+                        };
+                        await _unitOfWork.MediaRepository.AddAsync(media);
+                        if (await _unitOfWork.SaveChangeAsync() > 0)
+                            onlineConsultationMapper.Attachments.Add(media);
+                    }
+                }
+
+                _onlineConsultationRepository.Update(onlineConsultationMapper);
+
+                await _unitOfWork.SaveChangeAsync();
+            }
+
             return new Result<ViewOnlineConsultationDTO>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Create online consultation successfully" : "Create online consultation fail",
+                Error = 0,
+                Message = "Create online consultation successfully",
                 Data = _mapper.Map<ViewOnlineConsultationDTO>(onlineConsultationMapper)
             };
         }
@@ -144,11 +200,52 @@ namespace Server.Application.Services
                 };
             }
 
-            _mapper.Map(onlineConsultation, onlineConsultationObj);
+            onlineConsultationObj.Trimester = onlineConsultation.Trimester;
+            onlineConsultationObj.Date = onlineConsultation.Date;
+            onlineConsultationObj.GestationalWeek = onlineConsultation.GestationalWeek;
+            onlineConsultationObj.Summary = onlineConsultation.Summary;
+            onlineConsultationObj.ConsultantNote = onlineConsultation.ConsultantNote;
+            onlineConsultationObj.UserNote = onlineConsultation.UserNote;
+            onlineConsultationObj.VitalSigns = onlineConsultation.VitalSigns;
+            onlineConsultationObj.Recommendations = onlineConsultation.Recommendations;
+
+            if (onlineConsultation.Attachments != null && onlineConsultation.Attachments.Any())
+            {
+                // Optionally: Remove old attachments if you want to replace them
+                if (onlineConsultationObj.Attachments != null)
+                {
+                    onlineConsultationObj.Attachments.Clear();
+                }
+                else
+                {
+                    onlineConsultationObj.Attachments = new List<Media>();
+                }
+
+                foreach (var file in onlineConsultation.Attachments)
+                {
+                    var response = await _cloudinaryService.UploadOnlineConsultationAttachment(
+                        file.FileName, file, onlineConsultationObj);
+
+                    if (response != null)
+                    {
+                        var media = new Media
+                        {
+                            OnlineConsultationId = onlineConsultationObj.Id,
+                            FileName = file.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = file.ContentType
+                        };
+                        await _unitOfWork.MediaRepository.AddAsync(media);
+                        if (await _unitOfWork.SaveChangeAsync() > 0)
+                            onlineConsultationObj.Attachments.Add(media);
+                    }
+                }
+            }
 
             _onlineConsultationRepository.Update(onlineConsultationObj);
 
-            var result = _unitOfWork.SaveChangeAsync().Result;
+            var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<ViewOnlineConsultationDTO>
             {
