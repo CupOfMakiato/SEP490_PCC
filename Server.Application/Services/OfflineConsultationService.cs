@@ -360,7 +360,7 @@ namespace Server.Application.Services
 
         public async Task SendOfflineConsultationRemindersAsync()
         {
-            var tomorrow = DateTime.UtcNow.Date.AddDays(1);
+            var tomorrow = DateTime.Now.Date.AddDays(1);
             var dayAfterTomorrow = tomorrow.AddDays(1);
 
             // Get all consultations scheduled for tomorrow and confirmed
