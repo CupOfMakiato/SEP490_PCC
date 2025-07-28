@@ -1,4 +1,5 @@
 ﻿using Server.Application.DTOs.Consultant;
+using Server.Application.DTOs.Media;
 using Server.Application.DTOs.User;
 
 namespace Server.Application.DTOs.OnlineConsultation
@@ -14,7 +15,7 @@ namespace Server.Application.DTOs.OnlineConsultation
         public string? UserNote { get; set; }
         public string? VitalSigns { get; set; }
         public string? Recommendations { get; set; }
-        public string? AttachmentUrl { get; set; }
+        public List<MediaDTO>? Attachments { get; set; }
 
         public GetUserDTO User { get; set; }
         public ViewConsultantDTO Consultant { get; set; }

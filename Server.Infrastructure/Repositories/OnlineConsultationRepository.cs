@@ -29,29 +29,44 @@ namespace Server.Infrastructure.Repositories
         public async Task<OnlineConsultation?> GetOnlineConsultationByIdAsync(Guid onlineConsultationId)
         {
             return await _context.OnlineConsultation
+                .Include(oc => oc.Attachments.Where(a => !a.IsDeleted))
                 .Include(oc => oc.User)
                 .Include(oc => oc.Consultant)
                 .ThenInclude(oc => oc.User)
-                .FirstOrDefaultAsync(oc => oc.Id == onlineConsultationId && !oc.IsDeleted);
+                .FirstOrDefaultAsync(oc => oc.Id == onlineConsultationId
+                                    && !oc.IsDeleted
+                                    && oc.User != null && !oc.User.IsDeleted
+                                    && oc.Consultant != null && !oc.Consultant.IsDeleted
+                                    && oc.Consultant.User != null && !oc.Consultant.User.IsDeleted);
         }
 
         public async Task<List<OnlineConsultation>> GetOnlineConsultationsByConsultantIdAsync(Guid consultantId)
         {
             return await _context.OnlineConsultation
+                .Include(oc => oc.Attachments.Where(a => !a.IsDeleted))
                 .Include(oc => oc.User)
                 .Include(oc => oc.Consultant)
                 .ThenInclude(oc => oc.User)
-                .Where(oc => oc.ConsultantId == consultantId && !oc.IsDeleted)
+                .Where(oc => oc.ConsultantId == consultantId
+                        && !oc.IsDeleted
+                        && oc.User != null && !oc.User.IsDeleted
+                        && oc.Consultant != null && !oc.Consultant.IsDeleted
+                        && oc.Consultant.User != null && !oc.Consultant.User.IsDeleted)
                 .ToListAsync();
         }
 
         public async Task<List<OnlineConsultation>> GetOnlineConsultationsByUserIdAsync(Guid userId)
         {
             return await _context.OnlineConsultation
+                .Include(oc => oc.Attachments.Where(a => !a.IsDeleted))
                 .Include(oc => oc.User)
                 .Include(oc => oc.Consultant)
                 .ThenInclude(oc => oc.User)
-                .Where(oc => oc.UserId == userId && !oc.IsDeleted)
+                .Where(oc => oc.UserId == userId
+                        && !oc.IsDeleted
+                        && oc.User != null && !oc.User.IsDeleted
+                        && oc.Consultant != null && !oc.Consultant.IsDeleted
+                        && oc.Consultant.User != null && !oc.Consultant.User.IsDeleted)
                 .ToListAsync();
         }
     }

@@ -48,7 +48,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("update-online-consultation")]
-        public async Task<IActionResult> UpdateOnlineConsultation([FromBody] UpdateOnlineConsultationDTO onlineConsultation)
+        public async Task<IActionResult> UpdateOnlineConsultation([FromForm] UpdateOnlineConsultationDTO onlineConsultation)
         {
             var result = await _onlineConsultationService.UpdateOnlineConsultation(onlineConsultation);
 

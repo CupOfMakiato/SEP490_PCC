@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.OnlineConsultation;
 using Server.Application.Interfaces;
@@ -209,19 +210,46 @@ namespace Server.Application.Services
             onlineConsultationObj.VitalSigns = onlineConsultation.VitalSigns;
             onlineConsultationObj.Recommendations = onlineConsultation.Recommendations;
 
-            if (onlineConsultation.Attachments != null && onlineConsultation.Attachments.Any())
-            {
-                // Optionally: Remove old attachments if you want to replace them
-                if (onlineConsultationObj.Attachments != null)
-                {
-                    onlineConsultationObj.Attachments.Clear();
-                }
-                else
-                {
-                    onlineConsultationObj.Attachments = new List<Media>();
-                }
+            // Synchronize attachments
+            var existingAttachments = onlineConsultationObj.Attachments ?? new List<Media>();
 
-                foreach (var file in onlineConsultation.Attachments)
+            var newFiles = onlineConsultation.Attachments ?? new List<IFormFile>();
+
+            // Remove attachments not present in the new list (by filename)
+            var newFileNames = newFiles.Select(f => f.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+            var toRemove = existingAttachments.Where(m => !newFileNames.Contains(m.FileName)).ToList();
+
+            foreach (var media in toRemove)
+            {
+                // Delete from Cloudinary
+                if (!string.IsNullOrEmpty(media.FilePublicId))
+                {
+                    var deleteResult = await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+
+                    if (deleteResult == null || deleteResult.Result != "ok")
+                    {
+                        return new Result<ViewOnlineConsultationDTO>
+                        {
+                            Error = 1,
+                            Message = "Failed to delete old attachment from Cloudinary."
+                        };
+                    }
+                }
+                // Mark as deleted in DB (or remove)
+                media.IsDeleted = true;
+
+                _unitOfWork.MediaRepository.Update(media);
+
+                onlineConsultationObj.Attachments.Remove(media);
+            }
+            await _unitOfWork.SaveChangeAsync();
+
+            // Add new files not already present
+            var existingFileNames = existingAttachments.Where(m => !m.IsDeleted).Select(m => m.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            foreach (var file in newFiles)
+            {
+                if (!existingFileNames.Contains(file.FileName))
                 {
                     var response = await _cloudinaryService.UploadOnlineConsultationAttachment(
                         file.FileName, file, onlineConsultationObj);
