@@ -25,6 +25,7 @@ namespace Server.Infrastructure.Repositories
                 .Select(d => new Doctor
                 {
                     Id = d.Id,
+                    FullName = d.FullName,
                     Gender = d.Gender,
                     Specialization = d.Specialization,
                     Certificate = d.Certificate,

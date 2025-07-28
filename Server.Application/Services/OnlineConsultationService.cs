@@ -163,7 +163,8 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> SoftDeleteOnlineConsultation(Guid onlineConsultationId)
         {
-            var onlineConsultation = await _onlineConsultationRepository.GetOnlineConsultationByIdAsync(onlineConsultationId);
+            var onlineConsultation = await _onlineConsultationRepository
+                .GetOnlineConsultationByOnlineConsultationIdAsync(onlineConsultationId);
 
             if (onlineConsultation == null)
             {
@@ -189,7 +190,8 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewOnlineConsultationDTO>> UpdateOnlineConsultation(UpdateOnlineConsultationDTO onlineConsultation)
         {
-            var onlineConsultationObj = await _onlineConsultationRepository.GetOnlineConsultationByIdAsync(onlineConsultation.Id);
+            var onlineConsultationObj = await _onlineConsultationRepository
+                .GetOnlineConsultationByOnlineConsultationIdAsync(onlineConsultation.Id);
 
             if (onlineConsultationObj is null)
             {

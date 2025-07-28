@@ -8,5 +8,6 @@ namespace Server.Application.Repositories
         public Task<List<OnlineConsultation>> GetOnlineConsultationsByConsultantIdAsync(Guid consultantId);
         public Task<List<OnlineConsultation>> GetOnlineConsultationsByUserIdAsync(Guid userId);
         public Task<UserSubscription?> GetActiveSubscriptionAsync(Guid userId);
+        public Task<OnlineConsultation?> GetOnlineConsultationByOnlineConsultationIdAsync(Guid onlineConsultationId);
     }
 }

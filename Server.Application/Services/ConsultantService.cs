@@ -4,7 +4,6 @@ using Server.Application.DTOs.Consultant;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
-using Server.Domain.Enums;
 using System.Security.Cryptography;
 
 namespace Server.Application.Services
@@ -65,7 +64,6 @@ namespace Server.Application.Services
                 Password = HashPassword(consultant.PasswordHash),
                 Balance = 0,
                 PhoneNumber = consultant.PhoneNumber,
-                Status = StatusEnums.Pending,
                 Otp = otp,
                 IsStaff = false,
                 RoleId = 6, // Assuming 6 is the role ID for consultants
@@ -110,7 +108,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> SoftDeleteConsultant(Guid consultantId)
         {
-            var consultant = await _consultantRepository.GetConsultantByIdAsync(consultantId);
+            var consultant = await _consultantRepository.GetConsultantByConsultantIdAsync(consultantId);
 
             if (consultant == null)
             {
@@ -136,7 +134,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewConsultantDTO>> UpdateConsultant(UpdateConsultantDTO consultant)
         {
-            var consultantObj = await _consultantRepository.GetConsultantByIdAsync(consultant.Id);
+            var consultantObj = await _consultantRepository.GetConsultantByConsultantIdAsync(consultant.Id);
 
             if (consultantObj is null)
             {

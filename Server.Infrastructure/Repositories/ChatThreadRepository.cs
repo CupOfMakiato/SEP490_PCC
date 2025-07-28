@@ -27,6 +27,7 @@ namespace Server.Infrastructure.Repositories
                                     Id = ct.Id,
                                     UserId = ct.UserId,
                                     ConsultantId = ct.ConsultantId,
+                                    Status = ct.Status,
                                     User = ct.User,
                                     Messages = ct.Messages
                                         .Where(m => !m.IsDeleted)

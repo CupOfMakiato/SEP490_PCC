@@ -18,6 +18,11 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<Consultant> GetConsultantByConsultantIdAsync(Guid consultantId)
+        {
+            return await _context.Consultant.FirstOrDefaultAsync(c => c.Id == consultantId && !c.IsDeleted);
+        }
+
         public async Task<Consultant> GetConsultantByIdAsync(Guid consultantId)
         {
             return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
@@ -31,7 +36,17 @@ namespace Server.Infrastructure.Repositories
                                                 IsCurrentlyConsulting = c.IsCurrentlyConsulting,
                                                 ExperienceYears = c.ExperienceYears,
                                                 UserId = c.UserId,
-                                                User = c.User != null && !c.User.IsDeleted ? c.User : null,
+                                                User = c.User != null && !c.User.IsDeleted
+                                                ? new User
+                                                {
+                                                    Id = c.User.Id,
+                                                    UserName = c.User.UserName,
+                                                    Email = c.User.Email,
+                                                    PhoneNumber = c.User.PhoneNumber,
+                                                    Status = c.User.Status,
+                                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                                                }
+                                                : null,
                                                 Schedules = c.Schedules
                                                     .Where(s => !s.IsDeleted && s.Slot != null && !s.Slot.IsDeleted)
                                                     .Select(s => new Schedule

@@ -22,7 +22,9 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.Clinic
                 .Include(c => c.ImageUrl)
-                .FirstOrDefaultAsync(c => c.Id == clinicId && !c.IsDeleted && c.IsActive);
+                .FirstOrDefaultAsync(c => c.Id == clinicId
+                                    && !c.IsDeleted && c.IsActive
+                                    && !c.ImageUrl.IsDeleted);
         }
 
         public async Task<Clinic> GetClinicByIdAsync(Guid clinicId)
@@ -42,7 +44,7 @@ namespace Server.Infrastructure.Repositories
                         Specializations = c.Specializations,
                         ImageUrl = c.ImageUrl != null && !c.ImageUrl.IsDeleted ? c.ImageUrl : null,
                         Consultants = c.Consultants
-                            .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
+                            .Where(con => !con.IsDeleted)
                             .Select(con => new Consultant
                             {
                                 Id = con.Id,
@@ -53,8 +55,18 @@ namespace Server.Infrastructure.Repositories
                                 IsCurrentlyConsulting = con.IsCurrentlyConsulting,
                                 ExperienceYears = con.ExperienceYears,
                                 UserId = con.UserId,
-                                User = con.User,
-                                IsDeleted = con.IsDeleted
+                                IsDeleted = con.IsDeleted,
+                                User = con.User != null && !con.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = con.User.Id,
+                                    UserName = con.User.UserName,
+                                    Email = con.User.Email,
+                                    PhoneNumber = con.User.PhoneNumber,
+                                    Status = con.User.Status,
+                                    Avatar = con.User.Avatar != null && !con.User.Avatar.IsDeleted ? con.User.Avatar : null
+                                }
+                                : null,
                             }).ToList(),
                         Doctors = c.Doctors
                             .Where(doc => !doc.IsDeleted)
@@ -68,7 +80,18 @@ namespace Server.Infrastructure.Repositories
                                 ExperienceYear = doc.ExperienceYear,
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
-                                IsDeleted = doc.IsDeleted
+                                IsDeleted = doc.IsDeleted,
+                                User = doc.User != null && !doc.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = doc.User.Id,
+                                    UserName = doc.User.UserName,
+                                    Email = doc.User.Email,
+                                    PhoneNumber = doc.User.PhoneNumber,
+                                    Status = doc.User.Status,
+                                    Avatar = doc.User.Avatar != null && !doc.User.Avatar.IsDeleted ? doc.User.Avatar : null
+                                }
+                                : null
                             }).ToList(),
                         Feedbacks = c.Feedbacks
                             .Where(fb => !fb.IsDeleted)
@@ -109,8 +132,18 @@ namespace Server.Infrastructure.Repositories
                                 IsCurrentlyConsulting = con.IsCurrentlyConsulting,
                                 ExperienceYears = con.ExperienceYears,
                                 UserId = con.UserId,
-                                User = con.User,
-                                IsDeleted = con.IsDeleted
+                                IsDeleted = con.IsDeleted,
+                                User = con.User != null && !con.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = con.User.Id,
+                                    UserName = con.User.UserName,
+                                    Email = con.User.Email,
+                                    PhoneNumber = con.User.PhoneNumber,
+                                    Status = con.User.Status,
+                                    Avatar = con.User.Avatar != null && !con.User.Avatar.IsDeleted ? con.User.Avatar : null
+                                }
+                                : null,
                             }).ToList(),
                         Doctors = c.Doctors
                             .Where(doc => !doc.IsDeleted)
@@ -124,7 +157,18 @@ namespace Server.Infrastructure.Repositories
                                 ExperienceYear = doc.ExperienceYear,
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
-                                IsDeleted = doc.IsDeleted
+                                IsDeleted = doc.IsDeleted,
+                                User = doc.User != null && !doc.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = doc.User.Id,
+                                    UserName = doc.User.UserName,
+                                    Email = doc.User.Email,
+                                    PhoneNumber = doc.User.PhoneNumber,
+                                    Status = doc.User.Status,
+                                    Avatar = doc.User.Avatar != null && !doc.User.Avatar.IsDeleted ? doc.User.Avatar : null
+                                }
+                                : null
                             }).ToList(),
                         Feedbacks = c.Feedbacks
                             .Where(fb => !fb.IsDeleted)
