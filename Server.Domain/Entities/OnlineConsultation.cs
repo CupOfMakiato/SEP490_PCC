@@ -24,7 +24,7 @@ namespace Server.Domain.Entities
         
         public User User { get; set; }
         public Consultant Consultant { get; set; }
-        public ICollection<Media> Attachments { get; set; }
+        public ICollection<Media>? Attachments { get; set; }
         //public Guid? UserSubscriptionId { get; set; }
         //public UserSubscription UserSubscription { get; set; }
         //public Clinic Clinic { get; set; }

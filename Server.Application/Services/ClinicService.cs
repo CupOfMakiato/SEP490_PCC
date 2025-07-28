@@ -12,12 +12,17 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IClinicRepository _clinicRepository;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public ClinicService(IUnitOfWork unitOfWork, IMapper mapper, IClinicRepository clinicRepository)
+        public ClinicService(IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IClinicRepository clinicRepository,
+            ICloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _clinicRepository = clinicRepository;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<Result<bool>> ApproveClinic(Guid clinicId)
@@ -50,18 +55,67 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewClinicDTO>> CreateClinic(AddClinicDTO clinic)
         {
-            var clinicMapper = _mapper.Map<Clinic>(clinic);
-
-            clinicMapper.IsActive = false; // Default to not approved when created
+            var clinicMapper = new Clinic
+            {
+                Id = Guid.NewGuid(),
+                Name = clinic.Name,
+                Address = clinic.Address,
+                Description = clinic.Description,
+                Phone = clinic.Phone,
+                Email = clinic.Email,
+                IsInsuranceAccepted = clinic.IsInsuranceAccepted,
+                IsActive = false, // Default to not approved when created
+                Specializations = clinic.Specializations
+            };
 
             await _clinicRepository.AddAsync(clinicMapper);
 
             var result = await _unitOfWork.SaveChangeAsync();
 
+            if (result <= 0)
+            {
+                return new Result<ViewClinicDTO>
+                {
+                    Error = 1,
+                    Message = "Add new clinic fail",
+                    Data = null
+                };
+            }
+
+            if (clinic.ImageUrl != null && clinic.ImageUrl.Length > 0)
+            {
+                var imageResponse = await _cloudinaryService.UploadClinicImage(
+                    clinic.ImageUrl.FileName,
+                    clinic.ImageUrl,
+                    clinicMapper
+                );
+
+                if (imageResponse != null)
+                {
+                    var media = new Media
+                    {
+                        ClinicId = clinicMapper.Id,
+                        FileName = clinic.ImageUrl.FileName,
+                        FileUrl = imageResponse.FileUrl,
+                        FileType = clinic.ImageUrl.ContentType,
+                        FilePublicId = imageResponse.PublicFileId
+                    };
+
+                    await _unitOfWork.MediaRepository.AddAsync(media);
+
+                    var mediaResult = await _unitOfWork.SaveChangeAsync();
+
+                    if (mediaResult > 0)
+                    {
+                        clinicMapper.ImageUrl = media;
+                    }
+                }
+            }
+
             return new Result<ViewClinicDTO>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Add new clinic successfully" : "Add new clinic fail",
+                Error = 0,
+                Message = "Add new clinic successfully",
                 Data = _mapper.Map<ViewClinicDTO>(clinicMapper)
             };
         }
@@ -158,7 +212,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic)
         {
-            var clinicObj = await _clinicRepository.GetClinicByIdAsync(clinic.Id);
+            var clinicObj = await _clinicRepository.GetClinicByClinicIdAsync(clinic.Id);
 
             if (clinicObj is null)
             {
@@ -180,7 +234,51 @@ namespace Server.Application.Services
                 };
             }
 
-            _mapper.Map(clinic, clinicObj);
+            clinicObj.Name = clinic.Name;
+            clinicObj.Address = clinic.Address;
+            clinicObj.Description = clinic.Description;
+            clinicObj.Phone = clinic.Phone;
+            clinicObj.Email = clinic.Email;
+            clinicObj.IsInsuranceAccepted = clinic.IsInsuranceAccepted;
+            clinicObj.Specializations = clinic.Specializations;
+
+            if (clinic.ImageUrl != null && clinic.ImageUrl.Length > 0)
+            {
+                if (clinicObj.ImageUrl != null && !string.IsNullOrEmpty(clinicObj.ImageUrl.FilePublicId))
+                {
+                    var deleteResult = await _cloudinaryService.DeleteFileAsync(clinicObj.ImageUrl.FilePublicId);
+
+                    if (deleteResult == null || deleteResult.Result != "ok")
+                    {
+                        return new Result<ViewClinicDTO>
+                        {
+                            Error = 1,
+                            Message = "Failed to delete old image from Cloudinary."
+                        };
+                    }
+                }
+
+                var imageResponse = await _cloudinaryService.UploadClinicImage(
+                    clinic.ImageUrl.FileName,
+                    clinic.ImageUrl,
+                    clinicObj
+                );
+
+                if (imageResponse != null)
+                {
+                    if (clinicObj.ImageUrl != null)
+                    {
+                        clinicObj.ImageUrl.FileName = clinic.ImageUrl.FileName;
+                        clinicObj.ImageUrl.FileUrl = imageResponse.FileUrl;
+                        clinicObj.ImageUrl.FileType = clinic.ImageUrl.ContentType;
+                        clinicObj.ImageUrl.FilePublicId = imageResponse.PublicFileId;
+
+                        _unitOfWork.MediaRepository.Update(clinicObj.ImageUrl);
+
+                        await _unitOfWork.SaveChangeAsync();
+                    }
+                }
+            }
 
             _clinicRepository.Update(clinicObj);
 

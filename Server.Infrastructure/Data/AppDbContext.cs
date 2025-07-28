@@ -576,6 +576,12 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(m => m.OnlineConsultationId)
             .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Media>()
+            .HasOne(u => u.Clinic)
+            .WithOne(m => m.ImageUrl)
+            .HasForeignKey<Media>(m => m.ClinicId)
+            .OnDelete(DeleteBehavior.Restrict);
+
             // Category
             modelBuilder.Entity<Category>()
            .Property(s => s.BlogCategoryTag)

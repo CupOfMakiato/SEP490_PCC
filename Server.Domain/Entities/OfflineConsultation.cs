@@ -22,6 +22,6 @@ namespace Server.Domain.Entities
         public User User { get; set; }
         public Clinic Clinic { get; set; }
         public Doctor Doctor { get; set; }
-        public ICollection<Media?> Attachments { get; set; }
+        public ICollection<Media>? Attachments { get; set; }
     }
 }

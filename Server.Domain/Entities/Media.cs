@@ -28,5 +28,7 @@ namespace Server.Domain.Entities
         public OfflineConsultation? OfflineConsultation { get; set; }
         public Guid? OnlineConsultationId { get; set; }
         public OnlineConsultation? OnlineConsultation { get; set; }
+        public Guid? ClinicId { get; set; }
+        public Clinic? Clinic { get; set; }
     }
 }

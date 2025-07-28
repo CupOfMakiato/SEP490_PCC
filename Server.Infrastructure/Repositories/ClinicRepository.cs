@@ -18,6 +18,13 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<Clinic> GetClinicByClinicIdAsync(Guid clinicId)
+        {
+            return await _context.Clinic
+                .Include(c => c.ImageUrl)
+                .FirstOrDefaultAsync(c => c.Id == clinicId && !c.IsDeleted && c.IsActive);
+        }
+
         public async Task<Clinic> GetClinicByIdAsync(Guid clinicId)
         {
             return await _context.Clinic
@@ -33,7 +40,7 @@ namespace Server.Infrastructure.Repositories
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
-                        ImageUrl = c.ImageUrl,
+                        ImageUrl = c.ImageUrl != null && !c.ImageUrl.IsDeleted ? c.ImageUrl : null,
                         Consultants = c.Consultants
                             .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
                             .Select(con => new Consultant
@@ -54,8 +61,10 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
+                                FullName = doc.FullName,
                                 Gender = doc.Gender,
                                 Specialization = doc.Specialization,
+                                Certificate = doc.Certificate,
                                 ExperienceYear = doc.ExperienceYear,
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
@@ -87,7 +96,7 @@ namespace Server.Infrastructure.Repositories
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
-                        ImageUrl = c.ImageUrl,
+                        ImageUrl = c.ImageUrl != null && !c.ImageUrl.IsDeleted ? c.ImageUrl : null,
                         Consultants = c.Consultants
                             .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
                             .Select(con => new Consultant
@@ -108,8 +117,10 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
+                                FullName = doc.FullName,
                                 Gender = doc.Gender,
                                 Specialization = doc.Specialization,
+                                Certificate = doc.Certificate,
                                 ExperienceYear = doc.ExperienceYear,
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,

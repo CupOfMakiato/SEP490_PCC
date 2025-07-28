@@ -16,11 +16,11 @@ namespace Server.Domain.Entities
         public bool IsInsuranceAccepted { get; set; }
         public bool IsActive { get; set; }
         public string Specializations { get; set; }
-        public string ImageUrl { get; set; }
 
 
         public ICollection<Consultant> Consultants { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
         public ICollection<Doctor> Doctors { get; set; }
+        public Media? ImageUrl { get; set; }
     }
 }
