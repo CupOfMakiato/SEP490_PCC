@@ -29,21 +29,33 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbContext.TailoredCheckupReminder
                 .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(c => !c.IsDeleted)
+                .ToListAsync();
+        }
+        public async Task<List<TailoredCheckupReminder>> GetAllActiveTailoredCheckupReminders()
+        {
+            return await _dbContext.TailoredCheckupReminder
+                .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
+                .Where(c => !c.IsDeleted && c.IsActive)
                 .ToListAsync();
         }
         public async Task<TailoredCheckupReminder?> GetTailoredCheckupReminderById(Guid id)
         {
             return await _dbContext.TailoredCheckupReminder
                 .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
         }
         public async Task<List<TailoredCheckupReminder>> GetAllTailoredCheckupRemindersByGrowthData(Guid growthDataId)
         {
             return await _dbContext.TailoredCheckupReminder
                 .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(c => !c.IsDeleted &&
-                       c.GrowthDataId == growthDataId)
+                       c.GrowthDataId == growthDataId &&
+                       c.IsActive)
                 .ToListAsync();
         }
         public async Task<List<TailoredCheckupReminder>> GetOverdueRemindersByGrowthData(Guid growthDataId, DateTime currentDate)
@@ -58,7 +70,8 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<TailoredCheckupReminder>> GetUpcomingRemindersByGrowthData(Guid growthDataId, DateTime currentDate)
         {
             return await _dbContext.TailoredCheckupReminder
-                .Include(r => r.GrowthData)
+                .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(r => !r.IsDeleted &&
                             r.GrowthDataId == growthDataId &&
                             r.ScheduledDate > currentDate &&

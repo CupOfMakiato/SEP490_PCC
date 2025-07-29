@@ -22,6 +22,7 @@ namespace Server.Application.Interfaces
         Task<Result<object>> CreateNewTailoredCheckupReminder(CreateTailoredCheckupReminderDTO CreateTailoredCheckupReminderDTO);
         //edit
         Task<Result<object>> EditTailoredCheckupReminder(EditTailoredCheckupReminderDTO EditTailoredCheckupReminderDTO);
+        Task<Result<object>> MarkReminderAsScheduled(Guid ReminderId);
         Task<Result<object>> MarkReminderAsComplete(Guid ReminderId);
         //delete
         Task<Result<object>> DeleteReminder(Guid ReminderId);

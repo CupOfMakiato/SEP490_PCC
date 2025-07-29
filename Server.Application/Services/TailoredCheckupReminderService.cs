@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.CustomChecklist;
 using Server.Application.DTOs.TailoredCheckupReminder;
@@ -6,6 +7,7 @@ using Server.Application.DTOs.UserChecklist;
 using Server.Application.Interfaces;
 using Server.Application.Mappers.CheckupReminderExtensions;
 using Server.Application.Repositories;
+using Server.Domain.Entities;
 using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
@@ -24,18 +26,21 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentTime _currentTime;
         private readonly IClaimsService _claimsService;
+        private readonly IEmailService _emailService;
         public TailoredCheckupReminderService(
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
             IMapper mapper,
             IUnitOfWork unitOfWork,
             ICurrentTime currentTime,
-            IClaimsService claimsService)
+            IClaimsService claimsService,
+            IEmailService emailService)
         {
             _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _currentTime = currentTime;
             _claimsService = claimsService;
+            _emailService = emailService;
         }
         public async Task<Result<List<ViewTailoredCheckupReminderDTO>>> ViewAllReminders()
         {
@@ -145,14 +150,30 @@ namespace Server.Application.Services
             var reminder = CreateTailoredCheckupReminderDTO.ToTailoredReminder();
 
             reminder.CreatedBy = user;
-            reminder.CreationDate = DateTime.UtcNow;
+            reminder.CreationDate = DateTime.Now.Date;
 
             await _unitOfWork.TailoredCheckupReminderRepository.AddAsync(reminder);
             var result = await _unitOfWork.SaveChangeAsync();
+            if (result > 0)
+            {
+                var growthdata = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(reminder.GrowthDataId);
+                if (growthdata != null && !string.IsNullOrEmpty(growthdata.GrowthDataCreatedBy?.Email))
+                {
+                    await _emailService.SendNewlyCreatedCheckupReminder(growthdata.GrowthDataCreatedBy.Email);
+                }
+
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Added new checkup reminder successfully",
+                    Data = null
+                };
+            }
+
             return new Result<object>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Add new reminder successfully" : "Add new reminder fail",
+                Error = 1,
+                Message = "Failed to add checkup reminder",
                 Data = null
             };
         }
@@ -185,6 +206,8 @@ namespace Server.Application.Services
             reminder.RecommendedEndWeek = EditTailoredCheckupReminderDTO.RecommendedEndWeek ?? reminder.RecommendedEndWeek;
             reminder.ScheduledDate = EditTailoredCheckupReminderDTO.ScheduledDate ?? reminder.ScheduledDate;
             reminder.CompletedDate = EditTailoredCheckupReminderDTO.CompletedDate ?? reminder.CompletedDate;
+            reminder.CheckupStatus = EditTailoredCheckupReminderDTO.CheckupStatus ?? reminder.CheckupStatus;
+            reminder.Type = EditTailoredCheckupReminderDTO.Type ?? reminder.Type;
             reminder.ModificationBy = user;
             reminder.ModificationDate = DateTime.Now;
             _tailoredCheckupReminderRepository.Update(reminder);
@@ -193,6 +216,55 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Edit reminder successfully" : "Edit reminder fail",
+                Data = null
+            };
+        }
+        public async Task<Result<object>> MarkReminderAsScheduled(Guid ReminderId)
+        {
+            var userId = _claimsService.GetCurrentUserId;
+            if (userId == null || userId == Guid.Empty)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User not found!",
+                    Data = null
+                };
+            }
+
+            var reminder = await _unitOfWork.TailoredCheckupReminderRepository.GetTailoredCheckupReminderById(ReminderId);
+            if (reminder == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Reminder not found!",
+                    Data = null
+                };
+            }
+
+            if (reminder.CheckupStatus == CheckupStatus.Scheduled)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Reminder is already marked as scheduled.",
+                    Data = null
+                };
+            }
+
+            reminder.CheckupStatus = CheckupStatus.Scheduled;
+            reminder.ScheduledDate = _currentTime.GetCurrentTime();
+            reminder.ModificationDate = _currentTime.GetCurrentTime();
+            reminder.ModificationBy = userId;
+
+            _unitOfWork.TailoredCheckupReminderRepository.Update(reminder);
+            await _unitOfWork.SaveChangeAsync();
+
+            return new Result<object>
+            {
+                Error = 0,
+                Message = "Reminder marked as scheduled successfully.",
                 Data = null
             };
         }

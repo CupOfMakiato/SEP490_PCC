@@ -101,6 +101,7 @@ namespace Server.Infrastructure
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
             services.AddScoped<IGrowthDataBGService, GrowthDataBGService>();
+            services.AddScoped<ITailoredReminderEmailService, TailoredReminderEmailService>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

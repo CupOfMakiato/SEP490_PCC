@@ -81,6 +81,22 @@ namespace Server.API.Controllers
 
             return Ok(result);
         }
+        [HttpPut("mark-reminder-as-completed")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewTailoredCheckupReminderDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> MarkReminderAsComplete(Guid ReminderId)
+        {
+            var result = await _tailoredCheckupReminderService.MarkReminderAsComplete(ReminderId);
+            return Ok(result);
+        }
+        [HttpPut("mark-reminder-as-scheduled")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewTailoredCheckupReminderDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> MarkReminderAsScheduled(Guid ReminderId)
+        {
+            var result = await _tailoredCheckupReminderService.MarkReminderAsScheduled(ReminderId);
+            return Ok(result);
+        }
         [HttpDelete("delete-tailored-checkup-reminder")]
         [ProducesResponseType(200, Type = typeof(Result<ViewTailoredCheckupReminderDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]

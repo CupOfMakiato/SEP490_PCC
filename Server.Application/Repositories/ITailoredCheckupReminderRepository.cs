@@ -10,6 +10,7 @@ namespace Server.Application.Repositories
     public interface ITailoredCheckupReminderRepository : IGenericRepository<TailoredCheckupReminder>
     {
         Task<List<TailoredCheckupReminder>> GetAllTailoredCheckupReminders();
+        Task<List<TailoredCheckupReminder>> GetAllActiveTailoredCheckupReminders();
         Task<TailoredCheckupReminder?> GetTailoredCheckupReminderById(Guid id);
         Task<List<TailoredCheckupReminder>> GetAllTailoredCheckupRemindersByGrowthData(Guid growthDataId);
         Task<List<TailoredCheckupReminder>> GetOverdueRemindersByGrowthData(Guid growthDataId, DateTime currentDate);
