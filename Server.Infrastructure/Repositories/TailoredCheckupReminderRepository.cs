@@ -61,6 +61,8 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<TailoredCheckupReminder>> GetOverdueRemindersByGrowthData(Guid growthDataId, DateTime currentDate)
         {
             return await _dbContext.TailoredCheckupReminder
+                .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(r => !r.IsDeleted &&
                             r.GrowthDataId == growthDataId &&
                             r.ScheduledDate < currentDate &&
@@ -83,6 +85,8 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<TailoredCheckupReminder>> GetCompletedRemindersByGrowthData(Guid growthDataId, DateTime currentDate)
         {
             return await _dbContext.TailoredCheckupReminder
+                .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(r => !r.IsDeleted &&
                             r.GrowthDataId == growthDataId &&
                             r.ScheduledDate < currentDate &&
@@ -110,6 +114,8 @@ namespace Server.Infrastructure.Repositories
             };
 
             return await _dbContext.TailoredCheckupReminder
+                .Include(c => c.GrowthData)
+                    .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(r => !r.IsDeleted &&
                             r.GrowthDataId == growthDataId &&
                             (
