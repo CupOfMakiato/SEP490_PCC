@@ -29,18 +29,18 @@ namespace Server.Application.Services
             _cloudinaryService = cloudinaryService;
         }
 
-        public async Task<Result<bool>> BookOfflineConsultationAsync(BookingOfflineConsultationDTO offlineConsultation)
+        public async Task<Result<ViewOfflineConsultationDTO>> BookOfflineConsultationAsync(BookingOfflineConsultationDTO offlineConsultation)
         {
             var user = await _unitOfWork.UserRepository
                 .GetByIdAsync(offlineConsultation.UserId);
 
             if (user == null)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "Didn't find any user, please try again!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -49,11 +49,11 @@ namespace Server.Application.Services
 
             if (doctor == null)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "Didn't find any doctor, please try again!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -62,11 +62,11 @@ namespace Server.Application.Services
 
             if (clinic == null)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "Didn't find any clinic, please try again!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -78,11 +78,11 @@ namespace Server.Application.Services
 
             if (hasOverlap)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "The selected time slot overlaps with an existing schedule for this doctor.",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -96,11 +96,11 @@ namespace Server.Application.Services
 
             if (slotSaveResult <= 0)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "Failed to create slot.",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -116,11 +116,11 @@ namespace Server.Application.Services
 
             if (scheduleSaveResult <= 0)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "Failed to create schedule.",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -147,11 +147,11 @@ namespace Server.Application.Services
 
             if (result <= 0)
             {
-                return new Result<bool>
+                return new Result<ViewOfflineConsultationDTO>
                 {
                     Error = 1,
                     Message = "Failed to book offline consultation.",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -183,46 +183,11 @@ namespace Server.Application.Services
                 await _unitOfWork.SaveChangeAsync();
             }
 
-            if (result > 0)
-            {
-                var dayOfWeekName = GetDayOfWeekName(offlineConsulattionMapper.DayOfWeek);
-
-                // Send email to user
-                if (!string.IsNullOrEmpty(user.Email))
-                {
-                    var emailUserDTO = new EmailDTO
-                    {
-                        To = user.Email,
-                        Subject = "Offline Consultation Booked",
-                        Body = $"Your offline consultation with Dr. {doctor.FullName ?? "Doctor"}" +
-                               $" at {clinic.Name} has been successfully booked for " +
-                               $"{dayOfWeekName}, " +
-                               $"{offlineConsulattionMapper.StartDate: dd/MM/yyyy HH:mm}."
-                    };
-
-                    await _emailService.SendEmailAsync(emailUserDTO);
-                }
-
-                // Send email to doctor
-                if (!string.IsNullOrEmpty(doctor.User.Email))
-                {
-                    var emailDoctorDTO = new EmailDTO
-                    {
-                        To = doctor.User.Email,
-                        Subject = "Offline Consultation Booked",
-                        Body = $"You have a new offline consultation booked with {user.UserName} " +
-                               $"at {clinic.Name} for {dayOfWeekName}, " +
-                               $"{offlineConsulattionMapper.StartDate: dd/MM/yyyy HH:mm}."
-                    };
-                    await _emailService.SendEmailAsync(emailDoctorDTO);
-                }
-            }
-
-            return new Result<bool>
+            return new Result<ViewOfflineConsultationDTO>
             {
                 Error = 0,
                 Message = "Offline consultation booked successfully",
-                Data = true
+                Data = _mapper.Map<ViewOfflineConsultationDTO>(offlineConsulattionMapper)
             };
         }
 
@@ -470,6 +435,110 @@ namespace Server.Application.Services
             return Enum.IsDefined(typeof(DayOfWeek), dayOfWeek)
                 ? ((DayOfWeek)dayOfWeek).ToString()
                 : "Unknown";
+        }
+
+        public async Task<Result<bool>> SendBookingEmailAsync(Guid offlineConsultationId)
+        {
+            var offlineConsulattion = await _offlineConsultationRepository
+                .GetOfflineConsultationByIdAsync(offlineConsultationId);
+
+            if (offlineConsulattion == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any offline consultation, please try again!",
+                    Data = false
+                };
+            }
+
+            var user = await _unitOfWork.UserRepository
+                .GetByIdAsync(offlineConsulattion.UserId);
+
+            if (user == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any user, please try again!",
+                    Data = false
+                };
+            }
+
+            var doctor = await _unitOfWork.DoctorRepository
+                .GetDoctorByIdAsync(offlineConsulattion.DoctorId);
+
+            if (doctor == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any doctor, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(doctor.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot send booking email.",
+                    Data = false
+                };
+            }
+
+            var dayOfWeekName = GetDayOfWeekName(offlineConsulattion.DayOfWeek);
+
+            // Send email to user
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var emailUserDTO = new EmailDTO
+                {
+                    To = user.Email,
+                    Subject = "Offline Consultation Booked",
+                    Body = $"Your offline consultation with Dr. {doctor.FullName ?? "Doctor"}" +
+                           $" at {clinic.Name} has been successfully booked for " +
+                           $"{dayOfWeekName}, " +
+                           $"{offlineConsulattion.StartDate: dd/MM/yyyy HH:mm}."
+                };
+
+                await _emailService.SendEmailAsync(emailUserDTO);
+            }
+
+            // Send email to doctor
+            if (!string.IsNullOrEmpty(doctor.User.Email))
+            {
+                var emailDoctorDTO = new EmailDTO
+                {
+                    To = doctor.User.Email,
+                    Subject = "Offline Consultation Booked",
+                    Body = $"You have a new offline consultation booked with {user.UserName} " +
+                           $"at {clinic.Name} for {dayOfWeekName}, " +
+                           $"{offlineConsulattion.StartDate: dd/MM/yyyy HH:mm}."
+                };
+                await _emailService.SendEmailAsync(emailDoctorDTO);
+            }
+
+            return new Result<bool>
+            {
+                Error = 0,
+                Message = "Booking email sent successfully",
+                Data = true
+            };
         }
     }
 }
