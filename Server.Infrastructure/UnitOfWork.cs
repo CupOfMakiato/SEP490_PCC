@@ -35,6 +35,7 @@ namespace Server.Infrastructure
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
+        private readonly INutrientSuggetionRepository _nutrientSuggetionRepository;
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -58,6 +59,7 @@ namespace Server.Infrastructure
             ISymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
+            INutrientSuggetionRepository nutrientSuggetionRepository,
             ICustomChecklistRepository customChecklistRepository)
         {
             _dbContext = dbContext;
@@ -83,6 +85,7 @@ namespace Server.Infrastructure
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
             _customChecklistRepository = customChecklistRepository;
+            _nutrientSuggetionRepository = nutrientSuggetionRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -111,6 +114,7 @@ namespace Server.Infrastructure
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
         public ISymptomRepository SymptomRepository => _symptomRepository;
         public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
+        public INutrientSuggetionRepository NutrientSuggetionRepository => _nutrientSuggetionRepository;
 
         public async Task<int> SaveChangeAsync()
         {

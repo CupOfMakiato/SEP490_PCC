@@ -13,14 +13,19 @@ namespace Server.Infrastructure.Repositories
         {
         }
 
-        public async Task<AgeGroup> GetGroupByUserDateOfBirthAndTrimester(DateTime dateOfBirth, int trimester)
+        public async Task<AgeGroup> GetAgeGroupByUserDateOfBirth(DateTime dateOfBirth)
         {
             int age = DateTime.Now.Year - dateOfBirth.Year;
             return await _dbSet
-                .Include(ag => ag.NutrientSuggetions.Where(nt => nt.Trimester == trimester))
                 .AsNoTracking()
-                .AsSplitQuery()
                 .FirstOrDefaultAsync(ag => ag.FromAge <= age && ag.ToAge >= age);
+        }
+
+        public async Task<AgeGroup> GetAgeGroupFrom20To29()
+        {
+            return await _dbSet
+                .AsNoTracking()
+                .FirstOrDefaultAsync(ag => ag.FromAge <= 29 && ag.ToAge >= 20);
         }
     }
 }

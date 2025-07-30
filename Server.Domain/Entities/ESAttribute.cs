@@ -11,11 +11,7 @@
         //g/kg/day
         public string Unit { get; set; }
         public double Amount { get; set; }
-        public float? IronPercentAbsorption { get; set; }
-        public float? ValueAddingBaseOnTrimester { get; set; }
         public float? MinAnimalProteinPercentageRequire { get; set; }
-        public Guid EnergySuggestionId { get; set; }
-        public EnergySuggestion EnergySuggestion { get; set; }
         public Nutrient Nutrient { get; set; }
         public int Type { get; set; }
         public List<NutrientSuggestionAttribute> NutrientSuggestionAttributes { get; set; }

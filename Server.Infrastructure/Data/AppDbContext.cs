@@ -275,14 +275,13 @@ namespace Server.Infrastructure.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             //EnergySuggestion
-            modelBuilder.Entity<EnergySuggestion>()
-            .HasMany(es => es.Attributes)
-            .WithOne(ns => ns.EnergySuggestion)
-            .HasForeignKey(esa => esa.EnergySuggestionId)
-            .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<NutrientSuggestionAttribute>()
-            .HasKey(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId });
+                .HasKey(nsa => nsa.NutrientSuggestionAttributeId);
+
+            modelBuilder.Entity<NutrientSuggestionAttribute>()
+                .HasIndex(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId })
+                .IsUnique();
 
             // blogtag
 

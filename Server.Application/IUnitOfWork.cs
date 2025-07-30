@@ -26,6 +26,7 @@ namespace Server.Application
         public IEnergySuggestionRepository EnergySuggestionRepository { get; }
         public ISymptomRepository SymptomRepository{ get; }
         public ICustomChecklistRepository CustomChecklistRepository { get; }
+        public INutrientSuggetionRepository NutrientSuggetionRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
