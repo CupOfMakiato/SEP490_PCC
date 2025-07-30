@@ -219,5 +219,53 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
+
+        public async Task<CloudinaryResponse> UploadMessageAttachment(string fileName, IFormFile file, Message message)
+        {
+            if (file == null || file.Length == 0)
+                return null;
+
+            var extension = Path.GetExtension(fileName).ToLowerInvariant();
+
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", "xlsx" };
+
+            UploadResult uploadResult;
+
+            if (imageExtensions.Contains(extension))
+            {
+                var uploadParams = new ImageUploadParams
+                {
+                    File = new FileDescription(fileName, file.OpenReadStream()),
+                    PublicId = $"{message.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
+                    Overwrite = true,
+                    Folder = "online_consultation"
+                };
+                uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            }
+            else
+            {
+                var uploadParams = new RawUploadParams
+                {
+                    File = new FileDescription(fileName, file.OpenReadStream()),
+                    PublicId = $"{message.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
+                    Overwrite = true,
+                    Folder = "online_consultation"
+                };
+                uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            }
+
+            if (uploadResult.Error != null ||
+                uploadResult.StatusCode != System.Net.HttpStatusCode.OK ||
+                uploadResult.SecureUrl == null)
+            {
+                return null;
+            }
+
+            return new CloudinaryResponse
+            {
+                FileUrl = uploadResult.SecureUrl.ToString(),
+                PublicFileId = uploadResult.PublicId
+            };
+        }
     }
 }

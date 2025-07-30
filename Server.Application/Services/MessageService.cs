@@ -14,16 +14,19 @@ namespace Server.Application.Services
         private readonly IMapper _mapper;
         private readonly IMessageRepository _messageRepository;
         private readonly IHubContext<MessageHub> _hubContext;
+        private readonly ICloudinaryService _cloudinaryService;
 
         public MessageService(IUnitOfWork unitOfWork,
             IMapper mapper,
             IMessageRepository messageRepository,
-            IHubContext<MessageHub> hubContext)
+            IHubContext<MessageHub> hubContext,
+            ICloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _messageRepository = messageRepository;
             _hubContext = hubContext;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<Result<bool>> SoftDeleteChatThreadAsync(Guid chatThreadId)
@@ -170,10 +173,15 @@ namespace Server.Application.Services
                 };
             }
 
-            var message = _mapper.Map<Message>(sendMessage);
+            var attachments = new List<Media>();
 
-            message.SenderId = user.Id;
-            message.ChatThreadId = chatThread.Id;
+            var message = new Message
+            {
+                ChatThreadId = chatThread.Id,
+                SenderId = user.Id,
+                MessageText = sendMessage.MessageText,
+                Media = attachments,
+            };
 
             await _messageRepository.AddAsync(message);
 
@@ -189,6 +197,34 @@ namespace Server.Application.Services
                     MessageText = message.MessageText,
                     SentAt = message.SentAt
                 });
+
+                if (sendMessage.Attachments != null && sendMessage.Attachments.Any())
+                {
+                    foreach (var file in sendMessage.Attachments)
+                    {
+                        var response = await _cloudinaryService.UploadMessageAttachment(
+                            file.FileName, file, message);
+
+                        if (response != null)
+                        {
+                            var media = new Media
+                            {
+                                MessageId = message.Id,
+                                FileName = file.FileName,
+                                FileUrl = response.FileUrl,
+                                FilePublicId = response.PublicFileId,
+                                FileType = file.ContentType,
+                            };
+                            await _unitOfWork.MediaRepository.AddAsync(media);
+                            if (await _unitOfWork.SaveChangeAsync() > 0)
+                                message.Media.Add(media);
+                        }
+                    }
+
+                    _messageRepository.Update(message);
+
+                    await _unitOfWork.SaveChangeAsync();
+                }
             }
 
             return new Result<bool>

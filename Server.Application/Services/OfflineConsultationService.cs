@@ -430,6 +430,29 @@ namespace Server.Application.Services
                 };
             }
 
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(offlineConsultation.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot remove offline consultation.",
+                    Data = false
+                };
+            }
+
             _offlineConsultationRepository.SoftRemove(offlineConsultation);
 
             var result = await _unitOfWork.SaveChangeAsync();

@@ -21,10 +21,12 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<OfflineConsultation?>> GetAllOfflineConsultationByUserIdAsync(Guid userId, string? status)
         {
             return await _context.OfflineConsultation
+                .Include(oc => oc.Clinic)
                 .Where(oc =>
                     (oc.DoctorId == userId || oc.UserId == userId)
                     && !oc.IsDeleted
                     && (status == null || oc.Status == status)
+                    && oc.Clinic.IsActive
                 )
                 .ToListAsync();
         }
@@ -32,7 +34,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<OfflineConsultation?> GetOfflineConsultationByIdAsync(Guid offlineConsultationId)
         {
             return await _context.OfflineConsultation
-                .Where(oc => oc.Id == offlineConsultationId && !oc.IsDeleted)
+                .Where(oc => oc.Id == offlineConsultationId && !oc.IsDeleted && oc.Clinic.IsActive)
                 .Select(oc => new OfflineConsultation
                 {
                     Id = oc.Id,

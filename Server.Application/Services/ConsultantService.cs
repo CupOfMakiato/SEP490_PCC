@@ -95,13 +95,46 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewConsultantDTO>> GetConsultantByIdAsync(Guid consultantId)
         {
-            var result = _mapper.Map<ViewConsultantDTO>
-                (await _consultantRepository.GetConsultantByIdAsync(consultantId));
+            var consultant = await _consultantRepository.GetConsultantByIdAsync(consultantId);
+
+            if (consultant == null)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = null
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository.GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active",
+                    Data = null
+                };
+            }
+
+            var result = _mapper.Map<ViewConsultantDTO>(consultant);
 
             return new Result<ViewConsultantDTO>
             {
                 Error = 0,
-                Message = "View consultant successfully",
+                Message = "Get consultant successfully",
                 Data = result
             };
         }
@@ -116,6 +149,28 @@ namespace Server.Application.Services
                 {
                     Error = 1,
                     Message = "Didn't find any consultant, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository.GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot remove consultant",
                     Data = false
                 };
             }
@@ -142,6 +197,28 @@ namespace Server.Application.Services
                 {
                     Error = 1,
                     Message = "Didn't find any consultant, please try again!",
+                    Data = null
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository.GetClinicByIdAsync(consultantObj.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot update consultant",
                     Data = null
                 };
             }

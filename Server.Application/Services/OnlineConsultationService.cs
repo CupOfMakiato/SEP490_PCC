@@ -55,6 +55,29 @@ namespace Server.Application.Services
                 };
             }
 
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot create online consultation.",
+                    Data = null
+                };
+            }
+
             var attachments = new List<Media>();
 
             var onlineConsultationMapper = new OnlineConsultation
@@ -176,6 +199,42 @@ namespace Server.Application.Services
                 };
             }
 
+            var consultant = await _unitOfWork.ConsultantRepository
+                .GetConsultantByIdAsync(onlineConsultation.ConsultantId);
+            
+            if (consultant == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot remove online consultation.",
+                    Data = false
+                };
+            }
+
             _onlineConsultationRepository.SoftRemove(onlineConsultation);
 
             var result = await _unitOfWork.SaveChangeAsync();
@@ -199,6 +258,42 @@ namespace Server.Application.Services
                 {
                     Error = 1,
                     Message = "Didn't find any online consultation, please try again!",
+                    Data = null
+                };
+            }
+
+            var consultant = await _unitOfWork.ConsultantRepository
+                .GetConsultantByIdAsync(onlineConsultationObj.ConsultantId);
+
+            if (consultant == null)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = null
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot remove online consultation.",
                     Data = null
                 };
             }

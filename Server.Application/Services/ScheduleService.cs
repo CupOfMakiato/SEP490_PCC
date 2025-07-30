@@ -35,6 +35,29 @@ namespace Server.Application.Services
                 };
             }
 
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot create schedule.",
+                    Data = null
+                };
+            }
+
             var overlappingSlotExists = await _unitOfWork.ConsultantRepository.HasOverlappingScheduleAsync
                                         (
                                             schedule.ConsultantId,
@@ -124,6 +147,43 @@ namespace Server.Application.Services
                     Data = false
                 };
             }
+
+            var consultant = await _unitOfWork.ConsultantRepository
+                .GetConsultantByIdAsync(schedule.ConsultantId.Value);
+
+            if (consultant == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot remove schedule.",
+                    Data = false
+                };
+            }
+
             _unitOfWork.SlotRepository.SoftRemove(schedule.Slot);
 
             _scheduleRepository.SoftRemove(schedule);
@@ -152,13 +212,49 @@ namespace Server.Application.Services
                 };
             }
 
+            var consultant = await _unitOfWork.ConsultantRepository
+                .GetConsultantByIdAsync(scheduleObj.ConsultantId.Value);
+
+            if (consultant == null)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = null
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot update schedule.",
+                    Data = null
+                };
+            }
+
             var overlappingSlotExists = await _unitOfWork.ConsultantRepository.HasOverlappingScheduleAsync
-                                        (
-                                            scheduleObj.ConsultantId.Value,
-                                            schedule.Slot.StartTime,
-                                            schedule.Slot.EndTime,
-                                            scheduleObj.Slot.DayOfWeek
-                                        );
+                                    (
+                                        scheduleObj.ConsultantId.Value,
+                                        schedule.Slot.StartTime,
+                                        schedule.Slot.EndTime,
+                                        schedule.Slot.DayOfWeek
+                                    );
 
             if (overlappingSlotExists)
             {

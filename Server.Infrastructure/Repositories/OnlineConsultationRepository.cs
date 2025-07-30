@@ -29,7 +29,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<OnlineConsultation?> GetOnlineConsultationByIdAsync(Guid onlineConsultationId)
         {
             return await _context.OnlineConsultation
-                .Where(oc => oc.Id == onlineConsultationId && !oc.IsDeleted)
+                .Where(oc => oc.Id == onlineConsultationId && !oc.IsDeleted && oc.Consultant.Clinic.IsActive)
                 .Select(oc => new OnlineConsultation
                 {
                     Id = oc.Id,
@@ -76,7 +76,8 @@ namespace Server.Infrastructure.Repositories
                                     Status = oc.Consultant.User.Status,
                                     Avatar = oc.Consultant.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
                                 }
-                                : null
+                                : null,
+                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted ? oc.Consultant.Clinic : null
                         }
                         : null,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()
@@ -95,7 +96,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<OnlineConsultation>> GetOnlineConsultationsByConsultantIdAsync(Guid consultantId)
         {
             return await _context.OnlineConsultation
-                .Where(oc => oc.ConsultantId == consultantId && !oc.IsDeleted)
+                .Where(oc => oc.ConsultantId == consultantId && !oc.IsDeleted && oc.Consultant.Clinic.IsActive)
                 .Select(oc => new OnlineConsultation
                 {
                     Id = oc.Id,
@@ -142,7 +143,8 @@ namespace Server.Infrastructure.Repositories
                                     Status = oc.Consultant.User.Status,
                                     Avatar = oc.Consultant.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
                                 }
-                                : null
+                                : null,
+                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted ? oc.Consultant.Clinic : null
                         }
                         : null,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()
@@ -156,7 +158,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<OnlineConsultation>> GetOnlineConsultationsByUserIdAsync(Guid userId)
         {
             return await _context.OnlineConsultation
-                .Where(oc => oc.UserId == userId && !oc.IsDeleted)
+                .Where(oc => oc.UserId == userId && !oc.IsDeleted && oc.Consultant.Clinic.IsActive)
                 .Select(oc => new OnlineConsultation
                 {
                     Id = oc.Id,
@@ -203,7 +205,8 @@ namespace Server.Infrastructure.Repositories
                                     Status = oc.Consultant.User.Status,
                                     Avatar = oc.Consultant.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
                                 }
-                                : null
+                                : null,
+                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted ? oc.Consultant.Clinic : null
                         }
                         : null,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()

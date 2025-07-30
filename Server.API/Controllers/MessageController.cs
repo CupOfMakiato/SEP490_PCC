@@ -32,7 +32,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("send-message")]
-        public async Task<IActionResult> SendMessageAsync([FromBody] SendMessageDTO sendMessage)
+        public async Task<IActionResult> SendMessageAsync([FromForm] SendMessageDTO sendMessage)
         {
             var result = await _messageService.SendMessageAsync(sendMessage);
 

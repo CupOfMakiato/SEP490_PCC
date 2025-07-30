@@ -1,4 +1,6 @@
-﻿namespace Server.Application.DTOs.Message
+﻿using Server.Application.DTOs.Media;
+
+namespace Server.Application.DTOs.Message
 {
     public class ViewMessageDTO
     {
@@ -8,5 +10,6 @@
         public bool IsRead { get; set; }
         public DateTime SentAt { get; set; }
         public DateTime ReadAt { get; set; }
+        public List<MediaDTO>? Attachments { get; set; }
     }
 }

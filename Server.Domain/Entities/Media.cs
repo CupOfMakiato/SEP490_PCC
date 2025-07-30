@@ -30,5 +30,7 @@ namespace Server.Domain.Entities
         public OnlineConsultation? OnlineConsultation { get; set; }
         public Guid? ClinicId { get; set; }
         public Clinic? Clinic { get; set; }
+        public Guid? MessageId { get; set; }
+        public Message? Message { get; set; }
     }
 }

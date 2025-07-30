@@ -21,20 +21,32 @@ namespace Server.Infrastructure.Repositories
         public async Task<ChatThread?> GetChatThreadByIdAsync(Guid chatThreadId)
         {
             return await _context.ChatThread
-                                .Where(ct => ct.Id == chatThreadId && !ct.IsDeleted)
-                                .Select(ct => new ChatThread
-                                {
-                                    Id = ct.Id,
-                                    UserId = ct.UserId,
-                                    ConsultantId = ct.ConsultantId,
-                                    Status = ct.Status,
-                                    User = ct.User,
-                                    Messages = ct.Messages
-                                        .Where(m => !m.IsDeleted)
-                                        .ToList(),
-                                    IsDeleted = ct.IsDeleted
-                                })
-                                .FirstOrDefaultAsync();
+                .Where(ct => ct.Id == chatThreadId && !ct.IsDeleted)
+                .Select(ct => new ChatThread
+                {
+                    Id = ct.Id,
+                    UserId = ct.UserId,
+                    ConsultantId = ct.ConsultantId,
+                    Status = ct.Status,
+                    User = ct.User,
+                    Messages = ct.Messages
+                        .Where(m => !m.IsDeleted)
+                        .Select(m => new Message
+                        {
+                            Id = m.Id,
+                            SenderId = m.SenderId,
+                            MessageText = m.MessageText,
+                            IsRead = m.IsRead,
+                            SentAt = m.SentAt,
+                            ReadAt = m.ReadAt,
+                            Media = m.Media != null
+                                ? m.Media.Where(media => !media.IsDeleted).ToList()
+                                : new List<Media>()
+                        })
+                        .ToList(),
+                    IsDeleted = ct.IsDeleted
+                })
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<ChatThread?>> GetChatThreadByUserIdAsync(Guid userId)

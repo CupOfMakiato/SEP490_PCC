@@ -21,10 +21,8 @@ namespace Server.Infrastructure.Repositories
         public async Task<Clinic> GetClinicByClinicIdAsync(Guid clinicId)
         {
             return await _context.Clinic
-                .Include(c => c.ImageUrl)
                 .FirstOrDefaultAsync(c => c.Id == clinicId
-                                    && !c.IsDeleted && c.IsActive
-                                    && !c.ImageUrl.IsDeleted);
+                                    && !c.IsDeleted && c.IsActive);
         }
 
         public async Task<Clinic> GetClinicByIdAsync(Guid clinicId)

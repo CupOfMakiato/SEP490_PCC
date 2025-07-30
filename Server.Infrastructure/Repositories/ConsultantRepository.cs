@@ -47,6 +47,8 @@ namespace Server.Infrastructure.Repositories
                                                     Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
                                                 }
                                                 : null,
+                                                ClinicId = c.ClinicId,
+                                                Clinic = c.Clinic != null && !c.Clinic.IsDeleted ? c.Clinic : null,
                                                 Schedules = c.Schedules
                                                     .Where(s => !s.IsDeleted && s.Slot != null && !s.Slot.IsDeleted)
                                                     .Select(s => new Schedule
