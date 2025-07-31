@@ -14,7 +14,7 @@ namespace Server.Application.DTOs.Consultant
         public bool IsCurrentlyConsulting { get; set; }
         public int ExperienceYears { get; set; }
         public GetUserDTO User { get; set; }
-        public ICollection<ViewScheduleDTO> Schedules { get; set; }
+        //public ICollection<ViewScheduleDTO> Schedules { get; set; }
         public ViewClinicDTO Clinic { get; set; }
     }
 }

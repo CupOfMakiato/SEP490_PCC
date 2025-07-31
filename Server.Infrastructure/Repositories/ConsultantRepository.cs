@@ -49,36 +49,26 @@ namespace Server.Infrastructure.Repositories
                                                 : null,
                                                 ClinicId = c.ClinicId,
                                                 Clinic = c.Clinic != null && !c.Clinic.IsDeleted ? c.Clinic : null,
-                                                Schedules = c.Schedules
-                                                    .Where(s => !s.IsDeleted && s.Slot != null && !s.Slot.IsDeleted)
-                                                    .Select(s => new Schedule
-                                                    {
-                                                        Id = s.Id,
-                                                        SlotId = s.SlotId,
-                                                        ConsultantId = s.ConsultantId,
-                                                        Slot = s.Slot != null && !s.Slot.IsDeleted ? s.Slot : null,
-                                                        IsDeleted = s.IsDeleted
-                                                    }).ToList(),
                                                 IsDeleted = c.IsDeleted
                                             })
                                             .FirstOrDefaultAsync();
         }
 
-        public async Task<bool> HasOverlappingScheduleAsync(Guid consultantId, DateTime startTime, DateTime endTime, int dayOfWeek)
-        {
-            if (startTime >= endTime)
-                return true;
+        //public async Task<bool> HasOverlappingScheduleAsync(Guid consultantId, DateTime startTime, DateTime endTime, int dayOfWeek)
+        //{
+        //    if (startTime >= endTime)
+        //        return true;
 
-            return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
-                                            .SelectMany(c => c.Schedules)
-                                            .AnyAsync(s =>
-                                                !s.IsDeleted &&
-                                                s.Slot != null &&
-                                                !s.Slot.IsDeleted &&
-                                                s.Slot.DayOfWeek == dayOfWeek &&
-                                                startTime < s.Slot.EndTime &&
-                                                endTime > s.Slot.StartTime
-                                            );
-        }
+        //    return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
+        //                                    .SelectMany(c => c.Schedules)
+        //                                    .AnyAsync(s =>
+        //                                        !s.IsDeleted &&
+        //                                        s.Slot != null &&
+        //                                        !s.Slot.IsDeleted &&
+        //                                        s.Slot.DayOfWeek == dayOfWeek &&
+        //                                        startTime < s.Slot.EndTime &&
+        //                                        endTime > s.Slot.StartTime
+        //                                    );
+        //}
     }
 }

@@ -19,6 +19,6 @@ namespace Server.Domain.Entities
 
         public User User { get; set; }
         public Clinic Clinic { get; set; }
-        public ICollection<Schedule?> Schedules { get; set; }
+        //public ICollection<Schedule?> Schedules { get; set; }
     }
 }

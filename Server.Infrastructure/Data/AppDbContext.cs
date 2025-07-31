@@ -704,11 +704,11 @@ namespace Server.Infrastructure.Data
 
             // Schedule
 
-            modelBuilder.Entity<Schedule>()
-                .HasOne(s => s.Consultant)
-                .WithMany(c => c.Schedules)
-                .HasForeignKey(s => s.ConsultantId)
-                .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Schedule>()
+            //    .HasOne(s => s.Consultant)
+            //    .WithMany(c => c.Schedules)
+            //    .HasForeignKey(s => s.ConsultantId)
+            //    .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Schedule>()
                 .HasOne(s => s.Slot)

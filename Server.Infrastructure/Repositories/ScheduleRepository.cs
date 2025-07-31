@@ -21,24 +21,20 @@ namespace Server.Infrastructure.Repositories
         public async Task<Schedule> GetScheduleByIdAsync(Guid scheduleId)
         {
             return await _context.Schedule
-                .Include(s => s.Consultant).ThenInclude(c => c.Clinic)
                 .Include(s => s.Slot)
                 .FirstOrDefaultAsync(s => s.Id == scheduleId
                                         && !s.IsDeleted
-                                        && !s.Slot.IsDeleted
-                                        && s.Consultant.Clinic.IsActive);
+                                        && !s.Slot.IsDeleted);
         }
 
         public async Task<Schedule> GetScheduleAvailableByIdAsync(Guid scheduleId)
         {
             return await _context.Schedule
-                .Include(s => s.Consultant).ThenInclude(c => c.Clinic)
                 .Include(s => s.Slot)
                 .FirstOrDefaultAsync(s => s.Id == scheduleId
                                     && !s.IsDeleted
                                     && s.Slot.IsAvailable
-                                    && !s.Slot.IsDeleted
-                                    && s.Consultant.Clinic.IsActive);
+                                    && !s.Slot.IsDeleted);
         }
     }
 }

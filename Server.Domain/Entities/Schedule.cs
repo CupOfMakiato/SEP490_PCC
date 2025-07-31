@@ -10,8 +10,8 @@ namespace Server.Domain.Entities
     {
         public Guid SlotId { get; set; }
         public Slot Slot { get; set; }
-        public Guid? ConsultantId { get; set; }
-        public Consultant? Consultant { get; set; }
+        //public Guid? ConsultantId { get; set; }
+        //public Consultant? Consultant { get; set; }
         public Guid? DoctorId { get; set; }
         public Doctor? Doctor { get; set; }
 
