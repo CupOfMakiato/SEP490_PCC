@@ -10,6 +10,6 @@ namespace Server.Application.DTOs.Message
         public bool IsRead { get; set; }
         public DateTime SentAt { get; set; }
         public DateTime ReadAt { get; set; }
-        public List<MediaDTO>? Attachments { get; set; }
+        public List<MediaDTO>? Media { get; set; }
     }
 }

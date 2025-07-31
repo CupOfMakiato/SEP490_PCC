@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.SignalR;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Message;
 using Server.Application.Interfaces;
@@ -13,20 +12,20 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IMessageRepository _messageRepository;
-        private readonly IHubContext<MessageHub> _hubContext;
         private readonly ICloudinaryService _cloudinaryService;
+        private readonly IMessageNotifier _messageNotifier;
 
         public MessageService(IUnitOfWork unitOfWork,
             IMapper mapper,
             IMessageRepository messageRepository,
-            IHubContext<MessageHub> hubContext,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            IMessageNotifier messageNotifier)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _messageRepository = messageRepository;
-            _hubContext = hubContext;
             _cloudinaryService = cloudinaryService;
+            _messageNotifier = messageNotifier;
         }
 
         public async Task<Result<bool>> SoftDeleteChatThreadAsync(Guid chatThreadId)
@@ -108,43 +107,43 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task JoinThread(Guid threadId)
-        {
-            var chatThread = await _unitOfWork.ChatThreadRepository.GetChatThreadByIdAsync(threadId);
+        //public async Task JoinThread(Guid threadId)
+        //{
+        //    var chatThread = await _unitOfWork.ChatThreadRepository.GetChatThreadByIdAsync(threadId);
 
-            if (chatThread == null || chatThread.IsDeleted)
-                throw new InvalidOperationException("Chat thread not found or deleted.");
+        //    if (chatThread == null || chatThread.IsDeleted)
+        //        throw new InvalidOperationException("Chat thread not found or deleted.");
 
-            // Update thread status to "Active" or "Joined"
-            chatThread.Status = "Active";
+        //    // Update thread status to "Active" or "Joined"
+        //    chatThread.Status = "Active";
 
-            _unitOfWork.ChatThreadRepository.Update(chatThread);
+        //    _unitOfWork.ChatThreadRepository.Update(chatThread);
 
-            await _unitOfWork.SaveChangeAsync();
+        //    await _unitOfWork.SaveChangeAsync();
 
-            // Notify users in the thread (optional)
-            await _hubContext.Clients.Group(threadId.ToString())
-                .SendAsync("ThreadJoined", new { ThreadId = threadId, Status = chatThread.Status });
-        }
+        //    // Notify users in the thread (optional)
+        //    await _hubContext.Clients.Group(threadId.ToString())
+        //        .SendAsync("ThreadJoined", new { ThreadId = threadId, Status = chatThread.Status });
+        //}
 
-        public async Task LeaveThread(Guid threadId)
-        {
-            var chatThread = await _unitOfWork.ChatThreadRepository.GetChatThreadByIdAsync(threadId);
+        //public async Task LeaveThread(Guid threadId)
+        //{
+        //    var chatThread = await _unitOfWork.ChatThreadRepository.GetChatThreadByIdAsync(threadId);
 
-            if (chatThread == null || chatThread.IsDeleted)
-                throw new InvalidOperationException("Chat thread not found or deleted.");
+        //    if (chatThread == null || chatThread.IsDeleted)
+        //        throw new InvalidOperationException("Chat thread not found or deleted.");
 
-            // Update thread status to "Inactive" or "Left"
-            chatThread.Status = "Inactive";
+        //    // Update thread status to "Inactive" or "Left"
+        //    chatThread.Status = "Inactive";
 
-            _unitOfWork.ChatThreadRepository.Update(chatThread);
+        //    _unitOfWork.ChatThreadRepository.Update(chatThread);
 
-            await _unitOfWork.SaveChangeAsync();
+        //    await _unitOfWork.SaveChangeAsync();
 
-            // Notify users in the thread (optional)
-            await _hubContext.Clients.Group(threadId.ToString())
-                .SendAsync("ThreadLeft", new { ThreadId = threadId, Status = chatThread.Status });
-        }
+        //    // Notify users in the thread (optional)
+        //    await _hubContext.Clients.Group(threadId.ToString())
+        //        .SendAsync("ThreadLeft", new { ThreadId = threadId, Status = chatThread.Status });
+        //}
 
         public async Task<Result<bool>> SendMessageAsync(SendMessageDTO sendMessage)
         {
@@ -189,8 +188,7 @@ namespace Server.Application.Services
 
             if (result > 0)
             {
-                await _hubContext.Clients.User(sendMessage.SenderId.ToString())
-                .SendAsync("ReceiveMessage", new
+                await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, new
                 {
                     MessageId = message.Id,
                     SenderId = message.SenderId,

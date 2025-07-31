@@ -21,6 +21,7 @@ using Server.Application.Utils;
 using Server.Application.HangfireInterface;
 using Server.Application.HangfireService;
 using Hangfire;
+using Server.Infrastructure.Services;
 
 namespace Server.Infrastructure
 {
@@ -115,6 +116,8 @@ namespace Server.Infrastructure
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();
+
+            services.AddScoped<IMessageNotifier, MessageNotifier>();
 
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
