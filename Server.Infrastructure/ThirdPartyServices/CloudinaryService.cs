@@ -107,7 +107,7 @@ namespace Server.Infrastructure.ThirdPartyServices
 
             var extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", "xlsx" };
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", ".xlsx" };
 
             UploadResult uploadResult;
 
@@ -155,7 +155,7 @@ namespace Server.Infrastructure.ThirdPartyServices
 
             var extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", "xlsx" };
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", ".xlsx" };
 
             UploadResult uploadResult;
 
@@ -227,7 +227,7 @@ namespace Server.Infrastructure.ThirdPartyServices
 
             var extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", "xlsx" };
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", ".xlsx" };
 
             UploadResult uploadResult;
 

@@ -172,7 +172,7 @@ namespace Server.Application.Services
                 return new Result<bool>
                 {
                     Error = 1,
-                    Message = "Clinic is not active, cannot create",
+                    Message = "Clinic is not active, cannot remove doctor.",
                     Data = false
                 };
             }

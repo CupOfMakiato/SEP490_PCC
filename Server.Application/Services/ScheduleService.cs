@@ -194,7 +194,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove schedule successfully" : "Remove schedule fail",
-                Data = true
+                Data = result > 0
             };
         }
 

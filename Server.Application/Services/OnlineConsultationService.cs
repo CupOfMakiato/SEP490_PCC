@@ -242,8 +242,8 @@ namespace Server.Application.Services
             return new Result<bool>
             {
                 Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Remove online consultation successfully" : "Remove clinic fail",
-                Data = true
+                Message = result > 0 ? "Remove online consultation successfully" : "Remove online consultation fail",
+                Data = result > 0
             };
         }
 
@@ -293,7 +293,7 @@ namespace Server.Application.Services
                 return new Result<ViewOnlineConsultationDTO>
                 {
                     Error = 1,
-                    Message = "Clinic is not active, cannot remove online consultation.",
+                    Message = "Clinic is not active, cannot update online consultation.",
                     Data = null
                 };
             }

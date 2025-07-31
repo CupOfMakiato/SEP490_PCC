@@ -51,7 +51,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove chat thread successfully" : "Remove chat thread fail",
-                Data = true
+                Data = result > 0
             };
         }
 
@@ -77,7 +77,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove message successfully" : "Remove message fail",
-                Data = true
+                Data = result > 0
             };
         }
 
@@ -229,7 +229,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Message sent successfully!" : "Failed to send message.",
-                Data = true
+                Data = result > 0
             };
         }
 
@@ -284,7 +284,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Chat thread started successfully!" : "Failed to start chat thread.",
-                Data = true
+                Data = result > 0
             };
         }
     }

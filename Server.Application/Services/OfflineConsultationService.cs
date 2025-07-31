@@ -426,7 +426,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove offline consultation successfully" : "Remove offline consultation fail",
-                Data = true
+                Data = result > 0
             };
         }
 

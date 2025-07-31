@@ -49,7 +49,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Approve clinic successfully" : "Approve clinic fail",
-                Data = true
+                Data = result > 0
             };
         }
 
@@ -180,7 +180,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Reject clinic successfully" : "Reject clinic fail",
-                Data = true
+                Data = result > 0
             };
         }
 
@@ -206,7 +206,7 @@ namespace Server.Application.Services
             {
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Remove clinic successfully" : "Remove clinic fail",
-                Data = true
+                Data = result > 0
             };
         }
 
