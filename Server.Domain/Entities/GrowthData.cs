@@ -23,6 +23,8 @@ namespace Server.Domain.Entities
         public BasicBioMetric BasicBioMetric { get; set; } // Basic biometrics like weight, height, blood pressure, etc. // 1 - 1
         public ICollection<TailoredCheckupReminder> TailoredCheckupReminders { get; set; } = new List<TailoredCheckupReminder>();
         public ICollection<CustomChecklist> CustomChecklists { get; set; } = new List<CustomChecklist>();
+        public ICollection<TemplateChecklistGrowthData> TemplateChecklistGrowthDatas { get; set; } = new List<TemplateChecklistGrowthData>();
+        public ICollection<RecommendedCheckupGrowthData> RecommendedCheckupGrowthDatas { get; set; } = new List<RecommendedCheckupGrowthData>();
         //public ICollection<FetusDevelopment> FetusDevelopments { get; set; }
         public int GetGestationalAgeInWeeks()
         {
