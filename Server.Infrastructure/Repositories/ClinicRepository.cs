@@ -96,6 +96,8 @@ namespace Server.Infrastructure.Repositories
                             .Select(fb => new Feedback
                             {
                                 Id = fb.Id,
+                                Rating = fb.Rating,
+                                Comment = fb.Comment,
                                 IsDeleted = fb.IsDeleted
                             }).ToList()
                     })
@@ -173,6 +175,8 @@ namespace Server.Infrastructure.Repositories
                             .Select(fb => new Feedback
                             {
                                 Id = fb.Id,
+                                Rating = fb.Rating,
+                                Comment = fb.Comment,
                                 IsDeleted = fb.IsDeleted
                             }).ToList()
                     })
