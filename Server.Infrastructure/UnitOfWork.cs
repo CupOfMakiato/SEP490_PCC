@@ -82,11 +82,9 @@ namespace Server.Infrastructure
             IOnlineConsultationRepository onlineConsultationRepository,
             IMessageRepository messageRepository,
             IChatThreadRepository chatThreadRepository,
-            IOfflineConsultationRepository offlineConsultationRepository)
+            IOfflineConsultationRepository offlineConsultationRepository,
 
             INutrientSuggetionRepository nutrientSuggetionRepository,
-            ICustomChecklistRepository customChecklistRepository)
-            ICustomChecklistRepository customChecklistRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository)
 
         {
