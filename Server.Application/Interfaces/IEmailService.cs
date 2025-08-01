@@ -29,5 +29,11 @@ namespace Server.Application.Interfaces
         //Service
         Task SendApprovalServiceAsync(string email);
         Task SendRejectServiceAsync(string email, string reason);
+        // Checkup Reminder
+        Task SendNewlyCreatedCheckupReminder(string email);
+        Task SendUnScheduledCheckupReminder(string email);
+        Task SendUpcomingCheckupReminder(string email, string reason);
+        Task SendMissedScheduledCheckupReminder(string email, string reason);
+
     }
 }

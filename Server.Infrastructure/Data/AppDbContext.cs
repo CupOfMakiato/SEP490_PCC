@@ -598,7 +598,46 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(uc => uc.GrowthDataId)
             .OnDelete(DeleteBehavior.Cascade);
 
+            // Template Checklist
+
+            modelBuilder.Entity<TemplateChecklistGrowthData>()
+            .HasKey(bt => new { bt.GrowthDataId, bt.TemplateChecklistId});
+
+            modelBuilder.Entity<TemplateChecklistGrowthData>()
+            .HasOne(bt => bt.GrowthData)
+            .WithMany(b => b.TemplateChecklistGrowthDatas)
+            .HasForeignKey(bt => bt.GrowthDataId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<TemplateChecklistGrowthData>()
+            .HasOne(bt => bt.TemplateChecklist)
+            .WithMany(t => t.TemplateChecklistGrowthDatas)
+            .HasForeignKey(bt => bt.TemplateChecklistId)
+            .OnDelete(DeleteBehavior.Restrict);
+
             ChecklistSeedData.SeedData(modelBuilder);
+
+            // RecommendedCheckup
+            modelBuilder.Entity<RecommendedCheckup>()
+                .Property(s => s.Type)
+                .HasConversion(v => v.ToString(), v => (CheckupType)Enum.Parse(typeof(CheckupType), v));
+
+            modelBuilder.Entity<RecommendedCheckupGrowthData>()
+            .HasKey(bt => new { bt.GrowthDataId, bt.RecommendedCheckupId});
+
+            modelBuilder.Entity<RecommendedCheckupGrowthData>()
+            .HasOne(bt => bt.GrowthData)
+            .WithMany(b => b.RecommendedCheckupGrowthDatas)
+            .HasForeignKey(bt => bt.GrowthDataId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<RecommendedCheckupGrowthData>()
+            .HasOne(bt => bt.RecommendedCheckup)
+            .WithMany(t => t.RecommendedCheckupGrowthDatas)
+            .HasForeignKey(bt => bt.RecommendedCheckupId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            CheckupSeedData.SeedData(modelBuilder);
 
             // SubscriptionPlan
 

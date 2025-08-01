@@ -41,7 +41,6 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Like
                 .Include(b => b.Blog)
                 .Include(b => b.User)
-                .IgnoreQueryFilters()
                 .FirstOrDefaultAsync(b => b.UserId == userId && b.BlogId == blogId);
         }
         public async Task<int> CountLikesByBlogId(Guid blogId)
