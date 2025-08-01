@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Server.Infrastructure.Repositories
 {
-    public class BookmarkRepository : GenericRepository<Bookmark>, IBookmarkRepository
+    public class BookmarkRepository : ConfigRepository<Bookmark>, IBookmarkRepository
     {
         private readonly AppDbContext _dbContext;
 
@@ -29,16 +29,29 @@ namespace Server.Infrastructure.Repositories
             return await _dbContext.Bookmark
                 .ToListAsync();
         }
+        public async Task<List<Bookmark>> GetAllBookmarkedBlogFromUser(Guid userId)
+        {
+            return await _dbContext.Bookmark
+                .Include(b => b.Blog)
+                .Include(b => b.User)
+                .Where(b => b.UserId == userId && !b.IsDeleted)
+                .ToListAsync();
+        }
         public async Task<Bookmark> IsBlogBookmarkedByUser(Guid blogId, Guid userId)
         {
             return await _dbContext.Bookmark
+                .Include(b => b.Blog)
+                .Include(b => b.User)
                 .FirstOrDefaultAsync(b => b.UserId == userId && b.BlogId == blogId);
         }
         public async Task<int> CountBookmarksByBlogId(Guid blogId)
         {
             return await _dbContext.Bookmark
+                .Include(b => b.Blog)
+                .Include(b => b.User)
                 .Where(b => b.BlogId == blogId && !b.IsDeleted)
                 .CountAsync();
         }
+        
     }
 }

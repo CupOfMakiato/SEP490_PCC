@@ -54,7 +54,7 @@ namespace Server.Application.Services
 
                 var currentTrimester = currentGrowthData.GetCurrentTrimester(DateTime.Now);
   
-                var ageGroup = await _unitOfWork.AgeGroupRepository.GetGroupByUserDateOfBirthAndTrimester((DateTime)user.DateOfBirth, currentTrimester);
+                var ageGroup = await _unitOfWork.AgeGroupRepository.GetAgeGroupByUserDateOfBirth((DateTime)user.DateOfBirth);
                 if (currentGrowthData is null)
                     return new Result<DishesRecommendationHistory>()
                     {
@@ -62,7 +62,7 @@ namespace Server.Application.Services
                         Message = "User's age are not in my system, please go to hospital",
                     };
 
-                var energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupAndTrimester(DateTime.Now.Year - user.DateOfBirth.Value.Year, currentTrimester);
+                var energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeAndTrimester(DateTime.Now.Year - user.DateOfBirth.Value.Year, currentTrimester);
 
                 
 

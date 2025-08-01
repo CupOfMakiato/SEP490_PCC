@@ -7,7 +7,8 @@ using Server.Infrastructure.Data;
 namespace Server.Infrastructure.Repositories
 {
     public class NutrientSuggetionRepository : GenericRepository<NutrientSuggetion>, INutrientSuggetionRepository
-    {
+    { 
+
         public NutrientSuggetionRepository(AppDbContext dbContext,
             ICurrentTime timeService,
             IClaimsService claimsService)
@@ -15,7 +16,18 @@ namespace Server.Infrastructure.Repositories
                   timeService,
                   claimsService)
         {
+        }
 
+        public async Task<List<NutrientSuggetion>> GetNutrientSuggetionListWithAttribute(Guid ageGroupId, int trimester)
+        {
+            return await _dbSet
+                .Include(ns => ns.NutrientSuggestionAttributes
+                    .Where(nsa => nsa.Trimester == trimester && ageGroupId.Equals(ageGroupId)))
+                .ThenInclude(nas => nas.Attribute)
+                .ThenInclude(a => a.Nutrient)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
         }
     }
 }

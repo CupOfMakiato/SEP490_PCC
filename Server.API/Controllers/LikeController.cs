@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Like;
 using Server.Application.Interfaces;
+using Server.Application.Services;
 
 namespace Server.API.Controllers
 {
@@ -10,11 +12,21 @@ namespace Server.API.Controllers
     public class LikeController : ControllerBase
     {
         private readonly ILikeService _likeService;
-        public LikeController(ILikeService likeService)
+        private readonly IClaimsService _claimsService;
+        public LikeController(ILikeService likeService, IClaimsService claimsService)
         {
             _likeService = likeService;
+            _claimsService = claimsService;
         }
-
+        [HttpGet("view-all-liked-blogs")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewAllLikeDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewAllLikedBlogs()
+        {
+            var userId = _claimsService.GetCurrentUserId;
+            var result = await _likeService.ViewAllLikedBlogFromUser(userId);
+            return Ok(result);
+        }
         [HttpPost("toggle/{blogId}")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -36,6 +48,26 @@ namespace Server.API.Controllers
                 {
                     Error = 1,
                     Message = "Failed to like/Unlike blog",
+                    Data = ex.Message
+                });
+            }
+        }
+        [HttpDelete("delete/{blogId}")]
+        [ProducesResponseType(200, Type = typeof(Result<object>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> SoftDeleteLike(Guid blogId)
+        {
+            try
+            {
+                var result = await _likeService.SoftDeleteLike(blogId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Failed to delete bookmark",
                     Data = ex.Message
                 });
             }

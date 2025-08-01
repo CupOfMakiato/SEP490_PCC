@@ -4,6 +4,7 @@ namespace Server.Application.Repositories
 {
     public interface IAgeGroupRepository : IGenericRepository<AgeGroup>
     {
-        Task<AgeGroup> GetGroupByUserDateOfBirthAndTrimester(DateTime dateOfBirth, int trimester);
+        Task<AgeGroup> GetAgeGroupByUserDateOfBirth(DateTime dateOfBirth);
+        Task<AgeGroup> GetAgeGroupFrom20To29();
     }
 }
