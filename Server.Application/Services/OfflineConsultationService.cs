@@ -340,7 +340,24 @@ namespace Server.Application.Services
                 // Get user and doctor
                 var user = await _unitOfWork.UserRepository.GetByIdAsync(consultation.UserId);
 
+                if (user == null)
+                {
+                    continue; // Skip if user not found
+                }
+
                 var doctor = await _unitOfWork.DoctorRepository.GetDoctorByIdAsync(consultation.DoctorId);
+
+                if (doctor == null)
+                {
+                    continue; // Skip if doctor not found
+                }
+
+                var clinic = await _unitOfWork.ClinicRepository.GetClinicByIdAsync(doctor.ClinicId);
+
+                if (clinic == null || !clinic.IsActive)
+                {
+                    continue; // Skip if clinic not found or not active
+                }
 
                 var dayOfWeekName = GetDayOfWeekName(consultation.DayOfWeek);
 
@@ -350,6 +367,44 @@ namespace Server.Application.Services
                 if (doctorUser == null && doctor != null)
                     doctorUser = await _unitOfWork.UserRepository.GetByIdAsync(doctor.UserId);
 
+                var doctorName = doctor?.FullName ?? "Doctor";
+                var username = user.UserName ?? "User";
+                var date = consultation.StartDate.ToString("dd/MM/yyyy");
+                var startTime = consultation.StartDate.ToString("HH:mm");
+                var endTime = consultation.EndDate.ToString("HH:mm");
+                var form = consultation.ConsultationType.ToString();
+                var location = clinic?.Address ?? "Clinic";
+                var supportContact = clinic?.Phone ?? clinic?.Email ?? "our support";
+                var detailLink = "update later"; // Replace with actual link if available
+                var systemSignature = clinic?.Name ?? "Health Consulting System";
+
+                var emailUserBody = $@"
+                                Hi {username},<br/><br/>
+                                This is an email reminder that you have a consultation scheduled. Here are the details:<br/><br/>
+                                Doctor: {doctorName}<br/>
+                                Time: {dayOfWeekName}, {date} – {startTime} to {endTime}<br/>
+                                Form: {form}<br/>
+                                Location: {location}<br/><br/>
+                                👉 Please arrive at least 5 minutes before your appointment time to ensure that your forum consultation is on time and effective.<br/><br/>
+                                You can view or manage your consultation schedule at:<br/>
+                                <a href=""{detailLink}"">{detailLink}</a><br/><br/>
+                                If you need further assistance, please contact us via {supportContact}.<br/><br/>
+                                Congratulations on a successful consultation!<br/><br/>
+                                Best regards,<br/>
+                                {systemSignature}";
+
+                var emailDoctorBody = $@"
+                                Hi Doctor {doctorName},<br/><br/>
+                                The system would like to remind you that you have an upcoming consultation. The details are as follows:<br/><br/>
+                                User: {username}<br/>
+                                Time: {dayOfWeekName}, {date} – {startTime} to {endTime}<br/>
+                                Form: {form}<br/>
+                                Location: {location}<br/>
+                                You can view details or manage your consultation schedule at the following link:<br/>
+                                <a href=""{detailLink}"">{detailLink}</a><br/><br/>
+                                Best regards,<br/>
+                                {systemSignature}";
+
                 // Send reminder to user
                 if (user != null && !string.IsNullOrEmpty(user.Email))
                 {
@@ -357,8 +412,7 @@ namespace Server.Application.Services
                     {
                         To = user.Email,
                         Subject = "Offline Consultation Reminder",
-                        Body = $"This is a reminder for your offline consultation scheduled at" +
-                        $" {dayOfWeekName}, {consultation.StartDate:yyyy-MM-dd HH:mm}."
+                        Body = emailUserBody
                     };
 
                     await _emailService.SendEmailAsync(emailUserDTO);
@@ -371,8 +425,7 @@ namespace Server.Application.Services
                     {
                         To = doctorUser.Email,
                         Subject = "Offline Consultation Reminder",
-                        Body = $"This is a reminder that you have an offline consultation scheduled" +
-                        $" with {user.UserName} at {dayOfWeekName},  {consultation.StartDate:yyyy-MM-dd HH:mm}."
+                        Body = emailDoctorBody
                     };
 
                     await _emailService.SendEmailAsync(emailDoctorDTO);
@@ -502,6 +555,43 @@ namespace Server.Application.Services
             }
 
             var dayOfWeekName = GetDayOfWeekName(offlineConsulattion.DayOfWeek);
+            var username = user.UserName ?? "User";
+            var doctorName = doctor.FullName ?? "Doctor";
+            var startTime = offlineConsulattion.StartDate.ToString("HH:mm");
+            var endTime = offlineConsulattion.EndDate.ToString("HH:mm");
+            var date = offlineConsulattion.StartDate.ToString("dd/MM/yyyy");
+            var form = offlineConsulattion.ConsultationType.ToString();
+            var location = clinic.Address ?? "Clinic";
+            var contact = clinic.Email ?? "our support email";
+            var detailLink = "update later"; // Replace with actual link if available
+            var systemSignature = clinic?.Name ?? "Health Consulting System";
+
+            var emailUserBody = $@"
+                            Hi {username},<br/><br/>
+                            We would like to inform you that your consultation has been successfully booked with the following information:<br/><br/>
+                            Doctor: {doctorName}<br/>
+                            Time: {dayOfWeekName}, {date} - {startTime} to {endTime}<br/>
+                            Form: {form}<br/>
+                            Location: {location}<br/><br/>
+                            Please prepare in advance the questions or issues you want to discuss to make the consultation most effective.<br/><br/>
+                            We will send a reminder before the consultation takes place.<br/><br/>
+                            If you have any questions, do not hesitate to contact us via {contact}.<br/><br/>
+                            Thank you for trusting and choosing our service!<br/><br/>
+                            Best regards,<br/>
+                            {systemSignature}";
+
+            var emailDoctorBody = $@"
+                            Hi Doctor {doctorName},<br/><br/>
+                            You have just been assigned to a new consultation with a user. Here are the details:<br/><br/>
+                            User: {username}<br/>
+                            Time: {dayOfWeekName}, {date} - {startTime} to {endTime}<br/>
+                            Form: {form}<br/>
+                            Location: {location}<br/><br/>
+                            Please check your schedule to ensure you can attend on time.<br/><br/>
+                            You can view the consultation details at the following link:<br/>
+                            <a href=""{detailLink}"">{detailLink}</a><br/><br/>
+                            Best regards,<br/>
+                            {systemSignature}";
 
             // Send email to user
             if (!string.IsNullOrEmpty(user.Email))
@@ -510,10 +600,7 @@ namespace Server.Application.Services
                 {
                     To = user.Email,
                     Subject = "Offline Consultation Booked",
-                    Body = $"Your offline consultation with Dr. {doctor.FullName ?? "Doctor"}" +
-                           $" at {clinic.Name} has been successfully booked for " +
-                           $"{dayOfWeekName}, " +
-                           $"{offlineConsulattion.StartDate: dd/MM/yyyy HH:mm}."
+                    Body = emailUserBody
                 };
 
                 await _emailService.SendEmailAsync(emailUserDTO);
@@ -526,9 +613,7 @@ namespace Server.Application.Services
                 {
                     To = doctor.User.Email,
                     Subject = "Offline Consultation Booked",
-                    Body = $"You have a new offline consultation booked with {user.UserName} " +
-                           $"at {clinic.Name} for {dayOfWeekName}, " +
-                           $"{offlineConsulattion.StartDate: dd/MM/yyyy HH:mm}."
+                    Body = emailDoctorBody
                 };
                 await _emailService.SendEmailAsync(emailDoctorDTO);
             }

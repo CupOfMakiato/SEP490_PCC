@@ -66,6 +66,7 @@ namespace Server.Infrastructure
             services.AddScoped<IOnlineConsultationService, OnlineConsultationService>();
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IOfflineConsultationService, OfflineConsultationService>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddScoped<IAdminService, AdminService>();
 
@@ -119,6 +120,7 @@ namespace Server.Infrastructure
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped<IChatThreadRepository, ChatThreadRepository>();
             services.AddScoped<IOfflineConsultationRepository, OfflineConsultationRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();

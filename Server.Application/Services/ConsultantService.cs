@@ -227,7 +227,7 @@ namespace Server.Application.Services
 
             _unitOfWork.ConsultantRepository.Update(consultantObj);
 
-            var result = _unitOfWork.SaveChangeAsync().Result;
+            var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<ViewConsultantDTO>
             {
