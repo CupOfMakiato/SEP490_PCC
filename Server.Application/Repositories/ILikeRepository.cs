@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Server.Application.Repositories
 {
-    public interface ILikeRepository : IGenericRepository<Like>
+    public interface ILikeRepository : IConfigRepository<Like>
     {
         // view
         Task<List<Like>> GetAllLikes();
+        Task<List<Like>> GetAllLikedBlogsFromUser(Guid userId);
         // count
         Task<int> CountLikesByBlogId(Guid blogId);
         // check like

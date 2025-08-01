@@ -26,6 +26,7 @@ namespace Server.Application
         public IEnergySuggestionRepository EnergySuggestionRepository { get; }
         public ISymptomRepository SymptomRepository{ get; }
         public ICustomChecklistRepository CustomChecklistRepository { get; }
+
         public IClinicRepository ClinicRepository { get; }
         public IDoctorRepository DoctorRepository { get; }
         public IConsultantRepository ConsultantRepository { get; }
@@ -35,6 +36,10 @@ namespace Server.Application
         public IMessageRepository MessageRepository { get; }
         public IChatThreadRepository ChatThreadRepository { get; }
         public IOfflineConsultationRepository OfflineConsultationRepository { get; }
+
+        public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository { get; }
+        public INutrientSuggetionRepository NutrientSuggetionRepository { get; }
+
 
         public Task<int> SaveChangeAsync();
     }

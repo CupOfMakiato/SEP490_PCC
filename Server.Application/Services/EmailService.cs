@@ -326,5 +326,105 @@ namespace Server.Application.Services
 
             await SendEmailAsync(emailDto);
         }
+        // Reminder Email
+        public async Task SendNewlyCreatedCheckupReminder(string email)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = "Action Needed: Schedule Your Checkup",
+                Body = $@"
+                    <html>
+                    <body style='font-family: Arial, sans-serif; line-height: 1.6; background-color: #f9f9f9; padding: 20px;'>
+                         <div style='max-width: 600px; margin: auto; background-color: #ffffff; padding: 30px; border: 1px solid #e0e0e0; border-radius: 10px; box-shadow: 0px 4px 6px rgba(0,0,0,0.1);'>
+                            <p>Hello,</p>
+                            <p>We noticed that a new checkup reminder has been created for you. Please make sure to schedule your appointment as soon as possible.</p>
+                            <p>Taking action early helps us ensure the best possible care during your pregnancy journey.</p>
+                            <p style='margin-top: 30px;'>If you’ve already scheduled your checkup, you can ignore this message.</p>
+                            <p style='color: #555;'>Thank you for choosing our care system! <br />Nestly Care Companion</p>
+                            <hr style='margin-top: 40px;' />
+                            <p style='font-size: 12px; color: #999;'>This is an automated message. Please do not reply directly to this email.</p>
+                        </div>
+                    </body>
+                    </html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+
+        public async Task SendUnScheduledCheckupReminder(string email)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = "Action Needed: Schedule Your Checkup",
+                Body = $@"
+                    <html>
+                    <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+                        <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
+                            <h2 style='color: #e67e22;'>Schedule Your Checkup</h2>
+                            <p style='color: #555;'>We noticed that you have not yet scheduled your upcoming checkup.</p>
+                            <p style='color: #555;'>To stay on track with your care plan, please schedule your checkup as soon as possible.</p>
+                            <p style='color: #555;'>If you need assistance or have questions, our support team is here to help.</p>
+                            <p style='color: #555;'>Wishing you good health,<br />Nestly Care Companion</p>
+                            <hr style='margin-top: 40px;' />
+                            <p style='font-size: 12px; color: #999;'>This is an automated message. Please do not reply directly to this email.</p>
+                        </div>
+                    </body>
+                    </html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+        public async Task SendUpcomingCheckupReminder(string email, string reason)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = "Upcoming Checkup Schedule Reminder",
+                Body = $@"
+                    <html>
+            <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+                <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
+                    <h2 style='color: #2c3e50;'>Upcoming Checkup Reminder</h2>
+                    <p style='color: #555;'>This is a friendly reminder that you have an upcoming checkup scheduled for tomorrow.</p>
+                    <p style='color: #555;'>Details: {reason}</p>
+                    <p style='color: #555;'>Please ensure you are prepared and arrive on time. If you have any questions, feel free to contact us.</p>
+                    <p style='color: #555;'>Wishing you good health,<br />Nestly Care Companion</p>
+                    <hr style='margin-top: 40px;' />
+                    <p style='font-size: 12px; color: #999;'>This is an automated message. Please do not reply directly to this email.</p>
+                </div>
+            </body>
+            </html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+        public async Task SendMissedScheduledCheckupReminder(string email, string reason)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = "Missed Checkup!",
+                Body = $@"
+            <html>
+            <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+                <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
+                    <h2 style='color: #c0392b;'>You Missed a Scheduled Checkup</h2>
+                    <p style='color: #555;'>We noticed that you missed your scheduled checkup.</p>
+                    <p style='color: #555;'>Checkup Info: {reason}</p>
+                    <p style='color: #555;'>It's important to stay on track with your care plan. Please log in to reschedule your appointment as soon as possible.</p>
+                    <p style='color: #555;'>If you have any questions or concerns, feel free to reach out to our support team for assistance.</p>
+                    <p style='color: #555;'>Wishing you good health,<br />Nestly Care Companion</p>
+                    <hr style='margin-top: 40px;' />
+                    <p style='font-size: 12px; color: #999;'>This is an automated message. Please do not reply directly to this email.</p>
+                </div>
+            </body>
+            </html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+
     }
 }

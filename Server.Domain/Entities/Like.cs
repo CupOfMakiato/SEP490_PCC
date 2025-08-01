@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Server.Domain.Entities
 {
-    public class Like : BaseEntity
+    public class Like : ConfigEntity
     {
         public Guid UserId { get; set; }
         public Guid BlogId { get; set; }

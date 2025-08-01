@@ -23,6 +23,7 @@ namespace Server.Application.DTOs.Blog
         public int LikeCount { get; set; }
         //public int CommentCount { get; set; }
         public int BookmarkCount { get; set; }
+        public DateTime CreationDate { get; set; }
         public GetUserDTO? CreatedByUser { get; set; }
     }    
 }

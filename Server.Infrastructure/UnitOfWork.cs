@@ -35,6 +35,7 @@ namespace Server.Infrastructure
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
+
         private readonly IClinicRepository _clinicRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IConsultantRepository _consultantRepository;
@@ -44,6 +45,10 @@ namespace Server.Infrastructure
         private readonly IMessageRepository _messageRepository;
         private readonly IChatThreadRepository _chatThreadRepository;
         private readonly IOfflineConsultationRepository _offlineConsultationRepository;
+
+        private readonly INutrientSuggetionRepository _nutrientSuggetionRepository;
+        private readonly ITailoredCheckupReminderRepository _tailoredCheckupReminderRepository;
+
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -67,6 +72,7 @@ namespace Server.Infrastructure
             ISymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
+
             ICustomChecklistRepository customChecklistRepository,
             IClinicRepository clinicRepository,
             IDoctorRepository doctorRepository,
@@ -77,6 +83,12 @@ namespace Server.Infrastructure
             IMessageRepository messageRepository,
             IChatThreadRepository chatThreadRepository,
             IOfflineConsultationRepository offlineConsultationRepository)
+
+            INutrientSuggetionRepository nutrientSuggetionRepository,
+            ICustomChecklistRepository customChecklistRepository)
+            ICustomChecklistRepository customChecklistRepository,
+            ITailoredCheckupReminderRepository tailoredCheckupReminderRepository)
+
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -101,6 +113,7 @@ namespace Server.Infrastructure
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
             _customChecklistRepository = customChecklistRepository;
+
             _clinicRepository = clinicRepository;
             _doctorRepository = doctorRepository;
             _consultantRepository = consultantRepository;
@@ -110,6 +123,10 @@ namespace Server.Infrastructure
             _messageRepository = messageRepository;
             _chatThreadRepository = chatThreadRepository;
             _offlineConsultationRepository = offlineConsultationRepository;
+
+            _nutrientSuggetionRepository = nutrientSuggetionRepository;
+            _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
+
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -124,6 +141,7 @@ namespace Server.Infrastructure
 
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
         public ICustomChecklistRepository CustomChecklistRepository => _customChecklistRepository;
+        public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository => _tailoredCheckupReminderRepository;
         public IJournalRepository JournalRepository => _journalRepository;
         public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
 
@@ -138,6 +156,7 @@ namespace Server.Infrastructure
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
         public ISymptomRepository SymptomRepository => _symptomRepository;
         public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
+        public INutrientSuggetionRepository NutrientSuggetionRepository => _nutrientSuggetionRepository;
 
         public IClinicRepository ClinicRepository => _clinicRepository;
 

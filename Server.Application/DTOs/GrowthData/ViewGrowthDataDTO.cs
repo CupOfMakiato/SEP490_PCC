@@ -1,4 +1,5 @@
 ﻿using Server.Application.DTOs.BasicBioMetric;
+using Server.Application.DTOs.CustomChecklist;
 using Server.Application.DTOs.Journal;
 using Server.Application.DTOs.User;
 using Server.Application.DTOs.UserChecklist;

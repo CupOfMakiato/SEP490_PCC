@@ -9,11 +9,12 @@ namespace Server.Domain.Entities
 {
     public class TailoredCheckupReminder : BaseEntity
     {
+        // note this is usually created by consultant for checkup if emergency
         public string Title { get; set; }
         public string Description { get; set; }
 
         // Optional for recommended checkups
-        public int? RecommendedStartWeek { get; set; }
+        public int? RecommendedStartWeek { get; set; } // usually 4 weeks span
         public int? RecommendedEndWeek { get; set; }
         public CheckupType Type { get; set; }
 
@@ -22,6 +23,7 @@ namespace Server.Domain.Entities
         public CheckupStatus CheckupStatus { get; set; }
 
         public string? Note { get; set; }
+        public bool IsActive { get; set; } = true;
         public Guid GrowthDataId { get; set; }
         public GrowthData GrowthData { get; set; }
     }

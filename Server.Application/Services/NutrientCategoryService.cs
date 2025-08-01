@@ -1,4 +1,7 @@
-﻿using Server.Application.Interfaces;
+﻿using Org.BouncyCastle.Asn1.Ocsp;
+using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.NutrientCategory;
+using Server.Application.Interfaces;
 using Server.Domain.Entities;
 
 namespace Server.Application.Services
@@ -12,10 +15,24 @@ namespace Server.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> CreateNutrientCategory(NutrientCategory nutrientCategory)
+        public async Task<Result<NutrientCategory>> CreateNutrientCategory(CreateNutrientCategoryRequest request)
         {
-            _unitOfWork.NutrientCategoryRepository.AddAsync(nutrientCategory);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            var nutrientCategory = new NutrientCategory()
+            {
+                Name = request.Name,
+                Description = request.Description,
+            };
+            await _unitOfWork.NutrientCategoryRepository.AddAsync(nutrientCategory);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NutrientCategory>()
+                {
+                    Data = nutrientCategory
+                };
+            return new Result<NutrientCategory>() 
+            { 
+                Error = 1,
+                Message = "Create fail"
+            };
         }
 
         public async Task<NutrientCategory> GetNutrientCategoryByIdAsync(Guid nutrientCategoryId)
@@ -39,10 +56,31 @@ namespace Server.Application.Services
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 
-        public async Task<bool> UpdateNutrientCategory(NutrientCategory nutrientCategory)
+        public async Task<Result<NutrientCategory>> UpdateNutrientCategory(UpdateNutrientCategoryRequest request)
         {
+            var nutrientCategory = await _unitOfWork.NutrientCategoryRepository.GetNutrientCategoryById(request.NutrientCategoryId);
+
+            if (nutrientCategory is null)
+                return new Result<NutrientCategory>()
+                {
+                    Error = 1,
+                    Message = "Invalid Id"
+                };
+
+            nutrientCategory.Name = request.Name;
+            nutrientCategory.Description = request.Description;
+
             _unitOfWork.NutrientCategoryRepository.Update(nutrientCategory);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NutrientCategory>()
+                {
+                    Data = nutrientCategory
+                };
+            return new Result<NutrientCategory>()
+            {
+                Error = 1,
+                Message = "Update fail"
+            };
         }
     }
 }

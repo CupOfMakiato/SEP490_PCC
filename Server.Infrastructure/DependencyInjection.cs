@@ -49,10 +49,12 @@ namespace Server.Infrastructure
             services.AddScoped<INutrientService, NutrientService>();
             services.AddScoped<IDiseaseService, DiseaseService>();
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
+            services.AddScoped<INutrientSuggestionService, NutrientSuggestionService>();
 
             services.AddScoped<IGrowthDataService, GrowthDataService>();       
 
             services.AddScoped<ICustomChecklistService, CustomChecklistService>();
+            services.AddScoped<ITailoredCheckupReminderService, TailoredCheckupReminderService>();
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
             services.AddScoped<ISymptomService, SymptomService>();
@@ -100,9 +102,13 @@ namespace Server.Infrastructure
             services.AddScoped<IJournalRepository, JournalRepository>();
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
             services.AddScoped<ISymptomRepository, SymptomRepository>();
+            services.AddScoped<ITailoredCheckupReminderRepository, TailoredCheckupReminderRepository>();
 
             services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
+          
+            services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
+
 
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
@@ -119,9 +125,11 @@ namespace Server.Infrastructure
 
             services.AddScoped<IMessageNotifier, MessageNotifier>();
 
+
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
             services.AddScoped<IGrowthDataBGService, GrowthDataBGService>();
+            services.AddScoped<ITailoredReminderEmailService, TailoredReminderEmailService>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));

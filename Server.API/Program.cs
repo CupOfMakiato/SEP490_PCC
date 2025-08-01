@@ -109,6 +109,12 @@ using (var scope = app.Services.CreateScope())
         job => job.InactivateExpiredGrowthDataProfiles(),
         Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
     );
+    recurringJobManager.AddOrUpdate<ITailoredReminderEmailService>(
+    "send-checkup-reminder",
+        job => job.SendTailoredReminderCheckupEmail(),
+        //Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
+        Cron.MinuteInterval(1) // Run every minute for testing
+    );
 }
 
 
