@@ -140,7 +140,7 @@ app.UseExceptionHandler("/Error");
 
 app.UseCors("AllowAllOrigins");
 
-
+app.MapHub<MessageHub>("/messageHub");
 
 
 // Middleware for performance tracking

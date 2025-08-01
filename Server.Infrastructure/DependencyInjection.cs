@@ -21,6 +21,7 @@ using Server.Application.Utils;
 using Server.Application.HangfireInterface;
 using Server.Application.HangfireService;
 using Hangfire;
+using Server.Infrastructure.Services;
 
 namespace Server.Infrastructure
 {
@@ -57,6 +58,14 @@ namespace Server.Infrastructure
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
             services.AddScoped<ISymptomService, SymptomService>();
+
+            services.AddScoped<IClinicService, ClinicService>();
+            services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IConsultantService, ConsultantService>();
+            services.AddScoped<IScheduleService, ScheduleService>();
+            services.AddScoped<IOnlineConsultationService, OnlineConsultationService>();
+            services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IOfflineConsultationService, OfflineConsultationService>();
 
             services.AddScoped<IAdminService, AdminService>();
 
@@ -97,8 +106,25 @@ namespace Server.Infrastructure
 
             services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
+          
             services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
-            
+
+
+            services.AddScoped<IClinicRepository, ClinicRepository>();
+            services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IConsultantRepository, ConsultantRepository>();
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<ISlotRepository, SlotRepository>();
+            services.AddScoped<IOnlineConsultationRepository, OnlineConsultationRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IChatThreadRepository, ChatThreadRepository>();
+            services.AddScoped<IOfflineConsultationRepository, OfflineConsultationRepository>();
+
+            // Background Services
+            services.AddHostedService<ConsultationReminderBackgroundService>();
+
+            services.AddScoped<IMessageNotifier, MessageNotifier>();
+
 
             // Hangfire
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();

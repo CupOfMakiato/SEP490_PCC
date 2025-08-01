@@ -35,8 +35,20 @@ namespace Server.Infrastructure
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
         private readonly ISymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
+
+        private readonly IClinicRepository _clinicRepository;
+        private readonly IDoctorRepository _doctorRepository;
+        private readonly IConsultantRepository _consultantRepository;
+        private readonly IScheduleRepository _scheduleRepository;
+        private readonly ISlotRepository _slotRepository;
+        private readonly IOnlineConsultationRepository _onlineConsultationRepository;
+        private readonly IMessageRepository _messageRepository;
+        private readonly IChatThreadRepository _chatThreadRepository;
+        private readonly IOfflineConsultationRepository _offlineConsultationRepository;
+
         private readonly INutrientSuggetionRepository _nutrientSuggetionRepository;
         private readonly ITailoredCheckupReminderRepository _tailoredCheckupReminderRepository;
+
 
         public UnitOfWork(AppDbContext dbContext, 
             IUserRepository userRepository,
@@ -60,10 +72,23 @@ namespace Server.Infrastructure
             ISymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
+
+            ICustomChecklistRepository customChecklistRepository,
+            IClinicRepository clinicRepository,
+            IDoctorRepository doctorRepository,
+            IConsultantRepository consultantRepository,
+            IScheduleRepository scheduleRepository,
+            ISlotRepository slotRepository,
+            IOnlineConsultationRepository onlineConsultationRepository,
+            IMessageRepository messageRepository,
+            IChatThreadRepository chatThreadRepository,
+            IOfflineConsultationRepository offlineConsultationRepository)
+
             INutrientSuggetionRepository nutrientSuggetionRepository,
             ICustomChecklistRepository customChecklistRepository)
             ICustomChecklistRepository customChecklistRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository)
+
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
@@ -88,8 +113,20 @@ namespace Server.Infrastructure
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
             _customChecklistRepository = customChecklistRepository;
+
+            _clinicRepository = clinicRepository;
+            _doctorRepository = doctorRepository;
+            _consultantRepository = consultantRepository;
+            _scheduleRepository = scheduleRepository;
+            _slotRepository = slotRepository;
+            _onlineConsultationRepository = onlineConsultationRepository;
+            _messageRepository = messageRepository;
+            _chatThreadRepository = chatThreadRepository;
+            _offlineConsultationRepository = offlineConsultationRepository;
+
             _nutrientSuggetionRepository = nutrientSuggetionRepository;
             _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
+
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -120,6 +157,24 @@ namespace Server.Infrastructure
         public ISymptomRepository SymptomRepository => _symptomRepository;
         public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
         public INutrientSuggetionRepository NutrientSuggetionRepository => _nutrientSuggetionRepository;
+
+        public IClinicRepository ClinicRepository => _clinicRepository;
+
+        public IDoctorRepository DoctorRepository => _doctorRepository;
+
+        public IConsultantRepository ConsultantRepository => _consultantRepository;
+
+        public IScheduleRepository ScheduleRepository => _scheduleRepository;
+
+        public ISlotRepository SlotRepository => _slotRepository;
+
+        public IOnlineConsultationRepository OnlineConsultationRepository => _onlineConsultationRepository;
+
+        public IMessageRepository MessageRepository => _messageRepository;
+
+        public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
+
+        public IOfflineConsultationRepository OfflineConsultationRepository => _offlineConsultationRepository;
 
         public async Task<int> SaveChangeAsync()
         {
