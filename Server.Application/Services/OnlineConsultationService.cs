@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.OnlineConsultation;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -14,17 +15,20 @@ namespace Server.Application.Services
         private readonly IMapper _mapper;
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
         private readonly ICloudinaryService _cloudinaryService;
+        private readonly IEmailService _emailService;
 
         public OnlineConsultationService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IOnlineConsultationRepository onlineConsultationRepository,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _onlineConsultationRepository = onlineConsultationRepository;
             _cloudinaryService = cloudinaryService;
+            _emailService = emailService;
         }
 
         public async Task<Result<ViewOnlineConsultationDTO>> CreateOnlineConsultation(AddOnlineConsultationDTO onlineConsultation)
@@ -181,6 +185,109 @@ namespace Server.Application.Services
                 Error = 0,
                 Message = "View online consultation successfully",
                 Data = result
+            };
+        }
+
+        public async Task<Result<bool>> SendBookingEmailAsync(Guid onlineConsultationId)
+        {
+            var onlineConsultation = await _onlineConsultationRepository
+                .GetOnlineConsultationByOnlineConsultationIdAsync(onlineConsultationId);
+
+            if (onlineConsultation == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any online consultation, please try again!",
+                    Data = false
+                };
+            }
+
+            var consultant = await _unitOfWork.ConsultantRepository
+                .GetConsultantByIdAsync(onlineConsultation.ConsultantId);
+
+            if (consultant == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot send email.",
+                    Data = false
+                };
+            }
+
+            var user = await _unitOfWork.UserRepository
+                .GetByIdAsync(onlineConsultation.UserId);
+
+            if (user == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any user, please try again!",
+                    Data = false
+                };
+            }
+
+            // Prepare email body with placeholders replaced
+            var consultantName = consultant.User?.UserName ?? "Consultant";
+            var consultationDateTime = onlineConsultation.Date.ToString("dd/MM/yyyy HH:mm");
+            var username = user.UserName ?? "User";
+            var viewLink = $"update later"; // Replace with actual link to view consultation details
+            var systemSignature = clinic?.Name ?? "Health Consulting System";
+
+            var emailBody = $@"
+                            Hi {username},<br/><br/>
+                            We would like to inform you that the information of the last consultation with {consultantName} at {consultationDateTime} has been successfully saved by the system.<br/><br/>
+                            You can review the content or notes from the consultation at the following link:<br/>
+                            🔗 <a href=""{viewLink}"">View consultation details</a><br/><br/>
+                            This storage helps you easily track the progress and information exchanged in previous consultations.<br/><br/>
+                            If you have any questions, do not hesitate to contact us via {clinic?.Email}.<br/><br/>
+                            Thank you for trusting and choosing our service!<br/><br/>
+                            Best regards,<br/>
+                            {systemSignature}";
+
+            // Send email to user
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var emailUserDTO = new EmailDTO
+                {
+                    To = user.Email,
+                    Subject = "Online Consultation",
+                    Body = emailBody
+                };
+
+                await _emailService.SendEmailAsync(emailUserDTO);
+            }
+
+            return new Result<bool>
+            {
+                Error = 0,
+                Message = "Online consultation email sent successfully",
+                Data = true
             };
         }
 

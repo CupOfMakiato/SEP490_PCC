@@ -62,5 +62,13 @@ namespace Server.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost("send-online-consultation-emails/{onlineConsultationId}")]
+        public async Task<IActionResult> SendBookingEmailAsync(Guid onlineConsultationId)
+        {
+            var result = await _onlineConsultationService.SendBookingEmailAsync(onlineConsultationId);
+
+            return Ok(result);
+        }
     }
 }
