@@ -48,6 +48,7 @@ namespace Server.Infrastructure
             services.AddScoped<INutrientService, NutrientService>();
             services.AddScoped<IDiseaseService, DiseaseService>();
             services.AddScoped<IFoodRecommendationHistoryService, FoodRecommendationHistoryService>();
+            services.AddScoped<INutrientSuggestionService, NutrientSuggestionService>();
 
             services.AddScoped<IGrowthDataService, GrowthDataService>();       
 
@@ -96,6 +97,7 @@ namespace Server.Infrastructure
 
             services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
+            services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
             
 
             // Hangfire
