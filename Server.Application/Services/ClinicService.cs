@@ -210,6 +210,32 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<List<ViewClinicDTO>>> SuggestClinicsAsync(Guid userId)
+        {
+            var user = await _unitOfWork.UserRepository
+                .GetByIdAsync(userId);
+
+            if (user == null || string.IsNullOrEmpty(user.Address))
+            {
+                return new Result<List<ViewClinicDTO>>
+                {
+                    Error = 1,
+                    Message = "User not found or address is missing",
+                    Data = null
+                };
+            }
+
+            var clinics = await _clinicRepository
+                .SuggestClinicsAsync(user.Address);
+
+            return new Result<List<ViewClinicDTO>>
+            {
+                Error = 0,
+                Message = "Suggested clinics retrieved successfully",
+                Data = _mapper.Map<List<ViewClinicDTO>>(clinics)
+            };
+        }
+
         public async Task<Result<ViewClinicDTO>> UpdateClinic(UpdateClinicDTO clinic)
         {
             var clinicObj = await _clinicRepository.GetClinicByClinicIdAsync(clinic.Id);

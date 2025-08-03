@@ -9,5 +9,6 @@ namespace Server.Application.Repositories
         public Task<List<Clinic>> GetClinicsAsync();
         public Task<Clinic> GetClinicToApproveAsync(Guid clinicId);
         public Task<Clinic> GetClinicByClinicIdAsync(Guid clinicId);
+        public Task<List<Clinic>> SuggestClinicsAsync(string userAddress, int maxResult = 10);
     }
 }

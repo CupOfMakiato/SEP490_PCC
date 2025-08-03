@@ -1,5 +1,6 @@
 ﻿using Server.Application.DTOs.Consultant;
 using Server.Application.DTOs.Doctor;
+using Server.Application.DTOs.Feedback;
 using Server.Application.DTOs.Media;
 
 namespace Server.Application.DTOs.Clinic
@@ -17,5 +18,6 @@ namespace Server.Application.DTOs.Clinic
         public MediaDTO ImageUrl { get; set; }
         public ICollection<ViewConsultantDTO> Consultants { get; set; }
         public ICollection<ViewDoctorDTO> Doctors { get; set; }
+        public ICollection<ViewFeedbackDTO> Feedbacks { get; set; }
     }
 }
