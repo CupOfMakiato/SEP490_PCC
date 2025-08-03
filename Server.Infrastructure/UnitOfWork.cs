@@ -82,9 +82,11 @@ namespace Server.Infrastructure
             IMessageRepository messageRepository,
             IChatThreadRepository chatThreadRepository,
             IOfflineConsultationRepository offlineConsultationRepository,
+
             INutrientSuggetionRepository nutrientSuggetionRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
             IFeedbackRepository feedbackRepository)
+
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
