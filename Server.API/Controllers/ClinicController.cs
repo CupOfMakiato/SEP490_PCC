@@ -42,6 +42,14 @@ namespace Server.API.Controllers
             return Ok(clinic);
         }
 
+        [HttpGet("suggest-clinics/{userId}")]
+        public async Task<IActionResult> SuggestClinics(Guid userId)
+        {
+            var result = await _clinicService.SuggestClinicsAsync(userId);
+
+            return Ok(result);
+        }
+
         [HttpPost("create-clinic")]
         public async Task<IActionResult> CreateClinic(AddClinicDTO addClinicDTO)
         {

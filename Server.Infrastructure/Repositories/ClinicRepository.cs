@@ -194,5 +194,34 @@ namespace Server.Infrastructure.Repositories
             return await _context.Clinic.FirstOrDefaultAsync
                         (c => c.Id == clinicId && !c.IsDeleted);
         }
+
+        public async Task<List<Clinic>> SuggestClinicsAsync(string userAddress, int maxResults = 10)
+        {
+            var clinics = await _context.Clinic
+                .Include(c => c.Feedbacks)
+                .Where(c => !c.IsDeleted && c.IsActive)
+                .ToListAsync();
+
+            var suggested = clinics
+                .Select(c => new
+                    {
+                        Clinic = c,
+                        // Calculate average rating, default to 0 if no feedbacks
+                        AverageRating = c.Feedbacks != null && c.Feedbacks.Any(fb => !fb.IsDeleted)
+                            ? c.Feedbacks.Where(fb => !fb.IsDeleted).Average(fb => fb.Rating)
+                            : 0,
+                        // Simple proximity: 0 if address matches, 1 otherwise (replace with real distance logic as needed)
+                        Proximity = !string.IsNullOrEmpty(userAddress) && !string.IsNullOrEmpty(c.Address)
+                            ? (c.Address.Contains(userAddress) ? 0 : 1)
+                            : int.MaxValue
+                    })
+                .OrderBy(s => s.Proximity)
+                .ThenByDescending(s => s.AverageRating)
+                .Take(maxResults)
+                .Select(s => s.Clinic)
+                .ToList();
+
+            return suggested;
+        }
     }
 }
