@@ -8,7 +8,6 @@
         public bool PregnancySafe { get; set; }
         public Guid FoodCategoryId { get; set; }
         public string SafetyNote { get; set; }
-        public bool Review { get; set; } = false;
         public FoodCategory FoodCategory { get; set; }
         public ICollection<FoodNutrient> FoodNutrients { get; set; } = new List<FoodNutrient>();
         public ICollection<FoodDish> FoodDishes { get; set; } = new List<FoodDish>();

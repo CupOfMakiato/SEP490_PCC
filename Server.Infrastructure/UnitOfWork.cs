@@ -49,6 +49,7 @@ namespace Server.Infrastructure
         private readonly INutrientSuggetionRepository _nutrientSuggetionRepository;
         private readonly ITailoredCheckupReminderRepository _tailoredCheckupReminderRepository;
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IDishRepository _dishRepository;
 
         public UnitOfWork(AppDbContext dbContext,
             IUserRepository userRepository,
@@ -85,6 +86,7 @@ namespace Server.Infrastructure
 
             INutrientSuggetionRepository nutrientSuggetionRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
+            IDishRepository dishRepository,
             IFeedbackRepository feedbackRepository)
 
         {
@@ -123,6 +125,7 @@ namespace Server.Infrastructure
             _nutrientSuggetionRepository = nutrientSuggetionRepository;
             _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
             _feedbackRepository = feedbackRepository;
+            _dishRepository = dishRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -159,6 +162,7 @@ namespace Server.Infrastructure
         public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
         public IOfflineConsultationRepository OfflineConsultationRepository => _offlineConsultationRepository;
 
+        public IDishRepository DishRepository => _dishRepository;
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
 
         public async Task<int> SaveChangeAsync()

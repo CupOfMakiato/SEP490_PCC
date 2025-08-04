@@ -12,7 +12,6 @@ namespace Server.Application.Interfaces
         public Task<bool> DeleteFood(Guid foodId);
         public Task<bool> CreateFood(CreateFoodRequest request);
         public Task<bool> UpdateFood(Food food);
-        public Task<bool> ApproveFood(Guid foodId);
         public Task<Result<Food>> AddNutrientsByNames(AddNutrientsRequest request);
     }
 }
