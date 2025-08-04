@@ -29,7 +29,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("add-new-nutrient")]
-        public async Task<IActionResult> Create([FromBody] CreateNutrientRequest request)
+        public async Task<IActionResult> Create([FromForm] CreateNutrientRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest("Name is required");
