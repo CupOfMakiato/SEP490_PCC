@@ -11,5 +11,6 @@ namespace Server.Application.Interfaces
         public Task<Result<NutrientSuggetion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request);
         public Task<Result<NutrientSuggetion>> UpdateNutrientSuggestion(UpdateNutrientSuggestionRequest request);
         public Task<Result<object>> GetEssentialNutritionalNeedsInOneDay(GetEssentialNutritionalNeedsInOneDayRequest request);
+        public Task<Result<NSAttribute>> AddNutrientSuggestionAttribute(AddNutrientSuggestionAttributeRequest request);
     }
 }

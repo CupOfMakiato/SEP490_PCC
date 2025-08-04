@@ -38,6 +38,7 @@ namespace Server.Application
         public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository { get; }
         public INutrientSuggetionRepository NutrientSuggetionRepository { get; }
         public IFeedbackRepository FeedbackRepository { get; }
+        public INSAttributeRepository NSAttributeRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

@@ -109,6 +109,7 @@ namespace Server.Infrastructure
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
           
             services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
+            services.AddScoped<INSAttributeRepository, NSAttributeRepository>();
 
 
             services.AddScoped<IClinicRepository, ClinicRepository>();
