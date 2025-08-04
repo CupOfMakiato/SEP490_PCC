@@ -243,7 +243,7 @@ namespace Server.Application.Services
 
 
             var existingJournals = await _unitOfWork.JournalRepository
-                .GetJournalFromGrowthDataByWeek(CreateNewJournalEntryForCurrentWeekDTO.Id, currentWeek);
+                .GetJournalFromGrowthDataByWeek(CreateNewJournalEntryForCurrentWeekDTO.GrowthDataId, currentWeek);
 
             if (existingJournals.Any())
             {
