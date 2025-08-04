@@ -238,7 +238,7 @@ namespace Server.Infrastructure.ThirdPartyServices
                     File = new FileDescription(fileName, file.OpenReadStream()),
                     PublicId = $"{message.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
                     Overwrite = true,
-                    Folder = "online_consultation"
+                    Folder = "message"
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
@@ -249,7 +249,7 @@ namespace Server.Infrastructure.ThirdPartyServices
                     File = new FileDescription(fileName, file.OpenReadStream()),
                     PublicId = $"{message.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
                     Overwrite = true,
-                    Folder = "online_consultation"
+                    Folder = "message"
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
