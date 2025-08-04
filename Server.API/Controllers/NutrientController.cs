@@ -6,7 +6,7 @@ using Server.Domain.Entities;
 namespace Server.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/nutrient")]
     public class NutrientController : ControllerBase
     {
         private readonly INutrientService _nutrientService;
@@ -16,25 +16,19 @@ namespace Server.API.Controllers
             _nutrientService = nutrientService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("view-all-nutrients")]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _nutrientService.GetNutrientsAsync());
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("view-nutrient-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid nutrientId)
         {
             return Ok(await _nutrientService.GetNutrientByIdAsync(nutrientId));
         }
 
-        [HttpGet("GetWithDetailsById")]
-        public async Task<IActionResult> GetWithDetailsById([FromQuery] Guid nutrientId)
-        {
-            return Ok(await _nutrientService.GetNutrientByIdAsync(nutrientId));
-        }
-
-        [HttpPost("Create")]
+        [HttpPost("add-new-nutrient")]
         public async Task<IActionResult> Create([FromBody] CreateNutrientRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
@@ -60,27 +54,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("ApproveNutrient")]
-        public async Task<IActionResult> Update([FromQuery] Guid nutrientId)
-        {
-            if (nutrientId == Guid.Empty)
-                return BadRequest("Nutrient Id is null or empty");
-
-            try
-            {
-                var result = await _nutrientService.ApproveNutrient(nutrientId);
-                if (result.Error == 1)
-                    return BadRequest(result.Message);
-
-                return Ok(new { Data = result.Data, Message = result.Message });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [HttpPut("SoftDelete")]
+        [HttpPut("soft-delete-nutrient-by-id")]
         public async Task<IActionResult> SoftDelete([FromQuery] Guid nutrientId)
         {
             if (nutrientId == Guid.Empty)
@@ -99,7 +73,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("delete-nutrient-by-id")]
         public async Task<IActionResult> Delete([FromQuery] Guid nutrientId)
         {
             if (nutrientId == Guid.Empty)

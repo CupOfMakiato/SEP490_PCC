@@ -14,33 +14,6 @@ namespace Server.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<Nutrient>> ApproveNutrient(Guid nutrientId)
-        {
-            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(nutrientId);
-            if (nutrient is null)
-            {
-                return new Result<Nutrient>()
-                {
-                    Error = 1,
-                    Message = "Nutrient doesn't exist!"
-                };
-            }
-            nutrient.Review = true;
-            _unitOfWork.NutrientRepository.Update(nutrient);
-            if(await _unitOfWork.SaveChangeAsync() > 0)
-                return new Result<Nutrient>()
-                {
-                    Data = nutrient,
-                    Error = 0,
-                    Message = "Approved"
-                };
-            return new Result<Nutrient>()
-            {
-                Error = 1,
-                Message = "Approve failed"
-            };
-        }
-
         public async Task<Result<Nutrient>> CreateNutrient(CreateNutrientRequest request)
         {
             var nutrientCategory = await _unitOfWork.NutrientCategoryRepository.GetByIdAsync

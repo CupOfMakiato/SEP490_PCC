@@ -39,6 +39,7 @@ namespace Server.Application
         public INutrientSuggetionRepository NutrientSuggetionRepository { get; }
         public IFeedbackRepository FeedbackRepository { get; }
         public INSAttributeRepository NSAttributeRepository { get; }
+        public IDishRepository DishRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
