@@ -57,18 +57,6 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<bool> ApproveFood(Guid foodId)
-        {
-            var food = await _unitOfWork.FoodRepository.GetByIdAsync(foodId);
-            if (food is null)
-            {
-                return false;
-            }
-            food.Review = true;
-            _unitOfWork.FoodRepository.Update(food);
-            return await _unitOfWork.SaveChangeAsync() > 0;
-        }
-
         public async Task<bool> CreateFood(CreateFoodRequest request)
         {
             var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.FoodCategoryId);
@@ -81,7 +69,6 @@ namespace Server.Application.Services
                 Description = request.Description,
                 ImageUrl = request.ImageUrl,
                 FoodCategoryId = request.FoodCategoryId,
-                Review = request.Review,
                 SafetyNote = request.SafetyNote,
                 PregnancySafe = request.PregnancySafe,
                 FoodCategory = foodCategory,

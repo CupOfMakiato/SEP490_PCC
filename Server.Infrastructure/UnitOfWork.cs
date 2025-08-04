@@ -48,7 +48,9 @@ namespace Server.Infrastructure
 
         private readonly INutrientSuggetionRepository _nutrientSuggetionRepository;
         private readonly ITailoredCheckupReminderRepository _tailoredCheckupReminderRepository;
+        private readonly INSAttributeRepository _iNSAttributeRepository;
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IDishRepository _dishRepository;
 
         public UnitOfWork(AppDbContext dbContext,
             IUserRepository userRepository,
@@ -85,6 +87,8 @@ namespace Server.Infrastructure
 
             INutrientSuggetionRepository nutrientSuggetionRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
+            INSAttributeRepository iNSAttributeRepository,
+            IDishRepository dishRepository,
             IFeedbackRepository feedbackRepository)
 
         {
@@ -122,7 +126,9 @@ namespace Server.Infrastructure
             _offlineConsultationRepository = offlineConsultationRepository;
             _nutrientSuggetionRepository = nutrientSuggetionRepository;
             _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
+            _iNSAttributeRepository = iNSAttributeRepository;
             _feedbackRepository = feedbackRepository;
+            _dishRepository = dishRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -154,11 +160,13 @@ namespace Server.Infrastructure
         public IConsultantRepository ConsultantRepository => _consultantRepository;
         public IScheduleRepository ScheduleRepository => _scheduleRepository;
         public ISlotRepository SlotRepository => _slotRepository;
+        public INSAttributeRepository NSAttributeRepository => _iNSAttributeRepository;
         public IOnlineConsultationRepository OnlineConsultationRepository => _onlineConsultationRepository;
         public IMessageRepository MessageRepository => _messageRepository;
         public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
         public IOfflineConsultationRepository OfflineConsultationRepository => _offlineConsultationRepository;
 
+        public IDishRepository DishRepository => _dishRepository;
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
 
         public async Task<int> SaveChangeAsync()

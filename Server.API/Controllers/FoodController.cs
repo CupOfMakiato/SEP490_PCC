@@ -6,7 +6,7 @@ using Server.Domain.Entities;
 namespace Server.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/food")]
     public class FoodController : ControllerBase
     {
         private readonly IFoodService _foodService;
@@ -16,25 +16,19 @@ namespace Server.API.Controllers
             _foodService = foodService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("view-all-foods")]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _foodService.GetFoodsAsync());
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("view-food-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid foodId)
         {
             return Ok(await _foodService.GetFoodByIdAsync(foodId));
         }
 
-        [HttpGet("GetWithCategoryById")]
-        public async Task<IActionResult> GetWithCategoryById([FromQuery] Guid foodId)
-        {
-            return Ok(await _foodService.GetFoodByIdAsync(foodId));
-        }
-
-        [HttpPost("Create")]
+        [HttpPost("add-food")]
         public async Task<IActionResult> Create([FromBody] CreateFoodRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
@@ -59,7 +53,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update-food")]
         public async Task<IActionResult> Update([FromBody] Food request)
         {
             if (request.Id == Guid.Empty)
@@ -80,7 +74,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("SoftDelete")]
+        [HttpPut("soft-delete-food-by-id")]
         public async Task<IActionResult> SoftDelete([FromQuery] Guid foodId)
         {
             if (foodId == Guid.Empty)
@@ -98,7 +92,7 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpDelete("Delete")]
+        [HttpDelete("delete-food-by-id")]
         public async Task<IActionResult> Delete([FromQuery] Guid foodId)
         {
             if (foodId == Guid.Empty)
@@ -117,7 +111,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("AddNutrients")]
+        [HttpPut("add-nutrients-to-food")]
         public async Task<IActionResult> AddNutrients([FromBody] AddNutrientsRequest request)
         {
             if (request.FoodId == Guid.Empty)

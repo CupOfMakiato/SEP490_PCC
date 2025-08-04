@@ -12,6 +12,5 @@ namespace Server.Application.Interfaces
         public Task<bool> DeleteNutrient(Guid nutrientId);
         public Task<Result<Nutrient>> CreateNutrient(CreateNutrientRequest request);
         public Task<bool> UpdateNutrient(Nutrient nutrient);
-        public Task<Result<Nutrient>> ApproveNutrient(Guid nutrientId);
     }
 }

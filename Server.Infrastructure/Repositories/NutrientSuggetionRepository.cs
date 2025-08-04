@@ -7,7 +7,8 @@ using Server.Infrastructure.Data;
 namespace Server.Infrastructure.Repositories
 {
     public class NutrientSuggetionRepository : GenericRepository<NutrientSuggetion>, INutrientSuggetionRepository
-    { 
+    {
+        private readonly AppDbContext _context;
 
         public NutrientSuggetionRepository(AppDbContext dbContext,
             ICurrentTime timeService,
@@ -16,6 +17,12 @@ namespace Server.Infrastructure.Repositories
                   timeService,
                   claimsService)
         {
+            _context = dbContext;
+        }
+
+        public async Task CreateNutrientSuggetionAttribute(NutrientSuggestionAttribute attribute)
+        {
+            await _context.NutrientSuggestionsAttributes.AddAsync(attribute);
         }
 
         public async Task<List<NutrientSuggetion>> GetNutrientSuggetionListWithAttribute(Guid ageGroupId, int trimester)
