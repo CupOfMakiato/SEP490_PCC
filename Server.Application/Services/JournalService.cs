@@ -72,6 +72,47 @@ namespace Server.Application.Services
                 }).ToList()
             };
         }
+        private async Task<ViewJournalDetailDTO> MapJournalToViewJournalDetailDTO(Journal journal)
+        {
+            var userId = journal.CreatedBy;
+            var allSymptoms = await _symptomRepository.GetAllSymptomsForUser((Guid)userId);
+
+            var relatedImages = journal.Media?
+                .Where(m => m.FilePublicId != null && m.FilePublicId.Contains("journal-related"))
+                .Select(m => m.FileUrl)
+                .ToList() ?? new List<string>();
+
+            var ultrasoundImages = journal.Media?
+                .Where(m => m.FilePublicId != null && m.FilePublicId.Contains("journal-ultrasound"))
+                .Select(m => m.FileUrl)
+                .ToList() ?? new List<string>();
+
+            return new ViewJournalDetailDTO
+            {
+                Id = journal.Id,
+                CurrentWeek = journal.CurrentWeek,
+                CurrentTrimester = journal.CurrentTrimester,
+                Note = journal.Note,
+                CurrentWeight = journal.CurrentWeight,
+                Mood = journal.MoodNotes.ToString(),
+                CreatedByUser = journal.JournalCreatedBy != null
+                    ? new GetUserDTO
+                    {
+                        Id = journal.JournalCreatedBy.Id,
+                        UserName = journal.JournalCreatedBy.UserName
+                    }
+                    : null,
+                Symptoms = allSymptoms
+                    .Where(s => s.IsActive && !s.IsDeleted)
+                    .Select(s => new SymptomDTO
+                    {
+                        SymptomName = s.SymptomName,
+                        IsTemplate = s.IsTemplate
+                    }).ToList(),
+                RelatedImages = relatedImages,
+                UltraSoundImages = ultrasoundImages
+            };
+        }
 
         public async Task<Result<List<ViewJournalDTO>>> ViewAllJournals()
         {
@@ -111,6 +152,28 @@ namespace Server.Application.Services
             {
                 Error = 0,
                 Message = "View journal by id successfully",
+                Data = dto
+            };
+        }
+        public async Task<Result<ViewJournalDetailDTO>> ViewJournalDetail(Guid journalId)
+        {
+            var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (journal == null)
+            {
+                return new Result<ViewJournalDetailDTO>
+                {
+                    Error = 1,
+                    Message = "Journal not found",
+                    Data = null
+                };
+            }
+
+            var dto = await MapJournalToViewJournalDetailDTO(journal);
+
+            return new Result<ViewJournalDetailDTO>
+            {
+                Error = 0,
+                Message = "View journal detail successfully",
                 Data = dto
             };
         }
@@ -169,12 +232,18 @@ namespace Server.Application.Services
             }
 
             var today = _currentTime.GetCurrentTime().Date;
-            int currentWeek = growthData.GetCurrentGestationalAgeInWeeks(today);
-            int trimester = growthData.GetCurrentTrimester(today);
+            int currentWeek = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeek;
+
+            int currentTrimester = currentWeek switch
+            {
+                <= 13 => 1,
+                <= 27 => 2,
+                _ => 3
+            };
 
 
             var existingJournals = await _unitOfWork.JournalRepository
-                .GetJournalFromGrowthDataByWeekAndTrimester(CreateNewJournalEntryForCurrentWeekDTO.Id, currentWeek, trimester);
+                .GetJournalFromGrowthDataByWeek(CreateNewJournalEntryForCurrentWeekDTO.Id, currentWeek);
 
             if (existingJournals.Any())
             {
@@ -214,7 +283,7 @@ namespace Server.Application.Services
 
                 foreach (var image in CreateNewJournalEntryForCurrentWeekDTO.RelatedImages)
                 {
-                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-related");
                     if (response != null)
                     {
                         journal.Media.Add(new Media
@@ -242,7 +311,7 @@ namespace Server.Application.Services
 
                 foreach (var image in CreateNewJournalEntryForCurrentWeekDTO.UltraSoundImages)
                 {
-                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-ultrasound");
                     if (response != null)
                     {
                         journal.Media.Add(new Media
@@ -284,9 +353,9 @@ namespace Server.Application.Services
                 };
             }
 
-            journal.Note = EditJournalEntryDTO.Note;
-            journal.MoodNotes = (Domain.Enums.Mood)EditJournalEntryDTO.MoodNotes;
-            journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight;
+            journal.Note = EditJournalEntryDTO.Note ?? journal.Note;
+            journal.MoodNotes = EditJournalEntryDTO.MoodNotes ?? journal.MoodNotes;
+            journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight ?? journal.CurrentWeight;
             
             journal.ModificationBy = user;
             journal.ModificationDate = _currentTime.GetCurrentTime();
@@ -312,85 +381,86 @@ namespace Server.Application.Services
             }
 
 
+            // Related Images
             if (EditJournalEntryDTO.RelatedImages != null)
             {
-                // Delete all previous images uploaded by RelatedImages
-                var existingMedia = journal.Media.ToList(); // All media
-                foreach (var media in existingMedia)
+                var relatedMedia = journal.Media
+                    .Where(m => m.FileUrl.Contains("journal-related"))
+                    .ToList();
+
+                foreach (var media in relatedMedia)
                 {
-                    // delete ALL and reupload fresh if RelatedImages provided
                     if (!string.IsNullOrEmpty(media.FilePublicId))
                         await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+
+                    journal.Media.Remove(media);
                 }
-                journal.Media.Clear();
 
-                if (EditJournalEntryDTO.RelatedImages.Any())
+                if (EditJournalEntryDTO.RelatedImages.Count > 2)
                 {
-                    if (EditJournalEntryDTO.RelatedImages.Count > 2)
+                    return new Result<object>
                     {
-                        return new Result<object>
-                        {
-                            Error = 1,
-                            Message = "You can upload a maximum of 2 related images.",
-                            Data = null
-                        };
-                    }
+                        Error = 1,
+                        Message = "You can upload a maximum of 2 related images.",
+                        Data = null
+                    };
+                }
 
-                    foreach (var image in EditJournalEntryDTO.RelatedImages)
+                foreach (var image in EditJournalEntryDTO.RelatedImages)
+                {
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-related");
+                    if (response != null)
                     {
-                        var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
-                        if (response != null)
+                        journal.Media.Add(new Media
                         {
-                            journal.Media.Add(new Media
-                            {
-                                JournalId = journal.Id,
-                                FileName = image.FileName,
-                                FileUrl = response.FileUrl,
-                                FilePublicId = response.PublicFileId,
-                                FileType = image.ContentType
-                            });
-                        }
+                            JournalId = journal.Id,
+                            FileName = image.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = image.ContentType
+                        });
                     }
                 }
             }
 
+            // Ultrasound Images
             if (EditJournalEntryDTO.UltraSoundImages != null)
             {
-                // Delete all existing images again if needed
-                var existingMedia = journal.Media.ToList(); 
-                foreach (var media in existingMedia)
+                var ultrasoundMedia = journal.Media
+                    .Where(m => m.FileUrl.Contains("journal-ultrasound"))
+                    .ToList();
+
+                foreach (var media in ultrasoundMedia)
                 {
                     if (!string.IsNullOrEmpty(media.FilePublicId))
                         await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+
+                    journal.Media.Remove(media);
                 }
-                journal.Media.Clear();
 
-                if (EditJournalEntryDTO.UltraSoundImages.Any())
+                if (EditJournalEntryDTO.UltraSoundImages.Count > 2)
                 {
-                    if (EditJournalEntryDTO.UltraSoundImages.Count > 2)
+                    return new Result<object>
                     {
-                        return new Result<object>
-                        {
-                            Error = 1,
-                            Message = "You can upload a maximum of 2 ultrasound images.",
-                            Data = null
-                        };
-                    }
+                        Error = 1,
+                        Message = "You can upload a maximum of 2 ultrasound images.",
+                        Data = null
+                    };
+                }
 
-                    foreach (var image in EditJournalEntryDTO.UltraSoundImages)
+                foreach (var image in EditJournalEntryDTO.UltraSoundImages)
+                {
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-ultrasound");
+                    if (response != null)
                     {
-                        var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
-                        if (response != null)
+                        journal.Media.Add(new Media
                         {
-                            journal.Media.Add(new Media
-                            {
-                                JournalId = journal.Id,
-                                FileName = image.FileName,
-                                FileUrl = response.FileUrl,
-                                FilePublicId = response.PublicFileId,
-                                FileType = image.ContentType
-                            });
-                        }
+                            JournalId = journal.Id,
+                            FileName = image.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = image.ContentType
+                        });
                     }
                 }
             }

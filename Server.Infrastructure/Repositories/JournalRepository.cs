@@ -81,5 +81,17 @@ namespace Server.Infrastructure.Repositories
                 && !j.IsDeleted)
                 .ToListAsync();
         }
+        public async Task<List<Journal>> GetJournalFromGrowthDataByWeek(Guid growthDataId, int week)
+        {
+            return await _dbContext.Journal
+                .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
+                .Include(j => j.Media)
+                .Where(j => j.CurrentWeek == week
+                && j.GrowthDataId == growthDataId
+                && !j.IsDeleted)
+                .ToListAsync();
+        }
     }
 }

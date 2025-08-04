@@ -5,6 +5,7 @@ using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,22 @@ namespace Server.Application.Mappers.JournalExtensions
     {
         public static Journal ToJournal(this CreateNewJournalEntryForCurrentWeekDTO CreateNewJournalEntryForCurrentWeekDTO)
         {
+            int trimester = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeek switch
+            {
+                <= 13 => 1,
+                <= 27 => 2,
+                _ => 3
+            };
             return new Journal
             {
                 Id = CreateNewJournalEntryForCurrentWeekDTO.Id,
                 GrowthDataId = CreateNewJournalEntryForCurrentWeekDTO.GrowthDataId,
                 CurrentWeek = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeek,
-                CurrentTrimester = CreateNewJournalEntryForCurrentWeekDTO.CurrentTrimester,
+                CurrentTrimester = trimester,
                 Note = CreateNewJournalEntryForCurrentWeekDTO.Note,
                 CurrentWeight = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
                 JournalSymptoms = new List<JournalSymptom>(),
-                MoodNotes = (Domain.Enums.Mood)CreateNewJournalEntryForCurrentWeekDTO.MoodNotes,
+                MoodNotes = CreateNewJournalEntryForCurrentWeekDTO.MoodNotes ?? Mood.Neutral,
                 Media = new List<Media>(),
                 CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId
 
@@ -41,7 +48,6 @@ namespace Server.Application.Mappers.JournalExtensions
                 UserId = CreateNewJournalEntryForCurrentWeekRequest.UserId,
                 GrowthDataId = CreateNewJournalEntryForCurrentWeekRequest.GrowthDataId,
                 CurrentWeek = CreateNewJournalEntryForCurrentWeekRequest.CurrentWeek,
-                CurrentTrimester = CreateNewJournalEntryForCurrentWeekRequest.CurrentTrimester,
                 Note = CreateNewJournalEntryForCurrentWeekRequest.Note,
                 CurrentWeight = CreateNewJournalEntryForCurrentWeekRequest.CurrentWeight,
                 SymptomNames = CreateNewJournalEntryForCurrentWeekRequest.SymptomNames ?? new List<string>(),
@@ -54,7 +60,7 @@ namespace Server.Application.Mappers.JournalExtensions
         {
             return new EditJournalEntryDTO
             {
-                Id = (Guid)EditJournalEntryRequest.Id,
+                Id = EditJournalEntryRequest.Id,
                 Note = EditJournalEntryRequest.Note,
                 CurrentWeight = EditJournalEntryRequest.CurrentWeight,
                 SymptomNames = EditJournalEntryRequest.SymptomNames ?? new List<string>(),
@@ -63,5 +69,7 @@ namespace Server.Application.Mappers.JournalExtensions
                 UltraSoundImages = EditJournalEntryRequest.UltraSoundImages
             };
         }
+
+        
     }
 }

@@ -10,9 +10,9 @@ namespace Server.Application.Abstractions.RequestAndResponse.Journal
 {
     public class EditJournalEntryRequest
     {
-        public Guid? Id { get; set; }
-        public string Note { get; set; }
-        public float CurrentWeight { get; set; }
+        public Guid Id { get; set; }
+        public string? Note { get; set; }
+        public float? CurrentWeight { get; set; }
         public List<string>? SymptomNames { get; set; } = new List<string>();
         public Mood? MoodNotes { get; set; }
         public List<IFormFile>? RelatedImages { get; set; }

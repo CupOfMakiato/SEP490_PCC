@@ -15,7 +15,7 @@ namespace Server.Domain.Entities
         public string Note { get; set; }
         public float CurrentWeight { get; set; }
         //public Symptom Symptoms { get; set; } = Symptom.None;
-        public Mood MoodNotes { get; set; } = Mood.Normal;
+        public Mood? MoodNotes { get; set; } = Mood.Normal;
 
         public GrowthData GrowthData { get; set; }
         public User JournalCreatedBy { get; set; }
@@ -24,7 +24,7 @@ namespace Server.Domain.Entities
         public ICollection<Media> Media { get; set; } = new List<Media>();
         public ICollection<Food> DoctorRecommedFoods { get; set; }
         public ICollection<Nutrient> DoctorRecommedNutrients { get; set; }
-        public ICollection<JournalSymptom> JournalSymptoms { get; set; } = new List<JournalSymptom>();
+        public ICollection<JournalSymptom>? JournalSymptoms { get; set; } = new List<JournalSymptom>();
 
     }
 }
