@@ -34,7 +34,10 @@ namespace Server.Infrastructure.Data
         public DbSet<BasicBioMetric> BasicBioMetric { get; set; }
         //public DbSet<Fetus> Fetus { get; set; }
         public DbSet<CustomChecklist> CustomChecklist { get; set; }
+        public DbSet<TemplateChecklist> TemplateChecklist { get; set; }
+        public DbSet<TemplateChecklistGrowthData> TemplateChecklistGrowthData { get; set; }
         public DbSet<TailoredCheckupReminder> TailoredCheckupReminder { get; set; }
+        public DbSet<RecommendedCheckup> RecommendedCheckup { get; set; }
         public DbSet<Journal> Journal { get; set; }
         public DbSet<RecordedSymptom> RecordedSymptom { get; set; }
         public DbSet<JournalSymptom> JournalSymptoms { get; set; }

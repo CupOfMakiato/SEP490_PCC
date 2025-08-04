@@ -241,6 +241,21 @@ namespace Server.Application.Services
                 _ => 3
             };
 
+            if (growthData.FirstDayOfLastMenstrualPeriod != null)
+            {
+                var gestationalDays = (today - growthData.FirstDayOfLastMenstrualPeriod.Date).TotalDays;
+                int actualWeek = (int)(gestationalDays / 7) + 1;
+
+                if (currentWeek > actualWeek)
+                {
+                    return new Result<object>
+                    {
+                        Error = 1,
+                        Message = $"You cannot create a journal entry for week {currentWeek} as it is in the future.",
+                        Data = null
+                    };
+                }
+            }
 
             var existingJournals = await _unitOfWork.JournalRepository
                 .GetJournalFromGrowthDataByWeek(CreateNewJournalEntryForCurrentWeekDTO.GrowthDataId, currentWeek);

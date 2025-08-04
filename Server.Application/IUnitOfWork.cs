@@ -26,6 +26,7 @@ namespace Server.Application
         public IEnergySuggestionRepository EnergySuggestionRepository { get; }
         public ISymptomRepository SymptomRepository{ get; }
         public ICustomChecklistRepository CustomChecklistRepository { get; }
+        public ITemplateChecklistRepository TemplateChecklistRepository { get; }
         public IClinicRepository ClinicRepository { get; }
         public IDoctorRepository DoctorRepository { get; }
         public IConsultantRepository ConsultantRepository { get; }
