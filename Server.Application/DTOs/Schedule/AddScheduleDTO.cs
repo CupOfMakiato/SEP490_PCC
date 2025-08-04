@@ -4,7 +4,7 @@ namespace Server.Application.DTOs.Schedule
 {
     public class AddScheduleDTO
     {
-        public Guid ConsultantId { get; set; }
+        public Guid DoctorId { get; set; }
         public AddSlotDTO Slot { get; set; }
     }
 }

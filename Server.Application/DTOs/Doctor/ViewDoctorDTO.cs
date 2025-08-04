@@ -1,4 +1,5 @@
 ﻿using Server.Application.DTOs.Clinic;
+using Server.Application.DTOs.Schedule;
 using Server.Application.DTOs.User;
 
 namespace Server.Application.DTOs.Doctor
@@ -13,6 +14,7 @@ namespace Server.Application.DTOs.Doctor
         public int ExperienceYear { get; set; }
         public string WorkPosition { get; set; }
         public string? Description { get; set; }
+        public ICollection<ViewScheduleDTO> Schedules { get; set; }
         public GetUserDTO User { get; set; }
         public ViewClinicDTO Clinic { get; set; }
     }
