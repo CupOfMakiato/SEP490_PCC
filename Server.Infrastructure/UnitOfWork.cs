@@ -34,7 +34,7 @@ namespace Server.Infrastructure
         private readonly IAgeGroupRepository _ageGroupRepository;
         private readonly IEnergySuggestionRepository _energySuggestionRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
-        private readonly ISymptomRepository _symptomRepository;
+        private readonly IRecordedSymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
         private readonly ITemplateChecklistRepository _templateChecklistRepository;
 
@@ -71,7 +71,7 @@ namespace Server.Infrastructure
             INutrientCategoryRepository nutrientCategoryRepository,
             IBasicBioMetricRepository basicBioMetricRepository,
             IMediaRepository mediaRepository,
-            ISymptomRepository symptomRepository,
+            IRecordedSymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
             ICustomChecklistRepository customChecklistRepository,
@@ -151,7 +151,7 @@ namespace Server.Infrastructure
         public IMediaRepository MediaRepository => _mediaRepository;
         public IAgeGroupRepository AgeGroupRepository => _ageGroupRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
-        public ISymptomRepository SymptomRepository => _symptomRepository;
+        public IRecordedSymptomRepository SymptomRepository => _symptomRepository;
         public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
         public INutrientSuggetionRepository NutrientSuggetionRepository => _nutrientSuggetionRepository;
         public IClinicRepository ClinicRepository => _clinicRepository;

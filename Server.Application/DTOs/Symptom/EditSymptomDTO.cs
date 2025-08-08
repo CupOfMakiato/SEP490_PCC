@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Server.Application.DTOs.Symptom
 {
-    public class AddSymptomDTO
+    public class EditSymptomDTO
     {
+        public Guid SymptomId { get; set; }
+        public Guid UserId { get; set; }
         public string SymptomName { get; set; }
-        public bool IsChecked { get; set; } = false;
-        public bool IsActive { get; set; } = true;
+        public bool? IsActive { get; set; } = true;
     }
 }

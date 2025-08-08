@@ -93,5 +93,15 @@ namespace Server.Infrastructure.Repositories
                 && !j.IsDeleted)
                 .ToListAsync();
         }
+        public async Task<Journal?> GetCurrentJournalByUser(Guid userId)
+        {
+            return await _dbContext.Journal
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
+                .Where(j => j.CreatedBy == userId && !j.IsDeleted)
+                .OrderByDescending(j => j.CreationDate) 
+                .FirstOrDefaultAsync();
+        }
+
     }
 }

@@ -15,5 +15,6 @@ namespace Server.Application.Repositories
         Task<List<Journal>> GetJournalsByUserIdWithGrowthData(Guid growthDataId, Guid userId);
         Task<List<Journal>> GetJournalFromGrowthDataByWeekAndTrimester(Guid growthDataId, int week, int trimester);
         Task<List<Journal>> GetJournalFromGrowthDataByWeek(Guid growthDataId, int week);
+        Task<Journal?> GetCurrentJournalByUser(Guid userId);
     }
 }

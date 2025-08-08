@@ -25,8 +25,7 @@ namespace Server.Infrastructure.Mappers.JournalProfile
                 .Where(js => js.RecordedSymptom != null && js.RecordedSymptom.IsActive && !js.RecordedSymptom.IsDeleted)
                 .Select(js => new SymptomDTO
                 {
-                SymptomName = js.RecordedSymptom.SymptomName,
-                IsTemplate = js.RecordedSymptom.IsTemplate
+                SymptomName = js.RecordedSymptom.SymptomName
                 }).ToList()))
 
             .ForMember(dest => dest.Mood, opt => opt.MapFrom(src =>
@@ -43,8 +42,7 @@ namespace Server.Infrastructure.Mappers.JournalProfile
                 .Where(js => js.RecordedSymptom != null && js.RecordedSymptom.IsActive && !js.RecordedSymptom.IsDeleted)
                 .Select(js => new SymptomDTO
                 {
-                    SymptomName = js.RecordedSymptom.SymptomName,
-                    IsTemplate = js.RecordedSymptom.IsTemplate
+                    SymptomName = js.RecordedSymptom.SymptomName
                 }).ToList()))
 
             .ForMember(dest => dest.Mood, opt => opt.MapFrom(src =>

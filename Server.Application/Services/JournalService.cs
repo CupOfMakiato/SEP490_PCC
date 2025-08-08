@@ -27,13 +27,13 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
-        private readonly ISymptomService _symptomService;
-        private readonly ISymptomRepository _symptomRepository;
+        private readonly IRecordedSymptomService _symptomService;
+        private readonly IRecordedSymptomRepository _symptomRepository;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
-            ISymptomService symptomService, ISymptomRepository symptomRepository)
+            IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -56,7 +56,7 @@ namespace Server.Application.Services
                 CurrentWeek = journal.CurrentWeek,
                 CurrentTrimester = journal.CurrentTrimester,
                 Note = journal.Note,
-                CurrentWeight = journal.CurrentWeight,
+                //CurrentWeight = (float)journal.CurrentWeight,
                 Mood = journal.MoodNotes.ToString(),
                 CreatedByUser = journal.JournalCreatedBy != null
                     ? new GetUserDTO
@@ -67,8 +67,7 @@ namespace Server.Application.Services
                     : null,
                 Symptoms = allSymptoms.Select(s => new SymptomDTO
                 {
-                    SymptomName = s.SymptomName,
-                    IsTemplate = s.IsTemplate
+                    SymptomName = s.SymptomName
                 }).ToList()
             };
         }
@@ -93,7 +92,7 @@ namespace Server.Application.Services
                 CurrentWeek = journal.CurrentWeek,
                 CurrentTrimester = journal.CurrentTrimester,
                 Note = journal.Note,
-                CurrentWeight = journal.CurrentWeight,
+                //CurrentWeight = (float)journal.CurrentWeight,
                 Mood = journal.MoodNotes.ToString(),
                 CreatedByUser = journal.JournalCreatedBy != null
                     ? new GetUserDTO
@@ -106,8 +105,7 @@ namespace Server.Application.Services
                     .Where(s => s.IsActive && !s.IsDeleted)
                     .Select(s => new SymptomDTO
                     {
-                        SymptomName = s.SymptomName,
-                        IsTemplate = s.IsTemplate
+                        SymptomName = s.SymptomName
                     }).ToList(),
                 RelatedImages = relatedImages,
                 UltraSoundImages = ultrasoundImages
@@ -381,7 +379,6 @@ namespace Server.Application.Services
                 var newSymptom = new RecordedSymptom
                 {
                     SymptomName = name,
-                    IsTemplate = false,
                     CreatedBy = user,
                     CreationDate = _currentTime.GetCurrentTime(),
                     IsActive = true
