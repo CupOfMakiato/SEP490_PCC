@@ -8,10 +8,12 @@ namespace Server.Application.Services
 {
     public class DishService : IDishService
     {
+        private readonly ICloudinaryService _cloudinaryService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public DishService(IUnitOfWork unitOfWork)
+        public DishService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService)
         {
+            _cloudinaryService = cloudinaryService;
             _unitOfWork = unitOfWork;
         }
         public async Task<Result<GetDishResponse>> GetDishByIdAsync(Guid dishId)
@@ -86,7 +88,7 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<Dish>> CreateDish(UpdateDishRequest request)
+        public async Task<Result<Dish>> CreateDish(CreateDishRequest request)
         {
             if (request == null)
                 return new Result<Dish>()
@@ -165,6 +167,43 @@ namespace Server.Application.Services
             {
                 Error = 1,
                 Message = "Update dish fail"
+            };
+        }
+
+        public async Task<Result<Dish>> AddDishImage(AddDishImageRequest request)
+        {
+            if (request == null)
+                return new Result<Dish>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var dish = await _unitOfWork.DishRepository.GetByIdAsync(request.dishId);
+            if (dish is null)
+                return new Result<Dish>()
+                {
+                    Error = 1,
+                    Message = "Dish is not found"
+                };
+            var uploadImageResponse = await _cloudinaryService.UploadImage(request.Image, "Dish");
+            if (uploadImageResponse == null)
+                return new Result<Dish>()
+                {
+                    Error = 1,
+                    Message = "Invalid file"
+                };
+            dish.ImageUrl = uploadImageResponse.FileUrl;
+            _unitOfWork.DishRepository.Update(dish);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<Dish>()
+                {
+                    Error = 0,
+                    Message = "Add image success"
+                };
+            return new Result<Dish>()
+            {
+                Error = 1,
+                Message = "Add image fail"
             };
         }
     }

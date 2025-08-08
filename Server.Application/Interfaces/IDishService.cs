@@ -10,7 +10,8 @@ namespace Server.Application.Interfaces
         public Task<Result<List<GetDishResponse>>> GetDishsAsync();
         public Task<Result<object>> SoftDeleteDish(Guid dishId);
         public Task<Result<object>> DeleteDish(Guid dishId);
-        public Task<Result<Dish>> CreateDish(UpdateDishRequest dish);
+        public Task<Result<Dish>> CreateDish(CreateDishRequest request);
+        public Task<Result<Dish>> AddDishImage(AddDishImageRequest request);
         public Task<Result<Dish>> UpdateDish(UpdateDishRequest request);
     }
 }

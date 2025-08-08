@@ -267,5 +267,28 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
+
+        public async Task<CloudinaryResponse> UploadImage(IFormFile file, string folderName)
+        {
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(file.FileName, file.OpenReadStream()),
+                PublicId = $"/{Guid.NewGuid()}/{Path.GetFileNameWithoutExtension(file.FileName)}",
+                Overwrite = true,
+                Folder = folderName
+            };
+
+            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+            {
+                return null; // Handle upload failure
+            }
+
+            return new CloudinaryResponse
+            {
+                FileUrl = uploadResult.SecureUrl.ToString(),
+            };
+        }
     }
 }
