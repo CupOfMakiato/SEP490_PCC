@@ -55,7 +55,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("CreateDish")]
-        public async Task<IActionResult> CreateDish([FromBody] UpdateDishRequest request)
+        public async Task<IActionResult> CreateDish([FromBody] CreateDishRequest request)
         {
             if (request == null)
                 return BadRequest("Dish must not be null");

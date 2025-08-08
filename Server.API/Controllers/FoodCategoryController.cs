@@ -66,8 +66,8 @@ namespace Server.API.Controllers
             {
 
                 if (!await _foodCategoryService.UpdateFoodCategory(request))
-                    return BadRequest("Create fail");
-                return Ok("Create success");
+                    return BadRequest("Update fail");
+                return Ok("Update success");
             }
             catch (Exception ex)
             {
@@ -83,8 +83,8 @@ namespace Server.API.Controllers
             try
             {
                 if (!await _foodCategoryService.SoftDeleteFoodCategory(foodCategoryId))
-                    return BadRequest("Create fail");
-                return Ok("Create success");
+                    return BadRequest("Soft delte fail");
+                return Ok("Soft delte success");
             }
             catch (Exception ex)
             {

@@ -368,3 +368,4 @@ FodyWeavers.xsd
 /docker-compose.yml
 /Server.API/Dockerfile
 /Server.API/Dockerfile-sqlserver
+/Server.API/appsettings.Development.json

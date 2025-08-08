@@ -52,10 +52,8 @@ namespace Server.Application.Services
             var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.Id);
             if (foodCategory is null)
                 return false;
-            if (!string.IsNullOrEmpty(request.Description))
-                foodCategory.Description = request.Description;
-            if (!string.IsNullOrEmpty(request.Name))
-                foodCategory.Description = request.Name;
+            foodCategory.Description = request.Description;
+            foodCategory.Name = request.Name;
             _unitOfWork.FoodCategoryRepository.Update(foodCategory);
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
