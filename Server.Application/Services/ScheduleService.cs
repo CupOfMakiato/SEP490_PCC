@@ -22,21 +22,21 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewScheduleDTO>> CreateSchedule(AddScheduleDTO schedule)
         {
-            var consultant = await _unitOfWork.ConsultantRepository
-                .GetConsultantByIdAsync(schedule.ConsultantId);
+            var doctor = await _unitOfWork.DoctorRepository
+                .GetDoctorByIdAsync(schedule.DoctorId);
 
-            if (consultant == null)
+            if (doctor == null)
             {
                 return new Result<ViewScheduleDTO>
                 {
                     Error = 1,
-                    Message = "Didn't find any consultant, please try again!",
+                    Message = "Didn't find any doctor, please try again!",
                     Data = null
                 };
             }
 
             var clinic = await _unitOfWork.ClinicRepository
-                .GetClinicByIdAsync(consultant.ClinicId);
+                .GetClinicByIdAsync(doctor.ClinicId);
 
             if (clinic == null)
             {
@@ -58,23 +58,23 @@ namespace Server.Application.Services
                 };
             }
 
-            //var overlappingSlotExists = await _unitOfWork.ConsultantRepository.HasOverlappingScheduleAsync
-            //                            (
-            //                                schedule.ConsultantId,
-            //                                schedule.Slot.StartTime,
-            //                                schedule.Slot.EndTime,
-            //                                schedule.Slot.DayOfWeek
-            //                            );
+            var overlappingSlotExists = await _unitOfWork.DoctorRepository.HasOverlappingScheduleAsync
+                                        (
+                                            schedule.DoctorId,
+                                            schedule.Slot.StartTime,
+                                            schedule.Slot.EndTime,
+                                            schedule.Slot.DayOfWeek
+                                        );
 
-            //if (overlappingSlotExists)
-            //{
-            //    return new Result<ViewScheduleDTO>
-            //    {
-            //        Error = 1,
-            //        Message = "The schedule overlaps with an existing schedule.",
-            //        Data = null
-            //    };
-            //}
+            if (overlappingSlotExists)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "The schedule overlaps with an existing schedule.",
+                    Data = null
+                };
+            }
 
             var slotEntity = _mapper.Map<Slot>(schedule.Slot);
 
@@ -97,7 +97,7 @@ namespace Server.Application.Services
             var scheduleEntity = new Schedule
             {
                 SlotId = slotEntity.Id,
-                //ConsultantId = schedule.ConsultantId
+                DoctorId = schedule.DoctorId,
             };
             await _scheduleRepository.AddAsync(scheduleEntity);
 
@@ -148,41 +148,41 @@ namespace Server.Application.Services
                 };
             }
 
-            //var consultant = await _unitOfWork.ConsultantRepository
-            //    .GetConsultantByIdAsync(schedule.ConsultantId.Value);
+            var doctor = await _unitOfWork.DoctorRepository
+                .GetDoctorByIdAsync(schedule.DoctorId.Value);
 
-            //if (consultant == null)
-            //{
-            //    return new Result<bool>
-            //    {
-            //        Error = 1,
-            //        Message = "Didn't find any consultant, please try again!",
-            //        Data = false
-            //    };
-            //}
+            if (doctor == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any doctor, please try again!",
+                    Data = false
+                };
+            }
 
-            //var clinic = await _unitOfWork.ClinicRepository
-            //    .GetClinicByIdAsync(consultant.ClinicId);
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(doctor.ClinicId);
 
-            //if (clinic == null)
-            //{
-            //    return new Result<bool>
-            //    {
-            //        Error = 1,
-            //        Message = "Didn't find any clinic, please try again!",
-            //        Data = false
-            //    };
-            //}
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
 
-            //if (!clinic.IsActive)
-            //{
-            //    return new Result<bool>
-            //    {
-            //        Error = 1,
-            //        Message = "Clinic is not active, cannot remove schedule.",
-            //        Data = false
-            //    };
-            //}
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot remove schedule.",
+                    Data = false
+                };
+            }
 
             _unitOfWork.SlotRepository.SoftRemove(schedule.Slot);
 
@@ -212,59 +212,59 @@ namespace Server.Application.Services
                 };
             }
 
-            //var consultant = await _unitOfWork.ConsultantRepository
-            //    .GetConsultantByIdAsync(scheduleObj.ConsultantId.Value);
+            var doctor = await _unitOfWork.DoctorRepository
+                .GetDoctorByIdAsync(scheduleObj.DoctorId.Value);
 
-            //if (consultant == null)
-            //{
-            //    return new Result<ViewScheduleDTO>
-            //    {
-            //        Error = 1,
-            //        Message = "Didn't find any consultant, please try again!",
-            //        Data = null
-            //    };
-            //}
+            if (doctor == null)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any doctor, please try again!",
+                    Data = null
+                };
+            }
 
-            //var clinic = await _unitOfWork.ClinicRepository
-            //    .GetClinicByIdAsync(consultant.ClinicId);
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(doctor.ClinicId);
 
-            //if (clinic == null)
-            //{
-            //    return new Result<ViewScheduleDTO>
-            //    {
-            //        Error = 1,
-            //        Message = "Didn't find any clinic, please try again!",
-            //        Data = null
-            //    };
-            //}
+            if (clinic == null)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
 
-            //if (!clinic.IsActive)
-            //{
-            //    return new Result<ViewScheduleDTO>
-            //    {
-            //        Error = 1,
-            //        Message = "Clinic is not active, cannot update schedule.",
-            //        Data = null
-            //    };
-            //}
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot update schedule.",
+                    Data = null
+                };
+            }
 
-            //var overlappingSlotExists = await _unitOfWork.ConsultantRepository.HasOverlappingScheduleAsync
-            //                        (
-            //                            scheduleObj.ConsultantId.Value,
-            //                            schedule.Slot.StartTime,
-            //                            schedule.Slot.EndTime,
-            //                            schedule.Slot.DayOfWeek
-            //                        );
+            var overlappingSlotExists = await _unitOfWork.DoctorRepository.HasOverlappingScheduleAsync
+                                    (
+                                        scheduleObj.DoctorId.Value,
+                                        schedule.Slot.StartTime,
+                                        schedule.Slot.EndTime,
+                                        schedule.Slot.DayOfWeek
+                                    );
 
-            //if (overlappingSlotExists)
-            //{
-            //    return new Result<ViewScheduleDTO>
-            //    {
-            //        Error = 1,
-            //        Message = "The schedule overlaps with an existing schedule.",
-            //        Data = null
-            //    };
-            //}
+            if (overlappingSlotExists)
+            {
+                return new Result<ViewScheduleDTO>
+                {
+                    Error = 1,
+                    Message = "The schedule overlaps with an existing schedule.",
+                    Data = null
+                };
+            }
 
             _mapper.Map(schedule, scheduleObj);
 
