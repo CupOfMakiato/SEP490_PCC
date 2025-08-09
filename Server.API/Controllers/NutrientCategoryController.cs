@@ -87,6 +87,25 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpDelete("delete-nutrient-by-id")]
+        public async Task<IActionResult> Delete([FromQuery] Guid nutrientCategoryId)
+        {
+            if (nutrientCategoryId == Guid.Empty)
+                return BadRequest("NutrientCategory Id is null or empty");
+
+            try
+            {
+                var result = await _nutrientCategoryService.DeleteNutrientCategory(nutrientCategoryId);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 
 }

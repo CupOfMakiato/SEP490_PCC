@@ -1,4 +1,5 @@
-﻿using Server.Application.DTOs.FoodCategory;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.FoodCategory;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
 
@@ -23,6 +24,36 @@ namespace Server.Application.Services
             };
             await _unitOfWork.FoodCategoryRepository.AddAsync(foodCategory);
             return await _unitOfWork.SaveChangeAsync() > 0;
+        }
+
+
+        public async Task<Result<bool>> DeleteFoodCategory(Guid foodCategoryId)
+        {
+            var foodCategory = await _unitOfWork.FoodCategoryRepository.GetFoodCategoryByIdAsync(foodCategoryId);
+            if (foodCategory == null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Food cateogry is not found"
+                };
+            if (foodCategory.Foods is not null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Cannot delete this category"
+                };
+            _unitOfWork.FoodCategoryRepository.DeleteFoodCategory(foodCategory);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Delete success"
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Delete failed"
+            };
         }
 
         public async Task<FoodCategory> GetFoodCategoryByIdAsync(Guid foodCategoryId)

@@ -91,5 +91,23 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpDelete("delete-food-category-by-id")]
+        public async Task<IActionResult> Delete([FromQuery] Guid foodCategoryId)
+        {
+            if (foodCategoryId == Guid.Empty)
+                return BadRequest("FoodCategory Id is null or empty");
+            try
+            {
+                var result = await _foodCategoryService.DeleteFoodCategory(foodCategoryId);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }
