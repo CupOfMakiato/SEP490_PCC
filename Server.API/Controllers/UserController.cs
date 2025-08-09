@@ -68,6 +68,8 @@ namespace Server.WebAPI.Controllers
         public async Task<IActionResult> EditUserProfile([FromForm] EditUserDTO editUserDTO)
         {
             var result = await _userService.EditUserProfile(editUserDTO);
+            if (result.Error == 1)
+                return BadRequest(result);
             return Ok(result);
         }
     }

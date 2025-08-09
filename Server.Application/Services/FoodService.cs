@@ -7,10 +7,12 @@ namespace Server.Application.Services
 {
     public class FoodService : IFoodService
     {
+        private readonly ICloudinaryService _cloudinaryService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public FoodService(IUnitOfWork unitOfWork)
+        public FoodService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService)
         {
+            _cloudinaryService = cloudinaryService;
             _unitOfWork = unitOfWork;
         }
 
@@ -62,17 +64,15 @@ namespace Server.Application.Services
             var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.FoodCategoryId);
             if (foodCategory is null)
                 return false;
-            var nutrients = await _unitOfWork.NutrientRepository.GetByListName(request.FoodNutrientNames);
+
             var food = new Food()
             {
                 Name = request.Name,
                 Description = request.Description,
-                ImageUrl = request.ImageUrl,
                 FoodCategoryId = request.FoodCategoryId,
                 SafetyNote = request.SafetyNote,
                 PregnancySafe = request.PregnancySafe,
                 FoodCategory = foodCategory,
-                FoodNutrients = (ICollection<FoodNutrient>)nutrients
             };
             await _unitOfWork.FoodRepository.AddAsync(food);
             return await _unitOfWork.SaveChangeAsync() > 0;
