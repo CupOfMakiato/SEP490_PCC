@@ -8,8 +8,6 @@ namespace Server.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ApiController]
-    [Route("api/[controller]")]
     public class AgeGroupController : ControllerBase
     {
         private readonly IAgeGroupService _ageGroupService;
