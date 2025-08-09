@@ -45,68 +45,78 @@ namespace Server.Application.Mappers.GrowthDataExtentions
             };
         }
 
-        public static EditGrowthDataProfileDTO ToEditGrowthDataProfileDTO(this EditGrowthDataProfileRequest EditGrowthDataProfileRequest, ICurrentTime currentTime)
+        public static EditGrowthDataProfileDTO ToEditGrowthDataProfileDTO(this EditGrowthDataProfileRequest req, ICurrentTime currentTime)
         {
-            var estimatedDueDate = EditGrowthDataProfileRequest.EstimatedDueDate != default
-                ? EditGrowthDataProfileRequest.EstimatedDueDate
-                : EditGrowthDataProfileRequest.FirstDayOfLastMenstrualPeriod.AddDays(280);
+            DateTime? estimatedDueDate = req.EstimatedDueDate;
+
+            if (!estimatedDueDate.HasValue && req.FirstDayOfLastMenstrualPeriod.HasValue)
+            {
+                estimatedDueDate = req.FirstDayOfLastMenstrualPeriod.Value.AddDays(280);
+            }
 
             return new EditGrowthDataProfileDTO
             {
-                Id = (Guid)EditGrowthDataProfileRequest.Id,
-                PreWeight = EditGrowthDataProfileRequest.PreWeight,
-                FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileRequest.FirstDayOfLastMenstrualPeriod,
-                EstimatedDueDate = estimatedDueDate,
+                Id = req.Id ?? Guid.Empty,
+                PreWeight = req.PreWeight,
+                FirstDayOfLastMenstrualPeriod = req.FirstDayOfLastMenstrualPeriod,
+                EstimatedDueDate = estimatedDueDate
             };
         }
 
-        // Validation helper methods using entity logic
         public static bool IsValidGestationalAge(this EditGrowthDataProfileDTO dto, ICurrentTime currentTime)
         {
+            if (!dto.FirstDayOfLastMenstrualPeriod.HasValue || !dto.EstimatedDueDate.HasValue)
+                return true; // or false depending on how strict you want to be
+
             var today = currentTime.GetCurrentTime().Date;
             var tempEntity = new GrowthData
             {
-                FirstDayOfLastMenstrualPeriod = dto.FirstDayOfLastMenstrualPeriod,
-                EstimatedDueDate = dto.EstimatedDueDate
+                FirstDayOfLastMenstrualPeriod = dto.FirstDayOfLastMenstrualPeriod.Value,
+                EstimatedDueDate = dto.EstimatedDueDate.Value
             };
 
-            var gestationalAge = tempEntity.GetCurrentGestationalAgeInWeeks(today);
-            return gestationalAge >= 0 && gestationalAge <= 42;
+            var ga = tempEntity.GetCurrentGestationalAgeInWeeks(today);
+            return ga >= 0 && ga <= 42;
         }
 
         public static bool IsValidDueDateRange(this EditGrowthDataProfileDTO dto)
         {
-            var calculatedDueDate = dto.FirstDayOfLastMenstrualPeriod.AddDays(280);
+            if (!dto.FirstDayOfLastMenstrualPeriod.HasValue || !dto.EstimatedDueDate.HasValue)
+                return true; // or false depending on your rules
 
-            // Allow some flexibility in due date (±2 weeks from calculated)
-            return dto.EstimatedDueDate >= calculatedDueDate.AddDays(-14) &&
-                   dto.EstimatedDueDate <= calculatedDueDate.AddDays(14);
+            var calculatedEDD = dto.FirstDayOfLastMenstrualPeriod.Value.AddDays(280);
+            return dto.EstimatedDueDate.Value >= calculatedEDD.AddDays(-14) &&
+                   dto.EstimatedDueDate.Value <= calculatedEDD.AddDays(14);
         }
 
         public static bool IsValidLMPDate(this EditGrowthDataProfileDTO dto, ICurrentTime currentTime)
         {
-            var today = currentTime.GetCurrentTime().Date;
-            var maxLMPDate = today.AddDays(-7); // At least 1 week ago
-            var minLMPDate = today.AddDays(-294); // Not more than 42 weeks ago
+            if (!dto.FirstDayOfLastMenstrualPeriod.HasValue)
+                return true; // or false based on business rules
 
-            return 
-                dto.FirstDayOfLastMenstrualPeriod >= minLMPDate 
-                && dto.FirstDayOfLastMenstrualPeriod <= maxLMPDate
-                ;
+            var today = currentTime.GetCurrentTime().Date;
+            var maxLMPDate = today.AddDays(-7);   // 1 week ago
+            var minLMPDate = today.AddDays(-294); // 42 weeks ago
+
+            return dto.FirstDayOfLastMenstrualPeriod.Value >= minLMPDate &&
+                   dto.FirstDayOfLastMenstrualPeriod.Value <= maxLMPDate;
         }
 
         public static bool IsValidWeight(this EditGrowthDataProfileDTO dto)
         {
-            return dto.PreWeight > 0 && dto.PreWeight < 300;
+            return dto.PreWeight.HasValue && dto.PreWeight > 0 && dto.PreWeight < 300;
         }
 
         public static int GetCurrentTrimester(this EditGrowthDataProfileDTO dto, ICurrentTime currentTime)
         {
+            if (!dto.FirstDayOfLastMenstrualPeriod.HasValue || !dto.EstimatedDueDate.HasValue)
+                return 0;
+
             var today = currentTime.GetCurrentTime().Date;
             var tempEntity = new GrowthData
             {
-                FirstDayOfLastMenstrualPeriod = dto.FirstDayOfLastMenstrualPeriod,
-                EstimatedDueDate = dto.EstimatedDueDate
+                FirstDayOfLastMenstrualPeriod = dto.FirstDayOfLastMenstrualPeriod.Value,
+                EstimatedDueDate = dto.EstimatedDueDate.Value
             };
 
             return tempEntity.GetCurrentTrimester(today);
@@ -114,11 +124,14 @@ namespace Server.Application.Mappers.GrowthDataExtentions
 
         public static int GetCurrentGestationalAgeInWeeks(this EditGrowthDataProfileDTO dto, ICurrentTime currentTime)
         {
+            if (!dto.FirstDayOfLastMenstrualPeriod.HasValue || !dto.EstimatedDueDate.HasValue)
+                return 0;
+
             var today = currentTime.GetCurrentTime().Date;
             var tempEntity = new GrowthData
             {
-                FirstDayOfLastMenstrualPeriod = dto.FirstDayOfLastMenstrualPeriod,
-                EstimatedDueDate = dto.EstimatedDueDate
+                FirstDayOfLastMenstrualPeriod = dto.FirstDayOfLastMenstrualPeriod.Value,
+                EstimatedDueDate = dto.EstimatedDueDate.Value
             };
 
             return tempEntity.GetCurrentGestationalAgeInWeeks(today);

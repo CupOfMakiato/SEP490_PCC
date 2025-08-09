@@ -34,7 +34,10 @@ namespace Server.Infrastructure.Data
         public DbSet<BasicBioMetric> BasicBioMetric { get; set; }
         //public DbSet<Fetus> Fetus { get; set; }
         public DbSet<CustomChecklist> CustomChecklist { get; set; }
+        public DbSet<TemplateChecklist> TemplateChecklist { get; set; }
+        public DbSet<TemplateChecklistGrowthData> TemplateChecklistGrowthData { get; set; }
         public DbSet<TailoredCheckupReminder> TailoredCheckupReminder { get; set; }
+        public DbSet<RecommendedCheckup> RecommendedCheckup { get; set; }
         public DbSet<Journal> Journal { get; set; }
         public DbSet<RecordedSymptom> RecordedSymptom { get; set; }
         public DbSet<JournalSymptom> JournalSymptoms { get; set; }
@@ -151,7 +154,6 @@ namespace Server.Infrastructure.Data
                 {
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e8"),
                     SymptomName = "Nausea",
-                    IsTemplate = true,
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
@@ -161,7 +163,6 @@ namespace Server.Infrastructure.Data
                 {
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e9"),
                     SymptomName = "Fatigue",
-                    IsTemplate = true,
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
@@ -171,7 +172,6 @@ namespace Server.Infrastructure.Data
                 {
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5ea"),
                     SymptomName = "Headache",
-                    IsTemplate = true,
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
@@ -181,7 +181,6 @@ namespace Server.Infrastructure.Data
                 {
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5eb"),
                     SymptomName = "Backache",
-                    IsTemplate = true,
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
@@ -191,7 +190,6 @@ namespace Server.Infrastructure.Data
                 {
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5ec"),
                     SymptomName = "Dizziness",
-                    IsTemplate = true,
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
@@ -201,7 +199,6 @@ namespace Server.Infrastructure.Data
                 {
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5ed"),
                     SymptomName = "None",
-                    IsTemplate = true,
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,

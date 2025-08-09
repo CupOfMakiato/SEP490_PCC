@@ -7,7 +7,6 @@ namespace Server.API.Validations.Symptom
     {
         public AddSymptomRequestValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId is required");
             RuleFor(x => x.SymptomName).NotEmpty().WithMessage("Symptom name is required");
         }
     }

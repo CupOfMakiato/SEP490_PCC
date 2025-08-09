@@ -216,12 +216,12 @@ namespace Server.Application.Services
             user.PhoneNumber = EditUserDTO.PhoneNumber ?? user.PhoneNumber;
             user.DateOfBirth = EditUserDTO?.DateOfBirth ?? user.DateOfBirth;
 
-            await _unitOfWork.UserRepository.UpdateAsync(user);
+            _unitOfWork.UserRepository.Update(user);
             var result = await _unitOfWork.SaveChangeAsync();
             return new Result<object>
             {
                 Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Avatar uploaded successfully." : "Failed to upload avatar.",
+                Message = result > 0 ? "Edit profile successfully." : "Failed to edit profile.",
                 Data = new
                 {
                     user.UserName,

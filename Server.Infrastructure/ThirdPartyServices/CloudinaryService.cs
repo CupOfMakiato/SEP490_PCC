@@ -56,22 +56,22 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
-        public async Task<CloudinaryResponse> UploadJournalImage(string fileName, IFormFile file, Journal journal)
+        public async Task<CloudinaryResponse> UploadJournalImage(string fileName, IFormFile file, Journal journal, string folder)
         {
+            var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileNameWithoutExtension(fileName)}";
+
             var uploadParams = new ImageUploadParams
             {
                 File = new FileDescription(fileName, file.OpenReadStream()),
-                PublicId = $"/{journal.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
-                Overwrite = true,
-                Folder = "journals"
+                PublicId = $"{folder}/{journal.Id}/{uniqueFileName}", // FULL path in PublicId
+                Overwrite = false,
+                Folder = folder // optional, you can omit if fully included in PublicId
             };
 
             var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
             if (uploadResult.Error != null)
-            {
-                return null; // Handle upload failure
-            }
+                return null;
 
             return new CloudinaryResponse
             {
@@ -79,6 +79,8 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
+
+
         public async Task<CloudinaryResponse> UploadAvatarImage(string fileName, IFormFile file, User avatar)
         {
             var uploadParams = new ImageUploadParams

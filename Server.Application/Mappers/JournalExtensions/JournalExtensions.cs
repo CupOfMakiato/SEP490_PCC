@@ -5,6 +5,7 @@ using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,26 @@ namespace Server.Application.Mappers.JournalExtensions
     {
         public static Journal ToJournal(this CreateNewJournalEntryForCurrentWeekDTO CreateNewJournalEntryForCurrentWeekDTO)
         {
+            int trimester = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeek switch
+            {
+                <= 13 => 1,
+                <= 27 => 2,
+                _ => 3
+            };
             return new Journal
             {
                 Id = CreateNewJournalEntryForCurrentWeekDTO.Id,
                 GrowthDataId = CreateNewJournalEntryForCurrentWeekDTO.GrowthDataId,
                 CurrentWeek = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeek,
-                CurrentTrimester = CreateNewJournalEntryForCurrentWeekDTO.CurrentTrimester,
+                CurrentTrimester = trimester,
                 Note = CreateNewJournalEntryForCurrentWeekDTO.Note,
                 CurrentWeight = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
+                SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
+                DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
+                HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
+                BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
                 JournalSymptoms = new List<JournalSymptom>(),
-                MoodNotes = (Domain.Enums.Mood)CreateNewJournalEntryForCurrentWeekDTO.MoodNotes,
+                MoodNotes = CreateNewJournalEntryForCurrentWeekDTO.MoodNotes ?? Mood.Neutral,
                 Media = new List<Media>(),
                 CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId
 
@@ -41,9 +52,12 @@ namespace Server.Application.Mappers.JournalExtensions
                 UserId = CreateNewJournalEntryForCurrentWeekRequest.UserId,
                 GrowthDataId = CreateNewJournalEntryForCurrentWeekRequest.GrowthDataId,
                 CurrentWeek = CreateNewJournalEntryForCurrentWeekRequest.CurrentWeek,
-                CurrentTrimester = CreateNewJournalEntryForCurrentWeekRequest.CurrentTrimester,
                 Note = CreateNewJournalEntryForCurrentWeekRequest.Note,
                 CurrentWeight = CreateNewJournalEntryForCurrentWeekRequest.CurrentWeight,
+                SystolicBP = CreateNewJournalEntryForCurrentWeekRequest.SystolicBP,
+                DiastolicBP = CreateNewJournalEntryForCurrentWeekRequest.DiastolicBP,
+                HeartRateBPM = CreateNewJournalEntryForCurrentWeekRequest.HeartRateBPM,
+                BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekRequest.BloodSugarLevelMgDl,
                 SymptomNames = CreateNewJournalEntryForCurrentWeekRequest.SymptomNames ?? new List<string>(),
                 MoodNotes = CreateNewJournalEntryForCurrentWeekRequest.MoodNotes,
                 RelatedImages = CreateNewJournalEntryForCurrentWeekRequest.RelatedImages,
@@ -54,14 +68,20 @@ namespace Server.Application.Mappers.JournalExtensions
         {
             return new EditJournalEntryDTO
             {
-                Id = (Guid)EditJournalEntryRequest.Id,
+                Id = EditJournalEntryRequest.Id,
                 Note = EditJournalEntryRequest.Note,
                 CurrentWeight = EditJournalEntryRequest.CurrentWeight,
+                SystolicBP = EditJournalEntryRequest.SystolicBP,
+                DiastolicBP = EditJournalEntryRequest.DiastolicBP,
+                HeartRateBPM = EditJournalEntryRequest.HeartRateBPM,
+                BloodSugarLevelMgDl = EditJournalEntryRequest.BloodSugarLevelMgDl,
                 SymptomNames = EditJournalEntryRequest.SymptomNames ?? new List<string>(),
                 MoodNotes = EditJournalEntryRequest.MoodNotes,
                 RelatedImages = EditJournalEntryRequest.RelatedImages,
                 UltraSoundImages = EditJournalEntryRequest.UltraSoundImages
             };
         }
+
+        
     }
 }

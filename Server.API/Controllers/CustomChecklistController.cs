@@ -86,6 +86,14 @@ namespace Server.API.Controllers
             var result = await _customChecklistService.ViewCustomChecklistsByTrimester(trimester);
             return Ok(result);
         }
+        [HttpGet("view-all-custom-checklists-by-growthdata")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewCustomChecklistDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewCustomChecklistsByGrowthData(Guid growthDataId)
+        {
+            var result = await _customChecklistService.ViewCustomChecklistsByGrowthData(growthDataId);
+            return Ok(result);
+        }
         [HttpPost("create-a-new-custom-checklist")]
         [ProducesResponseType(200, Type = typeof(Result<ViewCustomChecklistDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]

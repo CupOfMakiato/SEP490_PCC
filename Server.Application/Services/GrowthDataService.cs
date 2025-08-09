@@ -206,18 +206,23 @@ namespace Server.Application.Services
             }
 
             var today = _currentTime.GetCurrentTime().Date;
+            growthData.FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod ?? growthData.FirstDayOfLastMenstrualPeriod;
+            growthData.EstimatedDueDate = EditGrowthDataProfileDTO.EstimatedDueDate ?? growthData.EstimatedDueDate;
+            growthData.PreWeight = EditGrowthDataProfileDTO.PreWeight ?? growthData.PreWeight;
 
             // If LMP has changed then recalculate EDD and gestational age
-            if (growthData.FirstDayOfLastMenstrualPeriod != EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod)
+            if (EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.HasValue &&
+                EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.Value != growthData.FirstDayOfLastMenstrualPeriod)
             {
-                growthData.FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod;
-                growthData.EstimatedDueDate = EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.AddDays(280);
+                growthData.FirstDayOfLastMenstrualPeriod = EditGrowthDataProfileDTO.FirstDayOfLastMenstrualPeriod.Value;
+                growthData.EstimatedDueDate = growthData.FirstDayOfLastMenstrualPeriod.AddDays(280);
                 growthData.GestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(today);
             }
             // If EDD was changed directly (LMP stayed the same)
-            else if (growthData.EstimatedDueDate != EditGrowthDataProfileDTO.EstimatedDueDate)
+            else if (EditGrowthDataProfileDTO.EstimatedDueDate.HasValue &&
+                     EditGrowthDataProfileDTO.EstimatedDueDate.Value != growthData.EstimatedDueDate)
             {
-                growthData.EstimatedDueDate = EditGrowthDataProfileDTO.EstimatedDueDate;
+                growthData.EstimatedDueDate = EditGrowthDataProfileDTO.EstimatedDueDate.Value;
                 growthData.GestationalAgeInWeeks = growthData.GetCurrentGestationalAgeInWeeks(today);
             }
 

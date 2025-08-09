@@ -19,6 +19,7 @@ namespace Server.Application.Interfaces
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllActiveCustomChecklists();
         Task<Result<List<ViewCustomChecklistDTO>>> ViewAllArchiveCustomChecklists();
         Task<Result<List<ViewCustomChecklistDTO>>> ViewCustomChecklistsByTrimester(int trimester);
+        Task<Result<List<ViewCustomChecklistDTO>>> ViewCustomChecklistsByGrowthData(Guid growthDataId);
         // create
         Task<Result<object>> CreateNewCustomChecklist(CreateCustomChecklistDTO CreateCustomChecklistDTO);
         //edit
