@@ -216,7 +216,7 @@ namespace Server.Application.Services
             user.PhoneNumber = EditUserDTO.PhoneNumber ?? user.PhoneNumber;
             user.DateOfBirth = EditUserDTO?.DateOfBirth ?? user.DateOfBirth;
 
-            await _unitOfWork.UserRepository.AddAsync(user);
+            _unitOfWork.UserRepository.Update(user);
             var result = await _unitOfWork.SaveChangeAsync();
             if (result > 0)
                 return new Result<object>
