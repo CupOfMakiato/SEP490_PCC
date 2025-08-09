@@ -15,6 +15,11 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public void DeleteNutrientCategory(NutrientCategory nutrientCategory)
+        {
+            _dbSet.Remove(nutrientCategory);
+        }
+
         public async Task<NutrientCategory> GetNutrientCategoryById(Guid vitaminCategoryId)
         {
             return await _context.NutrientCategory.Include(v => v.Nutrients)

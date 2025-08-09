@@ -39,6 +39,9 @@ namespace Server.API.Controllers
 
             if (string.IsNullOrWhiteSpace(request.Description))
                 return BadRequest("Unit is required");
+            if (request.ImageUrl is not null)
+                if (request.ImageUrl.Length > 0 && request.ImageUrl.Length <= 5 * 1024 * 1024)
+                    return BadRequest("Image size must be smaller than 5mb");
 
             try
             {
@@ -66,6 +69,50 @@ namespace Server.API.Controllers
                     return BadRequest("Soft delete fail");
 
                 return Ok("Soft delete success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-nutrient")]
+        public async Task<IActionResult> UpdateNutrient([FromBody] UpdateNutrientRequest request)
+        {
+            if (request.Id == Guid.Empty)
+                return BadRequest("Nutrient Id is null or empty");
+
+            try
+            {
+                var result = await _nutrientService.UpdateNutrient(request);
+                if (result.Error == 1)
+                    return BadRequest(result.Message);
+
+                return Ok("Create success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-nutrient-image")]
+        public async Task<IActionResult> UpdateNutrientImage([FromForm] UpdateNutrientImageRequest request)
+        {
+            if (request.Id == Guid.Empty)
+                return BadRequest("Nutrient Id is null or empty");
+            if (request.ImageUrl == null)
+                return BadRequest("Image is null");
+            if (request.ImageUrl.Length > 0 && request.ImageUrl.Length <= 5 * 1024 * 1024)
+                return BadRequest("Image size must be smaller than 5mb");
+
+            try
+            {
+                var result = await _nutrientService.UpdateNutrientImage(request);
+                if (result.Error == 1)
+                    return BadRequest(result.Message);
+
+                return Ok("Create success");
             }
             catch (Exception ex)
             {

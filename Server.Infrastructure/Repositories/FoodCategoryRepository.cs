@@ -21,6 +21,12 @@ namespace Server.Infrastructure.Repositories
         {
             _context = context;
         }
+
+        public void DeleteFoodCategory(FoodCategory foodCategory)
+        {
+            _dbSet.Remove(foodCategory);
+        }
+
         public async Task<FoodCategory> GetFoodCategoryByIdAsync(Guid foodCategoryId) => 
             await _context.FoodCategory.Include(fc => fc.Foods).FirstOrDefaultAsync(fc => fc.Id.Equals(foodCategoryId));
 

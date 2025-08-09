@@ -6,5 +6,6 @@ namespace Server.Application.Repositories
     {
         public Task<FoodCategory> GetFoodCategoryByIdAsync(Guid FoodCategoryId);
         public Task<List<FoodCategory>> GetFoodCategorysAsync();
+        public void DeleteFoodCategory(FoodCategory foodCategory);
     }
 }

@@ -36,7 +36,7 @@ namespace Server.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpDelete("soft-delete/{dishId}")]
+        [HttpPut("soft-delete/{dishId}")]
         public async Task<IActionResult> SoftDeleteDish(Guid dishId)
         {
             var result = await _dishService.SoftDeleteDish(dishId);
@@ -68,7 +68,7 @@ namespace Server.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPut]
+        [HttpPut("update-dish")]
         public async Task<IActionResult> UpdateDish([FromBody] UpdateDishRequest request)
         {
             if (request == null)
