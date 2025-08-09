@@ -69,6 +69,7 @@ namespace Server.Infrastructure
             services.AddScoped<IFeedbackService, FeedbackService>();
             services.AddScoped<IDishService, DishService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IAgeGroupService, AgeGroupService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
