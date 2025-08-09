@@ -157,6 +157,7 @@ namespace Server.Infrastructure.Data
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
+                    IsTemplate = true,
                     IsDeleted = false
                 },
                 new RecordedSymptom
@@ -166,6 +167,7 @@ namespace Server.Infrastructure.Data
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
+                    IsTemplate = true,
                     IsDeleted = false
                 },
                 new RecordedSymptom
@@ -175,6 +177,7 @@ namespace Server.Infrastructure.Data
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
+                    IsTemplate = true,
                     IsDeleted = false
                 },
                 new RecordedSymptom
@@ -184,6 +187,7 @@ namespace Server.Infrastructure.Data
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
+                    IsTemplate = true,
                     IsDeleted = false
                 },
                 new RecordedSymptom
@@ -193,6 +197,7 @@ namespace Server.Infrastructure.Data
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
+                    IsTemplate = true,
                     IsDeleted = false
                 },
                 new RecordedSymptom
@@ -202,6 +207,7 @@ namespace Server.Infrastructure.Data
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
                     CreationDate = DateTime.Now,
                     IsActive = true,
+                    IsTemplate = true,
                     IsDeleted = false
                 }
             );

@@ -9,7 +9,6 @@ namespace Server.Application.DTOs.Symptom
     public class AddSymptomDTO
     {
         public string SymptomName { get; set; }
-        public bool IsChecked { get; set; } = false;
         public bool IsActive { get; set; } = true;
     }
 }

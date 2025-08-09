@@ -11,8 +11,7 @@ namespace Server.Application.DTOs.Symptom
         public Guid Id { get; set; }
         public Guid JournalId { get; set; }
         public string SymptomName { get; set; }
-        public bool IsChecked { get; set; } = false;
-        public DateTime? CheckedDate { get; set; } = null;
+        public bool IsTemplate { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

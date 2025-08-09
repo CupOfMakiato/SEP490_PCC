@@ -30,7 +30,6 @@ namespace Server.Domain.Entities
         public ICollection<Food> DoctorRecommedFoods { get; set; }
         public ICollection<Nutrient> DoctorRecommedNutrients { get; set; }
         public ICollection<JournalSymptom>? JournalSymptoms { get; set; } = new List<JournalSymptom>();
-        public ICollection<CustomSymptom>? CustomSymptom { get; set; } = new List<CustomSymptom>();
 
 
     }

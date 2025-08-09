@@ -41,8 +41,6 @@ namespace Server.Application.Services
                 Id = recordedSymptom.Id,
                 JournalId = journalId,
                 SymptomName = recordedSymptom.SymptomName,
-                IsChecked = link?.IsChecked ?? false,
-                CheckedDate = link?.CheckedDate,
                 IsActive = recordedSymptom.IsActive
             };
         }
@@ -94,10 +92,10 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<object>> AddNewTemplateSymptom(AddSymptomDTO addSymptomDTO)
+        public async Task<Result<object>> AddNewCustomSymptom(AddSymptomDTO addSymptomDTO)
         {
-            var currentuser = _claimsService.GetCurrentUserId;
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(currentuser);
+            var currentUserId = _claimsService.GetCurrentUserId;
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(currentUserId);
             if (user == null)
             {
                 return new Result<object>
@@ -108,13 +106,11 @@ namespace Server.Application.Services
                 };
             }
 
-            // Capitalized the first letter
+            // Trim, capitalize first letter
+            var normalizedName = addSymptomDTO.SymptomName.Trim();
+            normalizedName = char.ToUpper(normalizedName[0]) + normalizedName.Substring(1).ToLower();
 
-            var inputName = addSymptomDTO.SymptomName.Trim();
-            inputName = char.ToUpper(inputName[0]) + inputName.Substring(1).ToLower();
-
-            var templateName = await _symptomRepository.IsTemplateSymptomExistsByName(inputName);
-            if (templateName)
+            if (await _unitOfWork.SymptomRepository.IsTemplateSymptomExistsByName(normalizedName))
             {
                 return new Result<object>
                 {
@@ -124,10 +120,7 @@ namespace Server.Application.Services
                 };
             }
 
-            var existing = await _unitOfWork.SymptomRepository.GetTemplateSymptomsByUser(currentuser);
-            var isDuplicate = await _unitOfWork.SymptomRepository.IsSymptomNameDuplicateForUser(addSymptomDTO.SymptomName, currentuser);
-
-            if (isDuplicate)
+            if (await _unitOfWork.SymptomRepository.IsSymptomNameDuplicateForUser(normalizedName, currentUserId))
             {
                 return new Result<object>
                 {
@@ -139,27 +132,28 @@ namespace Server.Application.Services
 
             var symptom = new RecordedSymptom
             {
-                SymptomName = addSymptomDTO.SymptomName,
-                CreatedBy = currentuser,
-                CreationDate = DateTime.Now,
+                SymptomName = normalizedName,
+                CreatedBy = currentUserId,
+                CreationDate = DateTime.UtcNow,
+                IsTemplate = false,
                 IsActive = true
             };
 
             await _unitOfWork.SymptomRepository.AddAsync(symptom);
-            var result = await _unitOfWork.SaveChangeAsync();
+            var saveResult = await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Symptom added successfully" : "Failed to add symptom",
+                Error = saveResult > 0 ? 0 : 1,
+                Message = saveResult > 0 ? "Symptom added successfully" : "Failed to add symptom",
                 Data = symptom.SymptomName
             };
         }
-        public async Task<Result<object>> EditTemplateSymptom(EditSymptomDTO editSymptomDTO)
-        {
-            var currentUser = _claimsService.GetCurrentUserId;
-            var user = await _unitOfWork.UserRepository.GetByIdAsync(currentUser);
 
+        public async Task<Result<object>> EditCustomSymptom(EditSymptomDTO editSymptomDTO)
+        {
+            var currentUserId = _claimsService.GetCurrentUserId;
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(currentUserId);
             if (user == null)
             {
                 return new Result<object>
@@ -170,7 +164,6 @@ namespace Server.Application.Services
                 };
             }
 
-            // Find the existing symptom
             var symptom = await _unitOfWork.SymptomRepository.GetByIdAsync(editSymptomDTO.SymptomId);
             if (symptom == null || !symptom.IsActive)
             {
@@ -182,13 +175,11 @@ namespace Server.Application.Services
                 };
             }
 
-            // Capitalize the first letter of the new name
-            var inputName = editSymptomDTO.SymptomName.Trim();
-            inputName = char.ToUpper(inputName[0]) + inputName.Substring(1).ToLower();
+            var normalizedName = editSymptomDTO.SymptomName.Trim();
+            normalizedName = char.ToUpper(normalizedName[0]) + normalizedName.Substring(1).ToLower();
 
-            // Check if another template symptom already exists with the same name
-            var templateExists = await _symptomRepository.IsTemplateSymptomExistsByName(inputName);
-            if (templateExists && !string.Equals(symptom.SymptomName, inputName, StringComparison.OrdinalIgnoreCase))
+            if (await _unitOfWork.SymptomRepository.IsTemplateSymptomExistsByName(normalizedName) &&
+                !string.Equals(symptom.SymptomName, normalizedName, StringComparison.OrdinalIgnoreCase))
             {
                 return new Result<object>
                 {
@@ -197,10 +188,8 @@ namespace Server.Application.Services
                     Data = null
                 };
             }
-
-            // Check for duplicate within the user's template symptoms
-            var isDuplicate = await _unitOfWork.SymptomRepository.IsSymptomNameDuplicateForUser(inputName, editSymptomDTO.UserId);
-            if (isDuplicate && !string.Equals(symptom.SymptomName, inputName, StringComparison.OrdinalIgnoreCase))
+            if (await _unitOfWork.SymptomRepository.IsSymptomNameDuplicateForUser(normalizedName, currentUserId) &&
+                !string.Equals(symptom.SymptomName, normalizedName, StringComparison.OrdinalIgnoreCase))
             {
                 return new Result<object>
                 {
@@ -210,43 +199,22 @@ namespace Server.Application.Services
                 };
             }
 
+            symptom.SymptomName = normalizedName;
             symptom.IsActive = editSymptomDTO.IsActive ?? symptom.IsActive;
-            symptom.SymptomName = inputName;
-            symptom.ModificationBy = currentUser;
-            symptom.ModificationDate = DateTime.Now;
+            symptom.ModificationBy = currentUserId;
+            symptom.ModificationDate = DateTime.UtcNow;
 
             _unitOfWork.SymptomRepository.Update(symptom);
-            var result = await _unitOfWork.SaveChangeAsync();
+            var saveResult = await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Symptom updated successfully" : "Failed to update symptom",
+                Error = saveResult > 0 ? 0 : 1,
+                Message = saveResult > 0 ? "Symptom updated successfully" : "Failed to update symptom",
                 Data = symptom.SymptomName
             };
         }
-        public async Task<Result<List<ViewSymptomDTO>>> ViewAllCheckedTemplateSymptoms()
-        {
-            var symptoms = await _symptomRepository.GetAllCheckedTemplateSymptoms();
-            var result = _mapper.Map<List<ViewSymptomDTO>>(symptoms);
-            return new Result<List<ViewSymptomDTO>>
-            {
-                Error = 0,
-                Message = "Retrieved all checked template symptoms successfully",
-                Data = result
-            };
-        }
-        public async Task<Result<List<ViewSymptomDTO>>> ViewAllUncheckedTemplateSymptoms()
-        {
-            var symptoms = await _symptomRepository.GetAllUnCheckedTemplateSymptoms();
-            var result = _mapper.Map<List<ViewSymptomDTO>>(symptoms);
-            return new Result<List<ViewSymptomDTO>>
-            {
-                Error = 0,
-                Message = "Retrieved all unchecked template symptoms successfully",
-                Data = result
-            };
-        }
+
         public async Task<List<RecordedSymptom>> ReuseExistingOrAddNewCustom(Guid userId, IEnumerable<string> symptomNames)
         {
             var user = _claimsService.GetCurrentUserId;
@@ -277,78 +245,6 @@ namespace Server.Application.Services
 
             return resolved;
         }
-        public async Task<Result<object>> MarkTemplateSymptomAsChecked(Guid symptomId)
-        {
-            var currentUser = _claimsService.GetCurrentUserId;
-
-            var symptom = await _unitOfWork.SymptomRepository.GetSymptomById(symptomId);
-            if (symptom == null)
-            {
-                return new Result<object>
-                {
-                    Error = 1,
-                    Message = "Symptom not found.",
-                    Data = null
-                };
-            }
-
-            var currentJournal = await _unitOfWork.JournalRepository.GetCurrentJournalByUser(currentUser);
-            if (currentJournal == null)
-            {
-                return new Result<object>
-                {
-                    Error = 1,
-                    Message = "No active journal found for user.",
-                    Data = null
-                };
-            }
-
-            var existingJournalSymptom = symptom.JournalSymptoms
-                .FirstOrDefault(js => js.JournalId == currentJournal.Id);
-
-            if (existingJournalSymptom == null)
-            {
-                // create with IsChecked = true
-                existingJournalSymptom = new JournalSymptom
-                {
-                    JournalId = currentJournal.Id,
-                    RecordedSymptomId = symptom.Id,
-                    IsChecked = true,
-                    CheckedDate = DateTime.UtcNow
-                };
-
-                symptom.JournalSymptoms.Add(existingJournalSymptom);
-            }
-            else
-            {
-                if (!existingJournalSymptom.IsChecked) // false/null switch true
-                {
-                    existingJournalSymptom.IsChecked = true;
-                    existingJournalSymptom.CheckedDate = DateTime.UtcNow;
-                }
-                else // true switch false
-                {
-                    existingJournalSymptom.IsChecked = false;
-                    existingJournalSymptom.CheckedDate = null;
-                }
-            }
-
-            var result = await _unitOfWork.SaveChangeAsync();
-
-            return new Result<object>
-            {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Symptom status toggled successfully." : "Failed to toggle symptom status.",
-                Data = new
-                {
-                    //SymptomId = symptom.Id,
-                    SymptomName = symptom.SymptomName,
-                    IsChecked = existingJournalSymptom.IsChecked,
-                    CheckedDate = existingJournalSymptom.CheckedDate
-                }
-            };
-        }
-
         public async Task<Result<object>> MarkSymptomAsActive (Guid symptomId)
         {
             var currentUser = _claimsService.GetCurrentUserId;

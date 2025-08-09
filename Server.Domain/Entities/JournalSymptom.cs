@@ -13,7 +13,5 @@ namespace Server.Domain.Entities
         public Journal Journal { get; set; }
         public Guid RecordedSymptomId { get; set; }
         public RecordedSymptom RecordedSymptom { get; set; }
-        public bool IsChecked { get; set; } = false;
-        public DateTime? CheckedDate { get; set; } = null;
     }
 }

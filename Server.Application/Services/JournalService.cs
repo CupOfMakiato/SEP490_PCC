@@ -73,9 +73,6 @@ namespace Server.Application.Services
         }
         private async Task<ViewJournalDetailDTO> MapJournalToViewJournalDetailDTO(Journal journal)
         {
-            var userId = journal.CreatedBy;
-            var allSymptoms = await _symptomRepository.GetAllSymptomsForUser((Guid)userId);
-
             var relatedImages = journal.Media?
                 .Where(m => m.FilePublicId != null && m.FilePublicId.Contains("journal-related"))
                 .Select(m => m.FileUrl)
@@ -92,7 +89,6 @@ namespace Server.Application.Services
                 CurrentWeek = journal.CurrentWeek,
                 CurrentTrimester = journal.CurrentTrimester,
                 Note = journal.Note,
-                //CurrentWeight = (float)journal.CurrentWeight,
                 Mood = journal.MoodNotes.ToString(),
                 CreatedByUser = journal.JournalCreatedBy != null
                     ? new GetUserDTO
@@ -101,16 +97,18 @@ namespace Server.Application.Services
                         UserName = journal.JournalCreatedBy.UserName
                     }
                     : null,
-                Symptoms = allSymptoms
-                    .Where(s => s.IsActive && !s.IsDeleted)
-                    .Select(s => new SymptomDTO
+                Symptoms = journal.JournalSymptoms
+                    .Where(js => js.RecordedSymptom.IsActive && !js.RecordedSymptom.IsDeleted)
+                    .Select(js => new SymptomDTO
                     {
-                        SymptomName = s.SymptomName
-                    }).ToList(),
+                        SymptomName = js.RecordedSymptom.SymptomName
+                    })
+                    .ToList(),
                 RelatedImages = relatedImages,
                 UltraSoundImages = ultrasoundImages
             };
         }
+
 
         public async Task<Result<List<ViewJournalDTO>>> ViewAllJournals()
         {
@@ -270,17 +268,6 @@ namespace Server.Application.Services
 
             var journal = CreateNewJournalEntryForCurrentWeekDTO.ToJournal();
 
-            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(CreateNewJournalEntryForCurrentWeekDTO.UserId, CreateNewJournalEntryForCurrentWeekDTO.SymptomNames);
-
-            foreach (var symptom in resolvedSymptoms)
-            {
-                journal.JournalSymptoms.Add(new JournalSymptom
-                {
-                    Journal = journal,
-                    RecordedSymptom = symptom
-                });
-            }
-
             // Upload Images
             if (CreateNewJournalEntryForCurrentWeekDTO.RelatedImages != null && CreateNewJournalEntryForCurrentWeekDTO.RelatedImages.Any())
             {
@@ -341,6 +328,19 @@ namespace Server.Application.Services
 
             await _unitOfWork.JournalRepository.AddAsync(journal);
             var result = await _unitOfWork.SaveChangeAsync();
+
+            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(CreateNewJournalEntryForCurrentWeekDTO.UserId, CreateNewJournalEntryForCurrentWeekDTO.SymptomNames);
+
+            foreach (var symptom in resolvedSymptoms)
+            {
+                journal.JournalSymptoms.Add(new JournalSymptom
+                {
+                    JournalId = journal.Id,
+                    RecordedSymptomId = symptom.Id
+                });
+            }
+
+            await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>
             {

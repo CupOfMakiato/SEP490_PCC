@@ -58,27 +58,11 @@ namespace Server.API.Controllers
             var result = await _symptomService.ViewAllSymptomsForUser(user);
             return Ok(result);
         }
-        [HttpGet("view-all-checked-symptoms")]
-        [ProducesResponseType(200, Type = typeof(Result<List<ViewSymptomDTO>>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> ViewAllCheckedTemplateSymptoms()
-        {
-            var result = await _symptomService.ViewAllCheckedTemplateSymptoms();
-            return Ok(result);
-        }
-        [HttpGet("view-all-unchecked-symptoms")]
-        [ProducesResponseType(200, Type = typeof(Result<List<ViewSymptomDTO>>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> ViewAllUncheckedTemplateSymptoms()
-        {
-            var result = await _symptomService.ViewAllUncheckedTemplateSymptoms();
-            return Ok(result);
-        }
 
-        [HttpPost("add-new-template-symptom")]
+        [HttpPost("add-new-custom-symptom")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> AddNewTemplateSymptom([FromForm] AddSymptomRequest req)
+        public async Task<IActionResult> AddNewCustomSymptom([FromForm] AddSymptomRequest req)
         {
             var validator = new AddSymptomRequestValidator();
             var validationResult = validator.Validate(req);
@@ -94,11 +78,11 @@ namespace Server.API.Controllers
             }
 
             var dto = req.ToAddSymptomDTO();
-            var result = await _symptomService.AddNewTemplateSymptom(dto);
+            var result = await _symptomService.AddNewCustomSymptom(dto);
 
             return Ok(result);
         }
-        [HttpPut("update-template-symptom")]
+        [HttpPut("update-custom-symptom")]
         [ProducesResponseType(200, Type = typeof(Result<ViewSymptomDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
         public async Task<IActionResult> EditTemplateSymptom([FromForm] EditSymptomRequest req)
@@ -115,15 +99,7 @@ namespace Server.API.Controllers
                 });
             }
             var dto = req.ToEditSymptomDTO();
-            var result = await _symptomService.EditTemplateSymptom(dto);
-            return Ok(result);
-        }
-        [HttpPut("mark-symptom-as-checked")]
-        [ProducesResponseType(200, Type = typeof(Result<ViewSymptomDTO>))]
-        [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> MarkTemplateSymptomAsChecked(Guid symptomId)
-        {
-            var result = await _symptomService.MarkTemplateSymptomAsChecked(symptomId);
+            var result = await _symptomService.EditCustomSymptom(dto);
             return Ok(result);
         }
 
