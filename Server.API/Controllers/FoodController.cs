@@ -54,19 +54,82 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("update-food")]
-        public async Task<IActionResult> Update([FromBody] Food request)
+        public async Task<IActionResult> Update([FromBody] UpdateFoodRequest request)
         {
             if (request.Id == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
+
             if (string.IsNullOrEmpty(request.Name))
-                return BadRequest("Name is null");
+                return BadRequest("Name is null or empty");
+
+            if (string.IsNullOrEmpty(request.Description))
+                return BadRequest("Description is null or empty");
 
             try
             {
-                if (!await _foodService.UpdateFood(request))
-                    return BadRequest("Update fail");
+                var result = await _foodService.UpdateFood(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
 
-                return Ok("Update success");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-food-image")]
+        public async Task<IActionResult> UpdateFoodImage([FromBody] UpdateFoodImageRequest request)
+        {
+            if (request.Id == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+            if (request.image is not null)
+                if (request.image.Length > 0 && request.image.Length <= 5 * 1024 * 1024)
+                    return
+                        BadRequest("Image must be smaller than 5mb");
+            try
+            {
+                var result = await _foodService.UpdateFoodImage(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-food-nutrient")]
+        public async Task<IActionResult> UpdateFoodNutrient([FromBody] UpdateFoodNutrientRequest request)
+        {
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+
+            if (request.NutrientId == Guid.Empty)
+                return BadRequest("Nutrient Id is null or empty");
+
+            if (request.NutrientEquivalent <= 0)
+                return BadRequest("NutrientEquivalent must be greater than zero");
+
+            if (string.IsNullOrEmpty(request.Unit))
+                return BadRequest("Unit is null or empty");
+
+            if (request.AmountPerUnit <= 0)
+                return BadRequest("AmountPerUnit must be greater than zero");
+
+            if (request.TotalWeight <= 0)
+                return BadRequest("TotalWeight must be greater than zero");
+
+            try
+            {
+                var result = await _foodService.UpdateFoodNutrient(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -92,6 +155,7 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
         [HttpDelete("delete-food-by-id")]
         public async Task<IActionResult> Delete([FromQuery] Guid foodId)
         {
@@ -104,6 +168,28 @@ namespace Server.API.Controllers
                     return BadRequest("Soft delete fail");
 
                 return Ok("Soft delete success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("delete-food-nutrient-by-foodId-nutrientId")]
+        public async Task<IActionResult> DeleteFoodNutrient([FromQuery] RemoveFoodNutrientRequest request)
+        {
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+            if (request.NutrientId == Guid.Empty)
+                return BadRequest("Nutrient Id is null or empty");
+
+            try
+            {
+                var result = await _foodService.RemoveFoodNutrient(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
