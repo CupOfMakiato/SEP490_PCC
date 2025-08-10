@@ -270,6 +270,8 @@ namespace Server.Infrastructure.ThirdPartyServices
 
         public async Task<CloudinaryResponse> UploadImage(IFormFile file, string folderName)
         {
+            if (file is null)
+                return null;
             var uploadParams = new ImageUploadParams
             {
                 File = new FileDescription(file.FileName, file.OpenReadStream()),

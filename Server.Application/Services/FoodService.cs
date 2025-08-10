@@ -77,6 +77,13 @@ namespace Server.Application.Services
                 PregnancySafe = request.PregnancySafe,
                 FoodCategory = foodCategory,
             };
+
+            var uploadImageResponse = await _cloudinaryService.UploadImage(request.image, "Food");
+            if (uploadImageResponse != null)
+                food.ImageUrl = uploadImageResponse.FileUrl;
+            else
+                food.ImageUrl = "";
+
             await _unitOfWork.FoodRepository.AddAsync(food);
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
