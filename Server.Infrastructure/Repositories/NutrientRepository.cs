@@ -37,6 +37,11 @@ namespace Server.Infrastructure.Repositories
                                          .FirstOrDefaultAsync();
         }
 
+        public async Task<Nutrient> GetNutrientByName(string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(n => n.Name.Equals(name));
+        }
+
         public async Task<IEnumerable<Nutrient>> GetNutrients()
         {
             return await _context.Nutrient.Include(v => v.FoodNutrients)

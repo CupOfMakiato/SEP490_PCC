@@ -32,7 +32,12 @@ namespace Server.Application.Services
                     Error = 1
                 };
             }
-
+            if (await _unitOfWork.NutrientRepository.GetNutrientByName(request.Name) != null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Name is duplicate"
+                };
             var nutrient = new Nutrient()
             {
                 Description = request.Description,
@@ -112,13 +117,20 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Nutrient is not found"
                 };
+            if (nutrient.Name != request.Name)
+                if (await _unitOfWork.NutrientRepository.GetNutrientByName(request.Name) != null)
+                    return new Result<NutrientDTO>()
+                    {
+                        Error = 1,
+                        Message = "Name is duplicate"
+                    };
             nutrient.Name = request.Name;
             nutrient.Description = request.Description;
             _unitOfWork.NutrientRepository.Update(nutrient);
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientDTO>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Data = _mapper.Map<NutrientDTO>(nutrient)
                 };
             return new Result<NutrientDTO>()
@@ -155,7 +167,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientDTO>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Data = _mapper.Map<NutrientDTO>(nutrient)
                 };
             return new Result<NutrientDTO>()

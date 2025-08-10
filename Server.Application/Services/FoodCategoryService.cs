@@ -13,17 +13,44 @@ namespace Server.Application.Services
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> CreateFoodCategory(CreateFoodCategoryRequest request)
+        public async Task<Result<object>> CreateFoodCategory(CreateFoodCategoryRequest request)
         {
             if (request == null)
-                return false;
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var food = await _unitOfWork.FoodCategoryRepository.GetFoodCategoryByName(request.Name);
+            if (food == null)
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Name is duplicate"
+                };
             var foodCategory = new FoodCategory()
             {
                 Description = request.Description,
                 Name = request.Name,
             };
             await _unitOfWork.FoodCategoryRepository.AddAsync(foodCategory);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<object>()
+                {
+                    Error = 0,
+                    Message = "Create success",
+                    Data = new FoodCategory
+                    {
+                        Id = foodCategory.Id,
+                        Name = foodCategory.Name,
+                        Description = foodCategory.Description,
+                    }
+                };
+            return new Result<object>()
+            {
+                Error = 1,
+                Message = "Create failed"
+            };
         }
 
 
@@ -78,15 +105,42 @@ namespace Server.Application.Services
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 
-        public async Task<bool> UpdateFoodCategory(UpdateFoodCategoryRequest request)
+        public async Task<Result<object>> UpdateFoodCategory(UpdateFoodCategoryRequest request)
         {
             var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.Id);
             if (foodCategory is null)
-                return false;
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Category is not found"
+                }; ;
+            if (foodCategory.Name != request.Name)
+                if (await _unitOfWork.FoodCategoryRepository.GetFoodCategoryByName(request.Name) != null)
+                    return new Result<object>()
+                    {
+                        Error = 1,
+                        Message = "Name is duplicate"
+                    };
             foodCategory.Description = request.Description;
             foodCategory.Name = request.Name;
             _unitOfWork.FoodCategoryRepository.Update(foodCategory);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            if(await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<object>()
+                {
+                    Error = 0,
+                    Message = "Update success",
+                    Data = new FoodCategory 
+                    {
+                        Id = request.Id,
+                        Name = foodCategory.Name, 
+                        Description = foodCategory.Description,
+                    }
+                };
+            return new Result<object>()
+            {
+                Error = 1,
+                Message = "Update failed"
+            };
         }
     }
 }

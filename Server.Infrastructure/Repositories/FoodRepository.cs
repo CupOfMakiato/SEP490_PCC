@@ -48,6 +48,11 @@ namespace Server.Infrastructure.Repositories
                                       .FirstOrDefaultAsync(f => f.Id.Equals(foodId));
         }
 
+        public async Task<Food> GetFoodByName(string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(f => f.Name.Equals(name));
+        }
+
         public async Task<List<Food>> GetFoodsAsync()
         {
             return await _context.Food.Include(f => f.FoodNutrients)
