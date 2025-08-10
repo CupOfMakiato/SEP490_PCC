@@ -85,7 +85,7 @@ namespace Server.API.Controllers
             if (request.Id == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
             if (request.image is not null)
-                if (request.image.Length > 0 && request.image.Length <= 5 * 1024 * 1024)
+                if (request.image.Length < 0 && request.image.Length >= 5 * 1024 * 1024)
                     return
                         BadRequest("Image must be smaller than 5mb");
             try
