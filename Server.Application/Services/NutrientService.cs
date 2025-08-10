@@ -118,7 +118,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientDTO>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Data = _mapper.Map<NutrientDTO>(nutrient)
                 };
             return new Result<NutrientDTO>()
@@ -155,7 +155,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientDTO>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Data = _mapper.Map<NutrientDTO>(nutrient)
                 };
             return new Result<NutrientDTO>()
