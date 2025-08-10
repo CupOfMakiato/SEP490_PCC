@@ -44,7 +44,7 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Nutrient cateogry is not found"
                 };
-            if (nutrientCategory.Nutrients is not null)
+            if (nutrientCategory.Nutrients.Count() != 0)
                 return new Result<bool>()
                 {
                     Error = 1,
@@ -54,7 +54,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<bool>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Message = "Delete success"
                 };
             return new Result<bool>()
