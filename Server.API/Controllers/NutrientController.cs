@@ -49,7 +49,7 @@ namespace Server.API.Controllers
                 if (result.Error == 1)
                     return BadRequest(result.Message);
 
-                return Ok("Create success");
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -88,7 +88,7 @@ namespace Server.API.Controllers
                 if (result.Error == 1)
                     return BadRequest(result.Message);
 
-                return Ok("Create success");
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -112,7 +112,7 @@ namespace Server.API.Controllers
                 if (result.Error == 1)
                     return BadRequest(result.Message);
 
-                return Ok("Create success");
+                return Ok(result);
             }
             catch (Exception ex)
             {
