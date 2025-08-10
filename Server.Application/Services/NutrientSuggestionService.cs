@@ -16,6 +16,75 @@ namespace Server.Application.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<Result<NSAttribute>> AddNutrientSuggestionAttribute(AddNutrientSuggestionAttributeRequest request)
+        {
+            if (request == null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(request.NutrientId);
+            if (nutrient is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid NutrientId"
+                };
+            var attribute = new NSAttribute()
+            {
+                NutrientId = request.NutrientId,
+                Nutrient = nutrient,
+                Amount = request.Amount,
+                MaxEnergyPercentage = request.MaxEnergyPercentage,
+                MaxValuePerDay = request.MaxValuePerDay,
+                MinAnimalProteinPercentageRequire = request.MinAnimalProteinPercentageRequire,
+                MinEnergyPercentage = request.MinEnergyPercentage,
+                MinValuePerDay = request.MinValuePerDay,
+                Unit = request.Unit,
+                Type = request.Type,                
+            };
+
+            await _unitOfWork.NSAttributeRepository.AddAsync(attribute);            
+
+            var ageGroup = await _unitOfWork.AgeGroupRepository.GetByIdAsync((Guid)request.AgeGroudId);
+            if (ageGroup is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid AgeGroupId"
+                };
+            var nutrientSuggestion = await _unitOfWork.NutrientSuggetionRepository.GetByIdAsync((Guid)request.NutrientSuggetionId);
+            if (nutrientSuggestion is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid NutrientSuggetionId"
+                };
+            var nutrientSuggestionRela = new NutrientSuggestionAttribute()
+            {
+                AgeGroudId = request.AgeGroudId,
+                AgeGroup = ageGroup,
+                NutrientSuggetionId = request.NutrientSuggetionId,
+                NutrientSuggetion = nutrientSuggestion,
+                Attribute = attribute,
+                AttributeId = attribute.Id,
+                Trimester = request.Trimester,
+            };
+           await _unitOfWork.NutrientSuggetionRepository.CreateNutrientSuggetionAttribute(nutrientSuggestionRela);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NSAttribute>()
+                {
+                    Error = 0,
+                    Data = attribute
+                };
+            return new Result<NSAttribute>()
+            {
+                Error = 1,
+                Message = "Create fail"
+            };
+        }
+
         public async Task<Result<NutrientSuggetion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request)
         {
             var nutrientSuggestion = new NutrientSuggetion()
@@ -103,6 +172,7 @@ namespace Server.Application.Services
 
                 return new Result<object>()
                 {
+                    Error = 0,
                     Data = new
                     {
                         Energy = energySuggestion.BaseCalories + energySuggestion.AdditionalCalories,

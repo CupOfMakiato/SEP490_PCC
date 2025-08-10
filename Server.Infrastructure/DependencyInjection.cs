@@ -68,8 +68,9 @@ namespace Server.Infrastructure
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IOfflineConsultationService, OfflineConsultationService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
-
+            services.AddScoped<IDishService, DishService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IAgeGroupService, AgeGroupService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -111,6 +112,7 @@ namespace Server.Infrastructure
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
           
             services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
+            services.AddScoped<INSAttributeRepository, NSAttributeRepository>();
 
 
             services.AddScoped<IClinicRepository, ClinicRepository>();
@@ -123,6 +125,7 @@ namespace Server.Infrastructure
             services.AddScoped<IChatThreadRepository, ChatThreadRepository>();
             services.AddScoped<IOfflineConsultationRepository, OfflineConsultationRepository>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IDishRepository, DishRepository>();
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();

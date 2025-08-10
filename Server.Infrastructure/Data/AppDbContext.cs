@@ -63,7 +63,7 @@ namespace Server.Infrastructure.Data
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<FoodDish> FoodDishes { get; set; }
-        public DbSet<ESAttribute> Attributes { get; set; }
+        public DbSet<NSAttribute> Attributes { get; set; }
         public DbSet<NutrientSuggestionAttribute> NutrientSuggestionsAttributes { get; set; }
 
         // Blogging System
@@ -290,6 +290,14 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<NutrientSuggestionAttribute>()
                 .HasIndex(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId })
                 .IsUnique();
+
+
+            //NSAttribute
+            modelBuilder.Entity<NSAttribute>()
+            .HasOne(nsa => nsa.Nutrient)
+            .WithMany(n => n.Attributes)
+            .HasForeignKey(nsa => nsa.NutrientId)
+            .OnDelete(DeleteBehavior.Restrict);
 
             // blogtag
 

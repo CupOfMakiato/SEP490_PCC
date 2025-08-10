@@ -30,6 +30,15 @@ namespace Server.Infrastructure.Repositories
             _context.Food.Remove(food);
         }
 
+        public async Task<bool> DeleteFoodNutrient(Guid foodId, Guid NutrientId)
+        {
+            var foodNutrient = await _context.FoodNutrient.FirstOrDefaultAsync(fn => fn.FoodId == foodId && fn.NutrientId == NutrientId);
+            if (foodNutrient == null)
+                return false;
+            _context.FoodNutrient.Remove(foodNutrient);
+            return true;
+        }
+
         public async Task<Food> GetFoodByIdAsync(Guid foodId)
         {
             return await _context.Food.Include(f => f.FoodNutrients)
@@ -46,6 +55,15 @@ namespace Server.Infrastructure.Repositories
                                       .Include(f => f.FoodCategory)
                                       .Include(f => f.FoodDiseaseWarning)
                                       .ToListAsync();
+        }
+
+        public async Task<Food> GetFoodWithFoodNutrient(Guid foodId, Guid NutrientId)
+        {
+            return await _dbSet
+                .Where(f => f.Id == foodId && f.FoodNutrients
+                    .Any(fn => fn.NutrientId == NutrientId))
+                .Include(f => f.FoodNutrients.Where(fn => fn.NutrientId == NutrientId))    
+                .FirstOrDefaultAsync();
         }
     }
 }

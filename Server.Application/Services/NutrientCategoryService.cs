@@ -35,6 +35,35 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<bool>> DeleteNutrientCategory(Guid nutrientCategoryId)
+        {
+            var nutrientCategory = await _unitOfWork.NutrientCategoryRepository.GetNutrientCategoryById(nutrientCategoryId);
+            if (nutrientCategory == null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Nutrient cateogry is not found"
+                };
+            if (nutrientCategory.Nutrients is not null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Cannot delete this category"
+                };
+            _unitOfWork.NutrientCategoryRepository.DeleteNutrientCategory(nutrientCategory);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Delete success"
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Delete failed"
+            };
+        }
+
         public async Task<NutrientCategory> GetNutrientCategoryByIdAsync(Guid nutrientCategoryId)
         {
             return await _unitOfWork.NutrientCategoryRepository.GetNutrientCategoryById(nutrientCategoryId);

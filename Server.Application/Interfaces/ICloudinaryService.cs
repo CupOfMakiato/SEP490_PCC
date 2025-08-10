@@ -20,5 +20,6 @@ namespace Server.Application.Interfaces
         Task<CloudinaryResponse> UploadOnlineConsultationAttachment(string fileName, IFormFile file, OnlineConsultation onlineConsultation);
         Task<CloudinaryResponse> UploadClinicImage(string fileName, IFormFile file, Clinic clinic);
         Task<CloudinaryResponse> UploadMessageAttachment(string fileName, IFormFile file, Message message);
+        Task<CloudinaryResponse> UploadImage(IFormFile file, string folderName);
     }
 }

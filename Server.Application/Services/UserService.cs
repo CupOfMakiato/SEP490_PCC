@@ -218,16 +218,21 @@ namespace Server.Application.Services
 
             _unitOfWork.UserRepository.Update(user);
             var result = await _unitOfWork.SaveChangeAsync();
+            if (result > 0)
+                return new Result<object>
+                {
+                    Error = 0,
+                    Data = new
+                    {
+                        user.UserName,
+                        user.PhoneNumber,
+                        user.DateOfBirth
+                    }
+                };
             return new Result<object>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Edit profile successfully." : "Failed to edit profile.",
-                Data = new
-                {
-                    user.UserName,
-                    user.PhoneNumber,
-                    user.DateOfBirth
-                }
+                Error = 1,
+                Message = "Failed to edit user profile.",
             };
         }
 
