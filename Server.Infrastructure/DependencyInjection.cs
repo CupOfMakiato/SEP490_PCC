@@ -54,10 +54,11 @@ namespace Server.Infrastructure
             services.AddScoped<IGrowthDataService, GrowthDataService>();       
 
             services.AddScoped<ICustomChecklistService, CustomChecklistService>();
+            services.AddScoped<ITemplateChecklistService, TemplateChecklistService>();
             services.AddScoped<ITailoredCheckupReminderService, TailoredCheckupReminderService>();
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
-            services.AddScoped<ISymptomService, SymptomService>();
+            services.AddScoped<IRecordedSymptomService, RecordedSymptomService>();
 
             services.AddScoped<IClinicService, ClinicService>();
             services.AddScoped<IDoctorService, DoctorService>();
@@ -101,9 +102,10 @@ namespace Server.Infrastructure
 
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<ICustomChecklistRepository, CustomChecklistRepository>();
+            services.AddScoped<ITemplateChecklistRepository, TemplateChecklistRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
-            services.AddScoped<ISymptomRepository, SymptomRepository>();
+            services.AddScoped<IRecordedSymptomRepository, RecordedSymptomRepository>();
             services.AddScoped<ITailoredCheckupReminderRepository, TailoredCheckupReminderRepository>();
 
             services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();

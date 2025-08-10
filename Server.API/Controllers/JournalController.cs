@@ -39,6 +39,14 @@ namespace Server.API.Controllers
             var result = await _journalService.ViewJournalById(journalId);
             return Ok(result);
         }
+        [HttpGet("view-journal-detail")]
+        [ProducesResponseType(200, Type = typeof(ViewJournalDetailDTO))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewJournalDetail(Guid journalId)
+        {
+            var result = await _journalService.ViewJournalDetail(journalId);
+            return Ok(result);
+        }
         [HttpGet("view-journal-by-growthdata-id/{growthDataId}")]
         [ProducesResponseType(200, Type = typeof(ViewJournalDTO))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]

@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Server.Infrastructure.Repositories
 {
-    public class SymptomRepository : GenericRepository<RecordedSymptom>, ISymptomRepository
+    public class RecordedSymptomRepository : GenericRepository<RecordedSymptom>, IRecordedSymptomRepository
     {
         private readonly AppDbContext _dbContext;
 
-        public SymptomRepository(AppDbContext dbContext,
+        public RecordedSymptomRepository(AppDbContext dbContext,
             ICurrentTime timeService,
             IClaimsService claimsService)
             : base(dbContext,
@@ -93,8 +93,6 @@ namespace Server.Infrastructure.Repositories
                     s.SymptomName.ToLower() == simplifiedString &&
                     (s.IsTemplate || s.CreatedBy == userId));
         }
-
-
 
     }
 }

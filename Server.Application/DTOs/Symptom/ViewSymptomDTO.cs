@@ -9,7 +9,9 @@ namespace Server.Application.DTOs.Symptom
     public class ViewSymptomDTO
     {
         public Guid Id { get; set; }
+        public Guid JournalId { get; set; }
         public string SymptomName { get; set; }
         public bool IsTemplate { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

@@ -116,6 +116,7 @@ namespace Server.Application.Services
                     Password = HashPassword(userRegistrationDto.PasswordHash),
                     Balance = 0,
                     PhoneNumber = userRegistrationDto.PhoneNo ?? userRegistrationDto.PhoneNo,
+                    //Address = null,
                     Status = StatusEnums.Pending,
                     Otp = otp,
                     IsStaff = false,

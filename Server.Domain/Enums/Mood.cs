@@ -8,11 +8,12 @@ namespace Server.Domain.Enums
 {
     public enum Mood
     {
-        Normal = 1,
-        Neutral = 2,
-        Happy = 3,
-        Sad = 4,
-        Angry = 5,
-        Excited = 6,
+        Sad = 1,
+        Terrible = 2,
+        Neutral = 3,
+        Normal = 4,
+        Happy = 5,
+        Anxious = 6,
+        Excited = 7,
     }
 }
