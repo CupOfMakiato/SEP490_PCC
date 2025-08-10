@@ -20,10 +20,16 @@ namespace Server.Infrastructure.Repositories
             _dbSet.Remove(nutrientCategory);
         }
 
-        public async Task<NutrientCategory> GetNutrientCategoryById(Guid vitaminCategoryId)
+        public async Task<NutrientCategory> GetNutrientCategoryById(Guid nutrientCategoryId)
         {
-            return await _context.NutrientCategory.Include(v => v.Nutrients)
-                                         .FirstOrDefaultAsync();
+            return await _context.NutrientCategory
+                .Include(v => v.Nutrients)                                         
+                .FirstOrDefaultAsync(nc => nc.Id == nutrientCategoryId);
+        }
+
+        public async Task<NutrientCategory> GetNutrientCategoryByName(string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(nc => nc.Name.Equals(name));
         }
 
         public async Task<List<NutrientCategory>> GetNutrientCategorys()

@@ -62,12 +62,21 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<bool> CreateFood(CreateFoodRequest request)
+        public async Task<Result<FoodDTO>> CreateFood(CreateFoodRequest request)
         {
             var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.FoodCategoryId);
             if (foodCategory is null)
-                return false;
-
+                return new Result<FoodDTO>()
+                {
+                    Error = 1,
+                    Message = "Food category is not found"
+                };
+            if (await _unitOfWork.FoodRepository.GetFoodByName(request.Name) != null)
+                return new Result<FoodDTO>()
+                {
+                    Error = 1,
+                    Message = "Name is duplicate"
+                };
             var food = new Food()
             {
                 Name = request.Name,
@@ -85,7 +94,18 @@ namespace Server.Application.Services
                 food.ImageUrl = "";
 
             await _unitOfWork.FoodRepository.AddAsync(food);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<FoodDTO>()
+                {
+                    Error = 0,
+                    Message = "Create success",
+                    Data = _mapper.Map<FoodDTO>(food)
+                };
+            return new Result<FoodDTO>()
+            {
+                Error = 1,
+                Message = "Create failed"
+            };
         }
 
         public async Task<bool> DeleteFood(Guid foodId)
@@ -163,6 +183,13 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Food is not found"
                 };
+            if (!food.Name.Equals(request.Name))
+                if (await _unitOfWork.FoodRepository.GetFoodByName(request.Name) != null)
+                    return new Result<FoodDTO>()
+                    {
+                        Error = 1,
+                        Message = "Name is duplicate"
+                    };
             food.SafetyNote = request.SafetyNote;
             food.Name = request.Name;
             food.Description = request.Description;

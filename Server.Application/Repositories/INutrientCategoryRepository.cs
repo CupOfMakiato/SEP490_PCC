@@ -7,5 +7,6 @@ namespace Server.Application.Repositories
         public Task<List<NutrientCategory>> GetNutrientCategorys();
         public Task<NutrientCategory> GetNutrientCategoryById(Guid nutrientCategoryId);
         public void DeleteNutrientCategory(NutrientCategory nutrientCategory);
+        public Task<NutrientCategory> GetNutrientCategoryByName(string name);
     }
 }

@@ -42,10 +42,11 @@ namespace Server.API.Controllers
 
             try
             {
-                if (!await _foodService.CreateFood(request))
-                    return BadRequest("Create fail");
+                var result = await _foodService.CreateFood(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
 
-                return Ok("Create success");
+                return Ok(result);
             }
             catch (Exception ex)
             {

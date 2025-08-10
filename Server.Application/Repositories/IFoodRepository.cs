@@ -9,5 +9,6 @@ namespace Server.Application.Repositories
         public void DeleteFood(Food food);
         public Task<bool> DeleteFoodNutrient(Guid foodId, Guid NutrientId);
         public Task<Food> GetFoodWithFoodNutrient(Guid foodId, Guid NutrientId);
+        public Task<Food> GetFoodByName(string name);
     }
 }
