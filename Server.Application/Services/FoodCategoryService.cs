@@ -36,7 +36,7 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Food cateogry is not found"
                 };
-            if (foodCategory.Foods is not null)
+            if (foodCategory.Foods.Count() != 0)
                 return new Result<bool>()
                 {
                     Error = 1,
@@ -46,7 +46,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<bool>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Message = "Delete success"
                 };
             return new Result<bool>()
