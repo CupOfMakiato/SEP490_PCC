@@ -22,7 +22,7 @@ namespace Server.Application.Services
                     Message = "Request is null"
                 };
             var food = await _unitOfWork.FoodCategoryRepository.GetFoodCategoryByName(request.Name);
-            if (food == null)
+            if (food != null)
                 return new Result<object>()
                 {
                     Error = 1,
