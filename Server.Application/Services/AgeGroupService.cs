@@ -51,7 +51,7 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "AgeGroup is not found"
                 };
-            if (ageGroup.EnergySuggestion != null || ageGroup.NutrientSuggetions != null)
+            if (ageGroup.EnergySuggestion != null || ageGroup.NutrientSuggetions.Count() > 0)
                 return new Result<AgeGroupDTO>()
                 {
                     Error = 1,
