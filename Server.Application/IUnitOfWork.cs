@@ -40,6 +40,7 @@ namespace Server.Application
         public IFeedbackRepository FeedbackRepository { get; }
         public INSAttributeRepository NSAttributeRepository { get; }
         public IDishRepository DishRepository { get; }
+        public IAllergyCategoryRepository AllergyCategoryRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }

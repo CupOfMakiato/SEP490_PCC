@@ -70,6 +70,7 @@ namespace Server.Infrastructure
             services.AddScoped<IDishService, DishService>();
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IAgeGroupService, AgeGroupService>();
+            services.AddScoped<IAllergyCategoryService, AllergyCategoryService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -124,6 +125,7 @@ namespace Server.Infrastructure
             services.AddScoped<IOfflineConsultationRepository, OfflineConsultationRepository>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
+            services.AddScoped<IAllergyCategoryRepository, AllergyCategoryRepository>();
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();
