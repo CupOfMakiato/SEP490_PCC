@@ -118,7 +118,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientCategory>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Data = nutrientCategory
                 };
             return new Result<NutrientCategory>()
