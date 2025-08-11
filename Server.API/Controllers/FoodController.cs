@@ -29,7 +29,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("add-food")]
-        public async Task<IActionResult> Create([FromBody] CreateFoodRequest request)
+        public async Task<IActionResult> Create(CreateFoodRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest("Name is required");
@@ -81,7 +81,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("update-food-image")]
-        public async Task<IActionResult> UpdateFoodImage([FromBody] UpdateFoodImageRequest request)
+        public async Task<IActionResult> UpdateFoodImage(UpdateFoodImageRequest request)
         {
             if (request.Id == Guid.Empty)
                 return BadRequest("Food Id is null or empty");

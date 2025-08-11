@@ -34,9 +34,6 @@ namespace Server.API.Controllers
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest("Name is required");
 
-            if (string.IsNullOrWhiteSpace(request.Unit))
-                return BadRequest("Unit is required");
-
             if (string.IsNullOrWhiteSpace(request.Description))
                 return BadRequest("Unit is required");
             if (request.ImageUrl is not null)
