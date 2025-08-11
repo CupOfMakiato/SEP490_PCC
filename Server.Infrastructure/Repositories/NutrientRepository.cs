@@ -34,7 +34,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.Nutrient.Include(v => v.FoodNutrients)
                                          .Include(v => v.NutrientCategory)
-                                         .FirstOrDefaultAsync();
+                                         .FirstOrDefaultAsync(n => n.Id == nutrientId);
         }
 
         public async Task<Nutrient> GetNutrientByName(string name)
