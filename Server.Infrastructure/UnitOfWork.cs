@@ -41,6 +41,7 @@ namespace Server.Infrastructure
         private readonly IClinicRepository _clinicRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IConsultantRepository _consultantRepository;
+        private readonly IAllergyCategoryRepository _allergyCategoryRepository;
         private readonly IScheduleRepository _scheduleRepository;
         private readonly ISlotRepository _slotRepository;
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
@@ -87,7 +88,7 @@ namespace Server.Infrastructure
             IMessageRepository messageRepository,
             IChatThreadRepository chatThreadRepository,
             IOfflineConsultationRepository offlineConsultationRepository,
-
+            IAllergyCategoryRepository allergyCategoryRepository,
             INutrientSuggetionRepository nutrientSuggetionRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
             INSAttributeRepository iNSAttributeRepository,
@@ -122,6 +123,7 @@ namespace Server.Infrastructure
             _clinicRepository = clinicRepository;
             _doctorRepository = doctorRepository;
             _consultantRepository = consultantRepository;
+            _allergyCategoryRepository = allergyCategoryRepository;
             _scheduleRepository = scheduleRepository;
             _slotRepository = slotRepository;
             _onlineConsultationRepository = onlineConsultationRepository;
@@ -170,7 +172,7 @@ namespace Server.Infrastructure
         public IMessageRepository MessageRepository => _messageRepository;
         public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
         public IOfflineConsultationRepository OfflineConsultationRepository => _offlineConsultationRepository;
-
+        public IAllergyCategoryRepository AllergyCategoryRepository => _allergyCategoryRepository;
         public IDishRepository DishRepository => _dishRepository;
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
 
