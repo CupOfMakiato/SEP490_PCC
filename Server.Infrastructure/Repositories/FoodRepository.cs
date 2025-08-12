@@ -42,6 +42,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<Food> GetFoodByIdAsync(Guid foodId)
         {
             return await _context.Food.Include(f => f.FoodNutrients)
+                                        .ThenInclude(fn => fn.Nutrient)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
                                       .Include(f => f.FoodDiseaseWarning)
@@ -56,6 +57,7 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<Food>> GetFoodsAsync()
         {
             return await _context.Food.Include(f => f.FoodNutrients)
+                                        .ThenInclude(fn => fn.Nutrient)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
                                       .Include(f => f.FoodDiseaseWarning)

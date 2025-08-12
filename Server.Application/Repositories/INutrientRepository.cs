@@ -9,5 +9,6 @@ namespace Server.Application.Repositories
         public void DeleteNutrient(Nutrient nutrient);
         public Task<List<Nutrient>> GetByListName(List<string> names);
         public Task<Nutrient> GetNutrientByName(string name);
+        public Task<Nutrient> GetNutrientByNameAndNutrientId(Guid NutrientId, string name);
     }
 }

@@ -42,6 +42,11 @@ namespace Server.Infrastructure.Repositories
             return await _dbSet.FirstOrDefaultAsync(n => n.Name.Equals(name));
         }
 
+        public async Task<Nutrient> GetNutrientByNameAndNutrientId(Guid NutrientId, string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(n => n.Id == NutrientId && n.Name.Equals(name));
+        }
+
         public async Task<IEnumerable<Nutrient>> GetNutrients()
         {
             return await _context.Nutrient.Include(v => v.FoodNutrients)

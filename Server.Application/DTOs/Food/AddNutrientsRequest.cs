@@ -3,6 +3,6 @@
     public class AddNutrientsRequest
     {
         public Guid FoodId { get; set; }
-        public List<string> NutrientsNames = new List<string>();
+        public List<AddNutrientDetail> Nutrients { get; set; }
     }
 }
