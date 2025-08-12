@@ -7,8 +7,8 @@ namespace Server.Application.Interfaces
 {
     public interface IFoodService
     {
-        public Task<FoodDTO> GetFoodByIdAsync(Guid foodId);
-        public Task<List<FoodDTO>> GetFoodsAsync();
+        public Task<ViewFoodResponse> GetFoodByIdAsync(Guid foodId);
+        public Task<List<ViewFoodResponse>> GetFoodsAsync();
         public Task<bool> SoftDeleteFood(Guid foodId);
         public Task<bool> DeleteFood(Guid foodId);
         public Task<Result<FoodDTO>> CreateFood(CreateFoodRequest request);

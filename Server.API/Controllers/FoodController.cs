@@ -199,14 +199,28 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("add-nutrients-to-food")]
-        public async Task<IActionResult> AddNutrients([FromBody] AddNutrientsRequest request)
+        public async Task<IActionResult> AddNutrients(AddNutrientsRequest request)
         {
             if (request.FoodId == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
-            if (request.NutrientsNames.Count <= 0)
-                return BadRequest("List cannot be null");
-            if (request.NutrientsNames.Any(string.IsNullOrEmpty))
-                return BadRequest("Element in list cannot be null or empty");
+
+            if (request.Nutrients == null || request.Nutrients.Count == 0)
+                return BadRequest("Nutrient list cannot be null or empty");
+
+            // Check each nutrient entry
+            foreach (var nutrient in request.Nutrients)
+            {
+                if (!nutrient.NutrientId.HasValue || nutrient.NutrientId == Guid.Empty)
+                {
+                    return BadRequest("Each nutrient must have either an Id or a Name (or both).");
+                }
+
+                // You can also validate numeric values if needed
+                if (nutrient.NutrientEquivalent < 0 || nutrient.AmountPerUnit < 0 || nutrient.TotalWeight < 0)
+                {
+                    return BadRequest("Numeric nutrient values cannot be negative.");
+                }
+            }
 
             try
             {

@@ -8,6 +8,6 @@
         public Guid CategoryId { get; set; }
         public NutrientCategory NutrientCategory { get; set; }
         public List<NSAttribute>? Attributes { get; set; }
-        public IEnumerable<FoodNutrient>? FoodNutrients { get; set; }
+        public List<FoodNutrient>? FoodNutrients { get; set; }
     }
 }
