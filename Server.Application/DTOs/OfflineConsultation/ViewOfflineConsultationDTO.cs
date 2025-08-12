@@ -9,6 +9,7 @@ namespace Server.Application.DTOs.OfflineConsultation
     public class ViewOfflineConsultationDTO
     {
         public Guid Id { get; set; }
+        public string CheckupName { get; set; }
         public ConsultationType ConsultationType { get; set; }
         public string Status { get; set; } //"Pending", "Confirmed", "Cancelled" v.v.
         public DateTime StartDate { get; set; }
