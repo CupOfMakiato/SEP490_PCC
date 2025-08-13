@@ -11,7 +11,7 @@ namespace Server.Domain.Entities
     public class GrowthData : BaseEntity
     {
         //public int Height { get; set; } // might remove
-        public float PreWeight { get; set; } // Weight before pregnancy
+        public float? PreWeight { get; set; } // Weight before pregnancy
         public DateTime FirstDayOfLastMenstrualPeriod { get; set; }
         public int GestationalAgeInWeeks { get; set; } = 40;
         public DateTime EstimatedDueDate { get; set; }

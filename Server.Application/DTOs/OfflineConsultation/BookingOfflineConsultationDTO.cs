@@ -8,6 +8,7 @@ namespace Server.Application.DTOs.OfflineConsultation
     {
         public Guid UserId { get; set; }
         public Guid DoctorId { get; set; }
+        public string CheckupName { get; set; }
         public ConsultationType ConsultationType { get; set; }
         public string? HealthNote { get; set; }
         public List<IFormFile>? Attachments { get; set; }

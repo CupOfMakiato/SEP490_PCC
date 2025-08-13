@@ -127,6 +127,27 @@ namespace Server.Application.Services
                 Data = result
             };
         }
+        public async Task<Result<List<ViewCustomChecklistDTO>>> ViewCustomChecklistsByGrowthData(Guid growthDataId)
+        {
+            var currentUser = _claimsService.GetCurrentUserId;
+            if (currentUser == null || currentUser == Guid.Empty)
+            {
+                return new Result<List<ViewCustomChecklistDTO>>
+                {
+                    Error = 1,
+                    Message = "User does not found!",
+                    Data = null
+                };
+            }
+            var checklists = await _customChecklistRepository.GetCustomChecklistsByGrowthDataId(growthDataId);
+            var result = _mapper.Map<List<ViewCustomChecklistDTO>>(checklists);
+            return new Result<List<ViewCustomChecklistDTO>>
+            {
+                Error = 0,
+                Message = "Retrieved custom checklists by growth data successfully",
+                Data = result
+            };
+        }
         public async Task<Result<object>> CreateNewCustomChecklist(CreateCustomChecklistDTO CreateCustomChecklistDTO)
         {
             var user = _claimsService.GetCurrentUserId;

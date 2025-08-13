@@ -5,6 +5,7 @@ using Server.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,8 +35,9 @@ namespace Server.Infrastructure
         private readonly IAgeGroupRepository _ageGroupRepository;
         private readonly IEnergySuggestionRepository _energySuggestionRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
-        private readonly ISymptomRepository _symptomRepository;
+        private readonly IRecordedSymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
+        private readonly ITemplateChecklistRepository _templateChecklistRepository;
 
         private readonly IClinicRepository _clinicRepository;
         private readonly IDoctorRepository _doctorRepository;
@@ -75,9 +77,11 @@ namespace Server.Infrastructure
             IMediaRepository mediaRepository,
             IMealRepository mealRepository,
             ISymptomRepository symptomRepository,
+            IRecordedSymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
             ICustomChecklistRepository customChecklistRepository,
+            ITemplateChecklistRepository templateChecklistRepository,
             IClinicRepository clinicRepository,
             IDoctorRepository doctorRepository,
             IConsultantRepository consultantRepository,
@@ -119,6 +123,7 @@ namespace Server.Infrastructure
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
             _customChecklistRepository = customChecklistRepository;
+            _templateChecklistRepository = templateChecklistRepository;
             _clinicRepository = clinicRepository;
             _doctorRepository = doctorRepository;
             _consultantRepository = consultantRepository;
@@ -146,6 +151,7 @@ namespace Server.Infrastructure
         public ILikeRepository LikeRepository => _likeRepository;
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
         public ICustomChecklistRepository CustomChecklistRepository => _customChecklistRepository;
+        public ITemplateChecklistRepository TemplateChecklistRepository => _templateChecklistRepository;
         public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository => _tailoredCheckupReminderRepository;
         public IJournalRepository JournalRepository => _journalRepository;
         public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
@@ -157,7 +163,7 @@ namespace Server.Infrastructure
         public IMediaRepository MediaRepository => _mediaRepository;
         public IAgeGroupRepository AgeGroupRepository => _ageGroupRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
-        public ISymptomRepository SymptomRepository => _symptomRepository;
+        public IRecordedSymptomRepository SymptomRepository => _symptomRepository;
         public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
         public INutrientSuggetionRepository NutrientSuggetionRepository => _nutrientSuggetionRepository;
         public IClinicRepository ClinicRepository => _clinicRepository;

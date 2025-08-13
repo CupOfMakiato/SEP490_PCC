@@ -17,14 +17,14 @@ using Server.Application.Mappers.SymptomExtensions;
 namespace Server.API.Controllers
 {
     [ApiController]
-    [Route("api/symptom")]
-    public class SymptomController : ControllerBase
+    [Route("api/recorded-symptom")]
+    public class RecordedSymptomController : ControllerBase
     {
-        private readonly ISymptomService _symptomService;
+        private readonly IRecordedSymptomService _symptomService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IClaimsService _claimsService;
 
-        public SymptomController(ISymptomService symptomService, IUnitOfWork unitOfWork, IClaimsService claimsService)
+        public RecordedSymptomController(IRecordedSymptomService symptomService, IUnitOfWork unitOfWork, IClaimsService claimsService)
         {
             _symptomService = symptomService;
             _unitOfWork = unitOfWork;
@@ -34,9 +34,9 @@ namespace Server.API.Controllers
         [HttpGet("view-all-symptoms")]
         [ProducesResponseType(200, Type = typeof(Result<ViewTagDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> ViewAllSymptoms()
+        public async Task<IActionResult> ViewAllSymptoms(Guid journalId)
         {
-            var result = await _symptomService.ViewAllSymptoms();
+            var result = await _symptomService.ViewAllSymptoms(journalId);
             return Ok(result);
         }
 
@@ -82,6 +82,34 @@ namespace Server.API.Controllers
 
             return Ok(result);
         }
+        [HttpPut("update-custom-symptom")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewSymptomDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> EditTemplateSymptom([FromForm] EditSymptomRequest req)
+        {
+            var validator = new EditSymptomRequestValidator();
+            var validationResult = validator.Validate(req);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(new Result<object>
+                {
+                    Error = 1,
+                    Message = "Missing or invalid value!",
+                    Data = validationResult.Errors.Select(e => e.ErrorMessage)
+                });
+            }
+            var dto = req.ToEditSymptomDTO();
+            var result = await _symptomService.EditCustomSymptom(dto);
+            return Ok(result);
+        }
 
+        [HttpDelete("delete-recorded-symptom")]
+        [ProducesResponseType(200, Type = typeof(Result<ViewSymptomDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> DeleteRecordedSymptom(Guid id)
+        {
+            var result = await _symptomService.DeleteRecordedSymptom(id);
+            return Ok(result);
+        }
     }
 }
