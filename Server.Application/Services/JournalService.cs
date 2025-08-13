@@ -56,7 +56,7 @@ namespace Server.Application.Services
                 CurrentWeek = journal.CurrentWeek,
                 CurrentTrimester = journal.CurrentTrimester,
                 Note = journal.Note,
-                //CurrentWeight = (float)journal.CurrentWeight,
+                CurrentWeight = journal.CurrentWeight,
                 Mood = journal.MoodNotes.ToString(),
                 CreatedByUser = journal.JournalCreatedBy != null
                     ? new GetUserDTO
@@ -88,6 +88,11 @@ namespace Server.Application.Services
                 Id = journal.Id,
                 CurrentWeek = journal.CurrentWeek,
                 CurrentTrimester = journal.CurrentTrimester,
+                CurrentWeight = journal.CurrentWeight,
+                SystolicBP = journal.SystolicBP,
+                DiastolicBP = journal.DiastolicBP,
+                HeartRateBPM = journal.HeartRateBPM,
+                BloodSugarLevelMgDl = journal.BloodSugarLevelMgDl,
                 Note = journal.Note,
                 Mood = journal.MoodNotes.ToString(),
                 CreatedByUser = journal.JournalCreatedBy != null
@@ -129,12 +134,12 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<ViewJournalDTO>> ViewJournalById(Guid journalId)
+        public async Task<Result<ViewJournalDetailDTO>> ViewJournalById(Guid journalId)
         {
             var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
             if (journal == null)
             {
-                return new Result<ViewJournalDTO>
+                return new Result<ViewJournalDetailDTO>
                 {
                     Error = 1,
                     Message = "Journal not found",
@@ -142,9 +147,9 @@ namespace Server.Application.Services
                 };
             }
 
-            var dto = await MapJournalToViewJournalDTO(journal);
+            var dto = await MapJournalToViewJournalDetailDTO(journal);
 
-            return new Result<ViewJournalDTO>
+            return new Result<ViewJournalDetailDTO>
             {
                 Error = 0,
                 Message = "View journal by id successfully",

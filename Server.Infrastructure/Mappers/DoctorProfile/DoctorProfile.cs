@@ -8,8 +8,10 @@ namespace Server.Infrastructure.Mappers.DoctorProfile
     {
         public DoctorProfile()
         {
-            CreateMap<ViewDoctorDTO, Doctor>().ReverseMap()
-                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id)); ;
+            CreateMap<ViewDoctorDTO, Doctor>()
+                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id))
+                .ReverseMap();
+                
             CreateMap<AddDoctorDTO, Doctor>().ReverseMap();
             CreateMap<UpdateDoctorDTO, Doctor>().ReverseMap();
         }

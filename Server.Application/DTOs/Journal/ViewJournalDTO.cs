@@ -14,7 +14,7 @@ namespace Server.Application.DTOs.Journal
         public int CurrentWeek { get; set; }
         public int CurrentTrimester { get; set; }
         public string Note { get; set; }
-        public float CurrentWeight { get; set; }
+        public float? CurrentWeight { get; set; }
         public List<SymptomDTO> Symptoms { get; set; }
         public string Mood { get; set; }
         public GetUserDTO? CreatedByUser { get; set; }
