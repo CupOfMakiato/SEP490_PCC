@@ -11,7 +11,7 @@ namespace Server.Application.Interfaces
         public Task<FoodCategory> GetFoodCategoryWithFoodByIdAsync(Guid foodCategoryId);
         public Task<bool> SoftDeleteFoodCategory(Guid foodCategoryId);
         public Task<Result<bool>> DeleteFoodCategory(Guid foodCategoryId);
-        public Task<bool> CreateFoodCategory(CreateFoodCategoryRequest request);
-        public Task<bool> UpdateFoodCategory(UpdateFoodCategoryRequest request);
+        public Task<Result<object>> CreateFoodCategory(CreateFoodCategoryRequest request);
+        public Task<Result<object>> UpdateFoodCategory(UpdateFoodCategoryRequest request);
     }
 }

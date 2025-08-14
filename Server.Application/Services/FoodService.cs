@@ -21,30 +21,43 @@ namespace Server.Application.Services
 
         public async Task<Result<Food>> AddNutrientsByNames(AddNutrientsRequest request)
         {
-            var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.FoodId);
-            if (food is null)
-                return new Result<Food>()
+            var food = await _unitOfWork.FoodRepository.GetFoodByIdAsync(request.FoodId);
+            if (food == null)
+                return new Result<Food> { Error = 1, Message = "Food does not exist." };
+
+            foreach (var reqNutrient in request.Nutrients)
+            {
+                Nutrient nutrientEntity = null;
+
+                if (reqNutrient.NutrientId.HasValue)
                 {
-                    Error = 1,
-                    Message = "Food is not exist."
-                };
-            List<Nutrient> nutrients = await _unitOfWork.NutrientRepository.GetByListName(request.NutrientsNames);
-            if (nutrients is null)
-                return new Result<Food>()
+                    nutrientEntity = await _unitOfWork.NutrientRepository
+                        .GetByIdAsync((Guid)reqNutrient.NutrientId);
+                }
+
+                // If no nutrient found -> skip or return error
+                if (nutrientEntity == null)
+                    continue;
+
+                // Skip if already exists
+                if (food.FoodNutrients.Any(fn => fn.NutrientId == nutrientEntity.Id))
+                    continue;
+
+                // Create and add FoodNutrient
+                var foodNutrient = new FoodNutrient
                 {
-                    Error = 1,
-                    Message = "Didn't find any nutrient."
+                    FoodId = food.Id,
+                    NutrientId = nutrientEntity.Id,
+                    NutrientEquivalent = reqNutrient.NutrientEquivalent,
+                    Unit = reqNutrient.Unit,
+                    AmountPerUnit = reqNutrient.AmountPerUnit,
+                    TotalWeight = reqNutrient.TotalWeight,
+                    FoodEquivalent = reqNutrient.FoodEquivalent,
+                    Nutrient = nutrientEntity
                 };
 
-            var containedNutrients = new List<Nutrient>();
-            nutrients.ForEach(nutrient =>
-                {
-                    if (food.FoodNutrients.Any(f => f.NutrientId.Equals(nutrient.Id)))
-                        containedNutrients.Add(nutrient);
-                });
-            nutrients.RemoveAll(containedNutrients.Contains);
-            food.FoodNutrients.ToList().AddRange((IEnumerable<FoodNutrient>)nutrients);
-            _unitOfWork.FoodRepository.Update(food);
+                food.FoodNutrients.Add(foodNutrient);
+            }
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
                 return new Result<Food>()
@@ -62,12 +75,21 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<bool> CreateFood(CreateFoodRequest request)
+        public async Task<Result<FoodDTO>> CreateFood(CreateFoodRequest request)
         {
             var foodCategory = await _unitOfWork.FoodCategoryRepository.GetByIdAsync(request.FoodCategoryId);
             if (foodCategory is null)
-                return false;
-
+                return new Result<FoodDTO>()
+                {
+                    Error = 1,
+                    Message = "Food category is not found"
+                };
+            if (await _unitOfWork.FoodRepository.GetFoodByName(request.Name) != null)
+                return new Result<FoodDTO>()
+                {
+                    Error = 1,
+                    Message = "Name is duplicate"
+                };
             var food = new Food()
             {
                 Name = request.Name,
@@ -77,8 +99,26 @@ namespace Server.Application.Services
                 PregnancySafe = request.PregnancySafe,
                 FoodCategory = foodCategory,
             };
+
+            var uploadImageResponse = await _cloudinaryService.UploadImage(request.image, "Food");
+            if (uploadImageResponse != null)
+                food.ImageUrl = uploadImageResponse.FileUrl;
+            else
+                food.ImageUrl = "";
+
             await _unitOfWork.FoodRepository.AddAsync(food);
-            return await _unitOfWork.SaveChangeAsync() > 0;
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<FoodDTO>()
+                {
+                    Error = 0,
+                    Message = "Create success",
+                    Data = _mapper.Map<FoodDTO>(food)
+                };
+            return new Result<FoodDTO>()
+            {
+                Error = 1,
+                Message = "Create failed"
+            };
         }
 
         public async Task<bool> DeleteFood(Guid foodId)
@@ -92,14 +132,14 @@ namespace Server.Application.Services
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 
-        public async Task<FoodDTO> GetFoodByIdAsync(Guid foodId)
+        public async Task<ViewFoodResponse> GetFoodByIdAsync(Guid foodId)
         {
-            return _mapper.Map<FoodDTO>(await _unitOfWork.FoodRepository.GetFoodByIdAsync(foodId));
+            return _mapper.Map<ViewFoodResponse>(await _unitOfWork.FoodRepository.GetFoodByIdAsync(foodId));
         }
 
-        public async Task<List<FoodDTO>> GetFoodsAsync()
+        public async Task<List<ViewFoodResponse>> GetFoodsAsync()
         {
-            return _mapper.Map<List<FoodDTO>>(await _unitOfWork.FoodRepository.GetFoodsAsync());
+            return _mapper.Map<List<ViewFoodResponse>>(await _unitOfWork.FoodRepository.GetFoodsAsync());
         }
 
         public async Task<Result<bool>> RemoveFoodNutrient(RemoveFoodNutrientRequest request)
@@ -156,6 +196,13 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Food is not found"
                 };
+            if (!food.Name.Equals(request.Name))
+                if (await _unitOfWork.FoodRepository.GetFoodByName(request.Name) != null)
+                    return new Result<FoodDTO>()
+                    {
+                        Error = 1,
+                        Message = "Name is duplicate"
+                    };
             food.SafetyNote = request.SafetyNote;
             food.Name = request.Name;
             food.Description = request.Description;

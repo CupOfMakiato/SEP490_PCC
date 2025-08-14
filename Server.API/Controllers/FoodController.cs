@@ -29,7 +29,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("add-food")]
-        public async Task<IActionResult> Create([FromBody] CreateFoodRequest request)
+        public async Task<IActionResult> Create(CreateFoodRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest("Name is required");
@@ -42,10 +42,11 @@ namespace Server.API.Controllers
 
             try
             {
-                if (!await _foodService.CreateFood(request))
-                    return BadRequest("Create fail");
+                var result = await _foodService.CreateFood(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
 
-                return Ok("Create success");
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -80,12 +81,12 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("update-food-image")]
-        public async Task<IActionResult> UpdateFoodImage([FromBody] UpdateFoodImageRequest request)
+        public async Task<IActionResult> UpdateFoodImage(UpdateFoodImageRequest request)
         {
             if (request.Id == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
             if (request.image is not null)
-                if (request.image.Length > 0 && request.image.Length <= 5 * 1024 * 1024)
+                if (request.image.Length < 0 && request.image.Length >= 5 * 1024 * 1024)
                     return
                         BadRequest("Image must be smaller than 5mb");
             try
@@ -198,14 +199,28 @@ namespace Server.API.Controllers
         }
 
         [HttpPut("add-nutrients-to-food")]
-        public async Task<IActionResult> AddNutrients([FromBody] AddNutrientsRequest request)
+        public async Task<IActionResult> AddNutrients(AddNutrientsRequest request)
         {
             if (request.FoodId == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
-            if (request.NutrientsNames.Count <= 0)
-                return BadRequest("List cannot be null");
-            if (request.NutrientsNames.Any(string.IsNullOrEmpty))
-                return BadRequest("Element in list cannot be null or empty");
+
+            if (request.Nutrients == null || request.Nutrients.Count == 0)
+                return BadRequest("Nutrient list cannot be null or empty");
+
+            // Check each nutrient entry
+            foreach (var nutrient in request.Nutrients)
+            {
+                if (!nutrient.NutrientId.HasValue || nutrient.NutrientId == Guid.Empty)
+                {
+                    return BadRequest("Each nutrient must have either an Id or a Name (or both).");
+                }
+
+                // You can also validate numeric values if needed
+                if (nutrient.NutrientEquivalent < 0 || nutrient.AmountPerUnit < 0 || nutrient.TotalWeight < 0)
+                {
+                    return BadRequest("Numeric nutrient values cannot be negative.");
+                }
+            }
 
             try
             {

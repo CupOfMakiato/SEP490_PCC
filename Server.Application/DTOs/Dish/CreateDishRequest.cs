@@ -2,6 +2,6 @@
 {
     public class CreateDishRequest
     {
-        public List<FoodDishDto> foodList {  get; set; }
+        public List<FoodDishDTO> foodList {  get; set; }
     }
 }

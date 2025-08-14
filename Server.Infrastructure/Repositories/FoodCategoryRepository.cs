@@ -30,6 +30,9 @@ namespace Server.Infrastructure.Repositories
         public async Task<FoodCategory> GetFoodCategoryByIdAsync(Guid foodCategoryId) => 
             await _context.FoodCategory.Include(fc => fc.Foods).FirstOrDefaultAsync(fc => fc.Id.Equals(foodCategoryId));
 
+        public async Task<FoodCategory> GetFoodCategoryByName(string Name) =>
+            await _context.FoodCategory.FirstOrDefaultAsync(fc => fc.Name.Equals(Name));
+
         public async Task<List<FoodCategory>> GetFoodCategorysAsync() =>
             await _context.FoodCategory.Include(fc => fc.Foods).ToListAsync();
     }

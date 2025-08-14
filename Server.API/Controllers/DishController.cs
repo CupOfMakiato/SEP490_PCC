@@ -16,8 +16,8 @@ namespace Server.API.Controllers
             _dishService = dishService;
         }
 
-        [HttpGet("{dishId}")]
-        public async Task<IActionResult> GetDishByIdAsync(Guid dishId)
+        [HttpGet("view-dish-by-id")]
+        public async Task<IActionResult> GetDishByIdAsync([FromQuery] Guid dishId)
         {
             var result = await _dishService.GetDishByIdAsync(dishId);
             if (result.Error == 1)
@@ -26,35 +26,35 @@ namespace Server.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpGet]
+        [HttpGet("view-all-dishes")]
         public async Task<IActionResult> GetDishsAsync()
         {
             var result = await _dishService.GetDishsAsync();
             if (result.Error == 1)
-                return BadRequest(result.Message);
+                return BadRequest(result);
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
-        [HttpPut("soft-delete/{dishId}")]
-        public async Task<IActionResult> SoftDeleteDish(Guid dishId)
+        [HttpPut("soft-delete-dish-by-id")]
+        public async Task<IActionResult> SoftDeleteDish([FromQuery] Guid dishId)
         {
             var result = await _dishService.SoftDeleteDish(dishId);
             if (result.Error == 1)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+                return BadRequest(result);
+            return Ok(result);
         }
 
-        [HttpDelete("{dishId}")]
-        public async Task<IActionResult> DeleteDish(Guid dishId)
+        [HttpDelete("delete-dish-by-id")]
+        public async Task<IActionResult> DeleteDish([FromQuery] Guid dishId)
         {
             var result = await _dishService.DeleteDish(dishId);
             if (result.Error == 1)
-                return BadRequest(result.Message);
-            return Ok(result.Message);
+                return BadRequest(result);
+            return Ok(result);
         }
 
-        [HttpPost("CreateDish")]
+        [HttpPost("add-dish")]
         public async Task<IActionResult> CreateDish([FromBody] CreateDishRequest request)
         {
             if (request == null)
@@ -63,9 +63,8 @@ namespace Server.API.Controllers
                 return BadRequest("Foodlist must not be null");
             var result = await _dishService.CreateDish(request);
             if (result.Error == 1)
-                return BadRequest(result.Message);
-
-            return Ok(result.Data);
+                return BadRequest(result);
+            return Ok(result);
         }
 
         [HttpPut("update-dish")]
@@ -77,8 +76,8 @@ namespace Server.API.Controllers
                 return BadRequest("Foodlist must not be null");
             var result = await _dishService.UpdateDish(request);
             if (result.Error == 1)
-                return BadRequest(result.Message);
-            return Ok(result.Data);
+                return BadRequest(result);
+            return Ok(result);
         }
     }
 }

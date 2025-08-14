@@ -17,6 +17,13 @@ namespace Server.Application.Services
 
         public async Task<Result<NutrientCategory>> CreateNutrientCategory(CreateNutrientCategoryRequest request)
         {
+            var nutrientCa = await _unitOfWork.NutrientCategoryRepository.GetNutrientCategoryByName(request.Name);
+            if (nutrientCa != null)
+                return new Result<NutrientCategory>()
+                {
+                    Error = 1,
+                    Message = "Name is duplicate"
+                };
             var nutrientCategory = new NutrientCategory()
             {
                 Name = request.Name,
@@ -26,10 +33,11 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientCategory>()
                 {
+                    Error = 0,
                     Data = nutrientCategory
                 };
-            return new Result<NutrientCategory>() 
-            { 
+            return new Result<NutrientCategory>()
+            {
                 Error = 1,
                 Message = "Create fail"
             };
@@ -44,7 +52,7 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Nutrient cateogry is not found"
                 };
-            if (nutrientCategory.Nutrients is not null)
+            if (nutrientCategory.Nutrients.Count() != 0)
                 return new Result<bool>()
                 {
                     Error = 1,
@@ -54,7 +62,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<bool>()
                 {
-                    Error = 1,
+                    Error = 0,
                     Message = "Delete success"
                 };
             return new Result<bool>()
@@ -95,6 +103,13 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Invalid Id"
                 };
+            if (!nutrientCategory.Name.Equals(request.Name))
+                if (await _unitOfWork.NutrientCategoryRepository.GetNutrientCategoryByName(request.Name) != null)
+                    return new Result<NutrientCategory>()
+                    {
+                        Error = 1,
+                        Message = "Name is duplicate"
+                    };
 
             nutrientCategory.Name = request.Name;
             nutrientCategory.Description = request.Description;
@@ -103,6 +118,7 @@ namespace Server.Application.Services
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<NutrientCategory>()
                 {
+                    Error = 0,
                     Data = nutrientCategory
                 };
             return new Result<NutrientCategory>()
