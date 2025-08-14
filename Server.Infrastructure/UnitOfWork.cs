@@ -76,7 +76,6 @@ namespace Server.Infrastructure
             IBasicBioMetricRepository basicBioMetricRepository,
             IMediaRepository mediaRepository,
             IMealRepository mealRepository,
-            ISymptomRepository symptomRepository,
             IRecordedSymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
