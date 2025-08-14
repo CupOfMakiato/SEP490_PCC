@@ -149,6 +149,74 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
                 );
+            modelBuilder.Entity<Blog>().HasData(
+                new Blog
+                {
+                    Id = Guid.Parse("26872b7a-1b74-4403-bf2f-e92d6d4f15c4"),
+                    Title = "Welcome to Your First Trimester Journey",
+                    Body = "Congratulations on your pregnancy! This blog will help you get oriented: what to expect, where to share stories, and how to find support as you begin the first trimester.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("94aa1f89-9765-4771-81d4-adc2083bdd38"),
+                    Title = "Common First-Trimester Symptoms & What’s Normal",
+                    Body = "Discussing early pregnancy symptoms like bloating, fatigue, breast tenderness, and spotting. When to call a doctor—and when to relax and go with the flow.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("49c67e45-f583-4ad6-9b9d-a1e60c9dc75e"),
+                    Title = "Coping with Morning Sickness and Fatigue",
+                    Body = "From eating small, frequent meals to resting when needed, share practical tips for managing early pregnancy exhaustion and nausea.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("9624a1fe-176c-43b7-804e-05fc85d4490b"),
+                    Title = "Safe Workouts in the First Trimester",
+                    Body = "If you were active before pregnancy, discover modifications and when to pause core workouts—especially ab-focused routines—as your body changes early on.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("d828c580-d83b-4147-b110-91a7cb25b176"),
+                    Title = "First-Trimester Emotional Roller Coaster",
+                    Body = "Share stories and realize you’re not alone—whether it’s anxieties, excitement, or feeling like you ‘failed the first trimester.’ Real talk from real moms-to-be.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e0"),
+                    Title = "Healthy Eating During Pregnancy",
+                    Body = "Eating a balanced diet is crucial for the health of both the mother and the baby during pregnancy. It is important to include a variety of foods from all food groups to ensure that both mother and baby receive the necessary nutrients.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                }
+            );
             modelBuilder.Entity<RecordedSymptom>().HasData(
                 new RecordedSymptom
                 {
