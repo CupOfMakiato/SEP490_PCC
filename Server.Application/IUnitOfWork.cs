@@ -42,7 +42,7 @@ namespace Server.Application
         public INSAttributeRepository NSAttributeRepository { get; }
         public IDishRepository DishRepository { get; }
         public IAllergyCategoryRepository AllergyCategoryRepository { get; }
-
+        public IMealRepository MealRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

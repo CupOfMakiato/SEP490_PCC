@@ -1,4 +1,5 @@
-﻿using Google;
+﻿using AutoMapper;
+using Google;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Dish;
 using Server.Application.Interfaces;
@@ -10,15 +11,17 @@ namespace Server.Application.Services
     {
         private readonly ICloudinaryService _cloudinaryService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public DishService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService)
+        public DishService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService, IMapper mapper)
         {
             _cloudinaryService = cloudinaryService;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public async Task<Result<GetDishResponse>> GetDishByIdAsync(Guid dishId)
         {
-            var dish = await _unitOfWork.DishRepository.GetByIdAsync(dishId);
+            var dish = await _unitOfWork.DishRepository.GetDishById(dishId);
             if (dish == null)
                 return new Result<GetDishResponse>()
                 {
@@ -28,17 +31,17 @@ namespace Server.Application.Services
             return new Result<GetDishResponse>()
             {
                 Error = 0,
-                //Data = dish
+                Data = _mapper.Map<GetDishResponse>(dish)
             };
         }
 
         public async Task<Result<List<GetDishResponse>>> GetDishsAsync()
         {
-            var dishes = await _unitOfWork.DishRepository.GetAllAsync();
+            var dishes = await _unitOfWork.DishRepository.GetAllDishes();
             return new Result<List<GetDishResponse>>()
             {
                 Error = 0,
-                //Data = dish
+                Data = _mapper.Map<List<GetDishResponse>>(dishes)
             };
         }
 
@@ -67,12 +70,18 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> DeleteDish(Guid dishId)
         {
-            var dish = await _unitOfWork.DishRepository.GetByIdAsync(dishId);
+            var dish = await _unitOfWork.DishRepository.GetDishById(dishId);
             if (dish == null)
                 return new Result<object>()
                 {
                     Error = 1,
                     Message = "Dish not found"
+                };
+            if(dish.HistoryDish.Count > 0 || dish.DishMeals.Count > 0)
+                return new Result<object>()
+                {
+                    Error = 0,
+                    Message = "Can't remove this dish"
                 };
             _unitOfWork.DishRepository.RemoveDish(dish);
             if (await _unitOfWork.SaveChangeAsync() > 0)
@@ -97,7 +106,7 @@ namespace Server.Application.Services
                     Message = "Request is null"
                 };
             var foodDish = new List<FoodDish>();
-            for (int i = 0; i <= request.foodList.Count; i++)
+            for (int i = 0; i < request.foodList.Count; i++)
             {
                 var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.foodList[i].FoodId);
                 if (food is not null)
@@ -143,7 +152,7 @@ namespace Server.Application.Services
                     Message = "Dish is not found"
                 };
             var foodDish = new List<FoodDish>();
-            for (int i = 0; i <= request.foodList.Count; i++)
+            for (int i = 0; i < request.foodList.Count; i++)
             {
                 var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.foodList[i].FoodId);
                 if (food is not null)

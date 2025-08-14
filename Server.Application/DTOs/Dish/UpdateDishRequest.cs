@@ -3,6 +3,6 @@
     public class UpdateDishRequest
     {
         public Guid dishID { get; set; }
-        public List<FoodDishDto> foodList {  get; set; }
+        public List<FoodDishDTO> foodList {  get; set; }
     }
 }
