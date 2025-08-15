@@ -9,5 +9,6 @@ namespace Server.Application.Interfaces
         public Task<Result<bool>> SoftDeleteConsultant(Guid consultantId);
         public Task<Result<ViewConsultantDTO>> CreateConsultant(AddConsultantDTO consultant);
         public Task<Result<ViewConsultantDTO>> UpdateConsultant(UpdateConsultantDTO consultant);
+        public Task<Result<ViewConsultantDTO>> GetConsultantByUserIdAsync(Guid userId);
     }
 }

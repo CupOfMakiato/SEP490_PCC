@@ -26,6 +26,14 @@ namespace Server.API.Controllers
             return Ok(consultant);
         }
 
+        [HttpGet("view-consultant-by-user-id/{userId}")]
+        public async Task<IActionResult> ViewConsultantByUserId(Guid userId)
+        {
+            var consultant = await _consultantService.GetConsultantByUserIdAsync(userId);
+
+            return Ok(consultant);
+        }
+
         [HttpPost("create-consultant")]
         public async Task<IActionResult> CreateConsultant(AddConsultantDTO addConsultantDTO)
         {
