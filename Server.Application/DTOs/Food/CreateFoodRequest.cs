@@ -10,6 +10,6 @@ namespace Server.Application.DTOs.Food
         public bool PregnancySafe { get; set; }
         public Guid FoodCategoryId { get; set; }
         public string SafetyNote { get; set; }
-        public IFormFile image { get; set; }
+        public IFormFile? image { get; set; }
     }
 }

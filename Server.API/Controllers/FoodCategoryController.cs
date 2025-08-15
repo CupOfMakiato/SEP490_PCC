@@ -45,9 +45,10 @@ namespace Server.API.Controllers
                 return BadRequest("Description is null");
             try
             {
-                if (!await _foodCategoryService.CreateFoodCategory(request))
-                    return BadRequest("Create fail");
-                return Ok("Create success");
+                var result = await _foodCategoryService.CreateFoodCategory(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -65,9 +66,10 @@ namespace Server.API.Controllers
             try
             {
 
-                if (!await _foodCategoryService.UpdateFoodCategory(request))
-                    return BadRequest("Update fail");
-                return Ok("Update success");
+                var result = await _foodCategoryService.UpdateFoodCategory(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {

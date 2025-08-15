@@ -23,14 +23,14 @@ namespace Server.API.Validations.GrowthData
                 .WithMessage("Weight must be between 1 and 299 kg.");
 
             RuleFor(x => x.FirstDayOfLastMenstrualPeriod)
-                .NotEmpty()
-                .WithMessage("First day of last menstrual period is required.")
+                //.NotEmpty()
+                //.WithMessage("First day of last menstrual period is required.")
                 .Must(BeValidLMPDate)
                 .WithMessage("Last menstrual period date must be between 1 week and 42 weeks ago.");
 
-            RuleFor(x => x.EstimatedDueDate)
-                .NotEmpty()
-                .WithMessage("Estimated due date is required.");
+            //RuleFor(x => x.EstimatedDueDate)
+            //    .NotEmpty()
+            //    .WithMessage("Estimated due date is required.");
 
             RuleFor(x => x)
                 .Must(BeValidDueDateRange)
@@ -39,13 +39,15 @@ namespace Server.API.Validations.GrowthData
                 .WithMessage("Gestational age must be between 0 and 42 weeks.");
         }
 
-        private bool BeValidLMPDate(DateTime lmpDate)
+        private bool BeValidLMPDate(DateTime? lmpDate)
         {
+            if (!lmpDate.HasValue) return true; // allow nulls (or handle how you want)
+
             var today = _currentTime.GetCurrentTime().Date;
-            var maxLMPDate = today.AddDays(-7); // At least 1 week ago
+            var maxLMPDate = today.AddDays(-7);   // At least 1 week ago
             var minLMPDate = today.AddDays(-294); // Not more than 42 weeks ago
 
-            return lmpDate >= minLMPDate && lmpDate <= maxLMPDate;
+            return lmpDate.Value >= minLMPDate && lmpDate.Value <= maxLMPDate;
         }
 
         private bool BeValidDueDateRange(EditGrowthDataProfileRequest request)

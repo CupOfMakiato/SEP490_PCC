@@ -12,6 +12,7 @@ namespace Server.Domain.Entities
         public Guid UserId { get; set; }
         public Guid ClinicId { get; set; }
         public Guid DoctorId { get; set; }
+        public string CheckupName { get; set; }
         public ConsultationType ConsultationType { get; set; } = ConsultationType.OneTime;
         public string Status { get; set; } //"Pending", "Confirmed", "Cancelled" v.v.
         public DateTime StartDate { get; set; }

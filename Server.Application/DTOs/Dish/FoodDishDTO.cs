@@ -1,6 +1,6 @@
 ﻿namespace Server.Application.DTOs.Dish
 {
-    public class FoodDishDto
+    public class FoodDishDTO
     {
         public Guid FoodId { get; set; }
         public string Unit { get; set; }

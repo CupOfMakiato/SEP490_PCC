@@ -24,8 +24,9 @@ namespace Server.Application
         public IBasicBioMetricRepository BasicBioMetricRepository { get; }
         public IAgeGroupRepository AgeGroupRepository { get; }
         public IEnergySuggestionRepository EnergySuggestionRepository { get; }
-        public ISymptomRepository SymptomRepository{ get; }
+        public IRecordedSymptomRepository SymptomRepository{ get; }
         public ICustomChecklistRepository CustomChecklistRepository { get; }
+        public ITemplateChecklistRepository TemplateChecklistRepository { get; }
         public IClinicRepository ClinicRepository { get; }
         public IDoctorRepository DoctorRepository { get; }
         public IConsultantRepository ConsultantRepository { get; }
@@ -40,7 +41,8 @@ namespace Server.Application
         public IFeedbackRepository FeedbackRepository { get; }
         public INSAttributeRepository NSAttributeRepository { get; }
         public IDishRepository DishRepository { get; }
-
+        public IAllergyCategoryRepository AllergyCategoryRepository { get; }
+        public IMealRepository MealRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }

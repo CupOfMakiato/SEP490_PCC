@@ -42,15 +42,22 @@ namespace Server.Infrastructure.Repositories
         public async Task<Food> GetFoodByIdAsync(Guid foodId)
         {
             return await _context.Food.Include(f => f.FoodNutrients)
+                                        .ThenInclude(fn => fn.Nutrient)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
                                       .Include(f => f.FoodDiseaseWarning)
                                       .FirstOrDefaultAsync(f => f.Id.Equals(foodId));
         }
 
+        public async Task<Food> GetFoodByName(string name)
+        {
+            return await _dbSet.FirstOrDefaultAsync(f => f.Name.Equals(name));
+        }
+
         public async Task<List<Food>> GetFoodsAsync()
         {
             return await _context.Food.Include(f => f.FoodNutrients)
+                                        .ThenInclude(fn => fn.Nutrient)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
                                       .Include(f => f.FoodDiseaseWarning)

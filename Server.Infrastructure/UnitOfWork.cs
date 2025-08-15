@@ -5,6 +5,7 @@ using Server.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace Server.Infrastructure
         private readonly ILikeRepository _likeRepository;
         private readonly IFoodCategoryRepository _foodCategoryRepository;
         private readonly IFoodRepository _foodRepository;
+        private readonly IMealRepository _mealRepository;
         private readonly INutrientRepository _nutrientRepository;
         private readonly INutrientCategoryRepository _nutrientCategoryRepository;
         private readonly IDiseaseRepository _diseaseRepository;
@@ -33,12 +35,14 @@ namespace Server.Infrastructure
         private readonly IAgeGroupRepository _ageGroupRepository;
         private readonly IEnergySuggestionRepository _energySuggestionRepository;
         private readonly IFoodRecommendationHistoryRepository _foodRecommendationHistoryRepository;
-        private readonly ISymptomRepository _symptomRepository;
+        private readonly IRecordedSymptomRepository _symptomRepository;
         private readonly ICustomChecklistRepository _customChecklistRepository;
+        private readonly ITemplateChecklistRepository _templateChecklistRepository;
 
         private readonly IClinicRepository _clinicRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IConsultantRepository _consultantRepository;
+        private readonly IAllergyCategoryRepository _allergyCategoryRepository;
         private readonly IScheduleRepository _scheduleRepository;
         private readonly ISlotRepository _slotRepository;
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
@@ -71,10 +75,13 @@ namespace Server.Infrastructure
             INutrientCategoryRepository nutrientCategoryRepository,
             IBasicBioMetricRepository basicBioMetricRepository,
             IMediaRepository mediaRepository,
+            IMealRepository mealRepository,
             ISymptomRepository symptomRepository,
+            IRecordedSymptomRepository symptomRepository,
             IAgeGroupRepository ageGroupRepository,
             IEnergySuggestionRepository energySuggestionRepository,
             ICustomChecklistRepository customChecklistRepository,
+            ITemplateChecklistRepository templateChecklistRepository,
             IClinicRepository clinicRepository,
             IDoctorRepository doctorRepository,
             IConsultantRepository consultantRepository,
@@ -84,7 +91,7 @@ namespace Server.Infrastructure
             IMessageRepository messageRepository,
             IChatThreadRepository chatThreadRepository,
             IOfflineConsultationRepository offlineConsultationRepository,
-
+            IAllergyCategoryRepository allergyCategoryRepository,
             INutrientSuggetionRepository nutrientSuggetionRepository,
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
             INSAttributeRepository iNSAttributeRepository,
@@ -103,6 +110,7 @@ namespace Server.Infrastructure
             _likeRepository = likeRepository;
             _foodCategoryRepository = foodCategoryRepository;
             _foodRepository = foodRepository;
+            _mealRepository = mealRepository;
             _nutrientRepository = nutrientRepository;
             _nutrientCategoryRepository = nutrientCategoryRepository;
             _diseaseRepository = diseaseRepository;
@@ -115,9 +123,11 @@ namespace Server.Infrastructure
             _ageGroupRepository = ageGroupRepository;
             _energySuggestionRepository = energySuggestionRepository;
             _customChecklistRepository = customChecklistRepository;
+            _templateChecklistRepository = templateChecklistRepository;
             _clinicRepository = clinicRepository;
             _doctorRepository = doctorRepository;
             _consultantRepository = consultantRepository;
+            _allergyCategoryRepository = allergyCategoryRepository;
             _scheduleRepository = scheduleRepository;
             _slotRepository = slotRepository;
             _onlineConsultationRepository = onlineConsultationRepository;
@@ -141,6 +151,7 @@ namespace Server.Infrastructure
         public ILikeRepository LikeRepository => _likeRepository;
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
         public ICustomChecklistRepository CustomChecklistRepository => _customChecklistRepository;
+        public ITemplateChecklistRepository TemplateChecklistRepository => _templateChecklistRepository;
         public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository => _tailoredCheckupReminderRepository;
         public IJournalRepository JournalRepository => _journalRepository;
         public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
@@ -152,7 +163,7 @@ namespace Server.Infrastructure
         public IMediaRepository MediaRepository => _mediaRepository;
         public IAgeGroupRepository AgeGroupRepository => _ageGroupRepository;
         public IFoodRecommendationHistoryRepository FoodRecommendationHistoryRepository => _foodRecommendationHistoryRepository;
-        public ISymptomRepository SymptomRepository => _symptomRepository;
+        public IRecordedSymptomRepository SymptomRepository => _symptomRepository;
         public IEnergySuggestionRepository EnergySuggestionRepository => _energySuggestionRepository;
         public INutrientSuggetionRepository NutrientSuggetionRepository => _nutrientSuggetionRepository;
         public IClinicRepository ClinicRepository => _clinicRepository;
@@ -165,10 +176,10 @@ namespace Server.Infrastructure
         public IMessageRepository MessageRepository => _messageRepository;
         public IChatThreadRepository ChatThreadRepository => _chatThreadRepository;
         public IOfflineConsultationRepository OfflineConsultationRepository => _offlineConsultationRepository;
-
+        public IAllergyCategoryRepository AllergyCategoryRepository => _allergyCategoryRepository;
         public IDishRepository DishRepository => _dishRepository;
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
-
+        public IMealRepository MealRepository => _mealRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

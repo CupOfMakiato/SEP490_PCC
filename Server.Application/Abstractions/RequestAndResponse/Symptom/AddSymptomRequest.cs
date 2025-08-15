@@ -9,7 +9,6 @@ namespace Server.Application.Abstractions.RequestAndResponse.Symptom
 {
     public class AddSymptomRequest
     {
-        public Guid UserId { get; set; }
         public string SymptomName { get; set; }
 
     }

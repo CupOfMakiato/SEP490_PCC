@@ -34,13 +34,10 @@ namespace Server.API.Controllers
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest("Name is required");
 
-            if (string.IsNullOrWhiteSpace(request.Unit))
-                return BadRequest("Unit is required");
-
             if (string.IsNullOrWhiteSpace(request.Description))
                 return BadRequest("Unit is required");
             if (request.ImageUrl is not null)
-                if (request.ImageUrl.Length > 0 && request.ImageUrl.Length <= 5 * 1024 * 1024)
+                if (request.ImageUrl.Length < 0 && request.ImageUrl.Length >= 5 * 1024 * 1024)
                     return BadRequest("Image size must be smaller than 5mb");
 
             try
@@ -103,7 +100,7 @@ namespace Server.API.Controllers
                 return BadRequest("Nutrient Id is null or empty");
             if (request.ImageUrl == null)
                 return BadRequest("Image is null");
-            if (request.ImageUrl.Length > 0 && request.ImageUrl.Length <= 5 * 1024 * 1024)
+            if (request.ImageUrl.Length < 0 && request.ImageUrl.Length >= 5 * 1024 * 1024)
                 return BadRequest("Image size must be smaller than 5mb");
 
             try

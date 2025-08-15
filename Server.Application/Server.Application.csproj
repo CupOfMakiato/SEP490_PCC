@@ -25,4 +25,8 @@
 		<ProjectReference Include="..\Server.Domain\Server.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="DTOs\CustomSymptom\" />
+	</ItemGroup>
+
 </Project>

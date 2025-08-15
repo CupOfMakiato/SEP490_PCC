@@ -8,5 +8,6 @@
         public string ImageUrl { get; set; }
         public bool PregnancySafe { get; set; }
         public string SafetyNote { get; set; }
+        public Guid FoodCategoryId { get; set; }
     }
 }
