@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CloudinaryDotNet.Core;
+using Microsoft.EntityFrameworkCore;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -77,7 +78,28 @@ namespace Server.Infrastructure.Repositories
                                     Avatar = oc.Consultant.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
                                 }
                                 : null,
-                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted ? oc.Consultant.Clinic : null
+                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted
+                                ? new Clinic
+                                {
+                                    Id = oc.Consultant.Clinic.Id,
+                                    Address = oc.Consultant.Clinic.Address,
+                                    Description = oc.Consultant.Clinic.Description,
+                                    IsInsuranceAccepted = oc.Consultant.Clinic.IsInsuranceAccepted,
+                                    IsActive = oc.Consultant.Clinic.IsActive,
+                                    Specializations = oc.Consultant.Clinic.Specializations,
+                                    User = oc.Consultant.User != null && !oc.Consultant.User.IsDeleted
+                                        ? new User
+                                        {
+                                            Id = oc.Consultant.Clinic.User.Id,
+                                            UserName = oc.Consultant.Clinic.User.UserName,
+                                            Email = oc.Consultant.Clinic.User.Email,
+                                            PhoneNumber = oc.Consultant.Clinic.User.PhoneNumber,
+                                            Status = oc.Consultant.Clinic.User.Status,
+                                            Avatar = oc.Consultant.Clinic.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
+                                        }
+                                        : null
+                                }
+                                : null
                         }
                         : null,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()
@@ -144,7 +166,28 @@ namespace Server.Infrastructure.Repositories
                                     Avatar = oc.Consultant.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
                                 }
                                 : null,
-                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted ? oc.Consultant.Clinic : null
+                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted
+                                ? new Clinic
+                                {
+                                    Id = oc.Consultant.Clinic.Id,
+                                    Address = oc.Consultant.Clinic.Address,
+                                    Description = oc.Consultant.Clinic.Description,
+                                    IsInsuranceAccepted = oc.Consultant.Clinic.IsInsuranceAccepted,
+                                    IsActive = oc.Consultant.Clinic.IsActive,
+                                    Specializations = oc.Consultant.Clinic.Specializations,
+                                    User = oc.Consultant.User != null && !oc.Consultant.User.IsDeleted
+                                        ? new User
+                                        {
+                                            Id = oc.Consultant.Clinic.User.Id,
+                                            UserName = oc.Consultant.Clinic.User.UserName,
+                                            Email = oc.Consultant.Clinic.User.Email,
+                                            PhoneNumber = oc.Consultant.Clinic.User.PhoneNumber,
+                                            Status = oc.Consultant.Clinic.User.Status,
+                                            Avatar = oc.Consultant.Clinic.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
+                                        }
+                                        : null
+                                }
+                                : null
                         }
                         : null,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()
@@ -206,7 +249,28 @@ namespace Server.Infrastructure.Repositories
                                     Avatar = oc.Consultant.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
                                 }
                                 : null,
-                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted ? oc.Consultant.Clinic : null
+                            Clinic = oc.Consultant.Clinic != null && !oc.Consultant.Clinic.IsDeleted
+                                ? new Clinic
+                                {
+                                    Id = oc.Consultant.Clinic.Id,
+                                    Address = oc.Consultant.Clinic.Address,
+                                    Description = oc.Consultant.Clinic.Description,
+                                    IsInsuranceAccepted = oc.Consultant.Clinic.IsInsuranceAccepted,
+                                    IsActive = oc.Consultant.Clinic.IsActive,
+                                    Specializations = oc.Consultant.Clinic.Specializations,
+                                    User = oc.Consultant.User != null && !oc.Consultant.User.IsDeleted
+                                        ? new User
+                                        {
+                                            Id = oc.Consultant.Clinic.User.Id,
+                                            UserName = oc.Consultant.Clinic.User.UserName,
+                                            Email = oc.Consultant.Clinic.User.Email,
+                                            PhoneNumber = oc.Consultant.Clinic.User.PhoneNumber,
+                                            Status = oc.Consultant.Clinic.User.Status,
+                                            Avatar = oc.Consultant.Clinic.User.Avatar != null && !oc.Consultant.User.Avatar.IsDeleted ? oc.Consultant.User.Avatar : null
+                                        }
+                                        : null
+                                }
+                                : null
                         }
                         : null,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()

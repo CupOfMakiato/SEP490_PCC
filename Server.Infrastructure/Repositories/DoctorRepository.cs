@@ -21,6 +21,8 @@ namespace Server.Infrastructure.Repositories
         public async Task<Doctor?> GetDoctorByIdAsync(Guid doctorId)
         {
             return await _context.Doctor
+                .Include(d => d.User)
+                    .ThenInclude(u => u.Avatar)
                 .Where(d => d.Id == doctorId && !d.IsDeleted)
                 .Select(d => new Doctor
                 {
@@ -35,7 +37,16 @@ namespace Server.Infrastructure.Repositories
                     UserId = d.UserId,
                     ClinicId = d.ClinicId,
                     Clinic = d.Clinic != null && !d.Clinic.IsDeleted ? d.Clinic : null,
-                    User = d.User != null && !d.User.IsDeleted ? d.User : null,
+                    User = d.User != null && !d.User.IsDeleted
+                        ? new User
+                        {
+                            Id = d.User.Id,
+                            Email = d.User.Email,
+                            PhoneNumber = d.User.PhoneNumber,
+                            Status = d.User.Status,
+                            Avatar = d.User.Avatar != null && !d.User.Avatar.IsDeleted ? d.User.Avatar : null
+                        }
+                        : null,
                     Schedules = d.Schedules
                         .Where(s => !s.IsDeleted && s.Slot != null && !s.Slot.IsDeleted)
                         .Select(s => new Schedule

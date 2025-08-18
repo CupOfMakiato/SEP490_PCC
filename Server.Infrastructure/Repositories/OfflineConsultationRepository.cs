@@ -65,14 +65,21 @@ namespace Server.Infrastructure.Repositories
                         ? new Clinic
                         {
                             Id = oc.Clinic.Id,
-                            Name = oc.Clinic.Name,
                             Address = oc.Clinic.Address,
                             Description = oc.Clinic.Description,
-                            Phone = oc.Clinic.Phone,
-                            Email = oc.Clinic.Email,
                             IsInsuranceAccepted = oc.Clinic.IsInsuranceAccepted,
                             Specializations = oc.Clinic.Specializations,
-                            ImageUrl = oc.Clinic.ImageUrl != null && !oc.Clinic.ImageUrl.IsDeleted ? oc.Clinic.ImageUrl : null
+                            User = oc.User != null && !oc.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = oc.User.Id,
+                                    UserName = oc.User.UserName,
+                                    Email = oc.User.Email,
+                                    PhoneNumber = oc.User.PhoneNumber,
+                                    Status = oc.User.Status,
+                                    Avatar = oc.User.Avatar != null && !oc.User.Avatar.IsDeleted ? oc.User.Avatar : null
+                                }
+                                : null
                         }
                         : null,
                     Doctor = oc.Doctor != null && !oc.Doctor.IsDeleted
@@ -92,7 +99,6 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = oc.Doctor.User.Id,
-                                    UserName = oc.User.UserName,
                                     Email = oc.User.Email,
                                     PhoneNumber = oc.User.PhoneNumber,
                                     Status = oc.User.Status,

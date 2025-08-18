@@ -374,9 +374,9 @@ namespace Server.Application.Services
                 var endTime = consultation.EndDate.ToString("HH:mm");
                 var form = consultation.ConsultationType.ToString();
                 var location = clinic?.Address ?? "Clinic";
-                var supportContact = clinic?.Phone ?? clinic?.Email ?? "our support";
+                var supportContact = clinic?.User.PhoneNumber ?? clinic?.User.Email ?? "our support";
                 var detailLink = "update later"; // Replace with actual link if available
-                var systemSignature = clinic?.Name ?? "Health Consulting System";
+                var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
                 var emailUserBody = $@"
                                 Hi {username},<br/><br/>
@@ -562,9 +562,9 @@ namespace Server.Application.Services
             var date = offlineConsulattion.StartDate.ToString("dd/MM/yyyy");
             var form = offlineConsulattion.ConsultationType.ToString();
             var location = clinic.Address ?? "Clinic";
-            var contact = clinic.Email ?? "our support email";
+            var contact = clinic.User.Email ?? "our support email";
             var detailLink = "update later"; // Replace with actual link if available
-            var systemSignature = clinic?.Name ?? "Health Consulting System";
+            var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
             var emailUserBody = $@"
                             Hi {username},<br/><br/>

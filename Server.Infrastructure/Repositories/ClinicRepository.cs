@@ -1,5 +1,4 @@
-﻿using CloudinaryDotNet;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -33,15 +32,22 @@ namespace Server.Infrastructure.Repositories
                     .Select(c => new Clinic
                     {
                         Id = c.Id,
-                        Name = c.Name,
                         Address = c.Address,
                         Description = c.Description,
-                        Phone = c.Phone,
-                        Email = c.Email,
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
-                        ImageUrl = c.ImageUrl != null && !c.ImageUrl.IsDeleted ? c.ImageUrl : null,
+                        User = c.User != null && !c.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = c.User.Id,
+                                    UserName = c.User.UserName,
+                                    Email = c.User.Email,
+                                    PhoneNumber = c.User.PhoneNumber,
+                                    Status = c.User.Status,
+                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                                }
+                                : null,
                         Consultants = c.Consultants
                             .Where(con => !con.IsDeleted)
                             .Select(con => new Consultant
@@ -84,7 +90,6 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = doc.User.Id,
-                                    UserName = doc.User.UserName,
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,
@@ -108,19 +113,26 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<Clinic>> GetClinicByNameAsync(string name)
         {
             return await _context.Clinic
-                    .Where(c => (c.Name.Contains(name) || c.Address.Contains(name)) && !c.IsDeleted && c.IsActive)
+                    .Where(c => (c.User.UserName.Contains(name) || c.Address.Contains(name)) && !c.IsDeleted && c.IsActive)
                     .Select(c => new Clinic
                     {
                         Id = c.Id,
-                        Name = c.Name,
                         Address = c.Address,
                         Description = c.Description,
-                        Phone = c.Phone,
-                        Email = c.Email,
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
-                        ImageUrl = c.ImageUrl != null && !c.ImageUrl.IsDeleted ? c.ImageUrl : null,
+                        User = c.User != null && !c.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = c.User.Id,
+                                    UserName = c.User.UserName,
+                                    Email = c.User.Email,
+                                    PhoneNumber = c.User.PhoneNumber,
+                                    Status = c.User.Status,
+                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                                }
+                                : null,
                         Consultants = c.Consultants
                             .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
                             .Select(con => new Consultant
@@ -163,7 +175,6 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = doc.User.Id,
-                                    UserName = doc.User.UserName,
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,
@@ -191,15 +202,22 @@ namespace Server.Infrastructure.Repositories
                     .Select(c => new Clinic
                     {
                         Id = c.Id,
-                        Name = c.Name,
                         Address = c.Address,
                         Description = c.Description,
-                        Phone = c.Phone,
-                        Email = c.Email,
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
-                        ImageUrl = c.ImageUrl != null && !c.ImageUrl.IsDeleted ? c.ImageUrl : null,
+                        User = c.User != null && !c.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = c.User.Id,
+                                    UserName = c.User.UserName,
+                                    Email = c.User.Email,
+                                    PhoneNumber = c.User.PhoneNumber,
+                                    Status = c.User.Status,
+                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                                }
+                                : null,
                         Consultants = c.Consultants
                             .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
                             .Select(con => new Consultant
@@ -242,7 +260,6 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = doc.User.Id,
-                                    UserName = doc.User.UserName,
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,

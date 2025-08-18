@@ -4,6 +4,7 @@ using Server.Application.DTOs.Clinic;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using System.Security.Cryptography;
 
 namespace Server.Application.Services
 {
@@ -12,17 +13,17 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IClinicRepository _clinicRepository;
-        private readonly ICloudinaryService _cloudinaryService;
+        private readonly IEmailService _emailService;
 
         public ClinicService(IUnitOfWork unitOfWork,
             IMapper mapper,
             IClinicRepository clinicRepository,
-            ICloudinaryService cloudinaryService)
+            IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _clinicRepository = clinicRepository;
-            _cloudinaryService = cloudinaryService;
+            _emailService = emailService;
         }
 
         public async Task<Result<bool>> ApproveClinic(Guid clinicId)
@@ -55,18 +56,31 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewClinicDTO>> CreateClinic(AddClinicDTO clinic)
         {
-            var clinicMapper = new Clinic
+            var otp = GenerateOtp();
+
+            var user = new User
             {
-                Id = Guid.NewGuid(),
-                Name = clinic.Name,
-                Address = clinic.Address,
-                Description = clinic.Description,
-                Phone = clinic.Phone,
+                UserName = clinic.UserName,
                 Email = clinic.Email,
-                IsInsuranceAccepted = clinic.IsInsuranceAccepted,
-                IsActive = false, // Default to not approved when created
-                Specializations = clinic.Specializations
+                Password = HashPassword(clinic.PasswordHash),
+                Balance = 0,
+                PhoneNumber = clinic.PhoneNumber,
+                Otp = otp,
+                IsStaff = false,
+                RoleId = 5, // Assuming 5 is the role ID for clinics
+                CreationDate = DateTime.Now,
+                OtpExpiryTime = DateTime.UtcNow.AddMinutes(10)
             };
+
+            await _unitOfWork.UserRepository.AddAsync(user);
+
+            await _emailService.SendOtpEmailAsync(user.Email, otp);
+
+            var clinicMapper = _mapper.Map<Clinic>(clinic);
+
+            clinicMapper.UserId = user.Id;
+
+            clinicMapper.IsActive = false; // Initially set to false until approved
 
             await _clinicRepository.AddAsync(clinicMapper);
 
@@ -80,36 +94,6 @@ namespace Server.Application.Services
                     Message = "Add new clinic fail",
                     Data = null
                 };
-            }
-
-            if (clinic.ImageUrl != null && clinic.ImageUrl.Length > 0)
-            {
-                var imageResponse = await _cloudinaryService.UploadClinicImage(
-                    clinic.ImageUrl.FileName,
-                    clinic.ImageUrl,
-                    clinicMapper
-                );
-
-                if (imageResponse != null)
-                {
-                    var media = new Media
-                    {
-                        ClinicId = clinicMapper.Id,
-                        FileName = clinic.ImageUrl.FileName,
-                        FileUrl = imageResponse.FileUrl,
-                        FileType = clinic.ImageUrl.ContentType,
-                        FilePublicId = imageResponse.PublicFileId
-                    };
-
-                    await _unitOfWork.MediaRepository.AddAsync(media);
-
-                    var mediaResult = await _unitOfWork.SaveChangeAsync();
-
-                    if (mediaResult > 0)
-                    {
-                        clinicMapper.ImageUrl = media;
-                    }
-                }
             }
 
             return new Result<ViewClinicDTO>
@@ -260,51 +244,10 @@ namespace Server.Application.Services
                 };
             }
 
-            clinicObj.Name = clinic.Name;
             clinicObj.Address = clinic.Address;
             clinicObj.Description = clinic.Description;
-            clinicObj.Phone = clinic.Phone;
-            clinicObj.Email = clinic.Email;
             clinicObj.IsInsuranceAccepted = clinic.IsInsuranceAccepted;
             clinicObj.Specializations = clinic.Specializations;
-
-            if (clinic.ImageUrl != null && clinic.ImageUrl.Length > 0)
-            {
-                if (clinicObj.ImageUrl != null && !string.IsNullOrEmpty(clinicObj.ImageUrl.FilePublicId))
-                {
-                    var deleteResult = await _cloudinaryService.DeleteFileAsync(clinicObj.ImageUrl.FilePublicId);
-
-                    if (deleteResult == null || deleteResult.Result != "ok")
-                    {
-                        return new Result<ViewClinicDTO>
-                        {
-                            Error = 1,
-                            Message = "Failed to delete old image from Cloudinary."
-                        };
-                    }
-                }
-
-                var imageResponse = await _cloudinaryService.UploadClinicImage(
-                    clinic.ImageUrl.FileName,
-                    clinic.ImageUrl,
-                    clinicObj
-                );
-
-                if (imageResponse != null)
-                {
-                    if (clinicObj.ImageUrl != null)
-                    {
-                        clinicObj.ImageUrl.FileName = clinic.ImageUrl.FileName;
-                        clinicObj.ImageUrl.FileUrl = imageResponse.FileUrl;
-                        clinicObj.ImageUrl.FileType = clinic.ImageUrl.ContentType;
-                        clinicObj.ImageUrl.FilePublicId = imageResponse.PublicFileId;
-
-                        _unitOfWork.MediaRepository.Update(clinicObj.ImageUrl);
-
-                        await _unitOfWork.SaveChangeAsync();
-                    }
-                }
-            }
 
             _clinicRepository.Update(clinicObj);
 
@@ -316,6 +259,22 @@ namespace Server.Application.Services
                 Message = result > 0 ? "Update clinic successfully" : "Update clinic fail",
                 Data = _mapper.Map<ViewClinicDTO>(clinicObj)
             };
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
+        }
+
+        private string GenerateOtp()
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var byteArray = new byte[4];
+                rng.GetBytes(byteArray);
+                var otp = BitConverter.ToUInt32(byteArray, 0) % 1000000; // Generate a 6-digit OTP
+                return otp.ToString("D6");
+            }
         }
     }
 }

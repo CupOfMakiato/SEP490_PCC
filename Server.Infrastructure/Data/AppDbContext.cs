@@ -98,8 +98,7 @@ namespace Server.Infrastructure.Data
                new Role { Id = 3, RoleName = "HealthExpert" },
                new Role { Id = 4, RoleName = "NutrientSpecialist" },
                new Role { Id = 5, RoleName = "Clinic" },
-               new Role { Id = 6, RoleName = "Consultant" },
-               new Role { Id = 7, RoleName = "Doctor" }
+               new Role { Id = 6, RoleName = "Consultant" }
             );
 
             modelBuilder.Entity<User>().HasData(
@@ -763,6 +762,14 @@ namespace Server.Infrastructure.Data
                 .HasOne(s => s.Doctor)
                 .WithMany(c => c.Schedules)
                 .HasForeignKey(s => s.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Clinic
+
+            modelBuilder.Entity<Clinic>()
+                .HasOne(s => s.User)
+                .WithOne(c => c.Clinic)
+                .HasForeignKey<Clinic>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

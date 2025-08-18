@@ -196,29 +196,29 @@ namespace Server.Infrastructure.ThirdPartyServices
             };
         }
 
-        public async Task<CloudinaryResponse> UploadClinicImage(string fileName, IFormFile file, Clinic clinic)
-        {
-            var uploadParams = new ImageUploadParams
-            {
-                File = new FileDescription(fileName, file.OpenReadStream()),
-                PublicId = $"/{clinic.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
-                Overwrite = true,
-                Folder = "clinic"
-            };
+        //public async Task<CloudinaryResponse> UploadClinicImage(string fileName, IFormFile file, Clinic clinic)
+        //{
+        //    var uploadParams = new ImageUploadParams
+        //    {
+        //        File = new FileDescription(fileName, file.OpenReadStream()),
+        //        PublicId = $"/{clinic.Id}/{Path.GetFileNameWithoutExtension(fileName)}",
+        //        Overwrite = true,
+        //        Folder = "clinic"
+        //    };
 
-            var uploadResult = await _cloudinary.UploadAsync(uploadParams);
+        //    var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-            if (uploadResult.Error != null)
-            {
-                return null; // Handle upload failure
-            }
+        //    if (uploadResult.Error != null)
+        //    {
+        //        return null; // Handle upload failure
+        //    }
 
-            return new CloudinaryResponse
-            {
-                FileUrl = uploadResult.SecureUrl.ToString(),
-                PublicFileId = uploadResult.PublicId
-            };
-        }
+        //    return new CloudinaryResponse
+        //    {
+        //        FileUrl = uploadResult.SecureUrl.ToString(),
+        //        PublicFileId = uploadResult.PublicId
+        //    };
+        //}
 
         public async Task<CloudinaryResponse> UploadMessageAttachment(string fileName, IFormFile file, Message message)
         {

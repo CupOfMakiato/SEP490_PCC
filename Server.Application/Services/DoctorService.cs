@@ -5,7 +5,6 @@ using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
-using System.Security.Cryptography;
 
 namespace Server.Application.Services
 {
@@ -56,26 +55,18 @@ namespace Server.Application.Services
                 throw new Exception("User with this email or phone number already exists.");
             }
 
-            var otp = GenerateOtp();
-
             var user = new User
             {
-                UserName = doctor.UserName,
                 Email = doctor.Email,
-                Password = HashPassword(doctor.PasswordHash),
                 Balance = 0,
                 PhoneNumber = doctor.PhoneNumber,
                 Status = StatusEnums.Pending,
-                Otp = otp,
                 IsStaff = false,
-                RoleId = 7, // Assuming 7 is the role ID for doctors
                 CreationDate = DateTime.Now,
                 OtpExpiryTime = DateTime.UtcNow.AddMinutes(10)
             };
 
             await _unitOfWork.UserRepository.AddAsync(user);
-
-            await _emailService.SendOtpEmailAsync(user.Email, otp);
 
             var doctorMapper = _mapper.Map<Doctor>(doctor);
 
@@ -237,22 +228,6 @@ namespace Server.Application.Services
                 Message = result > 0 ? "Update doctor successfully" : "Update doctor failed",
                 Data = _mapper.Map<ViewDoctorDTO>(doctorObj)
             };
-        }
-
-        private string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
-
-        private string GenerateOtp()
-        {
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                var byteArray = new byte[4];
-                rng.GetBytes(byteArray);
-                var otp = BitConverter.ToUInt32(byteArray, 0) % 1000000; // Generate a 6-digit OTP
-                return otp.ToString("D6");
-            }
         }
     }
 }

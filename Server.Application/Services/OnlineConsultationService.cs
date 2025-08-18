@@ -257,7 +257,7 @@ namespace Server.Application.Services
             var consultationDateTime = onlineConsultation.Date.ToString("dd/MM/yyyy HH:mm");
             var username = user.UserName ?? "User";
             var viewLink = $"update later"; // Replace with actual link to view consultation details
-            var systemSignature = clinic?.Name ?? "Health Consulting System";
+            var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
             var emailBody = $@"
                             Hi {username},<br/><br/>
@@ -265,7 +265,7 @@ namespace Server.Application.Services
                             You can review the content or notes from the consultation at the following link:<br/>
                             🔗 <a href=""{viewLink}"">View consultation details</a><br/><br/>
                             This storage helps you easily track the progress and information exchanged in previous consultations.<br/><br/>
-                            If you have any questions, do not hesitate to contact us via {clinic?.Email}.<br/><br/>
+                            If you have any questions, do not hesitate to contact us via {clinic?.User.Email}.<br/><br/>
                             Thank you for trusting and choosing our service!<br/><br/>
                             Best regards,<br/>
                             {systemSignature}";

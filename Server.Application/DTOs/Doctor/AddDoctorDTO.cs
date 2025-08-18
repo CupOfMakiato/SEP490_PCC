@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Server.Application.DTOs.Doctor
 {
     public class AddDoctorDTO
     {
         public Guid ClinicId { get; set; }
-        public string UserName { get; set; }
-        public string PasswordHash { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string? PhoneNumber { get; set; }
         [EmailAddress(ErrorMessage = "Invalid email address.")]
