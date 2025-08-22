@@ -367,7 +367,7 @@ namespace Server.Application.Services
                 if (doctorUser == null && doctor != null)
                     doctorUser = await _unitOfWork.UserRepository.GetByIdAsync(doctor.UserId);
 
-                var doctorName = doctor?.FullName ?? "Doctor";
+                var doctorName = doctor?.User.UserName ?? "Doctor";
                 var username = user.UserName ?? "User";
                 var date = consultation.StartDate.ToString("dd/MM/yyyy");
                 var startTime = consultation.StartDate.ToString("HH:mm");
@@ -556,7 +556,7 @@ namespace Server.Application.Services
 
             var dayOfWeekName = GetDayOfWeekName(offlineConsulattion.DayOfWeek);
             var username = user.UserName ?? "User";
-            var doctorName = doctor.FullName ?? "Doctor";
+            var doctorName = doctor.User.UserName ?? "Doctor";
             var startTime = offlineConsulattion.StartDate.ToString("HH:mm");
             var endTime = offlineConsulattion.EndDate.ToString("HH:mm");
             var date = offlineConsulattion.StartDate.ToString("dd/MM/yyyy");

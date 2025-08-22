@@ -98,7 +98,8 @@ namespace Server.Infrastructure.Data
                new Role { Id = 3, RoleName = "HealthExpert" },
                new Role { Id = 4, RoleName = "NutrientSpecialist" },
                new Role { Id = 5, RoleName = "Clinic" },
-               new Role { Id = 6, RoleName = "Consultant" }
+               new Role { Id = 6, RoleName = "Consultant" },
+               new Role { Id = 7, RoleName = "Doctor" }
             );
 
             modelBuilder.Entity<User>().HasData(

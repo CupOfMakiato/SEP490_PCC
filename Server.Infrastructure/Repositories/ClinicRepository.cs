@@ -78,7 +78,6 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
-                                FullName = doc.FullName,
                                 Gender = doc.Gender,
                                 Specialization = doc.Specialization,
                                 Certificate = doc.Certificate,
@@ -90,6 +89,7 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = doc.User.Id,
+                                    UserName = doc.User.UserName,
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,
@@ -163,7 +163,6 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
-                                FullName = doc.FullName,
                                 Gender = doc.Gender,
                                 Specialization = doc.Specialization,
                                 Certificate = doc.Certificate,
@@ -175,6 +174,7 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = doc.User.Id,
+                                    UserName = doc.User.UserName,
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,
@@ -248,7 +248,6 @@ namespace Server.Infrastructure.Repositories
                             .Select(doc => new Doctor
                             {
                                 Id = doc.Id,
-                                FullName = doc.FullName,
                                 Gender = doc.Gender,
                                 Specialization = doc.Specialization,
                                 Certificate = doc.Certificate,
@@ -260,6 +259,7 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = doc.User.Id,
+                                    UserName = doc.User.UserName,
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,

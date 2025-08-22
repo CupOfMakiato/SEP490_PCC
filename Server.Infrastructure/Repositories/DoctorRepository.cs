@@ -27,7 +27,6 @@ namespace Server.Infrastructure.Repositories
                 .Select(d => new Doctor
                 {
                     Id = d.Id,
-                    FullName = d.FullName,
                     Gender = d.Gender,
                     Specialization = d.Specialization,
                     Certificate = d.Certificate,
@@ -41,6 +40,7 @@ namespace Server.Infrastructure.Repositories
                         ? new User
                         {
                             Id = d.User.Id,
+                            UserName = d.User.UserName,
                             Email = d.User.Email,
                             PhoneNumber = d.User.PhoneNumber,
                             Status = d.User.Status,

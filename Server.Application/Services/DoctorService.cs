@@ -57,11 +57,13 @@ namespace Server.Application.Services
 
             var user = new User
             {
+                UserName = doctor.UserName,
                 Email = doctor.Email,
                 Balance = 0,
                 PhoneNumber = doctor.PhoneNumber,
                 Status = StatusEnums.Pending,
                 IsStaff = false,
+                RoleId = 7,
                 CreationDate = DateTime.Now,
                 OtpExpiryTime = DateTime.UtcNow.AddMinutes(10)
             };

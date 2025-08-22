@@ -20,7 +20,7 @@ namespace Server.API.Controllers
         {
             var result = await _doctorService.GetDoctorByIdAsync(doctorId);
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpPost("create-doctor")]
@@ -28,7 +28,7 @@ namespace Server.API.Controllers
         {
             var result = await _doctorService.CreateDoctor(doctor);
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpPut("update-doctor")]
@@ -36,7 +36,7 @@ namespace Server.API.Controllers
         {
             var result = await _doctorService.UpdateDoctor(doctor);
 
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         [HttpDelete("soft-delete-doctor/{doctorId}")]
@@ -44,7 +44,7 @@ namespace Server.API.Controllers
         {
             var result = await _doctorService.SoftDeleteDoctor(doctorId);
 
-            return Ok(result.Data);
+            return Ok(result);
         }
     }
 }

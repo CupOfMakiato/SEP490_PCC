@@ -88,7 +88,6 @@ namespace Server.Infrastructure.Repositories
                             Id = oc.Doctor.Id,
                             UserId = oc.Doctor.UserId,
                             ClinicId = oc.Doctor.ClinicId,
-                            FullName = oc.Doctor.FullName,
                             Gender = oc.Doctor.Gender,
                             Specialization = oc.Doctor.Specialization,
                             Certificate = oc.Doctor.Certificate,
@@ -99,6 +98,7 @@ namespace Server.Infrastructure.Repositories
                                 ? new User
                                 {
                                     Id = oc.Doctor.User.Id,
+                                    UserName = oc.Doctor.User.UserName,
                                     Email = oc.User.Email,
                                     PhoneNumber = oc.User.PhoneNumber,
                                     Status = oc.User.Status,

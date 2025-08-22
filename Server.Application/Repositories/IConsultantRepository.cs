@@ -11,5 +11,7 @@ namespace Server.Application.Repositories
         //                                              DateTime endTime,
         //                                              int dayOfWeek);
         public Task<Consultant> GetConsultantByUserIdAsync(Guid userId);
+        public Task<List<User>> GetAllUsersAsync();
+        public Task<List<User?>> GetAllUsersByNameAsync(string? name);
     }
 }

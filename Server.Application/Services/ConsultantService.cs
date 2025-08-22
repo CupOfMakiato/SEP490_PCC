@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Consultant;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -296,6 +297,30 @@ namespace Server.Application.Services
                 Error = 0,
                 Message = "Get consultant successfully",
                 Data = result
+            };
+        }
+
+        public async Task<Result<List<GetUserDTO>>> GetAllUsersAsync()
+        {
+            var  users = await _consultantRepository.GetAllUsersAsync();
+
+            return new Result<List<GetUserDTO>>()
+            {
+                Error = 0,
+                Message = "Get all users successfully",
+                Data = _mapper.Map<List<GetUserDTO>>(users)
+            };
+        }
+
+        public async Task<Result<List<GetUserDTO?>>> GetAllUsersByNameAsync(string? name)
+        {
+            var users = await _consultantRepository.GetAllUsersByNameAsync(name);
+
+            return new Result<List<GetUserDTO>>()
+            {
+                Error = 0,
+                Message = "Get all users successfully",
+                Data = _mapper.Map<List<GetUserDTO>>(users)
             };
         }
     }

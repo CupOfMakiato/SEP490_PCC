@@ -18,6 +18,47 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.User
+                .Where(u => !u.IsDeleted && u.RoleId == 2)
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Status = u.Status,
+                    RoleId = u.RoleId,
+                    Avatar = u.Avatar != null && !u.Avatar.IsDeleted ? u.Avatar : null
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<User?>> GetAllUsersByNameAsync(string? name)
+        {
+            var query = _context.User
+                .Where(u => !u.IsDeleted && u.RoleId == 2);
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(u => u.UserName.Contains(name));
+            }
+
+            return await query
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Status = u.Status,
+                    RoleId = u.RoleId,
+                    Avatar = u.Avatar != null && !u.Avatar.IsDeleted ? u.Avatar : null
+                })
+                .ToListAsync();
+        }
+
         public async Task<Consultant> GetConsultantByConsultantIdAsync(Guid consultantId)
         {
             return await _context.Consultant.FirstOrDefaultAsync(c => c.Id == consultantId && !c.IsDeleted);
