@@ -379,23 +379,21 @@ namespace Server.Application.Services
             journal.ModificationDate = _currentTime.GetCurrentTime();
 
             journal.JournalSymptoms.Clear();
-            foreach (var name in EditJournalEntryDTO.SymptomNames.Distinct())
-            {
-                var newSymptom = new RecordedSymptom
-                {
-                    SymptomName = name,
-                    CreatedBy = user,
-                    CreationDate = _currentTime.GetCurrentTime(),
-                    IsActive = true
-                };
 
-                await _unitOfWork.SymptomRepository.AddAsync(newSymptom);
+            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(
+                user,
+                EditJournalEntryDTO.SymptomNames.Distinct().ToList()
+            );
+
+            foreach (var symptom in resolvedSymptoms)
+            {
                 journal.JournalSymptoms.Add(new JournalSymptom
                 {
-                    Journal = journal,
-                    RecordedSymptom = newSymptom
+                    JournalId = journal.Id,
+                    RecordedSymptomId = symptom.Id
                 });
             }
+
 
 
             // Related Images
