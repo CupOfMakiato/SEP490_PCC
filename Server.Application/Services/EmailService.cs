@@ -426,5 +426,30 @@ namespace Server.Application.Services
             await SendEmailAsync(emailDto);
         }
 
+        public async Task SendEmergencyBiometricAlert(string email, string subject, string body)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = subject,
+                Body = $@"
+        <html>
+        <body style='font-family: Arial, sans-serif; line-height: 1.6;'>
+            <div style='max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>
+                <h2 style='color: #e74c3c;'>⚠ Emergency Alert</h2>
+                <p style='color: #555;'>{body}</p>
+                <p style='color: #555;'>Please book a consultation immediately for your safety.</p>
+                <p style='color: #555;'>Stay safe,<br />Nestly Care Companion</p>
+                <hr style='margin-top: 40px;' />
+                <p style='font-size: 12px; color: #999;'>This is an automated message. Please do not reply directly to this email.</p>
+            </div>
+        </body>
+        </html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+
+
     }
 }
