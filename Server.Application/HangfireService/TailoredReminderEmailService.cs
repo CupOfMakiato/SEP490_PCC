@@ -126,26 +126,41 @@ namespace Server.Application.HangfireService
         {
             if (bio.SystolicBP.HasValue && bio.DiastolicBP.HasValue)
             {
-                if (bio.SystolicBP > 140 || bio.DiastolicBP > 90) // Hypertension
+                const int SystolicHypertension = 140;
+                const int SystolicHypotension = 90;
+
+                const int DiastolicHypertension = 90;
+                const int DiastolicHypotension = 60;
+                if (bio.SystolicBP > SystolicHypertension || bio.DiastolicBP > DiastolicHypertension) // Hypertension
                     return true;
-                if (bio.SystolicBP < 90 || bio.DiastolicBP < 60) // Hypotension
+                if (bio.SystolicBP < SystolicHypotension || bio.DiastolicBP < DiastolicHypotension) // Hypotension
                     return true;
             }
-
             if (bio.BloodSugarLevelMgDl.HasValue)
             {
-                if (bio.BloodSugarLevelMgDl > 180 || bio.BloodSugarLevelMgDl < 70) // Diabetes risk or hypoglycemia
+                const int HyperGlycemia = 180;
+                const int HypoGlycemia = 70;
+                if (bio.BloodSugarLevelMgDl > HyperGlycemia || bio.BloodSugarLevelMgDl < HypoGlycemia) // Diabetes risk or hypoglycemia
                     return true;
             }
-
-            if (bio.HeartRateBPM.HasValue && (bio.HeartRateBPM < 50 || bio.HeartRateBPM > 120))
+            const int MinHR = 50;
+            const int MaxHR = 120;
+            if (bio.HeartRateBPM.HasValue && (bio.HeartRateBPM < MinHR || bio.HeartRateBPM > MaxHR))
                 return true;
-
             // BMI check (extreme under/overweight)
-            var bmi = bio.GetBMI();
-            if (bmi < 18.5 || bmi > 35)
-                return true;
-
+            const float MinBmi = 18.5f;
+            const float MaxBmi = 35f;
+            try
+            {
+                var bmi = bio.GetBMI();
+                if (bmi < MinBmi || bmi > MaxBmi)
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                // Don't fail the job on invalid BMI; log and continue checking other vitals
+                _logger.LogWarning(ex, "BMI calculation failed for BasicBioMetric ID {BiometricId}", bio.Id);
+            }
             return false;
         }
 
