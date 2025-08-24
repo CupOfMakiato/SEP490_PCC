@@ -113,8 +113,15 @@ using (var scope = app.Services.CreateScope())
     "send-checkup-reminder",
         job => job.SendTailoredReminderCheckupEmail(),
         Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
+                             //Cron.MinuteInterval(1) // Run every minute for testing
+        );
+     recurringJobManager.AddOrUpdate<ITailoredReminderEmailService>(
+    "send-emergency-biometric-alert",
+        job => job.RunEmergencyBiometricJob(),
+        Cron.Minutely
         //Cron.MinuteInterval(1) // Run every minute for testing
     );
+
 }
 
 

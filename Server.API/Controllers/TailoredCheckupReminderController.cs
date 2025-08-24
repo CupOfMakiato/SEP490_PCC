@@ -37,6 +37,14 @@ namespace Server.API.Controllers
             var result = await _tailoredCheckupReminderService.ViewAllReminders();
             return Ok(result);
         }
+        [HttpGet("view-all-tailored-checkup-reminders-by-growthdata")]
+        [ProducesResponseType(200, Type = typeof(Result<List<ViewTailoredCheckupReminderDTO>>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> ViewAllTailoredCheckupRemindersByGrowthData(Guid growthDataId)
+        {
+            var result = await _tailoredCheckupReminderService.ViewRemindersByGrowthData(growthDataId);
+            return Ok(result);
+        }
         [HttpPost("create-new-tailored-checkup-reminder")]
         [ProducesResponseType(200, Type = typeof(Result<ViewTailoredCheckupReminderDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]

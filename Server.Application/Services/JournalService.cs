@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.BasicBioMetric;
 using Server.Application.DTOs.Blog;
 using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
@@ -29,11 +30,12 @@ namespace Server.Application.Services
         private readonly ICloudinaryService _cloudinaryService;
         private readonly IRecordedSymptomService _symptomService;
         private readonly IRecordedSymptomRepository _symptomRepository;
+        private readonly IBasicBioMetricService _basicBioMetricService;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
-            IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository)
+            IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository, IBasicBioMetricService basicBioMetricService)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -43,6 +45,7 @@ namespace Server.Application.Services
             _cloudinaryService = cloudinaryService;
             _symptomService = symptomService;
             _symptomRepository = symptomRepository;
+            _basicBioMetricService = basicBioMetricService;
         }
         private async Task<ViewJournalDTO> MapJournalToViewJournalDTO(Journal journal)
         {
@@ -271,6 +274,18 @@ namespace Server.Application.Services
                 };
             }
 
+            // Validate BP input
+            if ((CreateNewJournalEntryForCurrentWeekDTO.SystolicBP.HasValue && !CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP.HasValue) ||
+                (!CreateNewJournalEntryForCurrentWeekDTO.SystolicBP.HasValue && CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP.HasValue))
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "You must provide both Systolic and Diastolic BP values together.",
+                    Data = null
+                };
+            }
+
             var journal = CreateNewJournalEntryForCurrentWeekDTO.ToJournal();
 
             // Upload Images
@@ -347,6 +362,21 @@ namespace Server.Application.Services
 
             await _unitOfWork.SaveChangeAsync();
 
+            // after saving journal then update this too
+            var editBbmDto = new EditBasicBioMetricDTO
+            {
+                Id = growthData.BasicBioMetric.Id,
+                WeightKg = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
+                SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
+                DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
+                HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
+                BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
+                Notes = $"System reacored from Journal week {currentWeek}"
+            };
+
+            // this service already have savechange sooooo no need to save again
+            await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+
             return new Result<object>
             {
                 Error = result > 0 ? 0 : 1,
@@ -370,6 +400,17 @@ namespace Server.Application.Services
                     Data = null
                 };
             }
+            // Validate BP input
+            if ((EditJournalEntryDTO.SystolicBP.HasValue && !EditJournalEntryDTO.DiastolicBP.HasValue) ||
+                (!EditJournalEntryDTO.SystolicBP.HasValue && EditJournalEntryDTO.DiastolicBP.HasValue))
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "You must provide both Systolic and Diastolic BP values together.",
+                    Data = null
+                };
+            }
 
             journal.Note = EditJournalEntryDTO.Note ?? journal.Note;
             journal.MoodNotes = EditJournalEntryDTO.MoodNotes ?? journal.MoodNotes;
@@ -379,23 +420,21 @@ namespace Server.Application.Services
             journal.ModificationDate = _currentTime.GetCurrentTime();
 
             journal.JournalSymptoms.Clear();
-            foreach (var name in EditJournalEntryDTO.SymptomNames.Distinct())
-            {
-                var newSymptom = new RecordedSymptom
-                {
-                    SymptomName = name,
-                    CreatedBy = user,
-                    CreationDate = _currentTime.GetCurrentTime(),
-                    IsActive = true
-                };
 
-                await _unitOfWork.SymptomRepository.AddAsync(newSymptom);
+            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(
+                user,
+                EditJournalEntryDTO.SymptomNames.Distinct().ToList()
+            );
+
+            foreach (var symptom in resolvedSymptoms)
+            {
                 journal.JournalSymptoms.Add(new JournalSymptom
                 {
-                    Journal = journal,
-                    RecordedSymptom = newSymptom
+                    JournalId = journal.Id,
+                    RecordedSymptomId = symptom.Id
                 });
             }
+
 
 
             // Related Images
@@ -484,6 +523,36 @@ namespace Server.Application.Services
 
             _unitOfWork.JournalRepository.Update(journal);
             var result = await _unitOfWork.SaveChangeAsync();
+            var growthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(journal.GrowthDataId);
+
+            if (growthData?.BasicBioMetric != null)
+            {
+                // calculate current gestational week
+                var today = _currentTime.GetCurrentTime().Date;
+                int actualWeek = 0;
+                if (growthData.FirstDayOfLastMenstrualPeriod != null)
+                {
+                    var gestationalDays = (today - growthData.FirstDayOfLastMenstrualPeriod.Date).TotalDays;
+                    actualWeek = (int)(gestationalDays / 7) + 1;
+                }
+
+                // only sync biometric if journal belongs to "closest" current week
+                if (journal.CurrentWeek == actualWeek)
+                {
+                    var editBbmDto = new EditBasicBioMetricDTO
+                    {
+                        Id = growthData.BasicBioMetric.Id,
+                        WeightKg = journal.CurrentWeight,
+                        SystolicBP = EditJournalEntryDTO.SystolicBP ?? growthData.BasicBioMetric.SystolicBP,
+                        DiastolicBP = EditJournalEntryDTO.DiastolicBP ?? growthData.BasicBioMetric.DiastolicBP,
+                        HeartRateBPM = EditJournalEntryDTO.HeartRateBPM ?? growthData.BasicBioMetric.HeartRateBPM,
+                        BloodSugarLevelMgDl = EditJournalEntryDTO.BloodSugarLevelMgDl ?? growthData.BasicBioMetric.BloodSugarLevelMgDl,
+                        Notes = $"System updated from Journal week {journal.CurrentWeek} (edited)"
+                    };
+
+                    await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+                }
+            }
 
             return new Result<object>
             {
