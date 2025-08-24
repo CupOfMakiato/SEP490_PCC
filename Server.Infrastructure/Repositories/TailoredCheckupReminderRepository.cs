@@ -54,8 +54,8 @@ namespace Server.Infrastructure.Repositories
                 .Include(c => c.GrowthData)
                     .ThenInclude(g => g.GrowthDataCreatedBy)
                 .Where(c => !c.IsDeleted &&
-                       c.GrowthDataId == growthDataId &&
-                       c.IsActive)
+                       c.GrowthDataId == growthDataId)
+                       //&& c.IsActive)
                 .ToListAsync();
         }
         public async Task<List<TailoredCheckupReminder>> GetOverdueRemindersByGrowthData(Guid growthDataId, DateTime currentDate)

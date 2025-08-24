@@ -111,41 +111,61 @@ namespace Server.Application.Services
                 Data = null
             };
         }
-        public async Task<Result<object>> EditBasicBioMetric(EditBasicBioMetricDTO EditBasicBioMetricDTO)
+        public async Task<Result<object>> EditBasicBioMetric(EditBasicBioMetricDTO dto)
         {
             var user = _claimsService.GetCurrentUserId;
             var today = _currentTime.GetCurrentTime().Date;
-            var exsitingbbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(EditBasicBioMetricDTO.Id);
-            if (exsitingbbm == null)
+
+            var bbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(dto.Id);
+            if (bbm == null)
+            {
+                return new Result<object> { Error = 1, Message = "BBM not found." };
+            }
+            if ((dto.SystolicBP.HasValue && !dto.DiastolicBP.HasValue) ||
+            (!dto.SystolicBP.HasValue && dto.DiastolicBP.HasValue))
             {
                 return new Result<object>
                 {
                     Error = 1,
-                    Message = "BBM not found.",
+                    Message = "You must provide both Systolic and Diastolic BP values together.",
                     Data = null
                 };
             }
+            bbm.WeightKg = dto.WeightKg ?? bbm.WeightKg;
+            bbm.HeightCm = dto.HeightCm ?? bbm.HeightCm;
+            bbm.SystolicBP = dto.SystolicBP;
+            bbm.DiastolicBP = dto.DiastolicBP;
+            bbm.HeartRateBPM = dto.HeartRateBPM;
+            bbm.BloodSugarLevelMgDl = dto.BloodSugarLevelMgDl;
+            bbm.Notes = dto.Notes;
+            bbm.ModificationBy = user;
+            bbm.ModificationDate = today;
+            _unitOfWork.BasicBioMetricRepository.Update(bbm);
 
-            exsitingbbm.WeightKg = EditBasicBioMetricDTO.WeightKg ?? exsitingbbm.WeightKg;
-            exsitingbbm.HeightCm = EditBasicBioMetricDTO.HeightCm ?? exsitingbbm.HeightCm;
-            exsitingbbm.SystolicBP = EditBasicBioMetricDTO.SystolicBP;
-            exsitingbbm.DiastolicBP = EditBasicBioMetricDTO.DiastolicBP;
-            exsitingbbm.HeartRateBPM = EditBasicBioMetricDTO.HeartRateBPM;
-            exsitingbbm.BloodSugarLevelMgDl = EditBasicBioMetricDTO.BloodSugarLevelMgDl;
-            exsitingbbm.Notes = EditBasicBioMetricDTO.Notes;
-            exsitingbbm.ModificationBy = user;
-            exsitingbbm.ModificationDate = today;
+            var latestJournal = await _unitOfWork.JournalRepository.GetLatestJournalByGrowthDataId(bbm.GrowthDataId);
+            if (latestJournal != null)
+            {
+                latestJournal.CurrentWeight = dto.WeightKg ?? latestJournal.CurrentWeight;
+                latestJournal.SystolicBP = dto.SystolicBP;
+                latestJournal.DiastolicBP = dto.DiastolicBP;
+                latestJournal.HeartRateBPM = dto.HeartRateBPM;
+                latestJournal.BloodSugarLevelMgDl = dto.BloodSugarLevelMgDl;
+                latestJournal.ModificationBy = user;
+                latestJournal.ModificationDate = today;
 
-            _unitOfWork.BasicBioMetricRepository.Update(exsitingbbm);
+                _unitOfWork.JournalRepository.Update(latestJournal);
+            }
+
             var result = await _unitOfWork.SaveChangeAsync();
 
             return new Result<object>
             {
                 Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "BBM updated successfully." : "Failed to update BBM.",
+                Message = result > 0 ? "BBM and latest journal updated successfully." : "Failed to update.",
                 Data = null
             };
         }
+
         public async Task<Result<object>> DeleteBasicBioMetric(Guid bbmId)
         {
             var bbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(bbmId);
