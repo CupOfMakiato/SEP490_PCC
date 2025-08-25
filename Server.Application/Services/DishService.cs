@@ -77,7 +77,7 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Dish not found"
                 };
-            if(dish.HistoryDish.Count > 0 || dish.DishMeals.Count > 0)
+            if (dish.HistoryDish.Count > 0 || dish.DishMeals.Count > 0)
                 return new Result<object>()
                 {
                     Error = 0,
@@ -115,7 +115,7 @@ namespace Server.Application.Services
                         Food = food,
                         FoodId = food.Id,
                         Amount = request.foodList[i].Amount,
-                        Unit = request.foodList[i].Unit,    
+                        Unit = request.foodList[i].Unit,
                     });
             }
             var dish = new Dish
@@ -144,7 +144,7 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Request is null"
                 };
-            var dish = await _unitOfWork.DishRepository.GetByIdAsync(request.dishID); 
+            var dish = await _unitOfWork.DishRepository.GetByIdAsync(request.dishID);
             if (dish is null)
                 return new Result<Dish>()
                 {
@@ -213,6 +213,51 @@ namespace Server.Application.Services
             {
                 Error = 1,
                 Message = "Add image fail"
+            };
+        }
+
+        public Task<Result<FoodDish>> UpdateFoodInDish(UpdateFoodInDishRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Result<GetDishResponse>> DeleteFoodInDishByFoodId(Guid dishId, Guid foodId)
+        {
+            var dish = await _unitOfWork.DishRepository.GetDishById(dishId);
+            if (dish == null)
+                return new Result<GetDishResponse>()
+                {
+                    Error = 1,
+                    Message = "Dish not found"
+                };
+            var food = await _unitOfWork.FoodRepository.GetByIdAsync(foodId);
+            if (food == null)
+                return new Result<GetDishResponse>()
+                {
+                    Error = 1,
+                    Message = "Food not found"
+                };
+            var removeItem = dish.Foods.FirstOrDefault(f => f.FoodId == foodId);
+            if (removeItem is not null)
+            {
+                dish.Foods.Remove(removeItem);
+                if (await _unitOfWork.SaveChangeAsync() > 0)
+                    return new Result<GetDishResponse>()
+                    {
+                        Error = 0,
+                        Message = "Remove success",
+                        Data = _mapper.Map<GetDishResponse>(dish)   
+                    };
+                return new Result<GetDishResponse>()
+                {
+                    Error = 1,
+                    Message = "Remove fail"
+                };
+            }
+            return new Result<GetDishResponse>()
+            {
+                Error = 1,
+                Message = "Food is not exits"
             };
         }
     }

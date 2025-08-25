@@ -79,5 +79,54 @@ namespace Server.API.Controllers
                 return BadRequest(result);
             return Ok(result);
         }
+
+        [HttpPut("update-food-in-dish")]
+        public async Task<IActionResult> UpdateFoodInDish([FromBody] UpdateFoodInDishRequest request)
+        {
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+
+            if (request.DishId == Guid.Empty)
+                return BadRequest("Dish Id is null or empty");
+
+            if (string.IsNullOrWhiteSpace(request.Unit))
+                return BadRequest("Unit is null or empty");
+
+            if (request.Amount <= 0)
+                return BadRequest("Amount must be greater than zero");
+            try
+            {
+                var result = await _dishService.UpdateFoodInDish(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }            
+        }
+
+        [HttpPut("delete-food-in-dish-by-food-id")]
+        public async Task<IActionResult> DeleteFoodInDishByFoodId([FromQuery] Guid dishId, Guid foodId)
+        {
+            if (foodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+
+            if (dishId == Guid.Empty)
+                return BadRequest("Dish Id is null or empty");
+
+            try
+            {
+                var result = await _dishService.DeleteFoodInDishByFoodId(dishId, foodId);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }    
+        }
     }
 }

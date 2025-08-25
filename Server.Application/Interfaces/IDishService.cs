@@ -13,5 +13,7 @@ namespace Server.Application.Interfaces
         public Task<Result<Dish>> CreateDish(CreateDishRequest request);
         public Task<Result<Dish>> AddDishImage(AddDishImageRequest request);
         public Task<Result<Dish>> UpdateDish(UpdateDishRequest request);
+        public Task<Result<FoodDish>> UpdateFoodInDish(UpdateFoodInDishRequest request);
+        public Task<Result<GetDishResponse>> DeleteFoodInDishByFoodId(Guid dishId, Guid foodId);
     }
 }
