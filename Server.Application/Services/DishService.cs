@@ -216,9 +216,46 @@ namespace Server.Application.Services
             };
         }
 
-        public Task<Result<FoodDish>> UpdateFoodInDish(UpdateFoodInDishRequest request)
+        public async Task<Result<FoodDish>> UpdateFoodInDish(UpdateFoodInDishRequest request)
         {
-            throw new NotImplementedException();
+            var dish = await _unitOfWork.DishRepository.GetDishById(request.DishId);
+            if (dish == null)
+                return new Result<FoodDish>()
+                {
+                    Error = 1,
+                    Message = "Dish not found"
+                };
+            var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.FoodId);
+            if (food == null)
+                return new Result<FoodDish>()
+                {
+                    Error = 1,
+                    Message = "Food not found"
+                };
+            var foodDish = dish.Foods.FirstOrDefault(f => f.FoodId == request.FoodId);            
+            if (foodDish is not null)
+            {
+                foodDish.Unit = request.Unit;
+                foodDish.Amount = request.Amount;
+                _unitOfWork.DishRepository.Update(dish);
+                if (await _unitOfWork.SaveChangeAsync() > 0)
+                    return new Result<FoodDish>()
+                    {
+                        Error = 0,
+                        Message = "Update success",
+                        Data = _mapper.Map<FoodDish>(dish)
+                    };
+                return new Result<FoodDish>()
+                {
+                    Error = 1,
+                    Message = "Update fail"
+                };
+            }
+            return new Result<FoodDish>()
+            {
+                Error = 1,
+                Message = "FoodDish is not exist"
+            };
         }
 
         public async Task<Result<GetDishResponse>> DeleteFoodInDishByFoodId(Guid dishId, Guid foodId)
@@ -246,7 +283,7 @@ namespace Server.Application.Services
                     {
                         Error = 0,
                         Message = "Remove success",
-                        Data = _mapper.Map<GetDishResponse>(dish)   
+                        Data = _mapper.Map<GetDishResponse>(dish)
                     };
                 return new Result<GetDishResponse>()
                 {
