@@ -20,12 +20,20 @@ namespace Server.API.Controllers
         [HttpGet("view-menu-suggestion-by-trimester")]
         public async Task<IActionResult> MenuSuggestion(ViewMenuSuggestionRequest request)
         {
+            if (request == null)
+                return BadRequest("Request is null");
+
+            if (request.Stage <= 0 || request.Stage > 40)
+                return BadRequest("Stage must be greater than 0 and smaller than 41");
+            if (request.ListFavouriteDishesId is not null)
+                if (request.ListFavouriteDishesId.Count > 3 )
+                    return BadRequest("Favourite dishes must be smaller than 4");
             try
             {
-                //var result = await _mealService.CreateMeal(request);
-                //if (result.Error == 1)
-                //    return BadRequest(result);
-                return Ok();
+                var result = await _mealService.MenuSuggestion(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -7,3 +7,4 @@
         public DayOfWeek DayOfWeek { get; set; }
     }
 }
+  

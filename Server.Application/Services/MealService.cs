@@ -38,7 +38,7 @@ namespace Server.Application.Services
             }
 
             await _unitOfWork.MealRepository.AddAsync(meal);
-            if(await _unitOfWork.SaveChangeAsync() > 0)
+            if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<Meal>()
                 {
                     Error = 0,
@@ -49,6 +49,31 @@ namespace Server.Application.Services
             {
                 Error = 1,
                 Message = "Add failed"
+            };
+        }
+
+        public async Task<Result<List<Meal>>> MenuSuggestion(ViewMenuSuggestionRequest request)
+        {
+            var energy = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByTrimester(request.Stage switch
+            {
+                < 14 => 1,
+                < 28 => 2,
+                _ => 3
+            });
+            var caloriesId = await _unitOfWork.NutrientRepository.GetNutrientIdByName("Calories");
+            var meals = new List<Meal>();
+            if (request.ListFavouriteDishesId is null)
+            {
+                meals = await _unitOfWork.MealRepository.GetMealsByCalories(energy.BaseCalories + energy.AdditionalCalories, caloriesId);
+            }
+            else
+            {
+                meals = await _unitOfWork.MealRepository.GetMealsByCalories(energy.BaseCalories + energy.AdditionalCalories, request.ListFavouriteDishesId, caloriesId);
+            }
+            return new Result<List<Meal>>()
+            {
+                Error = 0,
+                Message = "Get success",
             };
         }
     }
