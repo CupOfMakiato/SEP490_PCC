@@ -24,15 +24,17 @@ namespace Server.Application.Services
         private readonly IMapper _mapper;
         private readonly IClaimsService _claimsService;
         private readonly ICurrentTime _currentTime;
+        private readonly ITailoredCheckupReminderService _tailoredCheckupReminderService;
 
         public BasicBioMetricService(IUnitOfWork unitOfWork, IMapper mapper, IBasicBioMetricRepository basicBioMetricRepository,
-            IClaimsService claimsService, ICurrentTime currentTime)
+            IClaimsService claimsService, ICurrentTime currentTime, ITailoredCheckupReminderService tailoredCheckupReminderService)
         {
             _basicBioMetricRepository = basicBioMetricRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _claimsService = claimsService;
             _currentTime = currentTime;
+            _tailoredCheckupReminderService = tailoredCheckupReminderService;
         }
         public async Task<Result<List<ViewBasicBioMetricDTO>>> ViewAllBasicBioMetrics()
         {
@@ -116,7 +118,9 @@ namespace Server.Application.Services
             var user = _claimsService.GetCurrentUserId;
             var today = _currentTime.GetCurrentTime().Date;
 
+
             var bbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(dto.Id);
+            
             if (bbm == null)
             {
                 return new Result<object> { Error = 1, Message = "BBM not found." };
@@ -157,6 +161,12 @@ namespace Server.Application.Services
             }
 
             var result = await _unitOfWork.SaveChangeAsync();
+
+            if (result > 0)
+            {
+                int? recordedWeek = latestJournal?.CurrentWeek; 
+                await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id, recordedWeek);
+            }
 
             return new Result<object>
             {

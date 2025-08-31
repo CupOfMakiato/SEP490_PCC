@@ -127,7 +127,7 @@ namespace Server.Infrastructure.Data
                {
                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
                    //Height = 160,
-                   //Weight = 60,
+                   PreWeight = 60,
                    FirstDayOfLastMenstrualPeriod = new DateTime(2024, 11, 26),
                    EstimatedDueDate = new DateTime(2025, 09, 02),
                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 

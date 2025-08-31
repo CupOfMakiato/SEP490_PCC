@@ -17,5 +17,6 @@ namespace Server.Application.Repositories
         Task<List<TailoredCheckupReminder>> GetUpcomingRemindersByGrowthData(Guid growthDataId, DateTime currentDate);
         Task<List<TailoredCheckupReminder>> GetCompletedRemindersByGrowthData(Guid growthDataId, DateTime currentDate);
         Task<List<TailoredCheckupReminder>> GetRemindersByTrimester(Guid growthDataId, int trimester);
+        Task<TailoredCheckupReminder?> GetActiveReminderByGrowthDataAndWeek(Guid growthDataId, int week);
     }
 }

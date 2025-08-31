@@ -9,6 +9,6 @@ namespace Server.Application.HangfireInterface
     public interface ITailoredReminderEmailService
     {
         Task SendTailoredReminderCheckupEmail();
-        Task RunEmergencyBiometricJob();
+        //Task RunEmergencyBiometricJob();
     }
 }

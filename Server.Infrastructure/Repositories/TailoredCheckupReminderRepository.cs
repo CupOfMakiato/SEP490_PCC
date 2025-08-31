@@ -94,6 +94,16 @@ namespace Server.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<TailoredCheckupReminder?> GetActiveReminderByGrowthDataAndWeek(Guid growthDataId, int week)
+        {
+            return await _dbContext.TailoredCheckupReminder
+                .Where(r => r.GrowthDataId == growthDataId
+                            && r.IsActive
+                            && r.RecommendedStartWeek == week)
+                .OrderByDescending(r => r.CreationDate)
+                .FirstOrDefaultAsync();
+        }
+
 
 
         public async Task<List<TailoredCheckupReminder>> GetRemindersByTrimester(Guid growthDataId, int trimester)
