@@ -282,7 +282,7 @@ namespace Server.WebAPI.Controllers
                 }
 
                 await _authService.ChangePasswordAsync(email, changePasswordDto);
-                return Ok(new { Message = "Password changed successfully. Please log in again." });
+                return Ok(new { Message = "Password changed successfully!" });
             }
             catch (Exception ex)
             {

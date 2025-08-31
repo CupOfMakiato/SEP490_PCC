@@ -118,7 +118,9 @@ namespace Server.Application.Services
             var user = _claimsService.GetCurrentUserId;
             var today = _currentTime.GetCurrentTime().Date;
 
+
             var bbm = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(dto.Id);
+            
             if (bbm == null)
             {
                 return new Result<object> { Error = 1, Message = "BBM not found." };
@@ -162,7 +164,8 @@ namespace Server.Application.Services
 
             if (result > 0)
             {
-                await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id);
+                int? recordedWeek = latestJournal?.CurrentWeek; 
+                await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id, recordedWeek);
             }
 
             return new Result<object>

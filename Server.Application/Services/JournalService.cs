@@ -31,11 +31,13 @@ namespace Server.Application.Services
         private readonly IRecordedSymptomService _symptomService;
         private readonly IRecordedSymptomRepository _symptomRepository;
         private readonly IBasicBioMetricService _basicBioMetricService;
+        private readonly ITailoredCheckupReminderService _tailoredCheckupReminderService;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
-            IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository, IBasicBioMetricService basicBioMetricService)
+            IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository, IBasicBioMetricService basicBioMetricService,
+            ITailoredCheckupReminderService tailoredCheckupReminderService)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -46,6 +48,7 @@ namespace Server.Application.Services
             _symptomService = symptomService;
             _symptomRepository = symptomRepository;
             _basicBioMetricService = basicBioMetricService;
+            _tailoredCheckupReminderService = tailoredCheckupReminderService;
         }
         private async Task<ViewJournalDTO> MapJournalToViewJournalDTO(Journal journal)
         {
@@ -564,8 +567,8 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> DeleteJournal(Guid journalId)
         {
-            var existingData = await _unitOfWork.JournalRepository.GetJournalById(journalId);
-            if (existingData == null)
+            var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (journal == null)
             {
                 return new Result<object>
                 {
@@ -575,17 +578,60 @@ namespace Server.Application.Services
                 };
             }
 
-            _unitOfWork.JournalRepository.SoftRemove(existingData);
+            var growthDataId = journal.GrowthDataId;
+            var reminder = await _unitOfWork.TailoredCheckupReminderRepository
+                .GetActiveReminderByGrowthDataAndWeek(growthDataId, journal.CurrentWeek);
 
-            // Save the changes
-            var result = await _unitOfWork.SaveChangeAsync();
+                reminder.IsActive = false;
+                reminder.ModificationDate = _currentTime.GetCurrentTime();
+                reminder.Note = $"Deactivated because journal week {journal.CurrentWeek} was deleted.";
+                _unitOfWork.TailoredCheckupReminderRepository.Update(reminder);
+            
+
+            _unitOfWork.JournalRepository.SoftRemove(journal);
+            await _unitOfWork.SaveChangeAsync();
+
+            var growthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthDataId);
+            if (growthData?.BasicBioMetric != null)
+            {
+                var bbm = growthData.BasicBioMetric;
+
+                var latestJournal = await _unitOfWork.JournalRepository
+                    .GetLatestJournalByGrowthDataId(growthDataId);
+
+                if (latestJournal != null)
+                {
+                    bbm.WeightKg = latestJournal.CurrentWeight ?? bbm.WeightKg;
+                    bbm.SystolicBP = latestJournal.SystolicBP;
+                    bbm.DiastolicBP = latestJournal.DiastolicBP;
+                    bbm.HeartRateBPM = latestJournal.HeartRateBPM;
+                    bbm.BloodSugarLevelMgDl = latestJournal.BloodSugarLevelMgDl;
+                    bbm.Notes = $"System rolled back from deleted journal, now using journal week {latestJournal.CurrentWeek}";
+                }
+                else
+                {
+                    bbm.WeightKg = growthData.PreWeight ?? bbm.WeightKg;
+                    bbm.SystolicBP = null;
+                    bbm.DiastolicBP = null;
+                    bbm.HeartRateBPM = null;
+                    bbm.BloodSugarLevelMgDl = null;
+                    bbm.Notes = "System reset BBM because all journals were deleted.";
+                }
+
+                _unitOfWork.BasicBioMetricRepository.Update(bbm);
+                await _unitOfWork.SaveChangeAsync();
+
+                await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id);
+            }
 
             return new Result<object>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Journal deleted successfully" : "Failed to delete Journal",
+                Error = 0,
+                Message = "Journal deleted successfully, BBM updated, and related reminders deactivated.",
                 Data = null
             };
         }
+
+
     }
 }

@@ -350,15 +350,13 @@ namespace Server.Application.Services
                 Data = null
             };
         }
-        public async Task SendEmergencyBiometricAlert(Guid biometricId)
+        public async Task SendEmergencyBiometricAlert(Guid biometricId, int? recordedWeek = null)
         {
             var bio = await _unitOfWork.BasicBioMetricRepository.GetBasicBioMetricById(biometricId);
             if (bio == null) return;
 
             var abnormalDetails = GetAbnormalitiesSummary(bio);
-
-            if (!abnormalDetails.Any())
-                return;
+            if (!abnormalDetails.Any()) return;
 
             var email = bio.GrowthData?.GrowthDataCreatedBy?.Email;
             if (string.IsNullOrEmpty(email))
@@ -367,12 +365,23 @@ namespace Server.Application.Services
                 return;
             }
 
+            // Calculate gestational week
+            var lmpDate = bio.GrowthData?.FirstDayOfLastMenstrualPeriod;
+            var currentDate = _currentTime.GetCurrentTime().Date;
+            int currentWeek = lmpDate.HasValue
+                ? (int)((currentDate - lmpDate.Value).TotalDays / 7) + 1
+                : 0;
+
+            // Choose reminder week
+            int reminderWeek = recordedWeek.HasValue && recordedWeek.Value > 0
+                ? recordedWeek.Value
+                : currentWeek;
+
             // Build email content
             var subject = "Emergency Biometric Alert";
             var message = "We detected the following abnormal readings:\n" +
                           string.Join("\n", abnormalDetails);
 
-            // Create reminder
             var reminder = new TailoredCheckupReminder
             {
                 Id = Guid.NewGuid(),
@@ -382,18 +391,21 @@ namespace Server.Application.Services
                 CheckupStatus = CheckupStatus.NotScheduled,
                 Type = CheckupType.Emergency,
                 CreatedBy = bio.GrowthData?.CreatedBy,
-                CreationDate = _currentTime.GetCurrentTime(),
-                IsActive = true
+                CreationDate = currentDate,
+                IsActive = true,
+
+                RecommendedStartWeek = reminderWeek,
+                RecommendedEndWeek = reminderWeek + 1
             };
 
             await _unitOfWork.TailoredCheckupReminderRepository.AddAsync(reminder);
             await _unitOfWork.SaveChangeAsync();
 
-            // Send email
             await _emailService.SendEmergencyBiometricAlert(email, subject, message);
 
             _logger.LogInformation(
-                $"Created emergency reminder & sent email to {email} for biometric ID: {bio.Id}, reminder ID: {reminder.Id}"
+                $"Created emergency reminder (Weeks {reminder.RecommendedStartWeek}-{reminder.RecommendedEndWeek}) " +
+                $"& sent email to {email} for biometric ID: {bio.Id}, reminder ID: {reminder.Id}"
             );
         }
 
