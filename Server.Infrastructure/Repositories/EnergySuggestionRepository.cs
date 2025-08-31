@@ -33,5 +33,10 @@ namespace Server.Infrastructure.Repositories
         {
             return await _dbSet.FirstOrDefaultAsync(es => es.AgeGroupId == ageGroupId && es.Trimester == trimester && es.ActivityLevel == (ActivityLevel)activityLevel);
         }
+
+        public async Task<EnergySuggestion> GetEnergySuggestionByTrimester(int trimester)
+        {
+            return await _dbSet.FirstOrDefaultAsync(es => es.Trimester == trimester);
+        }
     }
 }

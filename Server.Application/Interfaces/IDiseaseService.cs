@@ -1,4 +1,6 @@
-﻿using Server.Domain.Entities;
+﻿using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Disease;
+using Server.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,11 @@ namespace Server.Application.Interfaces
 {
     public interface IDiseaseService
     {
-        public Task<Disease> GetDiseaseByIdAsync(Guid diseaseId);
-        public Task<List<Disease>> GetDiseasesAsync();
-        public Task<bool> SoftDeleteDisease(Guid diseaseId);
-        public Task<bool> DeleteDisease(Guid diseaseId);
-        public Task<bool> CreateDisease(Disease disease);
-        public Task<bool> UpdateDisease(Disease disease);
+        Task<Result<GetDiseaseResponse>> GetDiseaseByIdAsync(Guid diseaseId);
+        Task<Result<List<GetDiseaseResponse>>> GetDiseasesAsync();
+        Task<Result<object>> SoftDeleteDisease(Guid diseaseId);
+        Task<Result<object>> DeleteDisease(Guid diseaseId);
+        Task<Result<Disease>> CreateDisease(CreateDiseaseRequest request);
+        Task<Result<Disease>> UpdateDisease(UpdateDiseaseRequest request);
     }
 }

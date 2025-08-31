@@ -15,7 +15,7 @@ namespace Server.Infrastructure.Repositories
     {
         private readonly AppDbContext _context;
 
-        public NutrientRepository(AppDbContext context, ICurrentTime currentTime, IClaimsService claimsService) : base (context, currentTime, claimsService)
+        public NutrientRepository(AppDbContext context, ICurrentTime currentTime, IClaimsService claimsService) : base(context, currentTime, claimsService)
         {
             _context = context;
         }
@@ -45,6 +45,11 @@ namespace Server.Infrastructure.Repositories
         public async Task<Nutrient> GetNutrientByNameAndNutrientId(Guid NutrientId, string name)
         {
             return await _dbSet.FirstOrDefaultAsync(n => n.Id == NutrientId && n.Name.Equals(name));
+        }
+
+        public async Task<Guid> GetNutrientIdByName(string name)
+        {
+            return await _dbSet.Where(n => n.Name == name).Select(n => n.Id).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Nutrient>> GetNutrients()

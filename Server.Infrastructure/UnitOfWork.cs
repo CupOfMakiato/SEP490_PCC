@@ -48,6 +48,7 @@ namespace Server.Infrastructure
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
         private readonly IMessageRepository _messageRepository;
         private readonly IChatThreadRepository _chatThreadRepository;
+        private readonly IAllergyRepository _allergyRepository;
         private readonly IOfflineConsultationRepository _offlineConsultationRepository;
 
         private readonly INutrientSuggetionRepository _nutrientSuggetionRepository;
@@ -85,6 +86,7 @@ namespace Server.Infrastructure
             IDoctorRepository doctorRepository,
             IConsultantRepository consultantRepository,
             IScheduleRepository scheduleRepository,
+            IAllergyRepository allergyRepository,
             ISlotRepository slotRepository,
             IOnlineConsultationRepository onlineConsultationRepository,
             IMessageRepository messageRepository,
@@ -132,6 +134,7 @@ namespace Server.Infrastructure
             _onlineConsultationRepository = onlineConsultationRepository;
             _messageRepository = messageRepository;
             _chatThreadRepository = chatThreadRepository;
+            _allergyRepository = allergyRepository;
             _offlineConsultationRepository = offlineConsultationRepository;
             _nutrientSuggetionRepository = nutrientSuggetionRepository;
             _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
@@ -153,6 +156,7 @@ namespace Server.Infrastructure
         public ITemplateChecklistRepository TemplateChecklistRepository => _templateChecklistRepository;
         public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository => _tailoredCheckupReminderRepository;
         public IJournalRepository JournalRepository => _journalRepository;
+        public IAllergyRepository AllergyRepository => _allergyRepository;
         public IBasicBioMetricRepository BasicBioMetricRepository => _basicBioMetricRepository;
         public IFoodCategoryRepository FoodCategoryRepository => _foodCategoryRepository;
         public IFoodRepository FoodRepository => _foodRepository;

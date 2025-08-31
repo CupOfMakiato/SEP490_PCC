@@ -73,6 +73,7 @@ namespace Server.Infrastructure
             services.AddScoped<IAgeGroupService, AgeGroupService>();
             services.AddScoped<IAllergyCategoryService, AllergyCategoryService>();
             services.AddScoped<IMealService, MealService>();
+            services.AddScoped<IAllergyService, AllergyService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -115,7 +116,7 @@ namespace Server.Infrastructure
           
             services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
             services.AddScoped<INSAttributeRepository, NSAttributeRepository>();
-
+            services.AddScoped<IAllergyRepository, AllergyRepository>();
 
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();

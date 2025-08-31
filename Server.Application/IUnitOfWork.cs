@@ -43,6 +43,7 @@ namespace Server.Application
         public IDishRepository DishRepository { get; }
         public IAllergyCategoryRepository AllergyCategoryRepository { get; }
         public IMealRepository MealRepository { get; }
+        public IAllergyRepository AllergyRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }
