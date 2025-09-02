@@ -55,12 +55,14 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("add-dish")]
-        public async Task<IActionResult> CreateDish([FromBody] CreateDishRequest request)
+        public async Task<IActionResult> CreateDish(CreateDishRequest request)
         {
             if (request == null)
                 return BadRequest("Dish must not be null");
             if (request.foodList == null)
                 return BadRequest("Foodlist must not be null");
+            if(string.IsNullOrWhiteSpace(request.DishName))
+                return BadRequest("Dish name must not be null or empty");   
             var result = await _dishService.CreateDish(request);
             if (result.Error == 1)
                 return BadRequest(result);
@@ -74,6 +76,8 @@ namespace Server.API.Controllers
                 return BadRequest("Dish must not be null");
             if (request.foodList == null)
                 return BadRequest("Foodlist must not be null");
+            if(request.DishName == null)
+                return BadRequest("Dish name must not be null or empty");
             var result = await _dishService.UpdateDish(request);
             if (result.Error == 1)
                 return BadRequest(result);
@@ -127,6 +131,42 @@ namespace Server.API.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }    
+        }
+
+        [HttpPut("add-dish-image")]
+        public async Task<IActionResult> AddDishImage([FromForm] AddDishImageRequest request)
+        {
+            if (request == null)
+                return BadRequest("Request must not be null");
+
+            if (request.dishId == Guid.Empty)
+                return BadRequest("Dish Id is required");
+
+            if (request.Image == null)
+                return BadRequest("Image file is required");
+
+            // Validate file type
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var fileExtension = Path.GetExtension(request.Image.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(fileExtension))
+                return BadRequest("Invalid file type. Only .jpg, .jpeg, and .png files are allowed");
+
+            // Validate file size (e.g., max 5MB)
+            if (request.Image.Length > 5 * 1024 * 1024)
+                return BadRequest("File size exceeds maximum limit of 5MB");
+
+            try
+            {
+                var result = await _dishService.AddDishImage(request);
+                if (result.Error == 1)
+                    return BadRequest(result.Message);
+
+                return Ok(result.Data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
