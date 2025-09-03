@@ -18,8 +18,6 @@ namespace Server.Application.Services
             var meal = new Meal
             {
                 Id = Guid.NewGuid(),
-                Trimester = request.Trimester,
-                DayOfWeek = request.DayOfWeek,
                 DishMeals = new List<DishMeal>()
             };
 
@@ -33,8 +31,7 @@ namespace Server.Application.Services
                 {
                     MealId = meal.Id,
                     DishId = item.DishId,
-                    MealType = item.MealType,
-                });
+                  });
             }
 
             await _unitOfWork.MealRepository.AddAsync(meal);

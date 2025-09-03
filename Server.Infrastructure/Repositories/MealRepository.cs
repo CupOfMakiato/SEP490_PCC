@@ -96,6 +96,5 @@ namespace Server.Infrastructure.Repositories
                                 .ThenInclude(f => f.FoodNutrients)
                 .ToListAsync();
         }
-
     }
 }
