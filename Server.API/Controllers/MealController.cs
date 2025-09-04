@@ -18,7 +18,7 @@ namespace Server.API.Controllers
         }
 
         [HttpGet("view-menu-suggestion-by-trimester")]
-        public async Task<IActionResult> MenuSuggestion(BuildWeeklyMealPlanRequest request)
+        public async Task<IActionResult> MenuSuggestion([FromQuery]BuildWeeklyMealPlanRequest request)
         {
             if (request == null)
                 return BadRequest("Request is null");
