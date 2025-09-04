@@ -1,7 +1,10 @@
 ﻿using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Meal;
 using Server.Application.Interfaces;
+using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
+using System;
 
 namespace Server.Application.Services
 {
@@ -49,28 +52,86 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<List<Meal>>> MenuSuggestion(ViewMenuSuggestionRequest request)
+        public async Task<Result<MealPlanResponse>> BuildWeeklyMealPlan(BuildWeeklyMealPlanRequest request)
         {
+            var _random = new Random();
             var energy = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByTrimester(request.Stage switch
             {
                 < 14 => 1,
                 < 28 => 2,
                 _ => 3
             });
+            if (energy is null)
+            {
+                return new Result<MealPlanResponse>()
+                {
+                    Error = 1,
+                    Message = "Cannot find energy suggestion"
+                };
+            }
             var caloriesId = await _unitOfWork.NutrientRepository.GetNutrientIdByName("Calories");
-            var meals = new List<Meal>();
-            if (request.ListFavouriteDishesId is null)
+            if (energy is null || caloriesId == Guid.Empty)
             {
-                meals = await _unitOfWork.MealRepository.GetMealsByCalories(energy.BaseCalories + energy.AdditionalCalories, caloriesId);
+                return new Result<MealPlanResponse>()
+                {
+                    Error = 1,
+                    Message = "Cannot find energy suggestion or calories nutrient"
+                };
             }
-            else
+            var allMeals = await _unitOfWork.MealRepository.GetMealsWithCalories(caloriesId);
+
+            var mealsByType = allMeals
+                .GroupBy(m => m.MealType)
+                .ToDictionary(g => g.Key, g => g.ToList());
+
+            var distribution = new Dictionary<MealType, double>
             {
-                meals = await _unitOfWork.MealRepository.GetMealsByCalories(energy.BaseCalories + energy.AdditionalCalories, request.ListFavouriteDishesId, caloriesId);
+                { MealType.Breakfast, 0.25 },
+                { MealType.Lunch, 0.35 },
+                { MealType.Dinner, 0.25 },
+                { MealType.Snack1, 0.10 },
+                { MealType.Snack2, 0.05 }
+            };
+
+            var targetCalories = energy.BaseCalories + energy.AdditionalCalories;
+
+            var result = new MealPlanResponse
+            {
+                TargetCalories = targetCalories   
+            };
+
+            for (int dayIndex = 1; dayIndex <= 7; dayIndex++)
+            {
+                var day = new DayDto { DayOfWeek = (DayOfWeek)((dayIndex - 1) % 7) };
+
+                foreach (var dist in distribution)
+                {
+                    if (!mealsByType.ContainsKey(dist.Key) || mealsByType[dist.Key].Count == 0)
+                        continue;
+
+                    double expectedCalories = targetCalories * dist.Value;
+
+                    var candidateMeals = mealsByType[dist.Key]
+                        .Where(m => Math.Abs(m.TotalCalories - expectedCalories) <= 50)
+                        .ToList();
+
+                    if (candidateMeals.Count == 0)
+                    {
+                        candidateMeals = mealsByType[dist.Key];
+                    }
+
+                    var chosen = candidateMeals[_random.Next(candidateMeals.Count)];
+                    day.Meals.Add(chosen);
+                }
+
+                result.Days.Add(day);
             }
-            return new Result<List<Meal>>()
+
+            return new Result<MealPlanResponse>()
             {
                 Error = 0,
-                Message = "Get success",
+                Data = result,
+                Message = "Build meal plan success"
             };
         }
     }

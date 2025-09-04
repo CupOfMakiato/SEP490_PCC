@@ -6,7 +6,7 @@ namespace Server.Application.Interfaces
 {
     public interface IMealService
     {
-        Task<Result<List<Meal>>> MenuSuggestion(ViewMenuSuggestionRequest request);
+        Task<Result<MealPlanResponse>> BuildWeeklyMealPlan(BuildWeeklyMealPlanRequest request);
         Task<Result<Meal>> CreateMeal(CreateMealRequest request);
     }
 }
