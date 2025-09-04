@@ -83,7 +83,7 @@ namespace Server.API.Controllers
                 if (result.Error != 0)
                     return BadRequest(result.Message);
 
-                return Ok("Create Success");
+                return Ok(new { Message = "Create Success", Data = result.Data });
             }
             catch (Exception ex)
             {

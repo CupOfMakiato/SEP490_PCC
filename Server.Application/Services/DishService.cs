@@ -4,6 +4,7 @@ using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Dish;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 
 namespace Server.Application.Services
 {
@@ -121,7 +122,17 @@ namespace Server.Application.Services
             var dish = new Dish
             {
                 Foods = foodDish,
+                DishName = request.DishName,
+                Description = request.Description,
             };
+            if (request.Image is not null)
+            {
+                var uploadImageResponse = await _cloudinaryService.UploadImage(request.Image, "Dish");
+                if (uploadImageResponse != null)
+                    dish.ImageUrl = uploadImageResponse.FileUrl;
+                else
+                    dish.ImageUrl = "";
+            }            
             await _unitOfWork.DishRepository.AddAsync(dish);
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<Dish>()
@@ -165,6 +176,8 @@ namespace Server.Application.Services
                     });
             }
             dish.Foods = foodDish;
+            dish.DishName = request.DishName;
+            dish.Description = request.Description;
             _unitOfWork.DishRepository.Update(dish);
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<Dish>()

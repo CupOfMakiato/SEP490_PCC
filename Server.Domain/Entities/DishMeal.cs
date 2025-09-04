@@ -10,6 +10,5 @@ namespace Server.Domain.Entities
         public Guid DishId { get; set; }
         public Dish Dish { get; set; }
 
-        public MealType MealType { get; set; } //Breakfast, Lunch, Snack, etc.
     }
 }
