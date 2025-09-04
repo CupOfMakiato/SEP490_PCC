@@ -16,7 +16,7 @@ namespace Server.API.Controllers
         }
 
         [HttpGet("GetEssentialNutritionalNeedsInOneDay")]
-        public async Task<ActionResult> GetEssentialNutritionalNeedsInOneDay([FromBody] GetEssentialNutritionalNeedsInOneDayRequest request)
+        public async Task<ActionResult> GetEssentialNutritionalNeedsInOneDay([FromQuery]GetEssentialNutritionalNeedsInOneDayRequest request)
         {
             var result = await _nutrientSuggestionService.GetEssentialNutritionalNeedsInOneDay(request);
 
