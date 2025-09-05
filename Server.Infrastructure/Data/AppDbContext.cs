@@ -282,7 +282,7 @@ namespace Server.Infrastructure.Data
             );
 
             // Nutrition seed data
-            //NutritionSeedData.SeedData(modelBuilder);
+            NutritionSeedData.SeedData(modelBuilder);
 
             //User
             modelBuilder.Entity<User>()
@@ -366,6 +366,11 @@ namespace Server.Infrastructure.Data
             .OnDelete(DeleteBehavior.Restrict);
 
             //EnergySuggestion
+            modelBuilder.Entity<EnergySuggestion>()
+                .HasOne(e => e.AgeGroup)
+                .WithMany(a => a.EnergySuggestions)
+                .HasForeignKey(e => e.AgeGroupId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<NutrientSuggestionAttribute>()
                 .HasKey(nsa => nsa.NutrientSuggestionAttributeId);

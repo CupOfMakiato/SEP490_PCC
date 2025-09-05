@@ -237,6 +237,26 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Food is not found"
                 };
+            if (request.image is null)
+            {
+                food.ImageUrl = "";
+                _unitOfWork.FoodRepository.Update(food);
+                if (await _unitOfWork.SaveChangeAsync() > 0)
+                    return new Result<FoodDTO>()
+                    {
+                        Error = 0,
+                        Message = "Remove image success"
+                    };
+                else
+                {
+                    return new Result<FoodDTO>()
+                    {
+                        Error = 1,
+                        Message = "Remove image failed"
+                    };
+                }
+            }
+
             var uploadImageResponse = await _cloudinaryService.UploadImage(request.image, "Food");
             if (uploadImageResponse is null)
             {

@@ -32,16 +32,16 @@ namespace Server.Infrastructure.Data
             // ---------------------------------------------------
             // ENERGY SUGGESTIONS
             // ---------------------------------------------------
-            var ES1 = Guid.NewGuid();
-            var ES2 = Guid.NewGuid();
-            var ES3 = Guid.NewGuid();
-            var ES4 = Guid.NewGuid();
-            var ES5 = Guid.NewGuid();
-            var ES6 = Guid.NewGuid();
+            //var ES1 = Guid.NewGuid();
+            //var ES2 = Guid.NewGuid();
+            //var ES3 = Guid.NewGuid();
+            //var ES4 = Guid.NewGuid();
+            //var ES5 = Guid.NewGuid();
+            //var ES6 = Guid.NewGuid();
             modelBuilder.Entity<EnergySuggestion>().HasData(
                 new EnergySuggestion
                 {
-                    Id = ES1,
+                    Id = Guid.NewGuid(),
                     AgeGroupId = age20To29,
                     ActivityLevel = ActivityLevel.Light,
                     BaseCalories = 1760,
@@ -52,7 +52,7 @@ namespace Server.Infrastructure.Data
                 },
                 new EnergySuggestion
                 {
-                    Id = ES2,
+                    Id = Guid.NewGuid(),
                     AgeGroupId = age20To29,
                     ActivityLevel = ActivityLevel.Light,
                     BaseCalories = 1760,
@@ -63,7 +63,7 @@ namespace Server.Infrastructure.Data
                 },
                 new EnergySuggestion
                 {
-                    Id = ES3,
+                    Id = Guid.NewGuid(),
                     AgeGroupId = age20To29,
                     ActivityLevel = ActivityLevel.Light,
                     BaseCalories = 1760,
@@ -74,7 +74,7 @@ namespace Server.Infrastructure.Data
                 },
                 new EnergySuggestion
                 {
-                    Id = ES4,
+                    Id = Guid.NewGuid(),
                     AgeGroupId = age20To29,
                     ActivityLevel = ActivityLevel.Moderate,
                     BaseCalories = 1960,
@@ -85,7 +85,7 @@ namespace Server.Infrastructure.Data
                 },
                 new EnergySuggestion
                 {
-                    Id = ES5,
+                    Id = Guid.NewGuid(),
                     AgeGroupId = age20To29,
                     ActivityLevel = ActivityLevel.Moderate,
                     BaseCalories = 1960,
@@ -96,7 +96,7 @@ namespace Server.Infrastructure.Data
                 },
                 new EnergySuggestion
                 {
-                    Id = ES6,
+                    Id = Guid.NewGuid(),
                     AgeGroupId = age20To29,
                     ActivityLevel = ActivityLevel.Moderate,
                     BaseCalories = 1960,
