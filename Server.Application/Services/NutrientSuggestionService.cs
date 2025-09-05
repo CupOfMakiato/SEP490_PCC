@@ -4,6 +4,8 @@ using Server.Application.DTOs.NutrientSuggestion;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Server.Application.Services
 {
@@ -176,11 +178,16 @@ namespace Server.Application.Services
                 var salt = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Salt")).Attribute;
 
 
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = null, // Keep original casing
+                    DictionaryKeyPolicy = null
+                };
 
                 return new Result<object>()
                 {
                     Error = 0,
-                    Data = new
+                    Data = JsonSerializer.Serialize(new
                     {
                         Energy = energySuggestion.BaseCalories + energySuggestion.AdditionalCalories,
                         PLGSubstances = new
@@ -209,7 +216,7 @@ namespace Server.Application.Services
                         },
                         Minerals = new
                         {
-                            Canxi = new
+                            Calcium = new
                             {
                                 demand = $"{canxi.MinValuePerDay} - {canxi.MaxValuePerDay}",
                                 unit = $"{canxi.Unit}"
@@ -302,7 +309,7 @@ namespace Server.Application.Services
                             }
                         }
 
-                    }
+                    }, options)
                 };
             }
             catch (Exception ex)
