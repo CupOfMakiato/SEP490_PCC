@@ -42,7 +42,7 @@ namespace Server.Application.Services
             {
                 Description = request.Description,
                 Name = request.Name,
-                CategoryId = request.CategoryId,
+                NutrientCategoryId = request.CategoryId,
                 NutrientCategory = nutrientCategory,
             };
 

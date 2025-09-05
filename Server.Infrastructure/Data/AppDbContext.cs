@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Esf;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
 
@@ -280,6 +281,9 @@ namespace Server.Infrastructure.Data
                 }
             );
 
+            // Nutrition seed data
+            //NutritionSeedData.SeedData(modelBuilder);
+
             //User
             modelBuilder.Entity<User>()
             .Property(u => u.Status)
@@ -336,6 +340,17 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(b => b.CategoryId)
             .OnDelete(DeleteBehavior.Cascade); 
 
+            modelBuilder.Entity<NSAttribute>()
+                .HasOne(n => n.Nutrient)
+                .WithMany()
+                .HasForeignKey(c => c.NutrientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Nutrient>()
+                .HasMany(n => n.Attributes)
+                .WithOne()
+                .HasForeignKey(c => c.Id)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             // tag
@@ -358,6 +373,19 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<NutrientSuggestionAttribute>()
                 .HasIndex(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId })
                 .IsUnique();
+
+            //test
+            //modelBuilder.Entity<EnergySuggestion>()
+            //    .HasOne(e => e.AgeGroup)
+            //    .WithMany(a => a.EnergySuggestion)
+            //    .HasForeignKey(e => e.AgeGroupId);
+
+            //modelBuilder.Entity<EnergySuggestion>()
+            //    .HasOne(e => e.AgeGroup)
+            //    .WithMany(a => a.EnergySuggestions)
+            //    .HasForeignKey(e => e.AgeGroupId);
+
+
 
 
             //NSAttribute

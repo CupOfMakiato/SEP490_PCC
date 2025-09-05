@@ -127,13 +127,20 @@ namespace Server.Application.Services
             };
 
             EnergySuggestion energySuggestion;
-            if (request.activityLevel < 1 && request.activityLevel > 2)
+            if (request.activityLevel < 1 && request.activityLevel > 2 || request.activityLevel is null)
             {
                 energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupIdAndTrimester(ageGroup.Id, trimester, 2);
             }
             else
-                energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupIdAndTrimester(ageGroup.Id, trimester, request.activityLevel);
-
+                energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupIdAndTrimester(ageGroup.Id, trimester, (int)request.activityLevel);
+            if (energySuggestion is null)
+            {
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Not found energy suggestion"
+                };
+            }
             List<NutrientSuggetion> nutrientSuggetions = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionListWithAttribute(ageGroup.Id, trimester);
             try
             {
@@ -144,7 +151,7 @@ namespace Server.Application.Services
                 var glucid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Glucid")).NutrientSuggestionAttributes.First().Attribute;
 
                 var mineralNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Minerals")).NutrientSuggestionAttributes;
-                var canxi = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Canxi")).Attribute;
+                var canxi = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Calcium")).Attribute;
                 var iron = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Iron")).Attribute;
                 var zinc = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Zinc")).Attribute; //kẽm 
                 var iodine = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Iodine")).Attribute; //Iốt
@@ -165,8 +172,8 @@ namespace Server.Application.Services
 
                 var otherNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Other Information")).NutrientSuggestionAttributes;
 
-                var fiber = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Chất xơ")).Attribute;
-                var salt = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Muối")).Attribute;
+                var fiber = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Fiber")).Attribute;
+                var salt = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Salt")).Attribute;
 
 
 
