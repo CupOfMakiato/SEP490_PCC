@@ -187,9 +187,9 @@ namespace Server.Application.Services
                 return new Result<object>()
                 {
                     Error = 0,
-                    Data = JsonSerializer.Serialize(new
+                    Data = new
                     {
-                        Energy = energySuggestion.BaseCalories + energySuggestion.AdditionalCalories,
+                        TotalDemanedEnergy = energySuggestion.BaseCalories + energySuggestion.AdditionalCalories,
                         PLGSubstances = new
                         {
                             Protein = new
@@ -309,7 +309,7 @@ namespace Server.Application.Services
                             }
                         }
 
-                    }, options)
+                    }
                 };
             }
             catch (Exception ex)
