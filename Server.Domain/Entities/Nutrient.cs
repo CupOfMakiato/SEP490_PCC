@@ -5,7 +5,7 @@
         public string Name { get; set; }
         public string Description { get; set; } 
         public string? ImageUrl { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid NutrientCategoryId { get; set; }
         public NutrientCategory NutrientCategory { get; set; }
         public List<NSAttribute>? Attributes { get; set; }
         public List<FoodNutrient>? FoodNutrients { get; set; }

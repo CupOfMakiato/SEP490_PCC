@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1.Esf;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
 
@@ -336,6 +337,17 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(b => b.CategoryId)
             .OnDelete(DeleteBehavior.Cascade); 
 
+            modelBuilder.Entity<NSAttribute>()
+                .HasOne(n => n.Nutrient)
+                .WithMany()
+                .HasForeignKey(c => c.NutrientId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Nutrient>()
+                .HasMany(n => n.Attributes)
+                .WithOne()
+                .HasForeignKey(c => c.Id)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             // tag
