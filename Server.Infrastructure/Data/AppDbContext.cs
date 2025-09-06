@@ -111,7 +111,7 @@ namespace Server.Infrastructure.Data
                new User { Id = Guid.Parse("5de81f1c-c715-46c1-b40a-7dcbfe25cafa"), UserName = "TestHealth", Email = "nguyenbr23@gmail.com", Password = "$2y$10$Ll0VAQfmgd6kUzUzmM7dxOkHHUFTd4kD5WZSKVcmdy1jGNGL1giCi", Status = StatusEnums.Active, RoleId = 3, IsVerified = true, PhoneNumber = "123456789", Address = "Dong Nai", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("7e4fd68f-7a71-4dbf-873a-0605b72a64ec"), UserName = "TestNutrient", Email = "swdproject73@gmail.com", Password = "$2y$10$vpseCsSPCEa7fHNdo7fJX.Fg9x/r2vXjzh3FpmUKezOevJIFKpvMe", Status = StatusEnums.Active, RoleId = 4, IsVerified = true, PhoneNumber = "123456789", Address = "Go Vap District, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"), UserName = "TestClinic", Email = "nguyenlmse171333@fpt.edu.vn", Password = "$2y$10$3.0ODOCeEea3SbAWoD51Z.x8A8tSZJ3srprmvkw0xvXsbHdH/D9Rq", Status = StatusEnums.Active, RoleId = 5, IsVerified = true, PhoneNumber = "123456789", Address = "Thu Duc city", CreationDate = DateTime.Now, IsDeleted = false },
-               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, IsVerified = true, PhoneNumber = "123456789", Address = "District 7, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false }
+               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, DateOfBirth = new DateTime(2003, 08, 29), IsVerified = true, PhoneNumber = "123456789", Address = "District 7, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false }
 
            );
 
@@ -129,8 +129,8 @@ namespace Server.Infrastructure.Data
                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
                    //Height = 160,
                    PreWeight = 60,
-                   FirstDayOfLastMenstrualPeriod = new DateTime(2024, 11, 26),
-                   EstimatedDueDate = new DateTime(2025, 09, 02),
+                   FirstDayOfLastMenstrualPeriod = new DateTime(2025, 3, 01),
+                   EstimatedDueDate = new DateTime(2025, 12, 06),
                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
                    Status = GrowthDataStatus.Active,
                    CreationDate = DateTime.Now,
@@ -281,6 +281,9 @@ namespace Server.Infrastructure.Data
                 }
             );
 
+            // Nutrition seed data
+            NutritionSeedData.SeedData(modelBuilder);
+
             //User
             modelBuilder.Entity<User>()
             .Property(u => u.Status)
@@ -375,6 +378,19 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<NutrientSuggestionAttribute>()
                 .HasIndex(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId })
                 .IsUnique();
+
+            //test
+            //modelBuilder.Entity<EnergySuggestion>()
+            //    .HasOne(e => e.AgeGroup)
+            //    .WithMany(a => a.EnergySuggestion)
+            //    .HasForeignKey(e => e.AgeGroupId);
+
+            //modelBuilder.Entity<EnergySuggestion>()
+            //    .HasOne(e => e.AgeGroup)
+            //    .WithMany(a => a.EnergySuggestions)
+            //    .HasForeignKey(e => e.AgeGroupId);
+
+
 
 
             //NSAttribute
