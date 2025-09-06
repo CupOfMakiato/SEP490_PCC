@@ -68,7 +68,7 @@ namespace Server.Application.Services
             if (disease == null)
                 return new Result<object>() { Error = 1, Message = "Disease not found" };
 
-            if (disease.DiseaseGrowthData.Count > 0 || disease.FoodDiseaseWarning.Count > 0)
+            if (disease.DiseaseGrowthData.Count > 0 || disease.FoodDisease.Count > 0)
                 return new Result<object>() { Error = 0, Message = "Can't remove this disease (has related data)" };
 
             _unitOfWork.DiseaseRepository.DeleteDisease(disease);

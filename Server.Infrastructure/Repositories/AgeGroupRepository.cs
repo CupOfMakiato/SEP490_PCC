@@ -37,5 +37,10 @@ namespace Server.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(ag => ag.FromAge <= 29 && ag.ToAge >= 20);
         }
+
+        public async Task<Guid> GetAgeGroupIdByAge(int age)
+        {
+            return await _dbSet.AsNoTracking().Where(ag => ag.FromAge < age && age < ag.ToAge).Select(a => a.Id).FirstOrDefaultAsync();
+        }
     }
 }

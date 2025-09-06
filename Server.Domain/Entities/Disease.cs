@@ -16,6 +16,6 @@ namespace Server.Domain.Entities
         public string RiskLevel { get; set; }
         public string TypeOfDesease { get; set; }
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
-        public ICollection<FoodDiseaseWarning> FoodDiseaseWarning { get; set; } = new List<FoodDiseaseWarning>();
+        public ICollection<FoodDisease> FoodDisease { get; set; } = new List<FoodDisease>();
     }
 }

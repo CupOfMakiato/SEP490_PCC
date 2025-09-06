@@ -35,5 +35,39 @@ namespace Server.Infrastructure.Repositories
         {
             _dbSet.Remove(dish);
         }
+
+        public async Task<List<Dish>> GetDishesByCaloriesAndMealType(double calorieTarget, Guid caloriesNutrientId, List<Guid>? foodWarningIds, int numberOfDishes)
+        {
+            double min = calorieTarget - 50;
+            double max = calorieTarget + 50;
+
+            var query = _dbSet.AsNoTracking().AsSplitQuery()
+                .Select(d => new
+                {
+                    Dish = d,
+                    TotalCalories = d.Foods
+                        .SelectMany(fd => fd.Food.FoodNutrients
+                            .Where(fn => fn.NutrientId == caloriesNutrientId)
+                            .Select(fn => fn.AmountPerUnit * fd.Amount))
+                        .Sum()
+                });
+
+            if (foodWarningIds is not null && foodWarningIds.Any())
+            {
+                query = query.Where(x => !x.Dish.Foods.Any(fd => foodWarningIds.Contains(fd.FoodId)));
+            }         
+
+            query = query.Where(x => x.TotalCalories >= min && x.TotalCalories <= max);
+
+            return await query
+                .Select(x => x.Dish)
+                .Include(d => d.Foods)
+                    .ThenInclude(fd => fd.Food)
+                        .ThenInclude(f => f.FoodNutrients).
+                            ThenInclude(fn => fn.Nutrient)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(numberOfDishes)
+                .ToListAsync();
+        }
     }
 }

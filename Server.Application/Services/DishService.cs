@@ -98,10 +98,10 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<Dish>> CreateDish(CreateDishRequest request)
+        public async Task<Result<GetDishResponse>> CreateDish(CreateDishRequest request)
         {
             if (request == null)
-                return new Result<Dish>()
+                return new Result<GetDishResponse>()
                 {
                     Error = 1,
                     Message = "Request is null"
@@ -124,23 +124,16 @@ namespace Server.Application.Services
                 Foods = foodDish,
                 DishName = request.DishName,
                 Description = request.Description,
-            };
-            if (request.Image is not null)
-            {
-                var uploadImageResponse = await _cloudinaryService.UploadImage(request.Image, "Dish");
-                if (uploadImageResponse != null)
-                    dish.ImageUrl = uploadImageResponse.FileUrl;
-                else
-                    dish.ImageUrl = "";
-            }            
+            };                     
             await _unitOfWork.DishRepository.AddAsync(dish);
             if (await _unitOfWork.SaveChangeAsync() > 0)
-                return new Result<Dish>()
+                return new Result<GetDishResponse>()
                 {
                     Error = 0,
-                    Message = "Create dish success"
+                    Message = "Create dish success",
+                    Data = _mapper.Map<GetDishResponse>(dish)
                 };
-            return new Result<Dish>()
+            return new Result<GetDishResponse>()
             {
                 Error = 1,
                 Message = "Create dish fail"

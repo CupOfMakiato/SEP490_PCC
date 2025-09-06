@@ -46,7 +46,7 @@ namespace Server.Infrastructure.Data
         // Disease Management
         public DbSet<Disease> Disease { get; set; }
         public DbSet<DiseaseGrowthData> DiseaseGrowthData { get; set; }
-        public DbSet<FoodDiseaseWarning> FoodDiseaseWarning { get; set; }
+        public DbSet<FoodDisease> FoodDisease { get; set; }
 
         // Allergy Management
         public DbSet<Allergy> Allergy { get; set; }
@@ -468,7 +468,7 @@ namespace Server.Infrastructure.Data
 
             modelBuilder.Entity<FoodAllergy>()
             .HasOne(bt => bt.Food)
-            .WithMany(b => b.FoodAllergy)
+            .WithMany(b => b.FoodAllergies)
             .HasForeignKey(bt => bt.FoodId)
             .OnDelete(DeleteBehavior.Restrict);
 
@@ -478,20 +478,20 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(bt => bt.AllergyId)
             .OnDelete(DeleteBehavior.Restrict);
 
-            // FoodDiseaseWarning
+            // FoodDisease
 
-            modelBuilder.Entity<FoodDiseaseWarning>()
+            modelBuilder.Entity<FoodDisease>()
             .HasKey(bt => new { bt.FoodId, bt.DiseaseId });
 
-            modelBuilder.Entity<FoodDiseaseWarning>()
+            modelBuilder.Entity<FoodDisease>()
             .HasOne(bt => bt.Food)
-            .WithMany(b => b.FoodDiseaseWarning)
+            .WithMany(f => f.FoodDiseases)
             .HasForeignKey(bt => bt.FoodId)
             .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<FoodDiseaseWarning>()
+            modelBuilder.Entity<FoodDisease>()
             .HasOne(bt => bt.Disease)
-            .WithMany(t => t.FoodDiseaseWarning)
+            .WithMany(t => t.FoodDisease)
             .HasForeignKey(bt => bt.DiseaseId)
             .OnDelete(DeleteBehavior.Restrict);
 

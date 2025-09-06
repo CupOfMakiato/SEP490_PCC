@@ -38,6 +38,32 @@ namespace Server.API.Controllers
             }
         }
 
+        [HttpGet("view-meals-suggestion")]
+        public async Task<IActionResult> MealsSuggestion([FromQuery] MealsSuggestionRequest request)
+        {
+            if (request == null)
+                return BadRequest("Request is null");
+
+            if (request.Stage <= 0 || request.Stage > 40)
+                return BadRequest("Stage must be between 1 and 40");
+
+            if (request.NumberOfDishes <= 0)
+                return BadRequest("NumberOfDishes must be greater than 0");
+
+            try
+            {
+                var result = await _mealService.MealsSuggestion(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         [HttpPost("add-meal")]
         public async Task<IActionResult> CreateMeal(CreateMealRequest request)
         {

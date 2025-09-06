@@ -144,13 +144,30 @@ namespace Server.Application.Services
                 };
             }
             List<NutrientSuggetion> nutrientSuggetions = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionListWithAttribute(ageGroup.Id, trimester);
+
+            if (nutrientSuggetions == null || nutrientSuggetions.Count == 0)
+            {
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Not found nutrient suggestion"
+                };
+            }
+
+            if(nutrientSuggetions.All(ns => ns.NutrientSuggestionAttributes.Count == 0))
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Nutrient suggest lack attributes"
+                };
+
             try
             {
                 List<NutrientSuggestionAttribute> nutrientSuggestionAttribute = new List<NutrientSuggestionAttribute>();
 
-                var protein = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Protein")).NutrientSuggestionAttributes.First().Attribute;
-                var lipid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Lipid")).NutrientSuggestionAttributes.First().Attribute;
-                var glucid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Glucid")).NutrientSuggestionAttributes.First().Attribute;
+                var protein = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Protein")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
+                var lipid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Lipid")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
+                var glucid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Glucid")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
 
                 var mineralNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Minerals")).NutrientSuggestionAttributes;
                 var canxi = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Calcium")).Attribute;

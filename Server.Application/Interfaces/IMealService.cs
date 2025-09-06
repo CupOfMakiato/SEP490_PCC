@@ -7,6 +7,7 @@ namespace Server.Application.Interfaces
     public interface IMealService
     {
         Task<Result<MealPlanResponse>> BuildWeeklyMealPlan(BuildWeeklyMealPlanRequest request);
+        Task<Result<MealDto>> MealsSuggestion(MealsSuggestionRequest request);
         Task<Result<Meal>> CreateMeal(CreateMealRequest request);
     }
 }
