@@ -559,6 +559,7 @@ namespace Server.Application.Services
             var dayOfWeekName = GetDayOfWeekName(offlineConsulattion.DayOfWeek);
             var username = user.UserName ?? "User";
             var doctorName = doctor.User.UserName ?? "Doctor";
+            var checkupname = offlineConsulattion.CheckupName;
             var startTime = offlineConsulattion.StartDate.ToString("HH:mm");
             var endTime = offlineConsulattion.EndDate.ToString("HH:mm");
             var date = offlineConsulattion.StartDate.ToString("dd/MM/yyyy");
