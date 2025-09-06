@@ -4,6 +4,8 @@ using Server.Application.DTOs.NutrientSuggestion;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Server.Application.Services
 {
@@ -14,6 +16,75 @@ namespace Server.Application.Services
         public NutrientSuggestionService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<Result<NSAttribute>> AddNutrientSuggestionAttribute(AddNutrientSuggestionAttributeRequest request)
+        {
+            if (request == null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(request.NutrientId);
+            if (nutrient is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid NutrientId"
+                };
+            var attribute = new NSAttribute()
+            {
+                NutrientId = request.NutrientId,
+                Nutrient = nutrient,
+                Amount = request.Amount,
+                MaxEnergyPercentage = request.MaxEnergyPercentage,
+                MaxValuePerDay = request.MaxValuePerDay,
+                MinAnimalProteinPercentageRequire = request.MinAnimalProteinPercentageRequire,
+                MinEnergyPercentage = request.MinEnergyPercentage,
+                MinValuePerDay = request.MinValuePerDay,
+                Unit = request.Unit,
+                Type = request.Type,                
+            };
+
+            await _unitOfWork.NSAttributeRepository.AddAsync(attribute);            
+
+            var ageGroup = await _unitOfWork.AgeGroupRepository.GetByIdAsync((Guid)request.AgeGroudId);
+            if (ageGroup is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid AgeGroupId"
+                };
+            var nutrientSuggestion = await _unitOfWork.NutrientSuggetionRepository.GetByIdAsync((Guid)request.NutrientSuggetionId);
+            if (nutrientSuggestion is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid NutrientSuggetionId"
+                };
+            var nutrientSuggestionRela = new NutrientSuggestionAttribute()
+            {
+                AgeGroudId = request.AgeGroudId,
+                AgeGroup = ageGroup,
+                NutrientSuggetionId = request.NutrientSuggetionId,
+                NutrientSuggetion = nutrientSuggestion,
+                Attribute = attribute,
+                AttributeId = attribute.Id,
+                Trimester = request.Trimester,
+            };
+           await _unitOfWork.NutrientSuggetionRepository.CreateNutrientSuggetionAttribute(nutrientSuggestionRela);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NSAttribute>()
+                {
+                    Error = 0,
+                    Data = attribute
+                };
+            return new Result<NSAttribute>()
+            {
+                Error = 1,
+                Message = "Create fail"
+            };
         }
 
         public async Task<Result<NutrientSuggetion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request)
@@ -58,13 +129,20 @@ namespace Server.Application.Services
             };
 
             EnergySuggestion energySuggestion;
-            if (request.activityLevel < 1 && request.activityLevel > 2)
+            if (request.activityLevel < 1 && request.activityLevel > 2 || request.activityLevel is null)
             {
                 energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupIdAndTrimester(ageGroup.Id, trimester, 2);
             }
             else
-                energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupIdAndTrimester(ageGroup.Id, trimester, request.activityLevel);
-
+                energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetEnergySuggestionByAgeGroupIdAndTrimester(ageGroup.Id, trimester, (int)request.activityLevel);
+            if (energySuggestion is null)
+            {
+                return new Result<object>()
+                {
+                    Error = 1,
+                    Message = "Not found energy suggestion"
+                };
+            }
             List<NutrientSuggetion> nutrientSuggetions = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionListWithAttribute(ageGroup.Id, trimester);
             try
             {
@@ -75,7 +153,7 @@ namespace Server.Application.Services
                 var glucid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Glucid")).NutrientSuggestionAttributes.First().Attribute;
 
                 var mineralNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Minerals")).NutrientSuggestionAttributes;
-                var canxi = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Canxi")).Attribute;
+                var canxi = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Calcium")).Attribute;
                 var iron = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Iron")).Attribute;
                 var zinc = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Zinc")).Attribute; //kẽm 
                 var iodine = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Iodine")).Attribute; //Iốt
@@ -96,16 +174,22 @@ namespace Server.Application.Services
 
                 var otherNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Other Information")).NutrientSuggestionAttributes;
 
-                var fiber = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Chất xơ")).Attribute;
-                var salt = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Muối")).Attribute;
+                var fiber = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Fiber")).Attribute;
+                var salt = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Salt")).Attribute;
 
 
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = null, // Keep original casing
+                    DictionaryKeyPolicy = null
+                };
 
                 return new Result<object>()
                 {
+                    Error = 0,
                     Data = new
                     {
-                        Energy = energySuggestion.BaseCalories + energySuggestion.AdditionalCalories,
+                        TotalDemanedEnergy = energySuggestion.BaseCalories + energySuggestion.AdditionalCalories,
                         PLGSubstances = new
                         {
                             Protein = new
@@ -132,7 +216,7 @@ namespace Server.Application.Services
                         },
                         Minerals = new
                         {
-                            Canxi = new
+                            Calcium = new
                             {
                                 demand = $"{canxi.MinValuePerDay} - {canxi.MaxValuePerDay}",
                                 unit = $"{canxi.Unit}"

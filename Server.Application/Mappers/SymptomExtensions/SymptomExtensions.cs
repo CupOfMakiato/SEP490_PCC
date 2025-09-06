@@ -14,8 +14,15 @@ namespace Server.Application.Mappers.SymptomExtensions
         {
             return new AddSymptomDTO
             {
-                UserId = AddSymptomRequest.UserId,
                 SymptomName = AddSymptomRequest.SymptomName
+            };
+        }
+        public static EditSymptomDTO ToEditSymptomDTO(this EditSymptomRequest EditSymptomRequest)
+        {
+            return new EditSymptomDTO
+            {
+                SymptomId = EditSymptomRequest.SymptomId,
+                SymptomName = EditSymptomRequest.SymptomName,
             };
         }
     }

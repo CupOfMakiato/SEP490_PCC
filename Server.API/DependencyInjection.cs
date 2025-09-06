@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation.AspNetCore;
+using Server.API.Middlewares;
 using Server.Application.Interfaces;
 using Server.Infrastructure.Hubs;
 using Server.WebAPI.Middlewares;
@@ -56,6 +57,7 @@ namespace Server.WebAPI
             services.AddHealthChecks();
             services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSingleton<PerformanceMiddleware>();
+            services.AddSingleton<RateLimitMiddleware>();
 
             services.AddSingleton<Stopwatch>();
             services.AddScoped<IClaimsService, ClaimsService>();

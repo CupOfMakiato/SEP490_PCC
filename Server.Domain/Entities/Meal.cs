@@ -1,9 +1,14 @@
-﻿namespace Server.Domain.Entities
+﻿using Server.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Server.Domain.Entities
 {
     public class Meal : BaseEntity
     {
-        public int Trimester { get; set; }
+        public MealType MealType { get; set; }
         public List<DishMeal> DishMeals { get; set; }
-        public DayOfWeek DayOfWeek { get; set; }
+
+        [NotMapped]
+        public double TotalCalories { get; set; }
     }
 }

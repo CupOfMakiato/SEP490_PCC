@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace Server.Application.Interfaces
 {
-    public interface ISymptomService
+    public interface IRecordedSymptomService
     {
-        Task<Result<List<ViewSymptomDTO>>> ViewAllSymptoms();
+        // view
+        Task<Result<List<ViewSymptomDTO>>> ViewAllSymptoms(Guid journalId);
         Task<Result<List<ViewSymptomDTO>>> ViewAllSymptomsForUser(Guid userId);
         Task<Result<ViewSymptomDTO>> ViewSymptomById(Guid id);
+        //add
         Task<Result<object>> AddNewCustomSymptom(AddSymptomDTO addSymptomDTO);
         Task<List<RecordedSymptom>> ReuseExistingOrAddNewCustom(Guid userId, IEnumerable<string> symptomNames);
+        // delete
+        Task<Result<object>> DeleteRecordedSymptom(Guid id);
+        // update
+        Task<Result<object>> EditCustomSymptom(EditSymptomDTO editSymptomDTO);
     }
 }

@@ -22,6 +22,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.OfflineConsultation
                 .Include(oc => oc.Clinic)
+                .Include(oc => oc.Doctor)
                 .Where(oc =>
                     (oc.DoctorId == userId || oc.UserId == userId)
                     && !oc.IsDeleted

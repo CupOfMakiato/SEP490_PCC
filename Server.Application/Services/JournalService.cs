@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.BasicBioMetric;
 using Server.Application.DTOs.Blog;
 using Server.Application.DTOs.GrowthData;
 using Server.Application.DTOs.Journal;
@@ -27,13 +28,16 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
-        private readonly ISymptomService _symptomService;
-        private readonly ISymptomRepository _symptomRepository;
+        private readonly IRecordedSymptomService _symptomService;
+        private readonly IRecordedSymptomRepository _symptomRepository;
+        private readonly IBasicBioMetricService _basicBioMetricService;
+        private readonly ITailoredCheckupReminderService _tailoredCheckupReminderService;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
-            ISymptomService symptomService, ISymptomRepository symptomRepository)
+            IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository, IBasicBioMetricService basicBioMetricService,
+            ITailoredCheckupReminderService tailoredCheckupReminderService)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -43,6 +47,8 @@ namespace Server.Application.Services
             _cloudinaryService = cloudinaryService;
             _symptomService = symptomService;
             _symptomRepository = symptomRepository;
+            _basicBioMetricService = basicBioMetricService;
+            _tailoredCheckupReminderService = tailoredCheckupReminderService;
         }
         private async Task<ViewJournalDTO> MapJournalToViewJournalDTO(Journal journal)
         {
@@ -67,11 +73,53 @@ namespace Server.Application.Services
                     : null,
                 Symptoms = allSymptoms.Select(s => new SymptomDTO
                 {
-                    SymptomName = s.SymptomName,
-                    IsTemplate = s.IsTemplate
+                    SymptomName = s.SymptomName
                 }).ToList()
             };
         }
+        private async Task<ViewJournalDetailDTO> MapJournalToViewJournalDetailDTO(Journal journal)
+        {
+            var relatedImages = journal.Media?
+                .Where(m => m.FilePublicId != null && m.FilePublicId.Contains("journal-related"))
+                .Select(m => m.FileUrl)
+                .ToList() ?? new List<string>();
+
+            var ultrasoundImages = journal.Media?
+                .Where(m => m.FilePublicId != null && m.FilePublicId.Contains("journal-ultrasound"))
+                .Select(m => m.FileUrl)
+                .ToList() ?? new List<string>();
+
+            return new ViewJournalDetailDTO
+            {
+                Id = journal.Id,
+                CurrentWeek = journal.CurrentWeek,
+                CurrentTrimester = journal.CurrentTrimester,
+                CurrentWeight = journal.CurrentWeight,
+                SystolicBP = journal.SystolicBP,
+                DiastolicBP = journal.DiastolicBP,
+                HeartRateBPM = journal.HeartRateBPM,
+                BloodSugarLevelMgDl = journal.BloodSugarLevelMgDl,
+                Note = journal.Note,
+                Mood = journal.MoodNotes.ToString(),
+                CreatedByUser = journal.JournalCreatedBy != null
+                    ? new GetUserDTO
+                    {
+                        Id = journal.JournalCreatedBy.Id,
+                        UserName = journal.JournalCreatedBy.UserName
+                    }
+                    : null,
+                Symptoms = journal.JournalSymptoms
+                    .Where(js => js.RecordedSymptom.IsActive && !js.RecordedSymptom.IsDeleted)
+                    .Select(js => new SymptomDTO
+                    {
+                        SymptomName = js.RecordedSymptom.SymptomName
+                    })
+                    .ToList(),
+                RelatedImages = relatedImages,
+                UltraSoundImages = ultrasoundImages
+            };
+        }
+
 
         public async Task<Result<List<ViewJournalDTO>>> ViewAllJournals()
         {
@@ -92,12 +140,12 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<ViewJournalDTO>> ViewJournalById(Guid journalId)
+        public async Task<Result<ViewJournalDetailDTO>> ViewJournalById(Guid journalId)
         {
             var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
             if (journal == null)
             {
-                return new Result<ViewJournalDTO>
+                return new Result<ViewJournalDetailDTO>
                 {
                     Error = 1,
                     Message = "Journal not found",
@@ -105,12 +153,34 @@ namespace Server.Application.Services
                 };
             }
 
-            var dto = await MapJournalToViewJournalDTO(journal);
+            var dto = await MapJournalToViewJournalDetailDTO(journal);
 
-            return new Result<ViewJournalDTO>
+            return new Result<ViewJournalDetailDTO>
             {
                 Error = 0,
                 Message = "View journal by id successfully",
+                Data = dto
+            };
+        }
+        public async Task<Result<ViewJournalDetailDTO>> ViewJournalDetail(Guid journalId)
+        {
+            var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (journal == null)
+            {
+                return new Result<ViewJournalDetailDTO>
+                {
+                    Error = 1,
+                    Message = "Journal not found",
+                    Data = null
+                };
+            }
+
+            var dto = await MapJournalToViewJournalDetailDTO(journal);
+
+            return new Result<ViewJournalDetailDTO>
+            {
+                Error = 0,
+                Message = "View journal detail successfully",
                 Data = dto
             };
         }
@@ -169,12 +239,33 @@ namespace Server.Application.Services
             }
 
             var today = _currentTime.GetCurrentTime().Date;
-            int currentWeek = growthData.GetCurrentGestationalAgeInWeeks(today);
-            int trimester = growthData.GetCurrentTrimester(today);
+            int currentWeek = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeek;
 
+            int currentTrimester = currentWeek switch
+            {
+                <= 13 => 1,
+                <= 27 => 2,
+                _ => 3
+            };
+
+            if (growthData.FirstDayOfLastMenstrualPeriod != null)
+            {
+                var gestationalDays = (today - growthData.FirstDayOfLastMenstrualPeriod.Date).TotalDays;
+                int actualWeek = (int)(gestationalDays / 7) + 1;
+
+                if (currentWeek > actualWeek)
+                {
+                    return new Result<object>
+                    {
+                        Error = 1,
+                        Message = $"You cannot create a journal entry for week {currentWeek} as it is in the future.",
+                        Data = null
+                    };
+                }
+            }
 
             var existingJournals = await _unitOfWork.JournalRepository
-                .GetJournalFromGrowthDataByWeekAndTrimester(CreateNewJournalEntryForCurrentWeekDTO.Id, currentWeek, trimester);
+                .GetJournalFromGrowthDataByWeek(CreateNewJournalEntryForCurrentWeekDTO.GrowthDataId, currentWeek);
 
             if (existingJournals.Any())
             {
@@ -186,18 +277,19 @@ namespace Server.Application.Services
                 };
             }
 
-            var journal = CreateNewJournalEntryForCurrentWeekDTO.ToJournal();
-
-            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(CreateNewJournalEntryForCurrentWeekDTO.UserId, CreateNewJournalEntryForCurrentWeekDTO.SymptomNames);
-
-            foreach (var symptom in resolvedSymptoms)
+            // Validate BP input
+            if ((CreateNewJournalEntryForCurrentWeekDTO.SystolicBP.HasValue && !CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP.HasValue) ||
+                (!CreateNewJournalEntryForCurrentWeekDTO.SystolicBP.HasValue && CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP.HasValue))
             {
-                journal.JournalSymptoms.Add(new JournalSymptom
+                return new Result<object>
                 {
-                    Journal = journal,
-                    RecordedSymptom = symptom
-                });
+                    Error = 1,
+                    Message = "You must provide both Systolic and Diastolic BP values together.",
+                    Data = null
+                };
             }
+
+            var journal = CreateNewJournalEntryForCurrentWeekDTO.ToJournal();
 
             // Upload Images
             if (CreateNewJournalEntryForCurrentWeekDTO.RelatedImages != null && CreateNewJournalEntryForCurrentWeekDTO.RelatedImages.Any())
@@ -214,7 +306,7 @@ namespace Server.Application.Services
 
                 foreach (var image in CreateNewJournalEntryForCurrentWeekDTO.RelatedImages)
                 {
-                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-related");
                     if (response != null)
                     {
                         journal.Media.Add(new Media
@@ -242,7 +334,7 @@ namespace Server.Application.Services
 
                 foreach (var image in CreateNewJournalEntryForCurrentWeekDTO.UltraSoundImages)
                 {
-                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-ultrasound");
                     if (response != null)
                     {
                         journal.Media.Add(new Media
@@ -259,6 +351,34 @@ namespace Server.Application.Services
 
             await _unitOfWork.JournalRepository.AddAsync(journal);
             var result = await _unitOfWork.SaveChangeAsync();
+
+            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(CreateNewJournalEntryForCurrentWeekDTO.UserId, CreateNewJournalEntryForCurrentWeekDTO.SymptomNames);
+
+            foreach (var symptom in resolvedSymptoms)
+            {
+                journal.JournalSymptoms.Add(new JournalSymptom
+                {
+                    JournalId = journal.Id,
+                    RecordedSymptomId = symptom.Id
+                });
+            }
+
+            await _unitOfWork.SaveChangeAsync();
+
+            // after saving journal then update this too
+            var editBbmDto = new EditBasicBioMetricDTO
+            {
+                Id = growthData.BasicBioMetric.Id,
+                WeightKg = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
+                SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
+                DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
+                HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
+                BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
+                Notes = $"System reacored from Journal week {currentWeek}"
+            };
+
+            // this service already have savechange sooooo no need to save again
+            await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
 
             return new Result<object>
             {
@@ -283,120 +403,159 @@ namespace Server.Application.Services
                     Data = null
                 };
             }
+            // Validate BP input
+            if ((EditJournalEntryDTO.SystolicBP.HasValue && !EditJournalEntryDTO.DiastolicBP.HasValue) ||
+                (!EditJournalEntryDTO.SystolicBP.HasValue && EditJournalEntryDTO.DiastolicBP.HasValue))
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "You must provide both Systolic and Diastolic BP values together.",
+                    Data = null
+                };
+            }
 
-            journal.Note = EditJournalEntryDTO.Note;
-            journal.MoodNotes = (Domain.Enums.Mood)EditJournalEntryDTO.MoodNotes;
-            journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight;
+            journal.Note = EditJournalEntryDTO.Note ?? journal.Note;
+            journal.MoodNotes = EditJournalEntryDTO.MoodNotes ?? journal.MoodNotes;
+            journal.CurrentWeight = EditJournalEntryDTO.CurrentWeight ?? journal.CurrentWeight;
             
             journal.ModificationBy = user;
             journal.ModificationDate = _currentTime.GetCurrentTime();
 
             journal.JournalSymptoms.Clear();
-            foreach (var name in EditJournalEntryDTO.SymptomNames.Distinct())
-            {
-                var newSymptom = new RecordedSymptom
-                {
-                    SymptomName = name,
-                    IsTemplate = false,
-                    CreatedBy = user,
-                    CreationDate = _currentTime.GetCurrentTime(),
-                    IsActive = true
-                };
 
-                await _unitOfWork.SymptomRepository.AddAsync(newSymptom);
+            var resolvedSymptoms = await _symptomService.ReuseExistingOrAddNewCustom(
+                user,
+                EditJournalEntryDTO.SymptomNames.Distinct().ToList()
+            );
+
+            foreach (var symptom in resolvedSymptoms)
+            {
                 journal.JournalSymptoms.Add(new JournalSymptom
                 {
-                    Journal = journal,
-                    RecordedSymptom = newSymptom
+                    JournalId = journal.Id,
+                    RecordedSymptomId = symptom.Id
                 });
             }
 
 
+
+            // Related Images
             if (EditJournalEntryDTO.RelatedImages != null)
             {
-                // Delete all previous images uploaded by RelatedImages
-                var existingMedia = journal.Media.ToList(); // All media
-                foreach (var media in existingMedia)
+                var relatedMedia = journal.Media
+                    .Where(m => m.FileUrl.Contains("journal-related"))
+                    .ToList();
+
+                foreach (var media in relatedMedia)
                 {
-                    // delete ALL and reupload fresh if RelatedImages provided
                     if (!string.IsNullOrEmpty(media.FilePublicId))
                         await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+
+                    journal.Media.Remove(media);
                 }
-                journal.Media.Clear();
 
-                if (EditJournalEntryDTO.RelatedImages.Any())
+                if (EditJournalEntryDTO.RelatedImages.Count > 2)
                 {
-                    if (EditJournalEntryDTO.RelatedImages.Count > 2)
+                    return new Result<object>
                     {
-                        return new Result<object>
-                        {
-                            Error = 1,
-                            Message = "You can upload a maximum of 2 related images.",
-                            Data = null
-                        };
-                    }
+                        Error = 1,
+                        Message = "You can upload a maximum of 2 related images.",
+                        Data = null
+                    };
+                }
 
-                    foreach (var image in EditJournalEntryDTO.RelatedImages)
+                foreach (var image in EditJournalEntryDTO.RelatedImages)
+                {
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-related");
+                    if (response != null)
                     {
-                        var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
-                        if (response != null)
+                        journal.Media.Add(new Media
                         {
-                            journal.Media.Add(new Media
-                            {
-                                JournalId = journal.Id,
-                                FileName = image.FileName,
-                                FileUrl = response.FileUrl,
-                                FilePublicId = response.PublicFileId,
-                                FileType = image.ContentType
-                            });
-                        }
+                            JournalId = journal.Id,
+                            FileName = image.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = image.ContentType
+                        });
                     }
                 }
             }
 
+            // Ultrasound Images
             if (EditJournalEntryDTO.UltraSoundImages != null)
             {
-                // Delete all existing images again if needed
-                var existingMedia = journal.Media.ToList(); 
-                foreach (var media in existingMedia)
+                var ultrasoundMedia = journal.Media
+                    .Where(m => m.FileUrl.Contains("journal-ultrasound"))
+                    .ToList();
+
+                foreach (var media in ultrasoundMedia)
                 {
                     if (!string.IsNullOrEmpty(media.FilePublicId))
                         await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
+
+                    journal.Media.Remove(media);
                 }
-                journal.Media.Clear();
 
-                if (EditJournalEntryDTO.UltraSoundImages.Any())
+                if (EditJournalEntryDTO.UltraSoundImages.Count > 2)
                 {
-                    if (EditJournalEntryDTO.UltraSoundImages.Count > 2)
+                    return new Result<object>
                     {
-                        return new Result<object>
-                        {
-                            Error = 1,
-                            Message = "You can upload a maximum of 2 ultrasound images.",
-                            Data = null
-                        };
-                    }
+                        Error = 1,
+                        Message = "You can upload a maximum of 2 ultrasound images.",
+                        Data = null
+                    };
+                }
 
-                    foreach (var image in EditJournalEntryDTO.UltraSoundImages)
+                foreach (var image in EditJournalEntryDTO.UltraSoundImages)
+                {
+                    var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal, "journal-ultrasound");
+                    if (response != null)
                     {
-                        var response = await _cloudinaryService.UploadJournalImage(image.FileName, image, journal);
-                        if (response != null)
+                        journal.Media.Add(new Media
                         {
-                            journal.Media.Add(new Media
-                            {
-                                JournalId = journal.Id,
-                                FileName = image.FileName,
-                                FileUrl = response.FileUrl,
-                                FilePublicId = response.PublicFileId,
-                                FileType = image.ContentType
-                            });
-                        }
+                            JournalId = journal.Id,
+                            FileName = image.FileName,
+                            FileUrl = response.FileUrl,
+                            FilePublicId = response.PublicFileId,
+                            FileType = image.ContentType
+                        });
                     }
                 }
             }
 
             _unitOfWork.JournalRepository.Update(journal);
             var result = await _unitOfWork.SaveChangeAsync();
+            var growthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(journal.GrowthDataId);
+
+            if (growthData?.BasicBioMetric != null)
+            {
+                // calculate current gestational week
+                var today = _currentTime.GetCurrentTime().Date;
+                int actualWeek = 0;
+                if (growthData.FirstDayOfLastMenstrualPeriod != null)
+                {
+                    var gestationalDays = (today - growthData.FirstDayOfLastMenstrualPeriod.Date).TotalDays;
+                    actualWeek = (int)(gestationalDays / 7) + 1;
+                }
+
+                // only sync biometric if journal belongs to "closest" current week
+                if (journal.CurrentWeek == actualWeek)
+                {
+                    var editBbmDto = new EditBasicBioMetricDTO
+                    {
+                        Id = growthData.BasicBioMetric.Id,
+                        WeightKg = journal.CurrentWeight,
+                        SystolicBP = EditJournalEntryDTO.SystolicBP ?? growthData.BasicBioMetric.SystolicBP,
+                        DiastolicBP = EditJournalEntryDTO.DiastolicBP ?? growthData.BasicBioMetric.DiastolicBP,
+                        HeartRateBPM = EditJournalEntryDTO.HeartRateBPM ?? growthData.BasicBioMetric.HeartRateBPM,
+                        BloodSugarLevelMgDl = EditJournalEntryDTO.BloodSugarLevelMgDl ?? growthData.BasicBioMetric.BloodSugarLevelMgDl,
+                        Notes = $"System updated from Journal week {journal.CurrentWeek} (edited)"
+                    };
+
+                    await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+                }
+            }
 
             return new Result<object>
             {
@@ -408,8 +567,8 @@ namespace Server.Application.Services
 
         public async Task<Result<object>> DeleteJournal(Guid journalId)
         {
-            var existingData = await _unitOfWork.JournalRepository.GetJournalById(journalId);
-            if (existingData == null)
+            var journal = await _unitOfWork.JournalRepository.GetJournalById(journalId);
+            if (journal == null)
             {
                 return new Result<object>
                 {
@@ -419,17 +578,60 @@ namespace Server.Application.Services
                 };
             }
 
-            _unitOfWork.JournalRepository.SoftRemove(existingData);
+            var growthDataId = journal.GrowthDataId;
+            var reminder = await _unitOfWork.TailoredCheckupReminderRepository
+                .GetActiveReminderByGrowthDataAndWeek(growthDataId, journal.CurrentWeek);
 
-            // Save the changes
-            var result = await _unitOfWork.SaveChangeAsync();
+                reminder.IsActive = false;
+                reminder.ModificationDate = _currentTime.GetCurrentTime();
+                reminder.Note = $"Deactivated because journal week {journal.CurrentWeek} was deleted.";
+                _unitOfWork.TailoredCheckupReminderRepository.Update(reminder);
+            
+
+            _unitOfWork.JournalRepository.SoftRemove(journal);
+            await _unitOfWork.SaveChangeAsync();
+
+            var growthData = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(growthDataId);
+            if (growthData?.BasicBioMetric != null)
+            {
+                var bbm = growthData.BasicBioMetric;
+
+                var latestJournal = await _unitOfWork.JournalRepository
+                    .GetLatestJournalByGrowthDataId(growthDataId);
+
+                if (latestJournal != null)
+                {
+                    bbm.WeightKg = latestJournal.CurrentWeight ?? bbm.WeightKg;
+                    bbm.SystolicBP = latestJournal.SystolicBP;
+                    bbm.DiastolicBP = latestJournal.DiastolicBP;
+                    bbm.HeartRateBPM = latestJournal.HeartRateBPM;
+                    bbm.BloodSugarLevelMgDl = latestJournal.BloodSugarLevelMgDl;
+                    bbm.Notes = $"System rolled back from deleted journal, now using journal week {latestJournal.CurrentWeek}";
+                }
+                else
+                {
+                    bbm.WeightKg = growthData.PreWeight ?? bbm.WeightKg;
+                    bbm.SystolicBP = null;
+                    bbm.DiastolicBP = null;
+                    bbm.HeartRateBPM = null;
+                    bbm.BloodSugarLevelMgDl = null;
+                    bbm.Notes = "System reset BBM because all journals were deleted.";
+                }
+
+                _unitOfWork.BasicBioMetricRepository.Update(bbm);
+                await _unitOfWork.SaveChangeAsync();
+
+                await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id);
+            }
 
             return new Result<object>
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Journal deleted successfully" : "Failed to delete Journal",
+                Error = 0,
+                Message = "Journal deleted successfully, BBM updated, and related reminders deactivated.",
                 Data = null
             };
         }
+
+
     }
 }

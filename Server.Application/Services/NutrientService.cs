@@ -1,4 +1,5 @@
-﻿using Server.Application.Abstractions.Shared;
+﻿using AutoMapper;
+using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Nutrient;
 using Server.Application.Interfaces;
 using Server.Domain.Entities;
@@ -8,72 +9,57 @@ namespace Server.Application.Services
     public class NutrientService : INutrientService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICloudinaryService _cloudinaryService;
+        private readonly IMapper _mapper;
 
-        public NutrientService(IUnitOfWork unitOfWork)
+        public NutrientService(IUnitOfWork unitOfWork, ICloudinaryService cloudinaryService, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
+            _mapper = mapper;
         }
 
-        public async Task<Result<Nutrient>> ApproveNutrient(Guid nutrientId)
-        {
-            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(nutrientId);
-            if (nutrient is null)
-            {
-                return new Result<Nutrient>()
-                {
-                    Error = 1,
-                    Message = "Nutrient doesn't exist!"
-                };
-            }
-            nutrient.Review = true;
-            _unitOfWork.NutrientRepository.Update(nutrient);
-            if(await _unitOfWork.SaveChangeAsync() > 0)
-                return new Result<Nutrient>()
-                {
-                    Data = nutrient,
-                    Error = 0,
-                    Message = "Approved"
-                };
-            return new Result<Nutrient>()
-            {
-                Error = 1,
-                Message = "Approve failed"
-            };
-        }
-
-        public async Task<Result<Nutrient>> CreateNutrient(CreateNutrientRequest request)
+        public async Task<Result<NutrientDTO>> CreateNutrient(CreateNutrientRequest request)
         {
             var nutrientCategory = await _unitOfWork.NutrientCategoryRepository.GetByIdAsync
                 (request.CategoryId);
 
             if (nutrientCategory is null)
             {
-                return new Result<Nutrient>()
+                return new Result<NutrientDTO>()
                 {
                     Message = "Food category is not exist",
                     Error = 1
                 };
             }
-
+            if (await _unitOfWork.NutrientRepository.GetNutrientByName(request.Name) != null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Name is duplicate"
+                };
             var nutrient = new Nutrient()
             {
                 Description = request.Description,
                 Name = request.Name,
-                CategoryId = request.CategoryId,
+                NutrientCategoryId = request.CategoryId,
                 NutrientCategory = nutrientCategory,
-                ImageUrl = request.ImageUrl,
             };
+
+            var uploadImageResult = await _cloudinaryService.UploadImage(request.ImageUrl, "Nutrient");
+            if (uploadImageResult is not null)
+                nutrient.ImageUrl = uploadImageResult.FileUrl;
             await _unitOfWork.NutrientRepository.AddAsync(nutrient);
 
             if (!(await _unitOfWork.SaveChangeAsync() > 0))
-                return new Result<Nutrient>()
+                return new Result<NutrientDTO>()
                 {
                     Message = "Create fail",
                     Error = 1
                 };
-            return new Result<Nutrient>()
+            return new Result<NutrientDTO>()
             {
-                Data = nutrient,
+                Data = _mapper.Map<NutrientDTO>(nutrient),
                 Error = 0
             };
         }
@@ -89,14 +75,14 @@ namespace Server.Application.Services
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
 
-        public async Task<Nutrient> GetNutrientByIdAsync(Guid nutrientId)
+        public async Task<NutrientDTO> GetNutrientByIdAsync(Guid nutrientId)
         {
-            return await _unitOfWork.NutrientRepository.GetNutrientById(nutrientId);
+            return _mapper.Map<NutrientDTO>(await _unitOfWork.NutrientRepository.GetNutrientById(nutrientId));
         }
 
-        public async Task<List<Nutrient>> GetNutrientsAsync()
+        public async Task<List<NutrientDTO>> GetNutrientsAsync()
         {
-            return await _unitOfWork.NutrientRepository.GetAllAsync();
+            return _mapper.Map<List<NutrientDTO>>(await _unitOfWork.NutrientRepository.GetAllAsync());
         }
 
         public async Task<bool> SoftDeleteNutrient(Guid NutrientId)
@@ -114,6 +100,81 @@ namespace Server.Application.Services
         {
             _unitOfWork.NutrientRepository.Update(nutrient);
             return await _unitOfWork.SaveChangeAsync() > 0;
+        }
+
+        public async Task<Result<NutrientDTO>> UpdateNutrient(UpdateNutrientRequest request)
+        {
+            if (request is null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(request.Id);
+            if (nutrient is null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Nutrient is not found"
+                };
+            if (nutrient.Name != request.Name)
+                if (await _unitOfWork.NutrientRepository.GetNutrientByName(request.Name) != null)
+                    return new Result<NutrientDTO>()
+                    {
+                        Error = 1,
+                        Message = "Name is duplicate"
+                    };
+            nutrient.Name = request.Name;
+            nutrient.Description = request.Description;
+            _unitOfWork.NutrientRepository.Update(nutrient);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 0,
+                    Data = _mapper.Map<NutrientDTO>(nutrient)
+                };
+            return new Result<NutrientDTO>()
+            {
+                Error = 1,
+                Message = "Update failed"
+            };
+        }
+
+        public async Task<Result<NutrientDTO>> UpdateNutrientImage(UpdateNutrientImageRequest request)
+        {
+            if (request is null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(request.Id);
+            if (nutrient is null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Nutrient is not found"
+                };
+            var uploadImageResult = await _cloudinaryService.UploadImage(request.ImageUrl, "Nutrient");
+            if (uploadImageResult is null)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 1,
+                    Message = "Image is not found"
+                };
+            nutrient.ImageUrl = uploadImageResult.FileUrl;
+            _unitOfWork.NutrientRepository.Update(nutrient);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NutrientDTO>()
+                {
+                    Error = 0,
+                    Data = _mapper.Map<NutrientDTO>(nutrient)
+                };
+            return new Result<NutrientDTO>()
+            {
+                Error = 1,
+                Message = "Update failed"
+            };
         }
     }
 }

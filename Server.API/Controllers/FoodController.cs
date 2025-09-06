@@ -6,7 +6,7 @@ using Server.Domain.Entities;
 namespace Server.API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/food")]
     public class FoodController : ControllerBase
     {
         private readonly IFoodService _foodService;
@@ -16,26 +16,20 @@ namespace Server.API.Controllers
             _foodService = foodService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("view-all-foods")]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _foodService.GetFoodsAsync());
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("view-food-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid foodId)
         {
             return Ok(await _foodService.GetFoodByIdAsync(foodId));
         }
 
-        [HttpGet("GetWithCategoryById")]
-        public async Task<IActionResult> GetWithCategoryById([FromQuery] Guid foodId)
-        {
-            return Ok(await _foodService.GetFoodByIdAsync(foodId));
-        }
-
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CreateFoodRequest request)
+        [HttpPost("add-food")]
+        public async Task<IActionResult> Create(CreateFoodRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Name))
                 return BadRequest("Name is required");
@@ -48,10 +42,11 @@ namespace Server.API.Controllers
 
             try
             {
-                if (!await _foodService.CreateFood(request))
-                    return BadRequest("Create fail");
+                var result = await _foodService.CreateFood(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
 
-                return Ok("Create success");
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -59,20 +54,25 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] Food request)
+        [HttpPut("update-food")]
+        public async Task<IActionResult> Update([FromBody] UpdateFoodRequest request)
         {
             if (request.Id == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
+
             if (string.IsNullOrEmpty(request.Name))
-                return BadRequest("Name is null");
+                return BadRequest("Name is null or empty");
+
+            if (string.IsNullOrEmpty(request.Description))
+                return BadRequest("Description is null or empty");
 
             try
             {
-                if (!await _foodService.UpdateFood(request))
-                    return BadRequest("Update fail");
+                var result = await _foodService.UpdateFood(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
 
-                return Ok("Update success");
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -80,7 +80,65 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("SoftDelete")]
+        [HttpPut("update-food-image")]
+        public async Task<IActionResult> UpdateFoodImage(UpdateFoodImageRequest request)
+        {
+            if (request.Id == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+            if (request.image is not null)
+                if (request.image.Length < 0 && request.image.Length >= 5 * 1024 * 1024)
+                    return
+                        BadRequest("Image must be smaller than 5mb");
+            try
+            {
+                var result = await _foodService.UpdateFoodImage(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-food-nutrient")]
+        public async Task<IActionResult> UpdateFoodNutrient([FromBody] UpdateFoodNutrientRequest request)
+        {
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+
+            if (request.NutrientId == Guid.Empty)
+                return BadRequest("Nutrient Id is null or empty");
+
+            if (request.NutrientEquivalent <= 0)
+                return BadRequest("NutrientEquivalent must be greater than zero");
+
+            if (string.IsNullOrEmpty(request.Unit))
+                return BadRequest("Unit is null or empty");
+
+            if (request.AmountPerUnit <= 0)
+                return BadRequest("AmountPerUnit must be greater than zero");
+
+            if (request.TotalWeight <= 0)
+                return BadRequest("TotalWeight must be greater than zero");
+
+            try
+            {
+                var result = await _foodService.UpdateFoodNutrient(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("soft-delete-food-by-id")]
         public async Task<IActionResult> SoftDelete([FromQuery] Guid foodId)
         {
             if (foodId == Guid.Empty)
@@ -98,7 +156,8 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-        [HttpDelete("Delete")]
+
+        [HttpDelete("delete-food-by-id")]
         public async Task<IActionResult> Delete([FromQuery] Guid foodId)
         {
             if (foodId == Guid.Empty)
@@ -117,15 +176,51 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("AddNutrients")]
-        public async Task<IActionResult> AddNutrients([FromBody] AddNutrientsRequest request)
+        [HttpDelete("delete-food-nutrient-by-foodId-nutrientId")]
+        public async Task<IActionResult> DeleteFoodNutrient([FromQuery] RemoveFoodNutrientRequest request)
         {
             if (request.FoodId == Guid.Empty)
                 return BadRequest("Food Id is null or empty");
-            if (request.NutrientsNames.Count <= 0)
-                return BadRequest("List cannot be null");
-            if (request.NutrientsNames.Any(string.IsNullOrEmpty))
-                return BadRequest("Element in list cannot be null or empty");
+            if (request.NutrientId == Guid.Empty)
+                return BadRequest("Nutrient Id is null or empty");
+
+            try
+            {
+                var result = await _foodService.RemoveFoodNutrient(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("add-nutrients-to-food")]
+        public async Task<IActionResult> AddNutrients(AddNutrientsRequest request)
+        {
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("Food Id is null or empty");
+
+            if (request.Nutrients == null || request.Nutrients.Count == 0)
+                return BadRequest("Nutrient list cannot be null or empty");
+
+            // Check each nutrient entry
+            foreach (var nutrient in request.Nutrients)
+            {
+                if (!nutrient.NutrientId.HasValue || nutrient.NutrientId == Guid.Empty)
+                {
+                    return BadRequest("Each nutrient must have either an Id or a Name (or both).");
+                }
+
+                // You can also validate numeric values if needed
+                if (nutrient.NutrientEquivalent < 0 || nutrient.AmountPerUnit < 0 || nutrient.TotalWeight < 0)
+                {
+                    return BadRequest("Numeric nutrient values cannot be negative.");
+                }
+            }
 
             try
             {

@@ -13,6 +13,16 @@ namespace Server.Infrastructure.Repositories
         {
         }
 
+        public void Delete(AgeGroup ageGroup)
+        {
+            _dbSet.Remove(ageGroup);
+        }
+
+        public async Task<AgeGroup> GetAgeGroupById(Guid id)
+        {
+            return await _dbSet.Include(ag => ag.EnergySuggestions).Include(ag => ag.NutrientSuggetions).FirstOrDefaultAsync(ag => ag.Id == id);
+        }
+
         public async Task<AgeGroup> GetAgeGroupByUserDateOfBirth(DateTime dateOfBirth)
         {
             int age = DateTime.Now.Year - dateOfBirth.Year;

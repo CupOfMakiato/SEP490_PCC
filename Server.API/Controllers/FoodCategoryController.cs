@@ -18,25 +18,25 @@ namespace Server.API.Controllers
             _foodCategoryService = foodCategoryService;
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("view-all-foods-category")]
         public async Task<IActionResult> Gets()
         {
             return Ok(await _foodCategoryService.GetFoodCategorysAsync());
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("view-food-category-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid categoryId)
         {
             return Ok(await _foodCategoryService.GetFoodCategoryByIdAsync(categoryId));
         }
 
-        [HttpGet("GetWithFoodById")]
+        [HttpGet("view-food-category-by-id-with-foods")]
         public async Task<IActionResult> GetWithFoodById([FromQuery] Guid categoryId)
         {
             return Ok(await _foodCategoryService.GetFoodCategoryWithFoodByIdAsync(categoryId));
         }
 
-        [HttpPost("Create")]
+        [HttpPost("add-food-category")]
         public async Task<IActionResult> Create([FromBody] CreateFoodCategoryRequest request)
         {
             if (string.IsNullOrEmpty(request.Name))
@@ -45,9 +45,10 @@ namespace Server.API.Controllers
                 return BadRequest("Description is null");
             try
             {
-                if (!await _foodCategoryService.CreateFoodCategory(request))
-                    return BadRequest("Create fail");
-                return Ok("Create success");
+                var result = await _foodCategoryService.CreateFoodCategory(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -55,7 +56,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update-food-category")]
         public async Task<IActionResult> Update([FromBody] UpdateFoodCategoryRequest request)
         {
             if (request.Id == Guid.Empty)
@@ -65,9 +66,10 @@ namespace Server.API.Controllers
             try
             {
 
-                if (!await _foodCategoryService.UpdateFoodCategory(request))
-                    return BadRequest("Create fail");
-                return Ok("Create success");
+                var result = await _foodCategoryService.UpdateFoodCategory(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -75,7 +77,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPut("SoftDelete")]
+        [HttpPut("soft-delete-food-category-by-id")]
         public async Task<IActionResult> SoftDelete([FromQuery] Guid foodCategoryId)
         {
             if (foodCategoryId == Guid.Empty)
@@ -83,8 +85,26 @@ namespace Server.API.Controllers
             try
             {
                 if (!await _foodCategoryService.SoftDeleteFoodCategory(foodCategoryId))
-                    return BadRequest("Create fail");
-                return Ok("Create success");
+                    return BadRequest("Soft delte fail");
+                return Ok("Soft delte success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("delete-food-category-by-id")]
+        public async Task<IActionResult> Delete([FromQuery] Guid foodCategoryId)
+        {
+            if (foodCategoryId == Guid.Empty)
+                return BadRequest("FoodCategory Id is null or empty");
+            try
+            {
+                var result = await _foodCategoryService.DeleteFoodCategory(foodCategoryId);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
             }
             catch (Exception ex)
             {

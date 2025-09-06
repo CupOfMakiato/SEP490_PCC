@@ -54,10 +54,11 @@ namespace Server.Infrastructure
             services.AddScoped<IGrowthDataService, GrowthDataService>();       
 
             services.AddScoped<ICustomChecklistService, CustomChecklistService>();
+            services.AddScoped<ITemplateChecklistService, TemplateChecklistService>();
             services.AddScoped<ITailoredCheckupReminderService, TailoredCheckupReminderService>();
             services.AddScoped<IJournalService, JournalService>();
             services.AddScoped<IBasicBioMetricService, BasicBioMetricService>();
-            services.AddScoped<ISymptomService, SymptomService>();
+            services.AddScoped<IRecordedSymptomService, RecordedSymptomService>();
 
             services.AddScoped<IClinicService, ClinicService>();
             services.AddScoped<IDoctorService, DoctorService>();
@@ -67,8 +68,12 @@ namespace Server.Infrastructure
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IOfflineConsultationService, OfflineConsultationService>();
             services.AddScoped<IFeedbackService, FeedbackService>();
-
+            services.AddScoped<IDishService, DishService>();
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IAgeGroupService, AgeGroupService>();
+            services.AddScoped<IAllergyCategoryService, AllergyCategoryService>();
+            services.AddScoped<IMealService, MealService>();
+            services.AddScoped<IAllergyService, AllergyService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();
@@ -100,16 +105,18 @@ namespace Server.Infrastructure
 
             services.AddScoped<IGrowthDataRepository, GrowthDataRepository>();
             services.AddScoped<ICustomChecklistRepository, CustomChecklistRepository>();
+            services.AddScoped<ITemplateChecklistRepository, TemplateChecklistRepository>();
             services.AddScoped<IJournalRepository, JournalRepository>();
             services.AddScoped<IBasicBioMetricRepository, BasicBioMetricRepository>();
-            services.AddScoped<ISymptomRepository, SymptomRepository>();
+            services.AddScoped<IRecordedSymptomRepository, RecordedSymptomRepository>();
             services.AddScoped<ITailoredCheckupReminderRepository, TailoredCheckupReminderRepository>();
 
             services.AddScoped<IAgeGroupRepository, AgeGroupRepository>();
             services.AddScoped<IEnergySuggestionRepository, EnergySuggestionRepository>();
           
             services.AddScoped<INutrientSuggetionRepository, NutrientSuggetionRepository>();
-
+            services.AddScoped<INSAttributeRepository, NSAttributeRepository>();
+            services.AddScoped<IAllergyRepository, AllergyRepository>();
 
             services.AddScoped<IClinicRepository, ClinicRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
@@ -121,6 +128,9 @@ namespace Server.Infrastructure
             services.AddScoped<IChatThreadRepository, ChatThreadRepository>();
             services.AddScoped<IOfflineConsultationRepository, OfflineConsultationRepository>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IDishRepository, DishRepository>();
+            services.AddScoped<IAllergyCategoryRepository, AllergyCategoryRepository>();
+            services.AddScoped<IMealRepository, MealRepository>();
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();

@@ -116,6 +116,7 @@ namespace Server.Application.Services
                     Password = HashPassword(userRegistrationDto.PasswordHash),
                     Balance = 0,
                     PhoneNumber = userRegistrationDto.PhoneNo ?? userRegistrationDto.PhoneNo,
+                    //Address = null,
                     Status = StatusEnums.Pending,
                     Otp = otp,
                     IsStaff = false,
@@ -316,18 +317,15 @@ namespace Server.Application.Services
             }
             catch (ArgumentException ex)
             {
-                // Handle cases where the provided password details are invalid
-                throw new ApplicationException("Password change failed due to invalid input.", ex);
+                throw new ApplicationException($"Password change failed: {ex.Message}", ex);
             }
             catch (InvalidOperationException ex)
             {
-                // Handle cases where the new password is the same as the old password
-                throw new ApplicationException("Password change failed due to operational constraints.", ex);
+                throw new ApplicationException($"Password change failed: {ex.Message}", ex);
             }
             catch (Exception ex)
             {
-                // General exception handling
-                throw new ApplicationException("An error occurred while changing the password.", ex);
+                throw new ApplicationException("An unexpected error occurred while changing the password. Please try again later.", ex);
             }
         }
         public async Task<Authenticator> RefreshToken(string token)

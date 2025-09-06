@@ -132,6 +132,7 @@ namespace Server.Application.Services
                 UserId = offlineConsultation.UserId,
                 DoctorId = offlineConsultation.DoctorId,
                 ClinicId = doctor.ClinicId,
+                CheckupName = offlineConsultation.CheckupName,
                 ConsultationType = offlineConsultation.ConsultationType,
                 Status = "Confirmed",
                 StartDate = offlineConsultation.Schedule.Slot.StartTime,
@@ -369,6 +370,7 @@ namespace Server.Application.Services
 
                 var doctorName = doctor?.User.UserName ?? "Doctor";
                 var username = user.UserName ?? "User";
+                var checkupname = consultation.CheckupName;
                 var date = consultation.StartDate.ToString("dd/MM/yyyy");
                 var startTime = consultation.StartDate.ToString("HH:mm");
                 var endTime = consultation.EndDate.ToString("HH:mm");
@@ -380,7 +382,7 @@ namespace Server.Application.Services
 
                 var emailUserBody = $@"
                                 Hi {username},<br/><br/>
-                                This is an email reminder that you have a consultation scheduled. Here are the details:<br/><br/>
+                                This is an email reminder that you have a consultation named {checkupname} scheduled. Here are the details:<br/><br/>
                                 Doctor: {doctorName}<br/>
                                 Time: {dayOfWeekName}, {date} – {startTime} to {endTime}<br/>
                                 Form: {form}<br/>
@@ -395,7 +397,7 @@ namespace Server.Application.Services
 
                 var emailDoctorBody = $@"
                                 Hi Doctor {doctorName},<br/><br/>
-                                The system would like to remind you that you have an upcoming consultation. The details are as follows:<br/><br/>
+                                The system would like to remind you that you have an upcoming consultation named {checkupname}. The details are as follows:<br/><br/>
                                 User: {username}<br/>
                                 Time: {dayOfWeekName}, {date} – {startTime} to {endTime}<br/>
                                 Form: {form}<br/>
@@ -568,7 +570,7 @@ namespace Server.Application.Services
 
             var emailUserBody = $@"
                             Hi {username},<br/><br/>
-                            We would like to inform you that your consultation has been successfully booked with the following information:<br/><br/>
+                            We would like to inform you that your consultation named {checkupname} has been successfully booked with the following information:<br/><br/>
                             Doctor: {doctorName}<br/>
                             Time: {dayOfWeekName}, {date} - {startTime} to {endTime}<br/>
                             Form: {form}<br/>
@@ -582,7 +584,7 @@ namespace Server.Application.Services
 
             var emailDoctorBody = $@"
                             Hi Doctor {doctorName},<br/><br/>
-                            You have just been assigned to a new consultation with a user. Here are the details:<br/><br/>
+                            You have just been assigned to a new consultation named {checkupname} with a user. Here are the details:<br/><br/>
                             User: {username}<br/>
                             Time: {dayOfWeekName}, {date} - {startTime} to {endTime}<br/>
                             Form: {form}<br/>

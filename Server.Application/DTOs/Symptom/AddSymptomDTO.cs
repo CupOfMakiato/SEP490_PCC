@@ -8,7 +8,7 @@ namespace Server.Application.DTOs.Symptom
 {
     public class AddSymptomDTO
     {
-        public Guid UserId { get; set; }
         public string SymptomName { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

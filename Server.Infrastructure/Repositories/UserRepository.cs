@@ -82,7 +82,9 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<bool> ExistsAsync(Expression<Func<User, bool>> predicate)
         {
-            return await _dbContext.User.AnyAsync(predicate);
+            return await _dbContext.User
+                .Where(u => u.IsDeleted == false)
+                .AnyAsync(predicate);
         }
 
         public async Task<User> GetUserById(int userId)

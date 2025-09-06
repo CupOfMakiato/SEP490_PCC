@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.Application.Repositories
 {
-    public interface ISymptomRepository : IGenericRepository<RecordedSymptom>
+    public interface IRecordedSymptomRepository : IGenericRepository<RecordedSymptom>
     {
         Task<List<RecordedSymptom>> GetAllSymptoms();
         Task<RecordedSymptom> GetSymptomById(Guid id);

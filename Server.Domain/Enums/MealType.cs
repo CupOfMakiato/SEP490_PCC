@@ -5,7 +5,7 @@
         Breakfast = 1,
         Lunch = 2,
         Dinner = 3,
-        Snak1 = 4,
-        Snak2 = 5,
+        Snack1 = 4,
+        Snack2 = 5,
     }
 }
