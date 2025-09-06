@@ -16,6 +16,63 @@ namespace Server.Application.Services
         {
             _unitOfWork = unitOfWork;
         }
+
+        public async Task<Result<List<Dish>>> MealsSuggestion(MealsSuggestionRequest request)
+        {
+            int trimester = request.Stage switch
+            {
+                < 14 => 1,
+                < 28 => 2,
+                _ => 3
+            };
+
+            var age = 22; // default age
+            if (!string.IsNullOrEmpty(request.DateOfBirth))
+            {
+                var dob = DateTime.Parse(request.DateOfBirth);
+                age = DateTime.Now.Year - dob.Year;
+            }
+
+            var energy = await _unitOfWork.EnergySuggestionRepository
+                .GetEnergySuggestionByAgeAndTrimester(age, trimester);
+
+            var caloriesId = await _unitOfWork.NutrientRepository
+                .GetNutrientIdByName("Calories");
+
+            var foodsWarning = await _unitOfWork.FoodRepository
+                .GetFoodWarningsByAllergiesAndDiseases(request.allergyIds, request.diseaseIds);
+
+            //var dishes = await _unitOfWork.DishRepository.GetDishesByCaloriesAndMealType(
+            //    energy.BaseCalories + energy.AdditionalCalories,
+            //    caloriesId,
+            //    request.Type,
+            //    request.allergyIds,
+            //    request.diseaseIds
+            //);
+
+            //if (dishes == null || dishes.Count < 1)
+            //{
+            //    return new Result<List<Dish>>
+            //    {
+            //        Error = 1,
+            //        Message = "No suitable dishes found"
+            //    };
+            //}
+
+            //var required = request.NumberOfDishes;
+            //var random = new Random();
+            //var selected = dishes.OrderBy(x => random.Next())
+            //                     .Take(required)
+            //                     .ToList();
+
+            return new Result<List<Dish>>
+            {
+                Error = 0,
+                Message = "Get success",
+            };
+        }
+
+
         public async Task<Result<Meal>> CreateMeal(CreateMealRequest request)
         {
             var meal = new Meal

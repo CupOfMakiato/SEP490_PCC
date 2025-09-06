@@ -45,7 +45,7 @@ namespace Server.Infrastructure.Repositories
                                         .ThenInclude(fn => fn.Nutrient)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDiseaseWarning)
+                                      .Include(f => f.FoodDisease)
                                       .FirstOrDefaultAsync(f => f.Id.Equals(foodId));
         }
 
@@ -60,7 +60,7 @@ namespace Server.Infrastructure.Repositories
                                         .ThenInclude(fn => fn.Nutrient)
                                       .Include(f => f.FoodAllergy)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDiseaseWarning)
+                                      .Include(f => f.FoodDisease)
                                       .ToListAsync();
         }
 
@@ -69,8 +69,61 @@ namespace Server.Infrastructure.Repositories
             return await _dbSet
                 .Where(f => f.Id == foodId && f.FoodNutrients
                     .Any(fn => fn.NutrientId == NutrientId))
-                .Include(f => f.FoodNutrients.Where(fn => fn.NutrientId == NutrientId))    
+                .Include(f => f.FoodNutrients.Where(fn => fn.NutrientId == NutrientId))
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Guid>> GetFoodWarningIdsByAllergiesAndDiseases(
+    List<Guid> allergyIds,
+    List<Guid> diseaseIds)
+        {
+            var foodIds = new List<Guid>();
+
+            if (allergyIds is not null && allergyIds.Any())
+            {
+                var allergyFoodIds = await _dbSet
+                    .Where(f => f.FoodAllergy.Any(a => allergyIds.Contains(a.AllergyId) && a.ContainsAllergen))
+                    .Select(f => f.Id)
+                    .ToListAsync();
+
+                foodIds.AddRange(allergyFoodIds);
+            }
+
+            if (diseaseIds is not null && diseaseIds.Any())
+            {
+                var diseaseFoodIds = await _dbSet
+                    .Where(f => f.FoodDisease.Any(dw => diseaseIds.Contains(dw.DiseaseId)))
+                    .Select(f => f.Id)
+                    .ToListAsync();
+
+                foodIds.AddRange(diseaseFoodIds);
+            }
+
+            return foodIds.Distinct().ToList();
+        }
+
+        public async Task<List<Food>> GetFoodWarningsByAllergiesAndDiseases(
+    List<Guid>? allergyIds,
+    List<Guid>? diseaseIds)
+        {
+            var query = _dbSet.AsQueryable().AsNoTracking().AsSplitQuery();
+
+            if (allergyIds is not null && allergyIds.Any())
+            {
+                query = query.Where(f =>
+                    f.FoodAllergy.Any(a => allergyIds.Contains(a.AllergyId) && a.ContainsAllergen));
+            }
+
+            if (diseaseIds is not null && diseaseIds.Any())
+            {
+                query = query.Where(f =>
+                    f.FoodDisease.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.IsWarning));
+            }
+
+            return await query
+                .Include(f => f.FoodAllergy)
+                .Include(f => f.FoodDisease)
+                .ToListAsync();
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Server.Domain.Entities
         public Guid AllergyId { get; set; }
         public bool ContainsAllergen { get; set; }
         public string AllergenLevel { get; set; }
+        public string Description { get; set; }
 
         public Food Food { get; set; }
         public Allergy Allergy { get; set; }
