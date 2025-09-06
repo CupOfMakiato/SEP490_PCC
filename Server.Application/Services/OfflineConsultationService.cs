@@ -625,5 +625,18 @@ namespace Server.Application.Services
                 Data = true
             };
         }
+
+        public async Task<Result<List<ViewOfflineConsultationDTO>>> GetOfflineConsultationsByCreatedByAsync(Guid userId)
+        {
+            var result = _mapper.Map<List<ViewOfflineConsultationDTO>>(
+                await _offlineConsultationRepository.GetOfflineConsultationsByCreatedByAsync(userId));
+
+            return new Result<List<ViewOfflineConsultationDTO>>
+            {
+                Error = 0,
+                Message = "View offline consultation successfully",
+                Data = result
+            };
+        }
     }
 }

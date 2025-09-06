@@ -18,6 +18,44 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<List<Doctor>> GetAllDoctorsAsync()
+        {
+            return await _context.Doctor
+                .Include(d => d.User)
+                    .ThenInclude(u => u.Avatar)
+                .Where(d => !d.IsDeleted
+                    && d.User != null
+                    && !d.User.IsDeleted
+                    && d.User.RoleId == 7)
+                .Select(d => new Doctor
+                {
+                    Id = d.Id,
+                    Gender = d.Gender,
+                    Specialization = d.Specialization,
+                    Certificate = d.Certificate,
+                    ExperienceYear = d.ExperienceYear,
+                    WorkPosition = d.WorkPosition,
+                    Description = d.Description,
+                    UserId = d.UserId,
+                    ClinicId = d.ClinicId,
+                    Clinic = d.Clinic != null && !d.Clinic.IsDeleted ? d.Clinic : null,
+                    User = d.User != null && !d.User.IsDeleted
+                        ? new User
+                        {
+                            Id = d.User.Id,
+                            UserName = d.User.UserName,
+                            Email = d.User.Email,
+                            PhoneNumber = d.User.PhoneNumber,
+                            Status = d.User.Status,
+                            RoleId = d.User.RoleId,
+                            Avatar = d.User.Avatar != null && !d.User.Avatar.IsDeleted ? d.User.Avatar : null
+                        }
+                        : null,
+                    IsDeleted = d.IsDeleted
+                })
+                .ToListAsync();
+        }
+
         public async Task<Doctor?> GetDoctorByIdAsync(Guid doctorId)
         {
             return await _context.Doctor

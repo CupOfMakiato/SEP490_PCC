@@ -9,5 +9,6 @@ namespace Server.Application.Interfaces
         public Task<Result<bool>> SoftDeleteDoctor(Guid doctorId);
         public Task<Result<ViewDoctorDTO>> CreateDoctor(AddDoctorDTO doctor);
         public Task<Result<ViewDoctorDTO>> UpdateDoctor(UpdateDoctorDTO doctor);
+        public Task<Result<List<ViewDoctorDTO>>> GetAllDoctorsAsync();
     }
 }

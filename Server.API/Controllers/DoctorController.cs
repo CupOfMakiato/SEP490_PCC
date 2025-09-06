@@ -23,6 +23,14 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("view-all-doctors")]
+        public async Task<IActionResult> GetAllDoctorsAsync()
+        {
+            var result = await _doctorService.GetAllDoctorsAsync();
+
+            return Ok(result);
+        }
+
         [HttpPost("create-doctor")]
         public async Task<IActionResult> CreateDoctorAsync([FromBody] AddDoctorDTO doctor)
         {

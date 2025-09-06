@@ -414,15 +414,19 @@ namespace Server.Application.Services
             onlineConsultationObj.VitalSigns = onlineConsultation.VitalSigns;
             onlineConsultationObj.Recommendations = onlineConsultation.Recommendations;
 
-            // Synchronize attachments
-            var existingAttachments = onlineConsultationObj.Attachments ?? new List<Media>();
+            // --- Attachment synchronization logic ---
+            var existingAttachments = onlineConsultationObj.Attachments?.Where(m => !m.IsDeleted).ToList() ?? new List<Media>();
 
-            var newFiles = onlineConsultation.Attachments ?? new List<IFormFile>();
+            // Build set of incoming file names
+            var incomingFileNames = new HashSet<string>(
+                (onlineConsultation.Attachments ?? new List<IFormFile>()).Select(f => f.FileName),
+                StringComparer.OrdinalIgnoreCase
+            );
 
-            // Remove attachments not present in the new list (by filename)
-            var newFileNames = newFiles.Select(f => f.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-
-            var toRemove = existingAttachments.Where(m => !newFileNames.Contains(m.FileName)).ToList();
+            // Remove attachments not present in the incoming list
+            var toRemove = existingAttachments
+                .Where(m => !incomingFileNames.Contains(m.FileName))
+                .ToList();
 
             foreach (var media in toRemove)
             {
@@ -440,18 +444,15 @@ namespace Server.Application.Services
                         };
                     }
                 }
-                // Mark as deleted in DB (or remove)
                 media.IsDeleted = true;
-
                 _unitOfWork.MediaRepository.Update(media);
-
                 onlineConsultationObj.Attachments.Remove(media);
             }
             await _unitOfWork.SaveChangeAsync();
 
             // Add new files not already present
-            var existingFileNames = existingAttachments.Where(m => !m.IsDeleted).Select(m => m.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-            foreach (var file in newFiles)
+            var existingFileNames = existingAttachments.Select(m => m.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            foreach (var file in onlineConsultation.Attachments ?? new List<IFormFile>())
             {
                 if (!existingFileNames.Contains(file.FileName))
                 {
@@ -474,6 +475,7 @@ namespace Server.Application.Services
                     }
                 }
             }
+            // --- End attachment logic ---
 
             _onlineConsultationRepository.Update(onlineConsultationObj);
 

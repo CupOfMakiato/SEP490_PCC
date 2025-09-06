@@ -13,17 +13,14 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IDoctorRepository _doctorRepository;
-        private readonly IEmailService _emailService;
 
         public DoctorService(IUnitOfWork unitOfWork,
             IMapper mapper,
-            IDoctorRepository doctorRepository,
-            IEmailService emailService)
+            IDoctorRepository doctorRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _doctorRepository = doctorRepository;
-            _emailService = emailService;
         }
 
         public async Task<Result<ViewDoctorDTO>> CreateDoctor(AddDoctorDTO doctor)
@@ -85,6 +82,18 @@ namespace Server.Application.Services
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Add new doctor successfully" : "Add new doctor failed",
                 Data = _mapper.Map<ViewDoctorDTO>(doctorMapper)
+            };
+        }
+
+        public async Task<Result<List<ViewDoctorDTO>>> GetAllDoctorsAsync()
+        {
+            var dotocrs = await _doctorRepository.GetAllDoctorsAsync();
+
+            return new Result<List<ViewDoctorDTO>>
+            {
+                Error = 0,
+                Message = "Get all doctors successfully",
+                Data = _mapper.Map<List<ViewDoctorDTO>>(dotocrs)
             };
         }
 
