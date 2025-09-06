@@ -22,6 +22,20 @@ namespace Server.API.Controllers
             return Ok(await _foodService.GetFoodsAsync());
         }
 
+        [HttpPost("view-warning-foods")]
+        public async Task<IActionResult> ViewWarningFoods([FromBody] ViewWarningFoodsRequest request)
+        {
+            if ((request.allergyIds == null || request.allergyIds.Count == 0) &&
+                (request.diseaseIds == null || request.diseaseIds.Count == 0))
+            {
+                return BadRequest("At least one allergy or disease ID is required.");
+            }
+
+            var result = await _foodService.GetWarningFoods(request);
+            return Ok(result);
+        }
+
+
         [HttpGet("view-food-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid foodId)
         {

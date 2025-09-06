@@ -142,6 +142,11 @@ namespace Server.Application.Services
             return _mapper.Map<List<ViewFoodResponse>>(await _unitOfWork.FoodRepository.GetFoodsAsync());
         }
 
+        public async Task<List<ViewWarningFoodsResponse>> GetWarningFoods(ViewWarningFoodsRequest request)
+        {
+            return _mapper.Map<List<ViewWarningFoodsResponse>>(await _unitOfWork.FoodRepository.GetFoodWarningIdsByAllergiesAndDiseases(request.allergyIds, request.diseaseIds));
+        }
+
         public async Task<Result<bool>> RemoveFoodNutrient(RemoveFoodNutrientRequest request)
         {
             if (request is null)

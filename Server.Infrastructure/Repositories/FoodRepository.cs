@@ -2,6 +2,7 @@
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -43,9 +44,9 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.Food.Include(f => f.FoodNutrients)
                                         .ThenInclude(fn => fn.Nutrient)
-                                      .Include(f => f.FoodAllergy)
+                                      .Include(f => f.FoodAllergies)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDisease)
+                                      .Include(f => f.FoodDiseases)
                                       .FirstOrDefaultAsync(f => f.Id.Equals(foodId));
         }
 
@@ -58,9 +59,9 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.Food.Include(f => f.FoodNutrients)
                                         .ThenInclude(fn => fn.Nutrient)
-                                      .Include(f => f.FoodAllergy)
+                                      .Include(f => f.FoodAllergies)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDisease)
+                                      .Include(f => f.FoodDiseases)
                                       .ToListAsync();
         }
 
@@ -82,7 +83,7 @@ namespace Server.Infrastructure.Repositories
             if (allergyIds is not null && allergyIds.Any())
             {
                 var allergyFoodIds = await _dbSet
-                    .Where(f => f.FoodAllergy.Any(a => allergyIds.Contains(a.AllergyId) && a.ContainsAllergen))
+                    .Where(f => f.FoodAllergies.Any(a => allergyIds.Contains(a.AllergyId)))
                     .Select(f => f.Id)
                     .ToListAsync();
 
@@ -92,7 +93,7 @@ namespace Server.Infrastructure.Repositories
             if (diseaseIds is not null && diseaseIds.Any())
             {
                 var diseaseFoodIds = await _dbSet
-                    .Where(f => f.FoodDisease.Any(dw => diseaseIds.Contains(dw.DiseaseId)))
+                    .Where(f => f.FoodDiseases.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.Status == FoodDiseaseStatus.Warning))
                     .Select(f => f.Id)
                     .ToListAsync();
 
@@ -111,18 +112,20 @@ namespace Server.Infrastructure.Repositories
             if (allergyIds is not null && allergyIds.Any())
             {
                 query = query.Where(f =>
-                    f.FoodAllergy.Any(a => allergyIds.Contains(a.AllergyId) && a.ContainsAllergen));
+                    f.FoodAllergies.Any(a => allergyIds.Contains(a.AllergyId)));
             }
 
             if (diseaseIds is not null && diseaseIds.Any())
             {
                 query = query.Where(f =>
-                    f.FoodDisease.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.IsWarning));
+                    f.FoodDiseases.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.Status == FoodDiseaseStatus.Warning));
             }
 
             return await query
-                .Include(f => f.FoodAllergy)
-                .Include(f => f.FoodDisease)
+                .Include(f => f.FoodAllergies)
+                .Include(f => f.FoodDiseases)
+                .Include(f => f.FoodNutrients)
+                    .ThenInclude(fn => fn.Nutrient)
                 .ToListAsync();
         }
     }

@@ -384,7 +384,7 @@ namespace Server.Infrastructure.Data
 
             modelBuilder.Entity<FoodAllergy>()
             .HasOne(bt => bt.Food)
-            .WithMany(b => b.FoodAllergy)
+            .WithMany(b => b.FoodAllergies)
             .HasForeignKey(bt => bt.FoodId)
             .OnDelete(DeleteBehavior.Restrict);
 
@@ -401,7 +401,7 @@ namespace Server.Infrastructure.Data
 
             modelBuilder.Entity<FoodDisease>()
             .HasOne(bt => bt.Food)
-            .WithMany(f => f.FoodDisease)
+            .WithMany(f => f.FoodDiseases)
             .HasForeignKey(bt => bt.FoodId)
             .OnDelete(DeleteBehavior.Restrict);
 

@@ -7,6 +7,7 @@ namespace Server.Application.Interfaces
 {
     public interface IFoodService
     {
+        public Task<List<ViewWarningFoodsResponse>> GetWarningFoods(ViewWarningFoodsRequest request);
         public Task<ViewFoodResponse> GetFoodByIdAsync(Guid foodId);
         public Task<List<ViewFoodResponse>> GetFoodsAsync();
         public Task<bool> SoftDeleteFood(Guid foodId);

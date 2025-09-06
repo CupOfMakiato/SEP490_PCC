@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Server.Domain.Entities
     {
         public Guid DiseaseId { get; set; }
         public Guid FoodId { get; set; }
-        public bool IsWarning { get; set; }
+        public FoodDiseaseStatus Status { get; set; }
         public string Description { get; set; }
         public Disease Disease { get; set; }
         public Food Food { get; set; }
