@@ -26,14 +26,14 @@ namespace Server.Infrastructure.Repositories
         public async Task<Disease> GetDiseaseById(Guid diseaseId)
         {
             return await _dbSet.Include(d => d.DiseaseGrowthData)
-                               .Include(d => d.FoodDiseaseWarning)
+                               .Include(d => d.FoodDisease)
                                .FirstOrDefaultAsync(d => d.Equals(diseaseId));
         }
 
         public async Task<IEnumerable<Disease>> GetDiseases()
         {
             return await _dbSet.Include(d => d.DiseaseGrowthData)
-                               .Include(d => d.FoodDiseaseWarning)
+                               .Include(d => d.FoodDisease)
                                .ToListAsync();
         }
     }
