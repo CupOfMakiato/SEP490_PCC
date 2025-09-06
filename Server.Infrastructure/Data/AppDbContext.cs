@@ -876,6 +876,14 @@ namespace Server.Infrastructure.Data
                 .WithMany(c => c.Schedules)
                 .HasForeignKey(s => s.DoctorId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Clinic
+
+            modelBuilder.Entity<Clinic>()
+                .HasOne(s => s.User)
+                .WithOne(c => c.Clinic)
+                .HasForeignKey<Clinic>(s => s.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

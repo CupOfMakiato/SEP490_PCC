@@ -5,7 +5,6 @@ using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
-using System.Security.Cryptography;
 
 namespace Server.Application.Services
 {
@@ -14,17 +13,14 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IDoctorRepository _doctorRepository;
-        private readonly IEmailService _emailService;
 
         public DoctorService(IUnitOfWork unitOfWork,
             IMapper mapper,
-            IDoctorRepository doctorRepository,
-            IEmailService emailService)
+            IDoctorRepository doctorRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _doctorRepository = doctorRepository;
-            _emailService = emailService;
         }
 
         public async Task<Result<ViewDoctorDTO>> CreateDoctor(AddDoctorDTO doctor)
@@ -56,26 +52,20 @@ namespace Server.Application.Services
                 throw new Exception("User with this email or phone number already exists.");
             }
 
-            var otp = GenerateOtp();
-
             var user = new User
             {
                 UserName = doctor.UserName,
                 Email = doctor.Email,
-                Password = HashPassword(doctor.PasswordHash),
                 Balance = 0,
                 PhoneNumber = doctor.PhoneNumber,
                 Status = StatusEnums.Pending,
-                Otp = otp,
                 IsStaff = false,
-                RoleId = 7, // Assuming 7 is the role ID for doctors
+                RoleId = 7,
                 CreationDate = DateTime.Now,
                 OtpExpiryTime = DateTime.UtcNow.AddMinutes(10)
             };
 
             await _unitOfWork.UserRepository.AddAsync(user);
-
-            await _emailService.SendOtpEmailAsync(user.Email, otp);
 
             var doctorMapper = _mapper.Map<Doctor>(doctor);
 
@@ -92,6 +82,18 @@ namespace Server.Application.Services
                 Error = result > 0 ? 0 : 1,
                 Message = result > 0 ? "Add new doctor successfully" : "Add new doctor failed",
                 Data = _mapper.Map<ViewDoctorDTO>(doctorMapper)
+            };
+        }
+
+        public async Task<Result<List<ViewDoctorDTO>>> GetAllDoctorsAsync()
+        {
+            var dotocrs = await _doctorRepository.GetAllDoctorsAsync();
+
+            return new Result<List<ViewDoctorDTO>>
+            {
+                Error = 0,
+                Message = "Get all doctors successfully",
+                Data = _mapper.Map<List<ViewDoctorDTO>>(dotocrs)
             };
         }
 
@@ -237,22 +239,6 @@ namespace Server.Application.Services
                 Message = result > 0 ? "Update doctor successfully" : "Update doctor failed",
                 Data = _mapper.Map<ViewDoctorDTO>(doctorObj)
             };
-        }
-
-        private string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
-        }
-
-        private string GenerateOtp()
-        {
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                var byteArray = new byte[4];
-                rng.GetBytes(byteArray);
-                var otp = BitConverter.ToUInt32(byteArray, 0) % 1000000; // Generate a 6-digit OTP
-                return otp.ToString("D6");
-            }
         }
     }
 }

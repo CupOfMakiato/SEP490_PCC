@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Consultant;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -251,6 +252,76 @@ namespace Server.Application.Services
                 var otp = BitConverter.ToUInt32(byteArray, 0) % 1000000; // Generate a 6-digit OTP
                 return otp.ToString("D6");
             }
+        }
+
+        public async Task<Result<ViewConsultantDTO>> GetConsultantByUserIdAsync(Guid userId)
+        {
+            var consultant = await _consultantRepository.GetConsultantByUserIdAsync(userId);
+
+            if (consultant == null)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = null
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository.GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = null
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<ViewConsultantDTO>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active",
+                    Data = null
+                };
+            }
+
+            var result = _mapper.Map<ViewConsultantDTO>(consultant);
+
+            return new Result<ViewConsultantDTO>
+            {
+                Error = 0,
+                Message = "Get consultant successfully",
+                Data = result
+            };
+        }
+
+        public async Task<Result<List<GetUserDTO>>> GetAllUsersAsync()
+        {
+            var  users = await _consultantRepository.GetAllUsersAsync();
+
+            return new Result<List<GetUserDTO>>()
+            {
+                Error = 0,
+                Message = "Get all users successfully",
+                Data = _mapper.Map<List<GetUserDTO>>(users)
+            };
+        }
+
+        public async Task<Result<List<GetUserDTO?>>> GetAllUsersByNameAsync(string? name)
+        {
+            var users = await _consultantRepository.GetAllUsersByNameAsync(name);
+
+            return new Result<List<GetUserDTO>>()
+            {
+                Error = 0,
+                Message = "Get all users successfully",
+                Data = _mapper.Map<List<GetUserDTO>>(users)
+            };
         }
     }
 }

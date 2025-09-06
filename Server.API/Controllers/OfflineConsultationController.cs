@@ -31,6 +31,14 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("view-offline-consultations-by-created-by/{userId}")]
+        public async Task<IActionResult> GetOfflineConsultationsByCreatedBy(Guid userId)
+        {
+            var result = await _offlineConsultationService.GetOfflineConsultationsByCreatedByAsync(userId);
+
+            return Ok(result);
+        }
+
         [HttpPost("book-offline-consultation")]
         public async Task<IActionResult> BookOfflineConsultation([FromForm] BookingOfflineConsultationDTO offlineConsultation)
         {
