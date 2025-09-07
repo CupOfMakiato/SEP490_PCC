@@ -148,27 +148,32 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Request is null"
                 };
-            var dish = await _unitOfWork.DishRepository.GetByIdAsync(request.dishID);
+            var dish = await _unitOfWork.DishRepository.GetDishById(request.dishID);
             if (dish is null)
                 return new Result<Dish>()
                 {
                     Error = 1,
                     Message = "Dish is not found"
                 };
-            var foodDish = new List<FoodDish>();
             for (int i = 0; i < request.foodList.Count; i++)
             {
                 var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.foodList[i].FoodId);
                 if (food is not null)
-                    foodDish.Add(new FoodDish()
+                    if(dish.Foods.Any(fd => fd.FoodId == food.Id))
                     {
-                        Food = food,
-                        FoodId = food.Id,
-                        Amount = request.foodList[i].Amount,
-                        Unit = request.foodList[i].Unit,
-                    });
+                        var existingFoodDish = dish.Foods.First(fd => fd.FoodId == food.Id);
+                        existingFoodDish.Amount = request.foodList[i].Amount;
+                        existingFoodDish.Unit = request.foodList[i].Unit;
+                    }
+                    else
+                        dish.Foods.Add(new FoodDish()
+                        {
+                            Food = food,
+                            FoodId = food.Id,
+                            Amount = request.foodList[i].Amount,
+                            Unit = request.foodList[i].Unit,
+                        });
             }
-            dish.Foods = foodDish;
             dish.DishName = request.DishName;
             dish.Description = request.Description;
             _unitOfWork.DishRepository.Update(dish);
