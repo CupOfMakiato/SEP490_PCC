@@ -491,7 +491,7 @@ namespace Server.Infrastructure.Data
 
             modelBuilder.Entity<FoodDisease>()
             .HasOne(bt => bt.Disease)
-            .WithMany(t => t.FoodDisease)
+            .WithMany(t => t.FoodDiseases)
             .HasForeignKey(bt => bt.DiseaseId)
             .OnDelete(DeleteBehavior.Restrict);
 
