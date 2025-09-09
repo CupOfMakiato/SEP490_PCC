@@ -11,5 +11,7 @@ namespace Server.Application.Interfaces
         Task<Result<Meal>> CreateMeal(CreateMealRequest request);
         Task<Result<MealDto>> UpdateMeal(Guid id, UpdateMealRequest request);
         Task<Result<bool>> DeleteMeal(Guid id);
+        Task<Result<MealDto>> GetMealById(Guid id);
+        Task<Result<List<MealDto>>> GetMeals();
     }
 }

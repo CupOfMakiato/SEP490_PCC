@@ -294,5 +294,27 @@ namespace Server.Application.Services
                 Message = "Build meal plan success"
             };
         }
+
+        public async Task<Result<MealDto>> GetMealById(Guid id)
+        {
+            var meal = await _unitOfWork.MealRepository.GetMealsById(id);
+            return new Result<MealDto>()
+            {
+                Error = 0,
+                Data = _mapper.Map<MealDto>(meal),
+                Message = "Get success"
+            };
+        }
+
+        public async Task<Result<List<MealDto>>> GetMeals()
+        {
+            var meals = await _unitOfWork.MealRepository.GetMeals();
+            return new Result<List<MealDto>>()
+            {
+                Error = 0,
+                Data = _mapper.Map<List<MealDto>>(meals),
+                Message = "Get success"
+            };
+        }
     }
 }
