@@ -15,6 +15,23 @@ namespace Server.Infrastructure.Repositories
         {
         }
 
+        public void DeleteMeal(Meal meal)
+        {
+            _dbSet.Remove(meal);
+        }
+
+        public async Task<Meal> GetMealsById(Guid mealId)
+        {
+            return await _dbSet
+                .Include(m => m.DishMeals)
+                    .ThenInclude(dm => dm.Dish)
+                        .ThenInclude(d => d.Foods)
+                            .ThenInclude(fd => fd.Food)
+                                .ThenInclude(f => f.FoodNutrients)
+                                .AsSplitQuery()
+                .FirstOrDefaultAsync(m => m.Id == mealId);
+        }
+
         public async Task<List<MealDto>> GetMealsWithCalories(Guid caloriesNutrientId)
         {
             return await _dbSet

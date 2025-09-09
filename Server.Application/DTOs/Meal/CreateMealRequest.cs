@@ -1,10 +1,11 @@
-﻿namespace Server.Application.DTOs.Meal
+﻿using Server.Domain.Enums;
+
+namespace Server.Application.DTOs.Meal
 {
     public class CreateMealRequest
     {
-        public int Trimester { get; set; }
         public List<DishMealDTO> DishMeals{ get; set; }
-        public DayOfWeek DayOfWeek { get; set; }
+        public MealType MealType { get; set; }
     }
 }
   

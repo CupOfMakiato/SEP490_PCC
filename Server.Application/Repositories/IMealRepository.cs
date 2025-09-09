@@ -7,5 +7,7 @@ namespace Server.Application.Repositories
     public interface IMealRepository : IGenericRepository<Meal>
     {
         public Task<List<MealDto>> GetMealsWithCalories(Guid caloriesNutrientId);
+        public Task<Meal> GetMealsById(Guid mealId);
+        public void DeleteMeal(Meal meal);
     }
 }

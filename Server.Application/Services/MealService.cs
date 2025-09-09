@@ -21,6 +21,77 @@ namespace Server.Application.Services
             _mapper = mapper;
         }
 
+        public async Task<Result<MealDto>> UpdateMeal(Guid id, UpdateMealRequest request)
+        {
+            var meal = await _unitOfWork.MealRepository.GetByIdAsync(id);
+            if (meal == null)
+                return new Result<MealDto> { Error = 1, Message = "Meal not found" };
+
+            meal.MealType = request.MealType;
+
+            var existingDishIds = meal.DishMeals.Select(dm => dm.DishId).ToList();
+            var requestDishIds = request.DishMeals.Select(dm => dm.DishId).ToList();
+
+            var toRemove = meal.DishMeals
+                .Where(dm => !requestDishIds.Contains(dm.DishId))
+                .ToList();
+            foreach (var remove in toRemove)
+            {
+                meal.DishMeals.Remove(remove);
+            }
+
+            var toAdd = requestDishIds
+                .Where(did => !existingDishIds.Contains(did))
+                .ToList();
+            foreach (var dishId in toAdd)
+            {
+                var dish = await _unitOfWork.DishRepository.GetDishById(dishId);
+                if (dish != null)
+                {
+                    meal.DishMeals.Add(new DishMeal
+                    {
+                        MealId = id,
+                        DishId = dish.Id,
+                        Dish = dish
+                    });
+                }
+            }
+            _unitOfWork.MealRepository.Update(meal);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<MealDto> 
+                {   Error = 0, 
+                    Message = "Meal updated successfully",
+                    Data = _mapper.Map<MealDto>(meal)
+                };
+
+            return new Result<MealDto> 
+            {
+                Error = 1, 
+                Message = "Failed to update meal"
+            };
+        }
+
+        public async Task<Result<bool>> DeleteMeal(Guid id)
+        {
+            var meal = await _unitOfWork.MealRepository.GetMealsById(id);
+            if (meal == null)
+                return new Result<bool> { Error = 1, Message = "Meal not found" };
+            meal.DishMeals.Clear();
+            _unitOfWork.MealRepository.DeleteMeal(meal);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>
+                {
+                    Error = 0,
+                    Message = "Meal deleted successfully"
+                };
+
+            return new Result<bool>
+            {
+                Error = 1,
+                Message = "Failed to delete meal"
+            };
+        }
+
         public async Task<Result<MealDto>> MealsSuggestion(MealsSuggestionRequest request)
         {
             int trimester = request.Stage switch
