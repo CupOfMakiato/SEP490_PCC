@@ -2,6 +2,7 @@
 using Server.Application.DTOs.Meal;
 using Server.Application.Interfaces;
 using Server.Application.Services;
+using Server.Domain.Entities;
 using Server.Domain.Enums;
 
 namespace Server.API.Controllers
@@ -67,29 +68,63 @@ namespace Server.API.Controllers
         [HttpPost("add-meal")]
         public async Task<IActionResult> CreateMeal(CreateMealRequest request)
         {
-            if (request.Trimester <= 0 && request.Trimester > 3)
-                return BadRequest("Trimester must be greater than 0 and smaller than 4");
-
             if (request.DishMeals == null || request.DishMeals.Count == 0)
                 return BadRequest("DishMeals list cannot be null or empty");
 
-            foreach (var dishMeal in request.DishMeals)
-            {
-                if (dishMeal.DishId == Guid.Empty)
-                    return BadRequest("DishId cannot be null or empty");
+            if (!Enum.IsDefined(typeof(MealType), request.MealType))
+                return BadRequest($"Invalid MealType value: {request.MealType}");
 
-                if (!Enum.IsDefined(typeof(MealType), dishMeal.MealType))
-                    return BadRequest($"Invalid MealType value: {dishMeal.MealType}");
-            }
-
-            if (!Enum.IsDefined(typeof(DayOfWeek), request.DayOfWeek))
-                return BadRequest($"Invalid DayOfWeek value: {request.DayOfWeek}");
+            if (request.DishMeals.Any(dm => dm.DishId == Guid.Empty ))
+                return BadRequest("DishId cannot be null or empty");
 
             try
             {
                 var result = await _mealService.CreateMeal(request);
                 if (result.Error == 1)
                     return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-meal/{id}")]
+        public async Task<IActionResult> UpdateMeal(Guid id, UpdateMealRequest request)
+        {
+            if (id == Guid.Empty)
+                return BadRequest("MealId cannot be empty");
+
+            if (request.DishMeals == null || request.DishMeals.Count == 0)
+                return BadRequest("DishMeals list cannot be null or empty");
+
+            try
+            {
+                var result = await _mealService.UpdateMeal(id, request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("delete-meal/{id}")]
+        public async Task<IActionResult> DeleteMeal(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest("MealId cannot be empty");
+
+            try
+            {
+                var result = await _mealService.DeleteMeal(id);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
                 return Ok(result);
             }
             catch (Exception ex)
