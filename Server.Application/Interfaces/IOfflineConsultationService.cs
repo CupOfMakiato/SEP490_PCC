@@ -13,5 +13,6 @@ namespace Server.Application.Interfaces
         public Task<Result<bool>> SoftDeleteOfflineConsultation(Guid offlineConsultationId);
         public Task SendOfflineConsultationRemindersAsync();
         public Task<Result<bool>> SendBookingEmailAsync(Guid offlineConsultationId);
+        public Task<Result<List<ViewOfflineConsultationDTO>>> GetOfflineConsultationsByCreatedByAsync(Guid userId);
     }
 }

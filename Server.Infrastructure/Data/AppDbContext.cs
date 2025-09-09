@@ -111,7 +111,7 @@ namespace Server.Infrastructure.Data
                new User { Id = Guid.Parse("5de81f1c-c715-46c1-b40a-7dcbfe25cafa"), UserName = "TestHealth", Email = "nguyenbr23@gmail.com", Password = "$2y$10$Ll0VAQfmgd6kUzUzmM7dxOkHHUFTd4kD5WZSKVcmdy1jGNGL1giCi", Status = StatusEnums.Active, RoleId = 3, IsVerified = true, PhoneNumber = "123456789", Address = "Dong Nai", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("7e4fd68f-7a71-4dbf-873a-0605b72a64ec"), UserName = "TestNutrient", Email = "swdproject73@gmail.com", Password = "$2y$10$vpseCsSPCEa7fHNdo7fJX.Fg9x/r2vXjzh3FpmUKezOevJIFKpvMe", Status = StatusEnums.Active, RoleId = 4, IsVerified = true, PhoneNumber = "123456789", Address = "Go Vap District, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false },
                new User { Id = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"), UserName = "TestClinic", Email = "nguyenlmse171333@fpt.edu.vn", Password = "$2y$10$3.0ODOCeEea3SbAWoD51Z.x8A8tSZJ3srprmvkw0xvXsbHdH/D9Rq", Status = StatusEnums.Active, RoleId = 5, IsVerified = true, PhoneNumber = "123456789", Address = "Thu Duc city", CreationDate = DateTime.Now, IsDeleted = false },
-               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, IsVerified = true, PhoneNumber = "123456789", Address = "District 7, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false }
+               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, DateOfBirth = new DateTime(2003, 08, 29), IsVerified = true, PhoneNumber = "123456789", Address = "District 7, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false }
 
            );
 
@@ -128,9 +128,9 @@ namespace Server.Infrastructure.Data
                {
                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
                    //Height = 160,
-                   //Weight = 60,
-                   FirstDayOfLastMenstrualPeriod = new DateTime(2024, 11, 26),
-                   EstimatedDueDate = new DateTime(2025, 09, 02),
+                   PreWeight = 60,
+                   FirstDayOfLastMenstrualPeriod = new DateTime(2025, 3, 01),
+                   EstimatedDueDate = new DateTime(2025, 12, 06),
                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
                    Status = GrowthDataStatus.Active,
                    CreationDate = DateTime.Now,
@@ -150,6 +150,74 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
                 );
+            modelBuilder.Entity<Blog>().HasData(
+                new Blog
+                {
+                    Id = Guid.Parse("26872b7a-1b74-4403-bf2f-e92d6d4f15c4"),
+                    Title = "Welcome to Your First Trimester Journey",
+                    Body = "Congratulations on your pregnancy! This blog will help you get oriented: what to expect, where to share stories, and how to find support as you begin the first trimester.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("94aa1f89-9765-4771-81d4-adc2083bdd38"),
+                    Title = "Common First-Trimester Symptoms & What’s Normal",
+                    Body = "Discussing early pregnancy symptoms like bloating, fatigue, breast tenderness, and spotting. When to call a doctor—and when to relax and go with the flow.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("49c67e45-f583-4ad6-9b9d-a1e60c9dc75e"),
+                    Title = "Coping with Morning Sickness and Fatigue",
+                    Body = "From eating small, frequent meals to resting when needed, share practical tips for managing early pregnancy exhaustion and nausea.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("9624a1fe-176c-43b7-804e-05fc85d4490b"),
+                    Title = "Safe Workouts in the First Trimester",
+                    Body = "If you were active before pregnancy, discover modifications and when to pause core workouts—especially ab-focused routines—as your body changes early on.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("d828c580-d83b-4147-b110-91a7cb25b176"),
+                    Title = "First-Trimester Emotional Roller Coaster",
+                    Body = "Share stories and realize you’re not alone—whether it’s anxieties, excitement, or feeling like you ‘failed the first trimester.’ Real talk from real moms-to-be.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                },
+                new Blog
+                {
+                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e0"),
+                    Title = "Healthy Eating During Pregnancy",
+                    Body = "Eating a balanced diet is crucial for the health of both the mother and the baby during pregnancy. It is important to include a variety of foods from all food groups to ensure that both mother and baby receive the necessary nutrients.",
+                    CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
+                    CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
+                    CreationDate = DateTime.Now,
+                    Status = BlogStatus.Approved,
+                    IsDeleted = false
+                }
+            );
             modelBuilder.Entity<RecordedSymptom>().HasData(
                 new RecordedSymptom
                 {
@@ -212,6 +280,9 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
             );
+
+            // Nutrition seed data
+            NutritionSeedData.SeedData(modelBuilder);
 
             //User
             modelBuilder.Entity<User>()
@@ -307,6 +378,19 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<NutrientSuggestionAttribute>()
                 .HasIndex(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId })
                 .IsUnique();
+
+            //test
+            //modelBuilder.Entity<EnergySuggestion>()
+            //    .HasOne(e => e.AgeGroup)
+            //    .WithMany(a => a.EnergySuggestion)
+            //    .HasForeignKey(e => e.AgeGroupId);
+
+            //modelBuilder.Entity<EnergySuggestion>()
+            //    .HasOne(e => e.AgeGroup)
+            //    .WithMany(a => a.EnergySuggestions)
+            //    .HasForeignKey(e => e.AgeGroupId);
+
+
 
 
             //NSAttribute
@@ -791,6 +875,14 @@ namespace Server.Infrastructure.Data
                 .HasOne(s => s.Doctor)
                 .WithMany(c => c.Schedules)
                 .HasForeignKey(s => s.DoctorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Clinic
+
+            modelBuilder.Entity<Clinic>()
+                .HasOne(s => s.User)
+                .WithOne(c => c.Clinic)
+                .HasForeignKey<Clinic>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

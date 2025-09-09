@@ -426,5 +426,56 @@ namespace Server.Application.Services
             await SendEmailAsync(emailDto);
         }
 
+        public async Task SendEmergencyBiometricAlert(string email, string subject, string body)
+        {
+            // Convert plain text list into HTML <ul>
+            var formattedBody = body
+                .Replace("We detected the following abnormal readings:", "")
+                .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                .Select(line => $"<li>{line.Trim()}</li>");
+
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = subject,
+                Body = $@"
+        <html>
+            <body style='font-family: Arial, sans-serif; line-height: 1.6; background-color: #f9fafb; padding: 20px; margin:0;'>
+                <div style='max-width: 600px; margin: auto; background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px;'>
+                    
+                    <h2 style='color: #c0392b; margin-top: 0;'>Emergency Alert</h2>
+
+                    <p style='color: #333; margin: 0 0 10px 0;'>We detected the following abnormal readings in your latest journal entry:</p>
+                    
+                    <!-- Fix Gmail quote formatting by resetting styles -->
+                    <div style='all:unset; display:block; background:#fff4f4; border-left: 5px solid #d93025; padding: 15px; border-radius: 6px; margin:0;'>
+                        <p style='margin: 0; padding-left: 20px; color: #555;'>
+                            {string.Join("\n", formattedBody)}
+                        </p>
+                    </div>
+
+                    <p style='margin-top: 20px; color: #333;'>
+                        Please <strong>book a consultation immediately</strong> for your safety.
+                    </p>
+
+                    <p style='margin-top: 30px; color: #333;'>
+                        Stay safe,<br />
+                        <strong>Nestly Care Companion</strong>
+                    </p>
+
+                    <hr style='margin: 30px 0; border: none; border-top: 1px solid #eee;' />
+                    <p style='font-size: 12px; color: #999; text-align: center; margin:0;'>
+                        This is an automated message. Please do not reply directly to this email.
+                    </p>
+                </div>
+            </body>
+        </html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
+
+
+
     }
 }

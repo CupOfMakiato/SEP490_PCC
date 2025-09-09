@@ -15,6 +15,22 @@ namespace Server.API.Controllers
             _consultantService = consultantService;
         }
 
+        [HttpGet("get-all-users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var result = await _consultantService.GetAllUsersAsync();
+
+            return Ok(result);
+        }
+
+        [HttpGet("get-all-users-by-name")]
+        public async Task<IActionResult> GetAllUsersByName([FromQuery] string? name)
+        {
+            var result = await _consultantService.GetAllUsersByNameAsync(name);
+
+            return Ok(result);
+        }
+
         [HttpGet("view-consultant-by-id/{consultantId}")]
         public async Task<IActionResult> ViewConsultantById(Guid consultantId)
         {
@@ -22,6 +38,14 @@ namespace Server.API.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            return Ok(consultant);
+        }
+
+        [HttpGet("view-consultant-by-user-id/{userId}")]
+        public async Task<IActionResult> ViewConsultantByUserId(Guid userId)
+        {
+            var consultant = await _consultantService.GetConsultantByUserIdAsync(userId);
 
             return Ok(consultant);
         }

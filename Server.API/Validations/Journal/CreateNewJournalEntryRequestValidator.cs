@@ -19,7 +19,7 @@ namespace Server.API.Validations.Journal
                 .NotEmpty().WithMessage("Note is required.")
                 .MaximumLength(500).WithMessage("Note cannot exceed 500 characters.");
             RuleFor(x => x.CurrentWeight)
-                //.NotEmpty().WithMessage("Current weight is required.")
+                .NotEmpty().WithMessage("Current weight is required.")
                 .InclusiveBetween(30, 250).WithMessage("Current weight must be greater than 0.");
 
             RuleFor(x => x.SystolicBP)

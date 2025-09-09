@@ -11,5 +11,6 @@ namespace Server.Application.Repositories
     {
         Task<List<BasicBioMetric>> GetAllBasicBioMetrics();
         Task<BasicBioMetric> GetBasicBioMetricById(Guid bbmId);
+        Task<List<BasicBioMetric>> GetAllRecentBiometrics(DateTime lastCheckTime);
     }
 }

@@ -18,6 +18,47 @@ namespace Server.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            return await _context.User
+                .Where(u => !u.IsDeleted && u.RoleId == 2)
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Status = u.Status,
+                    RoleId = u.RoleId,
+                    Avatar = u.Avatar != null && !u.Avatar.IsDeleted ? u.Avatar : null
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<User?>> GetAllUsersByNameAsync(string? name)
+        {
+            var query = _context.User
+                .Where(u => !u.IsDeleted && u.RoleId == 2);
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(u => u.UserName.Contains(name));
+            }
+
+            return await query
+                .Select(u => new User
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Status = u.Status,
+                    RoleId = u.RoleId,
+                    Avatar = u.Avatar != null && !u.Avatar.IsDeleted ? u.Avatar : null
+                })
+                .ToListAsync();
+        }
+
         public async Task<Consultant> GetConsultantByConsultantIdAsync(Guid consultantId)
         {
             return await _context.Consultant.FirstOrDefaultAsync(c => c.Id == consultantId && !c.IsDeleted);
@@ -26,6 +67,37 @@ namespace Server.Infrastructure.Repositories
         public async Task<Consultant> GetConsultantByIdAsync(Guid consultantId)
         {
             return await _context.Consultant.Where(c => c.Id == consultantId && !c.IsDeleted)
+                                            .Select(c => new Consultant
+                                            {
+                                                Id = c.Id,
+                                                Specialization = c.Specialization,
+                                                Certificate = c.Certificate,
+                                                Gender = c.Gender,
+                                                JoinedAt = c.JoinedAt,
+                                                IsCurrentlyConsulting = c.IsCurrentlyConsulting,
+                                                ExperienceYears = c.ExperienceYears,
+                                                UserId = c.UserId,
+                                                User = c.User != null && !c.User.IsDeleted
+                                                ? new User
+                                                {
+                                                    Id = c.User.Id,
+                                                    UserName = c.User.UserName,
+                                                    Email = c.User.Email,
+                                                    PhoneNumber = c.User.PhoneNumber,
+                                                    Status = c.User.Status,
+                                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                                                }
+                                                : null,
+                                                ClinicId = c.ClinicId,
+                                                Clinic = c.Clinic != null && !c.Clinic.IsDeleted ? c.Clinic : null,
+                                                IsDeleted = c.IsDeleted
+                                            })
+                                            .FirstOrDefaultAsync();
+        }
+
+        public async Task<Consultant> GetConsultantByUserIdAsync(Guid userId)
+        {
+            return await _context.Consultant.Where(c => c.UserId == userId && !c.IsDeleted)
                                             .Select(c => new Consultant
                                             {
                                                 Id = c.Id,

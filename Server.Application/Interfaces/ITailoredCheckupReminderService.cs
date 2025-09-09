@@ -26,5 +26,7 @@ namespace Server.Application.Interfaces
         Task<Result<object>> MarkReminderAsComplete(Guid ReminderId);
         //delete
         Task<Result<object>> DeleteReminder(Guid ReminderId);
+        // send reminder
+        Task SendEmergencyBiometricAlert(Guid biometricId, int? recordedWeek = null);
     }
 }

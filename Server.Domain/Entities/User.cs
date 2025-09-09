@@ -33,6 +33,7 @@ namespace Server.Domain.Entities
         public Role Role { get; set; }
         public Doctor Doctor { get; set; }
         public Consultant Consultant { get; set; }
+        public Clinic Clinic { get; set; }
         public IEnumerable<GrowthData>? GrowthData { get; set; }
 
         // user can like many blogs

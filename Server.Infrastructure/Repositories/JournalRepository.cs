@@ -102,6 +102,18 @@ namespace Server.Infrastructure.Repositories
                 .OrderByDescending(j => j.CreationDate) 
                 .FirstOrDefaultAsync();
         }
+        public async Task<Journal?> GetLatestJournalByGrowthDataId(Guid growthDataId)
+        {
+            return await _dbContext.Journal
+                .Include(j => j.JournalCreatedBy)
+                .Include(j => j.JournalSymptoms)
+                    .ThenInclude(js => js.RecordedSymptom)
+                .Include(j => j.Media)
+                .Where(j => j.GrowthDataId == growthDataId && !j.IsDeleted)
+                .OrderByDescending(j => j.CurrentWeek)
+                .ThenByDescending(j => j.CreationDate)
+                .FirstOrDefaultAsync();
+        }
 
     }
 }

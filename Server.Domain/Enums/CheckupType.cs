@@ -13,6 +13,7 @@ namespace Server.Domain.Enums
         Screening,
         SpecialtyTest,
         Education,
+        Emergency,
         Other
     }
 }

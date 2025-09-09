@@ -368,7 +368,7 @@ namespace Server.Application.Services
                 if (doctorUser == null && doctor != null)
                     doctorUser = await _unitOfWork.UserRepository.GetByIdAsync(doctor.UserId);
 
-                var doctorName = doctor?.FullName ?? "Doctor";
+                var doctorName = doctor?.User.UserName ?? "Doctor";
                 var username = user.UserName ?? "User";
                 var checkupname = consultation.CheckupName;
                 var date = consultation.StartDate.ToString("dd/MM/yyyy");
@@ -376,9 +376,9 @@ namespace Server.Application.Services
                 var endTime = consultation.EndDate.ToString("HH:mm");
                 var form = consultation.ConsultationType.ToString();
                 var location = clinic?.Address ?? "Clinic";
-                var supportContact = clinic?.Phone ?? clinic?.Email ?? "our support";
+                var supportContact = clinic?.User.PhoneNumber ?? clinic?.User.Email ?? "our support";
                 var detailLink = "update later"; // Replace with actual link if available
-                var systemSignature = clinic?.Name ?? "Health Consulting System";
+                var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
                 var emailUserBody = $@"
                                 Hi {username},<br/><br/>
@@ -558,16 +558,16 @@ namespace Server.Application.Services
 
             var dayOfWeekName = GetDayOfWeekName(offlineConsulattion.DayOfWeek);
             var username = user.UserName ?? "User";
-            var doctorName = doctor.FullName ?? "Doctor";
+            var doctorName = doctor.User.UserName ?? "Doctor";
             var checkupname = offlineConsulattion.CheckupName;
             var startTime = offlineConsulattion.StartDate.ToString("HH:mm");
             var endTime = offlineConsulattion.EndDate.ToString("HH:mm");
             var date = offlineConsulattion.StartDate.ToString("dd/MM/yyyy");
             var form = offlineConsulattion.ConsultationType.ToString();
             var location = clinic.Address ?? "Clinic";
-            var contact = clinic.Email ?? "our support email";
+            var contact = clinic.User.Email ?? "our support email";
             var detailLink = "update later"; // Replace with actual link if available
-            var systemSignature = clinic?.Name ?? "Health Consulting System";
+            var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
             var emailUserBody = $@"
                             Hi {username},<br/><br/>
@@ -626,6 +626,19 @@ namespace Server.Application.Services
                 Error = 0,
                 Message = "Booking email sent successfully",
                 Data = true
+            };
+        }
+
+        public async Task<Result<List<ViewOfflineConsultationDTO>>> GetOfflineConsultationsByCreatedByAsync(Guid userId)
+        {
+            var result = _mapper.Map<List<ViewOfflineConsultationDTO>>(
+                await _offlineConsultationRepository.GetOfflineConsultationsByCreatedByAsync(userId));
+
+            return new Result<List<ViewOfflineConsultationDTO>>
+            {
+                Error = 0,
+                Message = "View offline consultation successfully",
+                Data = result
             };
         }
     }

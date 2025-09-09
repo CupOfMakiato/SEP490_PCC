@@ -35,5 +35,16 @@ namespace Server.Infrastructure.Repositories
                 .Where(a => a.Id == bbmId)
                 .FirstOrDefaultAsync();
         }
+        public async Task<List<BasicBioMetric>> GetAllRecentBiometrics(DateTime lastCheckTime)
+        {
+            return await _dbContext.BasicBioMetric
+                .Where(b => b.ModificationDate >= lastCheckTime)
+                .Include(b => b.GrowthData)
+                .ThenInclude(g => g.GrowthDataCreatedBy)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+
     }
 }
