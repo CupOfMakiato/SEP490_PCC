@@ -16,12 +16,12 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<EnergySuggestion> GetEnergySuggestionByAgeAndTrimester(int age, int trimester)
         {
-            return await _dbSet.FirstOrDefaultAsync(es => es.AgeGroup.FromAge <= age && es.AgeGroup.FromAge >= age && es.Trimester == trimester);
+            return await _dbSet.Include(es => es.AgeGroup).FirstOrDefaultAsync(es => es.AgeGroup.FromAge <= age && es.AgeGroup.ToAge >= age && es.Trimester == trimester);
         }
 
         public async Task<EnergySuggestion> GetEnergySuggestionByAgeAndTrimester(int age, int trimester, int activityLevel)
         {
-            return await _dbSet.FirstOrDefaultAsync(es => es.AgeGroup.FromAge <= age && es.AgeGroup.FromAge >= age && es.Trimester == trimester && es.ActivityLevel == (ActivityLevel)activityLevel);
+            return await _dbSet.Include(es => es.AgeGroup).FirstOrDefaultAsync(es => es.AgeGroup.FromAge <= age && es.AgeGroup.ToAge >= age && es.Trimester == trimester && es.ActivityLevel == (ActivityLevel)activityLevel);
         }
 
         public async Task<EnergySuggestion> GetEnergySuggestionByAgeGroupIdAndTrimester(Guid ageGroupId, int trimester)
