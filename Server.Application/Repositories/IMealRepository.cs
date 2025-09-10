@@ -8,6 +8,7 @@ namespace Server.Application.Repositories
     {
         public Task<List<MealDto>> GetMealsWithCalories(Guid caloriesNutrientId);
         public Task<Meal> GetMealsById(Guid mealId);
+        public Task<List<Meal>> GetMeals();
         public void DeleteMeal(Meal meal);
     }
 }

@@ -20,6 +20,18 @@ namespace Server.Infrastructure.Repositories
             _dbSet.Remove(meal);
         }
 
+        public async Task<List<Meal>> GetMeals()
+        {
+            return await _dbSet
+                .Include(m => m.DishMeals)
+                    .ThenInclude(dm => dm.Dish)
+                        .ThenInclude(d => d.Foods)
+                            .ThenInclude(fd => fd.Food)
+                                .ThenInclude(f => f.FoodNutrients)
+                                .AsSplitQuery()
+                .ToListAsync();
+        }
+
         public async Task<Meal> GetMealsById(Guid mealId)
         {
             return await _dbSet

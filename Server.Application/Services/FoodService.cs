@@ -121,6 +121,171 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<bool>> CreateRecommendFoodForDisease(CreateRecommendFoodForDiseaseRequest request)
+        {
+            var disease = await _unitOfWork.DiseaseRepository.GetDiseaseById(request.DiseaseId);
+            if (disease is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Disease is not found"
+                };
+
+            foreach (var recommendFoodDto in request.recommendFoodDtos)
+            {
+                if (disease.FoodDiseases.Any(fd => fd.FoodId == recommendFoodDto.FoodId && fd.Status == Domain.Enums.FoodDiseaseStatus.Warning))
+                {
+                    return new Result<bool>()
+                    {
+                        Error = 1,
+                        Message = "Food is already in warning list"
+                    };
+                }
+                bool alreadyExists = disease.FoodDiseases.All(fd => fd.FoodId == recommendFoodDto.FoodId);
+                if (!alreadyExists)
+                {
+                    var food = await _unitOfWork.FoodRepository.GetByIdAsync(recommendFoodDto.FoodId);
+                    if (food is null)
+                    {
+                        return new Result<bool>
+                        {
+                            Error = 1,
+                            Message = $"Food {recommendFoodDto.FoodId} is not found"
+                        };
+                    }
+                    disease.FoodDiseases.Add(new FoodDisease
+                    {
+                        DiseaseId = disease.Id,
+                        FoodId = food.Id,
+                        Food = food,
+                        Description = recommendFoodDto.Description,
+                        Status = Domain.Enums.FoodDiseaseStatus.Warning
+                    });
+                }
+            }
+            _unitOfWork.DiseaseRepository.Update(disease);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Message = "Add success",
+                    Data = true
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Add failed",
+                Data = false
+            };
+        }
+
+        public async Task<Result<bool>> CreateWarningFoodForAllergy(CreateWarningFoodForAllergyRequest request)
+        {
+            var allergy = await _unitOfWork.AllergyRepository.GetAllergyById(request.AllergyId);
+            if (allergy is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Allergy is not found"
+                };
+
+            foreach (var warningFoodDto in request.warningFoodDtos)
+            {
+                bool alreadyExists = allergy.FoodAllergy.All(fd => fd.FoodId == warningFoodDto.FoodId);
+                if (!alreadyExists)
+                {
+                    var food = await _unitOfWork.FoodRepository.GetByIdAsync(warningFoodDto.FoodId);
+                    if (food is null)
+                    {
+                        return new Result<bool>
+                        {
+                            Error = 1,
+                            Message = $"Food {warningFoodDto.FoodId} is not found"
+                        };
+                    }
+                    allergy.FoodAllergy.Add(new FoodAllergy
+                    {
+                        AllergyId = allergy.Id,
+                        FoodId = food.Id,
+                        Food = food,
+                        Description = warningFoodDto.Description,
+                    });
+                }
+            }
+            _unitOfWork.AllergyRepository.Update(allergy);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Message = "Add success",
+                    Data = true
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Add failed",
+                Data = false
+            };
+        }
+
+        public async Task<Result<bool>> CreateWarningFoodForDisease(CreateWarningFoodForDiseaseRequest request)
+        {
+            var disease = await _unitOfWork.DiseaseRepository.GetDiseaseById(request.DiseaseId);
+            if (disease is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Disease is not found"
+                };
+
+            foreach (var warningFoodDto in request.warningFoodDtos)
+            {
+                if (disease.FoodDiseases.Any(fd => fd.FoodId == warningFoodDto.FoodId && fd.Status == Domain.Enums.FoodDiseaseStatus.Recommend))
+                {
+                    return new Result<bool>()
+                    {
+                        Error = 1,
+                        Message = "Food is already in recommend list"
+                    };
+                }
+                bool alreadyExists = disease.FoodDiseases.All(fd => fd.FoodId == warningFoodDto.FoodId);
+                if (!alreadyExists)
+                {
+                    var food = await _unitOfWork.FoodRepository.GetByIdAsync(warningFoodDto.FoodId);
+                    if (food is null)
+                    {
+                        return new Result<bool>
+                        {
+                            Error = 1,
+                            Message = $"Food {warningFoodDto.FoodId} is not found"
+                        };
+                    }
+                    disease.FoodDiseases.Add(new FoodDisease
+                    {
+                        DiseaseId = disease.Id,
+                        FoodId = food.Id,
+                        Food = food,
+                        Description = warningFoodDto.Description,
+                        Status = Domain.Enums.FoodDiseaseStatus.Warning
+                    });
+                }
+            }
+            _unitOfWork.DiseaseRepository.Update(disease);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Message = "Add success",
+                    Data = true
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Add failed",
+                Data = false
+            };
+        }
+
         public async Task<bool> DeleteFood(Guid foodId)
         {
             var food = await _unitOfWork.FoodRepository.GetByIdAsync(foodId);
@@ -172,6 +337,92 @@ namespace Server.Application.Services
             {
                 Error = 1,
                 Message = "Remove failed"
+            };
+        }
+
+        public async Task<Result<bool>> RemoveFoodDisease(RemoveFoodDiseaseRequest request)
+        {
+            var disease = await _unitOfWork.DiseaseRepository.GetDiseaseById(request.DiseaseId);
+            if (disease is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Disease is not found"
+                };
+
+            var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.FoodId);
+            if (food is null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = $"Food {request.FoodId} is not found"
+                };
+            }
+            var toRemovefoodDisease = disease.FoodDiseases.FirstOrDefault(fd => fd.FoodId == request.FoodId);
+            if (toRemovefoodDisease is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Food disease is not found",
+                    Data = false
+                };
+            disease.FoodDiseases.Remove(toRemovefoodDisease);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Message = "Remove success",
+                    Data = true
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Remove failed",
+                Data = false
+            };
+        }
+
+        public async Task<Result<bool>> RemoveFoodAllergy(RemoveFoodAllergyRequest request)
+        {
+            var allergy = await _unitOfWork.AllergyRepository.GetAllergyById(request.AllergyId);
+            if (allergy is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Allergy is not found"
+                };
+
+            var food = await _unitOfWork.FoodRepository.GetByIdAsync(request.FoodId);
+            if (food is null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = $"Food {request.FoodId} is not found"
+                };
+            }
+            var toRemovefoodAllergy = allergy.FoodAllergy.FirstOrDefault(fd => fd.FoodId == request.FoodId);
+            if (toRemovefoodAllergy is null)
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Food allergy is not found",
+                    Data = false
+                };
+            allergy.FoodAllergy.Remove(toRemovefoodAllergy);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Message = "Remove success",
+                    Data = true
+                };
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Remove failed",
+                Data = false
             };
         }
 

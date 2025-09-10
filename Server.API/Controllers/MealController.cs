@@ -18,6 +18,41 @@ namespace Server.API.Controllers
             _mealService = mealService;
         }
 
+        [HttpGet("view-meal-by-id")]
+        public async Task<IActionResult> ViewMealById([FromQuery] Guid mealId)
+        {
+            if (mealId == Guid.Empty)
+                return BadRequest("MealId cannot be empty");
+
+            try
+            {
+                var result = await _mealService.GetMealById(mealId);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("view-all-meals")]
+        public async Task<IActionResult> ViewAllMeals()
+        {
+            try
+            {
+                var result = await _mealService.GetMeals();
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpGet("view-menu-suggestion-by-trimester")]
         public async Task<IActionResult> MenuSuggestion([FromQuery]BuildWeeklyMealPlanRequest request)
         {
@@ -76,6 +111,22 @@ namespace Server.API.Controllers
 
             if (request.DishMeals.Any(dm => dm.DishId == Guid.Empty ))
                 return BadRequest("DishId cannot be null or empty");
+
+            switch (request.MealType)
+            {
+                case MealType.Breakfast:
+                    break;
+                case MealType.Lunch:
+                    break;
+                case MealType.Dinner:
+                    break;
+                case MealType.Snack1:
+                    break;
+                case MealType.Snack2:
+                    break;
+                default:
+                    return BadRequest("Invalid MealType");
+            }
 
             try
             {
