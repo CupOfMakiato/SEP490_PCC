@@ -1508,6 +1508,13 @@ namespace Server.Infrastructure.Data
                     Status = FoodDiseaseStatus.Warning,
                     Description = "Please choose bread that is gluten-free"
                 },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FBanhMi,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Please choose bread that is gluten-free"
+                },
 
                 // === Anemia ===
                 new FoodDisease
@@ -1941,12 +1948,21 @@ namespace Server.Infrastructure.Data
             // ---------------------------------------------------
             // NUTRIENT CATEGORIES
             // ---------------------------------------------------
+            var catEnergy = Guid.NewGuid();
             var catPLG = Guid.NewGuid();
             var catMineral = Guid.NewGuid();
             var catVitamin = Guid.NewGuid();
             var catOther = Guid.NewGuid();
 
             modelBuilder.Entity<NutrientCategory>().HasData(
+                new NutrientCategory
+                {
+                    Id = catEnergy,
+                    Name = "Energy",
+                    Description = "Protein, Lipid, Glucid",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
                 new NutrientCategory
                 {
                     Id = catPLG,
@@ -1984,6 +2000,7 @@ namespace Server.Infrastructure.Data
             // ---------------------------------------------------
             // NUTRIENTS
             // ---------------------------------------------------
+            var calorieId = Guid.NewGuid();
             var proteinId = Guid.NewGuid();
             var lipidId = Guid.NewGuid();
             var glucidId = Guid.NewGuid();
@@ -2009,6 +2026,8 @@ namespace Server.Infrastructure.Data
             var saltId = Guid.NewGuid();
 
             modelBuilder.Entity<Nutrient>().HasData(
+                // Calorie
+                new Nutrient { Id = calorieId, Name = "Calories", Description = "Energy from food", NutrientCategoryId = catEnergy, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
                 // PLG
                 new Nutrient { Id = proteinId, Name = "Protein", Description = "Protein Nutrient", NutrientCategoryId = catPLG, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
                 new Nutrient { Id = lipidId, Name = "Lipid", Description = "Fat Nutrient", NutrientCategoryId = catPLG, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
@@ -2042,6 +2061,7 @@ namespace Server.Infrastructure.Data
             // ---------------------------------------------------
             // ATTRIBUTES with daily min/max values
             // ---------------------------------------------------
+            var attrCalorie = Guid.NewGuid();
             var attrProtein = Guid.NewGuid();
             var attrLipid = Guid.NewGuid();
             var attrGlucid = Guid.NewGuid();
@@ -2064,6 +2084,20 @@ namespace Server.Infrastructure.Data
             var attrSalt = Guid.NewGuid();
 
             modelBuilder.Entity<NSAttribute>().HasData(
+                new NSAttribute
+                {
+                    Id = attrCalorie,
+                    NutrientId = calorieId,
+                    MinEnergyPercentage = 0,
+                    MaxEnergyPercentage = 0,
+                    Unit = "kcal",
+                    Amount = 2000, 
+                    Type = 1,
+                    MinValuePerDay = 1800,
+                    MaxValuePerDay = 2500,
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
                 // Macronutrients
                 new NSAttribute
                 {
@@ -2499,6 +2533,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FChicken,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 187,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FChicken,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -2699,6 +2743,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FBeef,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 169,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FBeef,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -2899,6 +2953,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FPork,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 242,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FPork,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -3099,6 +3163,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FShrimp,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 119,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FShrimp,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -3299,6 +3373,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FTuna,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 130,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FTuna,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -3495,6 +3579,16 @@ namespace Server.Infrastructure.Data
                     AmountPerUnit = 0,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
+                }, 
+                new FoodNutrient
+                {
+                    FoodId = FCod,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 105,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
                 },
                 new FoodNutrient
                 {
@@ -3699,6 +3793,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSpinach,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 23,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSpinach,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -3899,6 +4003,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FKale,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 28,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FKale,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -4099,6 +4213,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FLettuce,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 15,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FLettuce,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -4299,6 +4423,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FCarrot,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 41,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCarrot,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -4499,6 +4633,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FBroccoli,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 34,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FBroccoli,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -4699,6 +4843,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FTomato,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 18,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FTomato,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -4899,6 +5053,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FGarlic,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 149,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FGarlic,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -5093,6 +5257,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 2.5,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FEggplant,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 25,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -5299,6 +5473,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FBeanSprouts,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 30,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FBeanSprouts,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -5499,6 +5683,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FLemongrass,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 99,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FLemongrass,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -5699,6 +5893,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FOnion,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 40,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FOnion,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -5899,6 +6103,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSpringOnion,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 32,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSpringOnion,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -6099,6 +6313,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FCucumber,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 15,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCucumber,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -6299,6 +6523,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FPumpkin,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 20,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FPumpkin,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -6493,6 +6727,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 2.5,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FApple,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 52,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -6699,6 +6943,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FWatermelon,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 30,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FWatermelon,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -6899,6 +7153,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FGrapefruit,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 42,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FGrapefruit,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -7099,6 +7363,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FStrawberry,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 32,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FStrawberry,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -7299,6 +7573,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FRaspberry,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 52,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FRaspberry,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -7499,6 +7783,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FOrange,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 47,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FOrange,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -7699,6 +7993,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FPineapple,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 50,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FPineapple,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -7893,6 +8197,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 1.8,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FOliveOil,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 884,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -8099,6 +8413,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSunflowerOil,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 884,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSunflowerOil,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -8299,6 +8623,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FVegetableOil,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 884,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FVegetableOil,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -8499,6 +8833,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FFishSauce,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 35,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FFishSauce,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -8693,6 +9037,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 0.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FAlmond,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 579,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -8899,6 +9253,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FWalnut,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 654,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FWalnut,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -9099,6 +9463,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FCashew,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 553,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCashew,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -9299,6 +9673,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FPeanuts,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 576,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FPeanuts,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -9493,6 +9877,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 8,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FMilk,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 42,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -9699,6 +10093,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FButter,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 717,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FButter,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -9893,6 +10297,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 1.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FEgg,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 155,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -10099,6 +10513,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSoyBean,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 172,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSoyBean,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -10293,6 +10717,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 1.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FRice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 130,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -10499,6 +10933,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FGlutinousRice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 97,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FGlutinousRice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -10699,6 +11143,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FNoodles,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 138,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FNoodles,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -10893,6 +11347,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 3.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FChickpeas,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 164,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -11099,6 +11563,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FTofu,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 83,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FTofu,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -11293,6 +11767,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 1.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FLotusSeeds,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 332,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -11499,6 +11983,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FWheatBread,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 260,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FWheatBread,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -11699,6 +12193,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FRiceBread,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 243,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FRiceBread,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -11899,6 +12403,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FGFMultigrainBread,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 251,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FGFMultigrainBread,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -12093,6 +12607,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 3.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FWater,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 0,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -12299,6 +12823,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FHerbalTea,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FHerbalTea,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -12499,6 +13033,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FAppleJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 46,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FAppleJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -12699,6 +13243,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FOrangeJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 45,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FOrangeJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -12899,6 +13453,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FPineappleJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 53,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FPineappleJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -13093,6 +13657,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 1.8,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCarrotJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 40,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -13299,6 +13873,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FTomatoJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 17,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FTomatoJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -13499,6 +14083,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FCranberryJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 54,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCranberryJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -13699,6 +14293,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FGrapeJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 62,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FGrapeJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -13899,6 +14503,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FLemonade,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 40,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FLemonade,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -14099,6 +14713,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSmoothie,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 37,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSmoothie,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -14299,6 +14923,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FAlmondMilk,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 15,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FAlmondMilk,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -14499,6 +15133,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FRiceMilk,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 47,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FRiceMilk,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -14699,6 +15343,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FAloeVeraJuice,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 15,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FAloeVeraJuice,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -14896,206 +15550,16 @@ namespace Server.Infrastructure.Data
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = proteinId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 0.8,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = lipidId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 0.2,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = glucidId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 11.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = calciumId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 20,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = ironId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.2,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = zincId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.1,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = iodineId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminAId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 20,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminDId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminEId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.2,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminKId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 3.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminB1Id,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.04,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminB2Id,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.04,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminB6Id,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.05,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = folateId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 25,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminB12Id,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = vitaminCId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 35,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = cholineId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 9,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = fiberId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 6,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FV8Juice,
-                //    NutrientId = saltId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 1.8,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
+                new FoodNutrient
+                {
+                    FoodId = FGreenTea,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 30,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
                 new FoodNutrient
                 {
                     FoodId = FGreenTea,
@@ -15299,6 +15763,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FBlackTea,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 1,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FBlackTea,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -15496,206 +15970,16 @@ namespace Server.Infrastructure.Data
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = proteinId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = lipidId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 100.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = glucidId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = calciumId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 5,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = ironId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.2,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = zincId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.1,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = iodineId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminAId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminDId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminEId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 14,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminKId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 60,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminB1Id,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminB2Id,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminB6Id,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = folateId,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminB12Id,
-                //    NutrientEquivalent = 1e-06,
-                //    Unit = "μg",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = vitaminCId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = cholineId,
-                //    NutrientEquivalent = 0.001,
-                //    Unit = "mg",
-                //    AmountPerUnit = 0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = fiberId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 0.3,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
-                //new FoodNutrient
-                //{
-                //    FoodId = FCoffee,
-                //    NutrientId = saltId,
-                //    NutrientEquivalent = 1.0,
-                //    Unit = "g",
-                //    AmountPerUnit = 0.0,
-                //    TotalWeight = 100.0,
-                //    FoodEquivalent = "100g"
-                //},
+                new FoodNutrient
+                {
+                    FoodId = FCarbonatedWater,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
                 new FoodNutrient
                 {
                     FoodId = FCarbonatedWater,
@@ -15899,6 +16183,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FBottledWater,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FBottledWater,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -16093,6 +16387,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 0.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCinnamon,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 247,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -16299,6 +16603,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FTurmeric,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 1.56,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FTurmeric,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -16499,6 +16813,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FChiliPowder,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 282,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FChiliPowder,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -16693,6 +17017,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 30,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FTableSalt,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 0,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -16899,6 +17233,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FBlackPepper,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 251,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FBlackPepper,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -17099,6 +17443,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FStarAnise,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 337,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FStarAnise,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -17299,6 +17653,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSugar,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 388,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSugar,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -17499,6 +17863,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FVinegar,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 18,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FVinegar,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -17699,6 +18073,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FMSG,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 282,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FMSG,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -17899,6 +18283,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FSoupPowder,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 8,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FSoupPowder,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -18093,6 +18487,16 @@ namespace Server.Infrastructure.Data
                     NutrientEquivalent = 1.0,
                     Unit = "g",
                     AmountPerUnit = 0.0,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FRicePaper,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 329,
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
@@ -18299,6 +18703,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FCoriander,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 23,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FCoriander,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -18499,6 +18913,16 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient
                 {
                     FoodId = FShiitake,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 34,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
+                new FoodNutrient
+                {
+                    FoodId = FShiitake,
                     NutrientId = proteinId,
                     NutrientEquivalent = 1.0,
                     Unit = "g",
@@ -18696,7 +19120,16 @@ namespace Server.Infrastructure.Data
                     TotalWeight = 100.0,
                     FoodEquivalent = "100g"
                 },
-
+                new FoodNutrient
+                {
+                    FoodId = FRadish,
+                    NutrientId = calorieId,
+                    NutrientEquivalent = 1.0,
+                    Unit = "kcal",
+                    AmountPerUnit = 16,
+                    TotalWeight = 100.0,
+                    FoodEquivalent = "100g"
+                },
                 new FoodNutrient { FoodId = FRadish, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FRadish, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FRadish, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
@@ -18718,6 +19151,7 @@ new FoodNutrient { FoodId = FRadish, NutrientId = cholineId, NutrientEquivalent 
 new FoodNutrient { FoodId = FRadish, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FRadish, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.02, TotalWeight = 100.0, FoodEquivalent = "100g" },
 
+                new FoodNutrient { FoodId = FBanhMi, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 270, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FBanhMi, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 9.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FBanhMi, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 5.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FBanhMi, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 48.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
@@ -18739,6 +19173,7 @@ new FoodNutrient { FoodId = FBanhMi, NutrientId = cholineId, NutrientEquivalent 
 new FoodNutrient { FoodId = FBanhMi, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FBanhMi, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
 
+                new FoodNutrient { FoodId = FMayo, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 680, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FMayo, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FMayo, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 75.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FMayo, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
@@ -18760,6 +19195,7 @@ new FoodNutrient { FoodId = FMayo, NutrientId = cholineId, NutrientEquivalent = 
 new FoodNutrient { FoodId = FMayo, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FMayo, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
 
+                new FoodNutrient { FoodId = FChilliSauce, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 21, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FChilliSauce, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FChilliSauce, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FChilliSauce, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 20.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
@@ -18781,6 +19217,7 @@ new FoodNutrient { FoodId = FChilliSauce, NutrientId = cholineId, NutrientEquiva
 new FoodNutrient { FoodId = FChilliSauce, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FChilliSauce, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 
+                new FoodNutrient { FoodId = FSoysauce, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 53, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FSoysauce, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 5.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FSoysauce, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FSoysauce, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 5.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
@@ -18802,6 +19239,7 @@ new FoodNutrient { FoodId = FSoysauce, NutrientId = cholineId, NutrientEquivalen
 new FoodNutrient { FoodId = FSoysauce, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FSoysauce, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 14.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
 
+                new FoodNutrient { FoodId = FKetchup, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 112, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FKetchup, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FKetchup, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
 new FoodNutrient { FoodId = FKetchup, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 25.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
