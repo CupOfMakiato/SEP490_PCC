@@ -46,7 +46,7 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<List<MealDto>> GetMealsWithCalories(Guid caloriesNutrientId)
         {
-            return await _dbSet
+            var result = await _dbSet
                 .Select(m => new MealDto
                 {
                     MealType = m.MealType,
@@ -55,7 +55,7 @@ namespace Server.Infrastructure.Repositories
                         .SelectMany(fd => fd.Food.FoodNutrients
                             .Where(fn => fn.NutrientId == caloriesNutrientId)
                             .Select(fn => fn.AmountPerUnit * fd.Amount))
-                        .Sum(),
+                        .Sum()/100,
 
                     Dishes = m.DishMeals.Select(dm => new DishDto
                     {
@@ -67,10 +67,12 @@ namespace Server.Infrastructure.Repositories
                             .SelectMany(fd => fd.Food.FoodNutrients
                                 .Where(fn => fn.NutrientId == caloriesNutrientId)
                                 .Select(fn => fn.AmountPerUnit * fd.Amount))
-                            .Sum()
+                            .Sum()/100
                     }).ToList()
                 })
                 .ToListAsync();
+
+            return result;
         }
     }
 }
