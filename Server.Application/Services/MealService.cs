@@ -7,6 +7,7 @@ using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
 using System;
+using System.Linq;
 
 namespace Server.Application.Services
 {
@@ -58,15 +59,16 @@ namespace Server.Application.Services
             }
             _unitOfWork.MealRepository.Update(meal);
             if (await _unitOfWork.SaveChangeAsync() > 0)
-                return new Result<MealDto> 
-                {   Error = 0, 
+                return new Result<MealDto>
+                {
+                    Error = 0,
                     Message = "Meal updated successfully",
                     Data = _mapper.Map<MealDto>(meal)
                 };
 
-            return new Result<MealDto> 
+            return new Result<MealDto>
             {
-                Error = 1, 
+                Error = 1,
                 Message = "Failed to update meal"
             };
         }
@@ -138,29 +140,47 @@ namespace Server.Application.Services
                         Error = 1,
                         Message = "Invalid favourite dish Id"
                     };
+                if (foodsWarningIds is not null && foodsWarningIds.Count > 0)
+                {
+                    foreach (var food in favouriteDish.Foods)
+                        if (foodsWarningIds.Contains(food.FoodId))
+                        return new Result<MealDto>
+                        {
+                            Error = 0,
+                            Message = "Your favourite food is not good for you. Base on you health",
+                        };
+                }
                 result.Dishes.Add(_mapper.Map<DishDto>(favouriteDish, opt => opt.Items["CaloriesId"] = caloriesId));
                 calorieTarget -= result.Dishes[0].Calories;
-                request.NumberOfDishes -= 1;
-            }
-            
+                if (request.NumberOfDishes > 0)
+                {
+                    request.NumberOfDishes -= 1;
+                }
+            }            
 
-            var dishes = await _unitOfWork.DishRepository.GetDishesByCaloriesAndMealType(
+            var dishes = new List<Dish>();
+            if (request.NumberOfDishes > 0)
+            {
+                dishes = await _unitOfWork.DishRepository.GetDishesByCaloriesAndMealType(
                 calorieTarget,
                 caloriesId,
                 foodsWarningIds,
                 request.NumberOfDishes
-            );
+                );
 
-            if (dishes == null || dishes.Count < 1 || (dishes.Count == 0 && request.Type == MealType.Snack1 || request.Type == MealType.Snack2))
-            {
-                return new Result<MealDto>
+                if (dishes == null || dishes.Count < 1 || (dishes.Count == 0 && request.Type == MealType.Snack1 || request.Type == MealType.Snack2))
                 {
-                    Error = 1,
-                    Message = "No suitable dishes found"
-                };
-            }
+                    return new Result<MealDto>
+                    {
+                        Error = 1,
+                        Message = "No suitable dishes found"
+                    };
+                }
+            }          
 
-            result.Dishes.AddRange(_mapper.Map<List<DishDto>>(dishes, opt => opt.Items["CaloriesId"] = caloriesId));
+            var mapped = _mapper.Map<List<DishDto>>(dishes, opt =>
+                opt.Items["CaloriesId"] = caloriesId);
+            result.Dishes.AddRange(mapped);
 
             foreach (var item in result.Dishes)
             {
@@ -195,7 +215,7 @@ namespace Server.Application.Services
                 {
                     MealId = meal.Id,
                     DishId = item.DishId,
-                  });
+                });
             }
 
             await _unitOfWork.MealRepository.AddAsync(meal);
@@ -258,7 +278,7 @@ namespace Server.Application.Services
 
             var result = new MealPlanResponse
             {
-                TargetCalories = targetCalories   
+                TargetCalories = targetCalories
             };
 
             for (int dayIndex = 1; dayIndex <= 7; dayIndex++)
