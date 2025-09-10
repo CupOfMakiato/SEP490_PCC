@@ -2027,7 +2027,7 @@ namespace Server.Infrastructure.Data
 
             modelBuilder.Entity<Nutrient>().HasData(
                 // Calorie
-                new Nutrient { Id = calorieId, Name = "Calorie", Description = "Energy from food", NutrientCategoryId = catEnergy, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
+                new Nutrient { Id = calorieId, Name = "Calories", Description = "Energy from food", NutrientCategoryId = catEnergy, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
                 // PLG
                 new Nutrient { Id = proteinId, Name = "Protein", Description = "Protein Nutrient", NutrientCategoryId = catPLG, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
                 new Nutrient { Id = lipidId, Name = "Lipid", Description = "Fat Nutrient", NutrientCategoryId = catPLG, IsDeleted = false, CreationDate = new DateTime(2025, 09, 05) },
