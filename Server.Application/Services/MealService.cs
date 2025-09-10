@@ -181,7 +181,8 @@ namespace Server.Application.Services
             var meal = new Meal
             {
                 Id = Guid.NewGuid(),
-                DishMeals = new List<DishMeal>()
+                DishMeals = new List<DishMeal>(),
+                MealType = request.MealType
             };
 
             foreach (var item in request.DishMeals)
@@ -295,24 +296,24 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<MealDto>> GetMealById(Guid id)
+        public async Task<Result<GetMealResponse>> GetMealById(Guid id)
         {
             var meal = await _unitOfWork.MealRepository.GetMealsById(id);
-            return new Result<MealDto>()
+            return new Result<GetMealResponse>()
             {
                 Error = 0,
-                Data = _mapper.Map<MealDto>(meal),
+                Data = _mapper.Map<GetMealResponse>(meal),
                 Message = "Get success"
             };
         }
 
-        public async Task<Result<List<MealDto>>> GetMeals()
+        public async Task<Result<List<GetMealResponse>>> GetMeals()
         {
             var meals = await _unitOfWork.MealRepository.GetMeals();
-            return new Result<List<MealDto>>()
+            return new Result<List<GetMealResponse>>()
             {
                 Error = 0,
-                Data = _mapper.Map<List<MealDto>>(meals),
+                Data = _mapper.Map<List<GetMealResponse>>(meals),
                 Message = "Get success"
             };
         }

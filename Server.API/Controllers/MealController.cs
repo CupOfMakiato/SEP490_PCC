@@ -112,6 +112,22 @@ namespace Server.API.Controllers
             if (request.DishMeals.Any(dm => dm.DishId == Guid.Empty ))
                 return BadRequest("DishId cannot be null or empty");
 
+            switch (request.MealType)
+            {
+                case MealType.Breakfast:
+                    break;
+                case MealType.Lunch:
+                    break;
+                case MealType.Dinner:
+                    break;
+                case MealType.Snack1:
+                    break;
+                case MealType.Snack2:
+                    break;
+                default:
+                    return BadRequest("Invalid MealType");
+            }
+
             try
             {
                 var result = await _mealService.CreateMeal(request);
