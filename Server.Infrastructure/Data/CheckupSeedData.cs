@@ -11,94 +11,124 @@ namespace Server.Infrastructure.Data
 {
     public static class CheckupSeedData
     {
-        public static void SeedData(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<RecommendedCheckup>().HasData(
-                new RecommendedCheckup
-                {
-                    Id = Guid.NewGuid(),
-                    Title = "Initial Prenatal Visit",
-                    Description = "Confirm pregnancy, estimate due date, and run baseline tests (blood, urine, STIs, etc).",
-                    RecommendedStartWeek = 6,
-                    RecommendedEndWeek = 8,
-                    Note = "Usually the first and longest appointment to establish prenatal care.",
-                    Type = CheckupType.RoutinePrenatal,
-                    IsDeleted = false,
-                    IsActive = true,
-                    CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.UtcNow
-                },
-                new RecommendedCheckup
-                {
-                Id = Guid.NewGuid(),
-                Title = "Nuchal Translucency Screening",
-                Description = "Ultrasound and blood test to screen for Down syndrome and other chromosomal abnormalities.",
-                RecommendedStartWeek = 11,
-                RecommendedEndWeek = 14,
-                Note = "Optional, but part of early genetic screening.",
-                Type = CheckupType.Screening,
-                IsDeleted = false,
-                IsActive = true,
-                CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                CreationDate = DateTime.UtcNow
-                },
-                new RecommendedCheckup
-                {
-                Id = Guid.NewGuid(),
-                Title = "Anatomy Ultrasound",
-                Description = "Detailed scan of fetal development and organ structure.",
-                RecommendedStartWeek = 18,
-                RecommendedEndWeek = 22,
-                Note = "Checks baby’s growth and detects major abnormalities.",
-                Type = CheckupType.Ultrasound,
-                IsDeleted = false,
-                IsActive = true,
-                CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                CreationDate = DateTime.UtcNow
-                },
-                new RecommendedCheckup
-                {
-                Id = Guid.NewGuid(),
-                Title = "Gestational Diabetes Screening",
-                Description = "Blood sugar screening (glucose challenge test) to detect gestational diabetes.",
-                RecommendedStartWeek = 24,
-                RecommendedEndWeek = 28,
-                Note = "Follow-up 3-hour test if results are abnormal.",
-                Type = CheckupType.SpecialtyTest,
-                IsDeleted = false,
-                IsActive = true,
-                CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                CreationDate = DateTime.UtcNow
-                },
-                new RecommendedCheckup
-                {
-                Id = Guid.NewGuid(),
-                Title = "Group B Streptococcus (GBS) Screening",
-                Description = "Swab test to check for GBS bacteria, which can affect newborn during delivery.",
-                RecommendedStartWeek = 36,
-                RecommendedEndWeek = 37,
-                Note = "If positive, IV antibiotics will be given during labor.",
-                Type = CheckupType.Screening,
-                IsDeleted = false,
-                IsActive = true,
-                CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                CreationDate = DateTime.UtcNow
-                },
-                new RecommendedCheckup
-                {
-                Id = Guid.NewGuid(),
-                Title = "Weekly Cervical Exams",
-                Description = "Pelvic exam to assess cervix dilation and effacement before labor.",
-                RecommendedStartWeek = 37,
-                RecommendedEndWeek = 40,
-                Note = "Helps track readiness for delivery and plan for labor.",
-                Type = CheckupType.RoutinePrenatal,
-                IsDeleted = false,
-                IsActive = true,
-                CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                CreationDate = DateTime.UtcNow
-                }
-            );
-        }
+            public static void SeedData(ModelBuilder modelBuilder)
+            {
+                var systemUser = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f");
+
+                modelBuilder.Entity<RecommendedCheckup>().HasData(
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Initial Prenatal Visit",
+                        Description = "Confirm pregnancy, estimate due date, and run baseline tests (blood, urine, STIs, etc).",
+                        RecommendedStartWeek = 6,
+                        RecommendedEndWeek = 10,
+                        Note = "First in-depth appointment—establish prenatal care baseline.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Second Trimester Checkpoint",
+                        Description = "Follow-up to monitor maternal and fetal health—typical physical exam.",
+                        RecommendedStartWeek = 10,
+                        RecommendedEndWeek = 12,
+                        Note = "Short visit to revisit labs and check progress.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Mid-Pregnancy Screening",
+                        Description = "Detailed scan and fetal development assessment.",
+                        RecommendedStartWeek = 16,
+                        RecommendedEndWeek = 18,
+                        Note = "Includes anatomy ultrasound and growth tracking.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Gestational Diabetes Screening",
+                        Description = "Glucose challenge test to check for gestational diabetes.",
+                        RecommendedStartWeek = 20,
+                        RecommendedEndWeek = 22,
+                        Note = "Standard screening in mid-pregnancy.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Routine Follow-up",
+                        Description = "Regular wellness check to assess maternal and fetal status.",
+                        RecommendedStartWeek = 24,
+                        RecommendedEndWeek = 28,
+                        Note = "Standard check-up during late second trimester.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Early Third Trimester Visit",
+                        Description = "Assessment around the beginning of the third trimester.",
+                        RecommendedStartWeek = 32,
+                        RecommendedEndWeek = 32,
+                        Note = "Transition to more frequent visits begins soon.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Late Third Trimester Check (36 weeks)",
+                        Description = "Checkup for dilation, fetal position, and Group B strep culture.",
+                        RecommendedStartWeek = 36,
+                        RecommendedEndWeek = 36,
+                        Note = "Key milestone before entering weekly visits.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    },
+                    new RecommendedCheckup
+                    {
+                        Id = Guid.NewGuid(),
+                        Title = "Weekly Monitoring (3 Weeks)",
+                        Description = "Frequent monitoring leading up to labor and delivery.",
+                        RecommendedStartWeek = 38,
+                        RecommendedEndWeek = 40,
+                        Note = "Weekly prenatal visits until birth.",
+                        Type = CheckupType.recommneded,
+                        IsDeleted = false,
+                        IsActive = true,
+                        CreatedBy = systemUser,
+                        CreationDate = DateTime.UtcNow
+                    }
+                );
+            }
     }
 }

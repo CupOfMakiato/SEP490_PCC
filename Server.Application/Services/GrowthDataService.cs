@@ -21,10 +21,13 @@ namespace Server.Application.Services
         private readonly ICurrentTime _currentTime;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IRecommendedCheckupReminderService _recommendedCheckupReminderService;
         
 
-        public GrowthDataService(IUnitOfWork unitOfWork, IMapper mapper, IGrowthDataRepository growthDataRepository, ICurrentTime currentTime)
+        public GrowthDataService(IUnitOfWork unitOfWork, IMapper mapper, IGrowthDataRepository growthDataRepository, ICurrentTime currentTime,
+            IRecommendedCheckupReminderService recommendedCheckupReminderService)
         {
+            _recommendedCheckupReminderService = recommendedCheckupReminderService;
             _growthDataRepository = growthDataRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -181,6 +184,12 @@ namespace Server.Application.Services
 
             await _unitOfWork.GrowthDataRepository.AddAsync(growthData);
             var result = await _unitOfWork.SaveChangeAsync();
+
+
+            if (result > 0)
+            {
+                await _recommendedCheckupReminderService.LinkAllCheckupsToGrowthData(growthData.Id);
+            }
 
             return new Result<object>
             {

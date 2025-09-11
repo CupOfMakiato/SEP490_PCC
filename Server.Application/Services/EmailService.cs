@@ -475,6 +475,45 @@ namespace Server.Application.Services
             await SendEmailAsync(emailDto);
         }
 
+        public async Task SendUpcomingRecommendedCheckupReminder(string email, string reason)
+        {
+            var emailDto = new EmailDTO
+            {
+                To = email,
+                Subject = "Reminder: Your Upcoming Pregnancy Checkup",
+                Body = $@"
+<html>
+<body style='font-family: Arial, sans-serif; line-height: 1.6; background-color:#f9f9f9;'>
+    <div style='max-width: 600px; margin: auto; padding: 20px; background:#ffffff; border: 1px solid #e1e1e1; border-radius: 10px;'>
+        <h2 style='color: #2c3e50; text-align:center;'>Pregnancy Checkup Reminder</h2>
+        <p style='color: #444;'>Hello,</p>
+        <p style='color: #555;'>
+            This is a gentle reminder that your <strong>recommended pregnancy checkup</strong> is coming up soon.
+        </p>
+        <div style='padding: 15px; background:#f4f8fb; border-left: 4px solid #2c3e50; margin: 20px 0;'>
+            <p style='margin:0; color:#2c3e50;'><strong>Checkup Details:</strong> {reason}</p>
+            <p style='margin:0; color:#555;'>We recommend scheduling this appointment to stay on track with your care.</p>
+        </div>
+        <p style='color: #555;'>
+            Please make sure to arrange your appointment and come prepared. If you have any questions, 
+            don’t hesitate to reach out to your healthcare provider.
+        </p>
+        <p style='color: #555;'>We’re here to support you every step of the way.</p>
+        <p style='color: #555;'>
+            Wishing you a healthy and safe pregnancy,<br/>
+            <strong>Nestly Care Companion</strong>
+        </p>
+        <hr style='margin-top: 30px; border:none; border-top:1px solid #ddd;' />
+        <p style='font-size: 12px; color: #999; text-align:center;'>
+            This is an automated message from Nestly Care Companion. Please do not reply directly to this email.
+        </p>
+    </div>
+</body>
+</html>"
+            };
+
+            await SendEmailAsync(emailDto);
+        }
 
 
     }

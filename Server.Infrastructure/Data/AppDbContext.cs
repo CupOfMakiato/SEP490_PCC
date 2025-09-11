@@ -39,6 +39,7 @@ namespace Server.Infrastructure.Data
         public DbSet<TemplateChecklistGrowthData> TemplateChecklistGrowthData { get; set; }
         public DbSet<TailoredCheckupReminder> TailoredCheckupReminder { get; set; }
         public DbSet<RecommendedCheckup> RecommendedCheckup { get; set; }
+        public DbSet<RecommendedCheckupGrowthData> RecommendedCheckupGrowthData { get; set; }
         public DbSet<Journal> Journal { get; set; }
         public DbSet<RecordedSymptom> RecordedSymptom { get; set; }
         public DbSet<JournalSymptom> JournalSymptoms { get; set; }

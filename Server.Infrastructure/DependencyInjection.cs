@@ -84,6 +84,8 @@ namespace Server.Infrastructure
 
             services.AddMemoryCache();
 
+            services.AddScoped<IRecommendedCheckupReminderService, RecommendedCheckupReminderService>();
+
             // Repo
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -132,6 +134,9 @@ namespace Server.Infrastructure
             services.AddScoped<IAllergyCategoryRepository, AllergyCategoryRepository>();
             services.AddScoped<IMealRepository, MealRepository>();
 
+            services.AddScoped<IRecommendedCheckupReminderRepository, RecommendedCheckupReminderRepository>();
+            
+
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();
 
@@ -142,6 +147,7 @@ namespace Server.Infrastructure
             services.AddScoped<IAccountCleanupService, AccountCleanupService>();
             services.AddScoped<IGrowthDataBGService, GrowthDataBGService>();
             services.AddScoped<ITailoredReminderEmailService, TailoredReminderEmailService>();
+            services.AddScoped<IRecommendedCheckupReminderBGService, RecommendedCheckupReminderBGService>();
 
             // Cloudinary
             services.Configure<CloudinarySetting>(configuration.GetSection("CloudinarySetting"));
