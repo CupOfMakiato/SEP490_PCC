@@ -123,7 +123,9 @@ namespace Server.Infrastructure.Repositories
 
             return await query
                 .Include(f => f.FoodAllergies)
+                    .ThenInclude(fa => fa.Allergy)
                 .Include(f => f.FoodDiseases)
+                    .ThenInclude(fd => fd.Disease)
                 .Include(f => f.FoodNutrients)
                     .ThenInclude(fn => fn.Nutrient)
                 .ToListAsync();

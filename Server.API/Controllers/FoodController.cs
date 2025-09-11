@@ -132,8 +132,8 @@ namespace Server.API.Controllers
         [HttpPost("view-warning-foods")]
         public async Task<IActionResult> ViewWarningFoods([FromBody] ViewWarningFoodsRequest request)
         {
-            if ((request.allergyIds == null || request.allergyIds.Count == 0) &&
-                (request.diseaseIds == null || request.diseaseIds.Count == 0))
+            if ((request.AllergyIds == null || request.AllergyIds.Count == 0) &&
+                (request.DiseaseIds == null || request.DiseaseIds.Count == 0))
             {
                 return BadRequest("At least one allergy or disease ID is required.");
             }

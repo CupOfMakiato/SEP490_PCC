@@ -2,7 +2,7 @@
 {
     public class ViewWarningFoodsRequest
     {
-        public List<Guid> allergyIds { get; set; }
-        public List<Guid> diseaseIds { get; set; }
+        public List<Guid>? AllergyIds { get; set; } = new List<Guid>();
+        public List<Guid>? DiseaseIds { get; set; } = new List<Guid>();
     }
 }
