@@ -78,6 +78,7 @@ builder.Services.AddCors(options =>
                 "http://nestlycare.live"
                 )
                    .AllowAnyHeader()
+                   .AllowCredentials()
                    .AllowAnyMethod();
         });
 });

@@ -94,6 +94,9 @@ namespace Server.Infrastructure.Data
         // Doctor
         public DbSet<Doctor> Doctor { get; set; }
 
+        // Notification
+        public DbSet<Notification> Notification { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -885,6 +888,14 @@ namespace Server.Infrastructure.Data
                 .WithOne(c => c.Clinic)
                 .HasForeignKey<Clinic>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //Notification
+            modelBuilder.Entity<Notification>()
+            .HasOne(n => n.NotificationCreatedByUser)
+            .WithMany(u => u.Notifications)
+            .HasForeignKey(n => n.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

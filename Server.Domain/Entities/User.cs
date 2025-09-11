@@ -49,6 +49,6 @@ namespace Server.Domain.Entities
         public ICollection<UserFollower> Followers { get; set; }
         public ICollection<UserAllergy> UserAllergy { get; set; } = new List<UserAllergy>();
         public ICollection<UserSubscription> UserSubscriptions { get; set; }
-
+        public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }
 }

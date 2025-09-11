@@ -85,6 +85,7 @@ namespace Server.Infrastructure
             services.AddMemoryCache();
 
             services.AddScoped<IRecommendedCheckupReminderService, RecommendedCheckupReminderService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             // Repo
             services.AddScoped<IUserRepository, UserRepository>();
@@ -135,12 +136,14 @@ namespace Server.Infrastructure
             services.AddScoped<IMealRepository, MealRepository>();
 
             services.AddScoped<IRecommendedCheckupReminderRepository, RecommendedCheckupReminderRepository>();
-            
+            services.AddScoped<INotificationRepository, NotificationRepository>();
+
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();
 
             services.AddScoped<IMessageNotifier, MessageNotifier>();
+            services.AddScoped<INotificationSender, NotificationSender>();
 
 
             // Hangfire
