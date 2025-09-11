@@ -6,7 +6,7 @@ using Server.Infrastructure.Data;
 
 namespace Server.Infrastructure.Repositories
 {
-    public class NutrientSuggetionRepository : GenericRepository<NutrientSuggetion>, INutrientSuggetionRepository
+    public class NutrientSuggetionRepository : GenericRepository<NutrientSuggestion>, INutrientSuggetionRepository
     {
         private readonly AppDbContext _context;
 
@@ -25,7 +25,34 @@ namespace Server.Infrastructure.Repositories
             await _context.NutrientSuggestionsAttributes.AddAsync(attribute);
         }
 
-        public async Task<List<NutrientSuggetion>> GetNutrientSuggetionListWithAttribute(Guid ageGroupId, int trimester)
+        public void DeleteNutrientSuggetion(NutrientSuggestion nutrientSuggetion)
+        {
+            _dbSet.Remove(nutrientSuggetion);
+        }
+
+        public async Task<List<NutrientSuggestion>> GetNutrientSuggetions()
+        {
+            return await _dbSet
+                .Include(ns => ns.NutrientSuggestionAttributes)
+                .ThenInclude(nas => nas.Attribute)
+                .ThenInclude(a => a.Nutrient)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .ToListAsync();
+        }
+
+        public async Task<NutrientSuggestion> GetNutrientSuggetionById(Guid id)
+        {
+            return await _dbSet
+                .Include(ns => ns.NutrientSuggestionAttributes)
+                .ThenInclude(nas => nas.Attribute)
+                .ThenInclude(a => a.Nutrient)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .FirstOrDefaultAsync(ns => ns.Id == id);
+        }
+
+        public async Task<List<NutrientSuggestion>> GetNutrientSuggetionListWithAttribute(Guid ageGroupId, int trimester)
         {
             return await _dbSet
                 .Include(ns => ns.NutrientSuggestionAttributes

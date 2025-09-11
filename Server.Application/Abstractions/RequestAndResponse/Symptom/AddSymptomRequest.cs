@@ -9,7 +9,7 @@ namespace Server.Application.Abstractions.RequestAndResponse.Symptom
 {
     public class AddSymptomRequest
     {
-        public string SymptomName { get; set; }
+        public string SymptomName { get; set; } = string.Empty;
 
     }
 }

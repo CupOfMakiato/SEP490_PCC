@@ -22,7 +22,7 @@ namespace Server.API.Controllers
             return Ok(await _foodService.GetFoodsAsync());
         }
 
-        [HttpPost("create-warning-food-for-disease")]
+        [HttpPut("create-warning-food-for-disease")]
         public async Task<IActionResult> CreateWarningFoodForDisease([FromBody] CreateWarningFoodForDiseaseRequest request)
         {
             if (request.DiseaseId == Guid.Empty)
@@ -52,7 +52,7 @@ namespace Server.API.Controllers
             }                
         }
 
-        [HttpPost("remove-recommend-or-warning-food-for-disease")]
+        [HttpPut("remove-recommend-or-warning-food-for-disease")]
         public async Task<IActionResult> RemoveFoodDisease([FromBody] RemoveFoodDiseaseRequest request)
         {
             if (request.DiseaseId == Guid.Empty)
@@ -72,7 +72,7 @@ namespace Server.API.Controllers
             }            
         }
 
-        [HttpPost("remove-recommend-or-warning-food-for-allergy")]
+        [HttpPut("remove-recommend-or-warning-food-for-allergy")]
         public async Task<IActionResult> RemoveFoodAllergy([FromBody] RemoveFoodAllergyRequest request)
         {
             if (request.AllergyId == Guid.Empty)
@@ -92,7 +92,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPost("create-warning-food-for-allergy")]
+        [HttpPut("create-warning-food-for-allergy")]
         public async Task<IActionResult> CreateWarningFoodForAllergy([FromBody] CreateWarningFoodForAllergyRequest request)
         {
             if (request.AllergyId == Guid.Empty)
@@ -110,7 +110,7 @@ namespace Server.API.Controllers
                 return BadRequest(result);
             return Ok(result);
         }
-        [HttpPost("create-recommend-food-for-disease")]
+        [HttpPut("create-recommend-food-for-disease")]
         public async Task<IActionResult> CreateRecommendFoodForDisease([FromBody] CreateRecommendFoodForDiseaseRequest request)
         {
             if (request.DiseaseId == Guid.Empty)

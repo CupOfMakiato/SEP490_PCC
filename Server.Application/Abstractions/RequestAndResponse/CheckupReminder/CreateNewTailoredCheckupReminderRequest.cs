@@ -10,8 +10,8 @@ namespace Server.Application.Abstractions.RequestAndResponse.CheckupReminder
     public class CreateNewTailoredCheckupReminderRequest
     {
         public Guid GrowthDataId { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
         // Optional for recommended checkups
         public int? RecommendedStartWeek { get; set; } // usually 4 weeks span

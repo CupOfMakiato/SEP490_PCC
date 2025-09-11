@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Asn1.Ocsp;
+﻿using AutoMapper;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.NutrientSuggestion;
 using Server.Application.Interfaces;
@@ -11,10 +12,12 @@ namespace Server.Application.Services
 {
     public class NutrientSuggestionService : INutrientSuggestionService
     {
+        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public NutrientSuggestionService(IUnitOfWork unitOfWork)
+        public NutrientSuggestionService(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
@@ -67,8 +70,8 @@ namespace Server.Application.Services
             {
                 AgeGroudId = request.AgeGroudId,
                 AgeGroup = ageGroup,
-                NutrientSuggetionId = request.NutrientSuggetionId,
-                NutrientSuggetion = nutrientSuggestion,
+                NutrientSuggestionId = request.NutrientSuggetionId,
+                NutrientSuggestion = nutrientSuggestion,
                 Attribute = attribute,
                 AttributeId = attribute.Id,
                 Trimester = request.Trimester,
@@ -87,22 +90,22 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<NutrientSuggetion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request)
+        public async Task<Result<NutrientSuggestion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request)
         {
-            var nutrientSuggestion = new NutrientSuggetion()
+            var nutrientSuggestion = new NutrientSuggestion()
             {
-                NutrientSuggetionName = request.NutrientSuggetionName
+                NutrientSuggestionName = request.NutrientSuggetionName
             };
             await _unitOfWork.NutrientSuggetionRepository.AddAsync(nutrientSuggestion);
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
-                return new Result<NutrientSuggetion>()
+                return new Result<NutrientSuggestion>()
                 {
                     Error = 0,
                     Data = nutrientSuggestion
                 }; 
             }
-            return new Result<NutrientSuggetion>()
+            return new Result<NutrientSuggestion>()
             {
                 Error = 1,
                 Message = "Create fail"
@@ -143,7 +146,7 @@ namespace Server.Application.Services
                     Message = "Not found energy suggestion"
                 };
             }
-            List<NutrientSuggetion> nutrientSuggetions = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionListWithAttribute(ageGroup.Id, trimester);
+            List<NutrientSuggestion> nutrientSuggetions = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionListWithAttribute(ageGroup.Id, trimester);
 
             if (nutrientSuggetions == null || nutrientSuggetions.Count == 0)
             {
@@ -165,17 +168,17 @@ namespace Server.Application.Services
             {
                 List<NutrientSuggestionAttribute> nutrientSuggestionAttribute = new List<NutrientSuggestionAttribute>();
 
-                var protein = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Protein")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
-                var lipid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Lipid")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
-                var glucid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Glucid")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
+                var protein = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggestionName.Equals("Protein")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
+                var lipid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggestionName.Equals("Lipid")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
+                var glucid = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggestionName.Equals("Glucid")).NutrientSuggestionAttributes.FirstOrDefault().Attribute;
 
-                var mineralNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Minerals")).NutrientSuggestionAttributes;
+                var mineralNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggestionName.Equals("Minerals")).NutrientSuggestionAttributes;
                 var canxi = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Calcium")).Attribute;
                 var iron = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Iron")).Attribute;
                 var zinc = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Zinc")).Attribute; //kẽm 
                 var iodine = mineralNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Iodine")).Attribute; //Iốt
 
-                var vitaminNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Vitamins")).NutrientSuggestionAttributes;
+                var vitaminNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggestionName.Equals("Vitamins")).NutrientSuggestionAttributes;
 
                 var vitaminA = vitaminNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Vitamin A")).Attribute;
                 var vitaminD = vitaminNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Vitamin D")).Attribute;
@@ -189,7 +192,7 @@ namespace Server.Application.Services
                 var vitaminC = vitaminNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Vitamin C")).Attribute;
                 var choline = vitaminNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Choline")).Attribute;
 
-                var otherNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggetionName.Equals("Other Information")).NutrientSuggestionAttributes;
+                var otherNSA = nutrientSuggetions.FirstOrDefault(ns => ns.NutrientSuggestionName.Equals("Other Information")).NutrientSuggestionAttributes;
 
                 var fiber = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Fiber")).Attribute;
                 var salt = otherNSA.FirstOrDefault(ns => ns.Attribute.Nutrient.Name.Equals("Salt")).Attribute;
@@ -364,30 +367,115 @@ namespace Server.Application.Services
             };
         }
 
-        public async Task<Result<NutrientSuggetion>> UpdateNutrientSuggestion(UpdateNutrientSuggestionRequest request)
+
+        public async Task<Result<NutrientSuggestion>> UpdateNutrientSuggestion(UpdateNutrientSuggestionRequest request)
         {
             var nutrientSuggestion = await _unitOfWork.NutrientSuggetionRepository.GetByIdAsync(request.Id);
             if (nutrientSuggestion == null)
-                return new Result<NutrientSuggetion>()
+                return new Result<NutrientSuggestion>()
                 {
                     Error = 1,
                     Message = "Invalid Id"
                 };
-            nutrientSuggestion.NutrientSuggetionName = request.NutrientSuggetionName;
+            nutrientSuggestion.NutrientSuggestionName = request.NutrientSuggetionName;
             _unitOfWork.NutrientSuggetionRepository.Update(nutrientSuggestion);
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
-                return new Result<NutrientSuggetion>()
+                return new Result<NutrientSuggestion>()
                 {
                     Error = 0,
                     Data = nutrientSuggestion
                 };
             }
-            return new Result<NutrientSuggetion>()
+            return new Result<NutrientSuggestion>()
             {
                 Error = 1,
                 Message = "Update fail"
             };
         }
+
+        public async Task<Result<List<NutrientSuggestionDTO>>> ViewNutrientSuggestions()
+        {
+            var suggestions = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetions();
+
+            if (suggestions == null || !suggestions.Any())
+            {
+                return new Result<List<NutrientSuggestionDTO>>()
+                {
+                    Error = 1,
+                    Message = "No nutrient suggestions found"
+                };
+            }
+
+            var dtoList = _mapper.Map<List<NutrientSuggestionDTO>>(suggestions);
+
+            return new Result<List<NutrientSuggestionDTO>>()
+            {
+                Error = 0,
+                Data = dtoList
+            };
+        }
+        public async Task<Result<bool>> DeleteNutrientSuggestion(Guid id)
+        {
+            var suggestion = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionById(id);
+
+            if (suggestion == null)
+            {
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Nutrient suggestion not found"
+                };
+            }
+
+            if (suggestion.NutrientSuggestionAttributes is not null || suggestion.NutrientSuggestionAttributes.Count > 0)
+            {
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Cannot delete nutrient suggestion with associated attributes"
+                };
+            }
+
+            _unitOfWork.NutrientSuggetionRepository.DeleteNutrientSuggetion(suggestion);
+
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Data = true
+                };
+            }
+
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Delete failed"
+            };
+        }
+
+        public async Task<Result<NutrientSuggestionDTO>> ViewNutrientSuggestionById(Guid id)
+        {
+            var suggestion = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionById(id);
+
+            if (suggestion == null)
+            {
+                return new Result<NutrientSuggestionDTO>()
+                {
+                    Error = 1,
+                    Message = "Nutrient suggestion not found"
+                };
+            }
+
+            var dto = _mapper.Map<NutrientSuggestionDTO>(suggestion);
+
+            return new Result<NutrientSuggestionDTO>()
+            {
+                Error = 0,
+                Data = dto
+            };
+        }
+
     }
 }
