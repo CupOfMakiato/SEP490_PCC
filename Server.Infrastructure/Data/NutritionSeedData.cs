@@ -283,6 +283,21 @@ namespace Server.Infrastructure.Data
             var FBasaFish = Guid.NewGuid();
             var FBasaFishBall = Guid.NewGuid();
 
+            // 10/9/2025
+            // ---------------------------------------------------
+            var FCereal = Guid.NewGuid();
+            var FTamarind = Guid.NewGuid();
+            var FOkra = Guid.NewGuid();
+            var FTonkineseCreeper = Guid.NewGuid();
+            var FCoconutMilk = Guid.NewGuid();
+            var FEel = Guid.NewGuid();
+            var FCilantro = Guid.NewGuid();
+            var FChives = Guid.NewGuid();
+            var FBeetroot = Guid.NewGuid();
+            var FChoysum = Guid.NewGuid();
+            var FBokchoy = Guid.NewGuid();
+            var FSawleaf = Guid.NewGuid();
+
             modelBuilder.Entity<Food>().HasData(
                 // --- Meat ---
                 new Food
@@ -1814,8 +1829,165 @@ namespace Server.Infrastructure.Data
                     SafetyNote = "High in sodium; consume in moderation.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
-                }
+                },
+                // 11/9/2025
+                // ---------------------------------------------------
 
+                new Food
+                {
+                    Id = FCereal,
+                    Name = "Cereal",
+                    Description = "Fortified breakfast cereal, rich in vitamins and minerals with moderate protein content.",
+                    FoodCategoryId = FCGrain,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. Check for allergens like gluten if sensitive.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FTamarind,
+                    Name = "Tamarind",
+                    Description = "Sweet and sour tropical fruit, rich in minerals and natural sugars.",
+                    FoodCategoryId = FCFruits,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Generally safe. Consume in moderation due to high natural sugar content.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FOkra,
+                    Name = "Okra",
+                    Description = "Nutritious green vegetable with high fiber content and mucilage properties.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. Rich in folate, making it beneficial during pregnancy.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FTonkineseCreeper,
+                    Name = "Tonkinese Creeper",
+                    Description = "Edible flowering creeper with fragrant yellow flowers, rich in vitamins and fiber.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe when cooked. Rich in vitamins A and C. Do not consume raw.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FCoconutMilk,
+                    Name = "Coconut Milk",
+                    Description = "Rich, creamy plant-based milk alternative high in healthy fats and minerals.",
+                    FoodCategoryId = FCDairy,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. High in saturated fats, consume in moderation.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FEel,
+                    Name = "Eel",
+                    Description = "High-protein freshwater fish rich in vitamins A, B12, and omega-3 fatty acids.",
+                    FoodCategoryId = FCSeaFood,
+                    ImageUrl = null,
+                    PregnancySafe = false,
+                    SafetyNote = "High in mercury. Pregnant women should limit consumption. Always cook thoroughly.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FCilantro,
+                    Name = "Cilantro",
+                    Description = "Aromatic herb with bright flavor, exceptionally high in vitamins A, C, and K.",
+                    FoodCategoryId = FCGreen,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. Wash thoroughly before use. Some people may have genetic sensitivity to taste.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FChives,
+                    Name = "Chives",
+                    Description = "Mild onion-flavored herb, rich in vitamins A and K with beneficial sulfur compounds.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. Contains beneficial allium compounds with antimicrobial properties.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FBeetroot,
+                    Name = "Beetroot",
+                    Description = "Vibrant red root vegetable high in folate, fiber, and natural nitrates.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. High in folate, beneficial during pregnancy. May cause red-colored urine.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FChoysum,
+                    Name = "Choy Sum",
+                    Description = "Chinese flowering cabbage with tender stems and leaves, exceptionally high in vitamins A, C, and K.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. Excellent source of folate and calcium, beneficial during pregnancy.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FBokchoy,
+                    Name = "Bok Choy",
+                    Description = "Chinese white cabbage with crisp texture and mild flavor, very low calorie but nutrient-dense.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe for consumption. Rich in vitamins and minerals with beneficial glucosinolates.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+
+                new Food
+                {
+                    Id = FSawleaf,
+                    Name = "Sawleaf",
+                    Description = "Tropical leafy green vegetable high in vitamins A and C with good fiber content.",
+                    FoodCategoryId = FCVeg,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Safe when cooked. Must be thoroughly cooked before consumption. Do not eat raw.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                }
             );
             // ---------------------------------------------------
             // DISEASE
@@ -20681,8 +20853,272 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient { FoodId = FBasaFishBall, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FBasaFishBall, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 32.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FBasaFishBall, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
-                new FoodNutrient { FoodId = FBasaFishBall, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" }
-                );
+                new FoodNutrient { FoodId = FBasaFishBall, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                // 11/9/2025
+                new FoodNutrient { FoodId = FCereal, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 378, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 6.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 87.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 10, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 34, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 7.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 814, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.08, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 6.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 3.9, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 6.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 30, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 39.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 5.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCereal, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.795, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FTamarind, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 239, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 62.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 74, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.43, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.15, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.07, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 14, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 3.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 8.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 5.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTamarind, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.028, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FOkra, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 33, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.9, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 7.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 81, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 31, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.36, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 53, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.06, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.22, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 88, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 21.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 12.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FOkra, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.008, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 43, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 4.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 8.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 50, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 120, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 15, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.08, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.15, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 35, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 25.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 8.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FTonkineseCreeper, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.018, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 230, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 24.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 5.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 16, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.67, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.15, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.03, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.03, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 16, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 8.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCoconutMilk, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.015, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FEel, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 236, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 23.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 15.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 20, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 1043, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 24.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 4.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.15, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.04, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.07, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 15, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 65.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FEel, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.051, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FCilantro, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 23, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 67, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 337, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 310, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.067, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.162, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.149, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 62, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 27.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 12.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCilantro, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.046, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FChives, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 30, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 4.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 92, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 218, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 213, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.08, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.12, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.14, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 105, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 58.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 5.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChives, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.003, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 43, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.17, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 9.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 16, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.35, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.04, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.03, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.04, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.07, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 109, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 4.9, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 6.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBeetroot, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.078, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FChoysum, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 20, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 105, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 383, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.9, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 257, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.05, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.07, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.19, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 425, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 46.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 7.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FChoysum, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.065, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 13, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 105, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.8, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.19, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 223, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.09, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 45.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.04, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.07, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.19, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 66, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 45.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 6.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FBokchoy, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.065, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 35, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 4.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 6.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 107, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 241, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2.9, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 108, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.22, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.46, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.27, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 126, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 52.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 18.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.011, TotalWeight = 100.0, FoodEquivalent = "100g" }
+                            );
             // ---------------------------------------------------
             // DISH
             // ---------------------------------------------------
