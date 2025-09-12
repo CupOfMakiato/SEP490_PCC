@@ -31,7 +31,6 @@ namespace Server.Infrastructure.Mappers.FoodProfile
             .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
             .ForMember(dest => dest.PregnancySafe, opt => opt.MapFrom(src => src.PregnancySafe))
             .ForMember(dest => dest.SafetyNote, opt => opt.MapFrom(src => src.SafetyNote))
-            .ForMember(dest => dest.FoodNutrients, opt => opt.MapFrom(src => src.FoodNutrients))
             .ForMember(dest => dest.FoodDisease, opt => opt.MapFrom(src => src.FoodDiseases))
             .ForMember(dest => dest.FoodAllergy, opt => opt.MapFrom(src => src.FoodAllergies));
 

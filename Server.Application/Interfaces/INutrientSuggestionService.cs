@@ -8,9 +8,12 @@ namespace Server.Application.Interfaces
     public interface INutrientSuggestionService
     {
         public Task<Result<bool>> SoftDeleteNutrientSuggestion(Guid Id);
-        public Task<Result<NutrientSuggetion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request);
-        public Task<Result<NutrientSuggetion>> UpdateNutrientSuggestion(UpdateNutrientSuggestionRequest request);
+        public Task<Result<bool>> DeleteNutrientSuggestion(Guid Id);
+        public Task<Result<NutrientSuggestion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request);
+        public Task<Result<NutrientSuggestion>> UpdateNutrientSuggestion(UpdateNutrientSuggestionRequest request);
         public Task<Result<object>> GetEssentialNutritionalNeedsInOneDay(GetEssentialNutritionalNeedsInOneDayRequest request);
         public Task<Result<NSAttribute>> AddNutrientSuggestionAttribute(AddNutrientSuggestionAttributeRequest request);
+        public Task<Result<List<NutrientSuggestionDTO>>> ViewNutrientSuggestions();
+        public Task<Result<NutrientSuggestionDTO>> ViewNutrientSuggestionById(Guid id);
     }
 }

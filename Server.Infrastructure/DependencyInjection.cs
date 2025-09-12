@@ -74,6 +74,7 @@ namespace Server.Infrastructure
             services.AddScoped<IAllergyCategoryService, AllergyCategoryService>();
             services.AddScoped<IMealService, MealService>();
             services.AddScoped<IAllergyService, AllergyService>();
+            services.AddScoped<IEnergySuggestionService, EnergySuggestionService>();
 
             services.AddScoped<PasswordService>();
             services.AddScoped<OtpService>();

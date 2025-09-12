@@ -79,7 +79,7 @@ namespace Server.Infrastructure.Data
         public DbSet<Comment> Comment { get; set; }
         public DbSet<EnergySuggestion> EnergySuggestion { get; set; }
         public DbSet<AgeGroup> AgeGroup { get; set; }
-        public DbSet<NutrientSuggetion> NutrientSuggetion { get; set; }
+        public DbSet<NutrientSuggestion> NutrientSuggestion { get; set; }
         public DbSet<HistoryDish> HistoryDishes { get; set; }
 
         // Messaging
@@ -380,7 +380,7 @@ namespace Server.Infrastructure.Data
                 .HasKey(nsa => nsa.NutrientSuggestionAttributeId);
 
             modelBuilder.Entity<NutrientSuggestionAttribute>()
-                .HasIndex(nsa => new { nsa.NutrientSuggetionId, nsa.AttributeId, nsa.AgeGroudId })
+                .HasIndex(nsa => new { nsa.NutrientSuggestionId, nsa.AttributeId, nsa.AgeGroudId })
                 .IsUnique();
 
             //test

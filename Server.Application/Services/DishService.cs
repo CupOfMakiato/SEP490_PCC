@@ -254,7 +254,7 @@ namespace Server.Application.Services
                     {
                         Error = 0,
                         Message = "Update success",
-                        Data = _mapper.Map<FoodDish>(dish)
+                        Data = foodDish
                     };
                 return new Result<FoodDish>()
                 {
