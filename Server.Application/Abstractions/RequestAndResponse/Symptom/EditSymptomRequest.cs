@@ -9,7 +9,7 @@ namespace Server.Application.Abstractions.RequestAndResponse.Symptom
     public class EditSymptomRequest
     {
         public Guid SymptomId { get; set; }
-        public string SymptomName { get; set; }
+        public string SymptomName { get; set; } = string.Empty;
         public bool? IsActive { get; set; } = true;
     }
 }

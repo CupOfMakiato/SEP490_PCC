@@ -2399,46 +2399,46 @@ namespace Server.Infrastructure.Data
             var sugVitamins = Guid.NewGuid();
             var sugOther = Guid.NewGuid();
 
-            modelBuilder.Entity<NutrientSuggetion>().HasData(
-                new NutrientSuggetion
+            modelBuilder.Entity<NutrientSuggestion>().HasData(
+                new NutrientSuggestion
                 {
                     Id = sugProtein,
-                    NutrientSuggetionName = "Protein",
+                    NutrientSuggestionName = "Protein",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
-                new NutrientSuggetion
+                new NutrientSuggestion
                 {
                     Id = sugLipid,
-                    NutrientSuggetionName = "Lipid",
+                    NutrientSuggestionName = "Lipid",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
-                new NutrientSuggetion
+                new NutrientSuggestion
                 {
                     Id = sugGlucid,
-                    NutrientSuggetionName = "Glucid",
+                    NutrientSuggestionName = "Glucid",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
-                new NutrientSuggetion
+                new NutrientSuggestion
                 {
                     Id = sugMinerals,
-                    NutrientSuggetionName = "Minerals",
+                    NutrientSuggestionName = "Minerals",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
-                new NutrientSuggetion
+                new NutrientSuggestion
                 {
                     Id = sugVitamins,
-                    NutrientSuggetionName = "Vitamins",
+                    NutrientSuggestionName = "Vitamins",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
-                new NutrientSuggetion
+                new NutrientSuggestion
                 {
                     Id = sugOther,
-                    NutrientSuggetionName = "Other Information",
+                    NutrientSuggestionName = "Other Information",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -2452,7 +2452,7 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugProtein,
+                    NutrientSuggestionId = sugProtein,
                     AttributeId = attrProtein,
                     AgeGroudId = age20To29,
                     Trimester = 1,
@@ -2460,7 +2460,7 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugLipid,
+                    NutrientSuggestionId = sugLipid,
                     AttributeId = attrLipid,
                     AgeGroudId = age20To29,
                     Trimester = 1,
@@ -2468,7 +2468,7 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugGlucid,
+                    NutrientSuggestionId = sugGlucid,
                     AttributeId = attrGlucid,
                     AgeGroudId = age20To29,
                     Trimester = 1,
@@ -2478,7 +2478,7 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugMinerals,
+                    NutrientSuggestionId = sugMinerals,
                     AttributeId = attrCalcium,
                     AgeGroudId = age20To29,
                     Trimester = 1,
@@ -2486,7 +2486,7 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugMinerals,
+                    NutrientSuggestionId = sugMinerals,
                     AttributeId = attrIron,
                     AgeGroudId = age20To29,
                     Trimester = 1,
@@ -2494,7 +2494,7 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugMinerals,
+                    NutrientSuggestionId = sugMinerals,
                     AttributeId = attrZinc,
                     AgeGroudId = age20To29,
                     Trimester = 1,
@@ -2502,28 +2502,28 @@ namespace Server.Infrastructure.Data
                 new NutrientSuggestionAttribute
                 {
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
-                    NutrientSuggetionId = sugMinerals,
+                    NutrientSuggestionId = sugMinerals,
                     AttributeId = attrIodine,
                     AgeGroudId = age20To29,
                     Trimester = 1,
                 },
 
                 // Vitamins
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminA, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminD, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminE, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminK, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminB1, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminB2, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminB6, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrFolate, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminB12, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrVitaminC, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugVitamins, AttributeId = attrCholine, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminA, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminD, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminE, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminK, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB1, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB2, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB6, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrFolate, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB12, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminC, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrCholine, AgeGroudId = age20To29, Trimester = 1 },
 
                 // Other
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugOther, AttributeId = attrFiber, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggetionId = sugOther, AttributeId = attrSalt, AgeGroudId = age20To29, Trimester = 1 }
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrFiber, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrSalt, AgeGroudId = age20To29, Trimester = 1 }
             );
 
             // ---------------------------------------------------

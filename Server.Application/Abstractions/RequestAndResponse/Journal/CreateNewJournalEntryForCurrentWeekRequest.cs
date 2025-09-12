@@ -15,7 +15,7 @@ namespace Server.Application.Abstractions.RequestAndResponse.Journal
         public Guid UserId { get; set; }
         public Guid GrowthDataId { get; set; }
         public int CurrentWeek { get; set; }
-        public string Note { get; set; }
+        public string Note { get; set; } = string.Empty;
         public float CurrentWeight { get; set; }
         public int? SystolicBP { get; set; }        // e.g., 120 mmHg // ap suat tam thu
         public int? DiastolicBP { get; set; }       // e.g., 80 mmHg // ap suat tam truong

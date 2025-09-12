@@ -309,7 +309,7 @@ namespace Server.Application.Services
 
         public async Task<List<ViewWarningFoodsResponse>> GetWarningFoods(ViewWarningFoodsRequest request)
         {
-            return _mapper.Map<List<ViewWarningFoodsResponse>>(await _unitOfWork.FoodRepository.GetFoodWarningIdsByAllergiesAndDiseases(request.allergyIds, request.diseaseIds));
+            return _mapper.Map<List<ViewWarningFoodsResponse>>(await _unitOfWork.FoodRepository.GetFoodWarningsByAllergiesAndDiseases(request.AllergyIds, request.DiseaseIds));
         }
 
         public async Task<Result<bool>> RemoveFoodNutrient(RemoveFoodNutrientRequest request)

@@ -11,7 +11,7 @@ namespace Server.Application.Abstractions.RequestAndResponse.Category
     {
         public Guid? Id { get; set; }
         public Guid UserId { get; set; }
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
         public BlogCategoryTag BlogCategoryTag { get; set; }
 
     }

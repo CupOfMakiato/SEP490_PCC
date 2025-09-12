@@ -28,7 +28,6 @@ namespace Server.Infrastructure.Repositories
                 .Include(d => d.HistoryDish)
                 .Include(d => d.DishMeals)
                 .Include(d => d.Foods).ThenInclude(fd => fd.Food).ThenInclude(f => f.FoodNutrients).ThenInclude(fn => fn.Nutrient)
-                .AsNoTracking()
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(d => d.Id == dishId);
         }
