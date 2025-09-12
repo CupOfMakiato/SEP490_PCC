@@ -33,9 +33,9 @@ namespace Server.Infrastructure.Hubs
                 await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
             }
         }
-        public async Task Ping()
-        {
-            await Clients.Caller.SendAsync("Pong");
-        }
+        //public async Task Ping()
+        //{
+        //    await Clients.Caller.SendAsync("Pong");
+        //}
     }
 }

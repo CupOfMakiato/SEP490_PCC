@@ -9,6 +9,6 @@ namespace Server.Application.Interfaces
     public interface INotificationSender
     {
         Task SendNotificationToServer(Guid userId, object payload, string message);
-        Task SendPingToServer(Guid userId);
+        //Task SendPingToServer(Guid userId);
     }
 }

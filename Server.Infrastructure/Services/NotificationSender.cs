@@ -30,13 +30,13 @@ namespace Server.Infrastructure.Services
                     });
             }
         }
-        public async Task SendPingToServer(Guid userId)
-        {
-            if (NotificationHub._ConnectionsMap.TryGetValue(userId, out var connectionId))
-            {
-                await _hubContext.Clients.Client(connectionId)
-                    .SendAsync("Ping");
-            }
-        }
+        //public async Task SendPingToServer(Guid userId)
+        //{
+        //    if (NotificationHub._ConnectionsMap.TryGetValue(userId, out var connectionId))
+        //    {
+        //        await _hubContext.Clients.Client(connectionId)
+        //            .SendAsync("Ping");
+        //    }
+        //}
     }
 }
