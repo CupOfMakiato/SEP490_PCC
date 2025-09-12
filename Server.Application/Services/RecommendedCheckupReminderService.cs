@@ -141,7 +141,7 @@ namespace Server.Application.Services
                     {
                         GrowthDataId = growthDataId,
                         RecommendedCheckupId = checkup.Id,
-                        ScheduledDate = DateTime.Now.Date,
+                        ScheduledDate = DateTime.UtcNow.Date,
                         IsCompleted = false,
                         CompletedDate = null
                     };

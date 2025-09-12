@@ -25,7 +25,7 @@ namespace Server.Infrastructure.Services
                 await _hubContext.Clients.Client(connectionId)
                     .SendAsync("ReceiveNotification", new
                     {
-                        Type = type,     // e.g., "Journal"
+                        Type = type,
                         Payload = payload
                     });
             }

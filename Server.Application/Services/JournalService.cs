@@ -382,30 +382,32 @@ namespace Server.Application.Services
             // this service already have savechange sooooo no need to save again
             await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
 
-            var journalDto = new
-            {
-                journal.Id,
-                journal.CurrentWeek,
-                journal.CurrentWeight,
-                journal.SystolicBP,
-                journal.DiastolicBP,
-                journal.HeartRateBPM,
-                journal.BloodSugarLevelMgDl,
-                journal.Note,
-                Media = journal.Media.Select(m => new { m.FileUrl, m.FileType }),
-                Symptoms = journal.JournalSymptoms.Select(js => js.RecordedSymptomId)
-            };
+            //var journalDto = new
+            //{
+            //    journal.Id,
+            //    journal.CurrentWeek,
+            //    journal.CurrentWeight,
+            //    journal.SystolicBP,
+            //    journal.DiastolicBP,
+            //    journal.HeartRateBPM,
+            //    journal.BloodSugarLevelMgDl,
+            //    journal.Note,
+            //    Media = journal.Media.Select(m => new { m.FileUrl, m.FileType }),
+            //    Symptoms = journal.JournalSymptoms.Select(js => js.RecordedSymptomId)
+            //};
 
-            // Send notification after successful journal creation
-            var notification = new Notification
-            {
-                Id = Guid.NewGuid(),
-                Message = $"Your journal entry for week {currentWeek} was created successfully.",
-                CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId,
-                CreationDate = _currentTime.GetCurrentTime()
-            };
+            //// Send notification after successful journal creation
+            //var notification = new Notification
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Message = $"Your journal entry for week {currentWeek} was created successfully.",
+            //    CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId,
+            //    IsSent = true,
+            //    IsRead = false,
+            //    CreationDate = DateTime.UtcNow.Date
+            //};
 
-            await _notificationService.CreateNotification(notification, journalDto, "Journal");
+            //await _notificationService.CreateNotification(notification, journalDto, "Journal");
 
             return new Result<object>
             {

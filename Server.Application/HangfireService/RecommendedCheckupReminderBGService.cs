@@ -2,6 +2,7 @@
 using Server.Application.HangfireInterface;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
+using Server.Application.Services;
 using Server.Domain.Entities;
 using System;
 using System.Linq;
@@ -16,19 +17,25 @@ namespace Server.Application.HangfireService
         private readonly IRecommendedCheckupReminderRepository _recommendedCheckupReminderRepository;
         private readonly ILogger<RecommendedCheckupReminderBGService> _logger;
         private readonly IEmailService _emailService;
+        private readonly INotificationService _notificationService;
+        private readonly IClaimsService _claimsService;
 
         public RecommendedCheckupReminderBGService(
             IUnitOfWork unitOfWork,
             ICurrentTime currentTime,
             ILogger<RecommendedCheckupReminderBGService> logger,
             IEmailService emailService,
-            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository)
+            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository,
+            INotificationService notificationService,
+            IClaimsService claimsService)
         {
             _recommendedCheckupReminderRepository = recommendedCheckupReminderRepository;
             _unitOfWork = unitOfWork;
             _currentTime = currentTime;
             _logger = logger;
             _emailService = emailService;
+            _notificationService = notificationService;
+            _claimsService = claimsService;
         }
 
         /// <summary>
@@ -54,7 +61,7 @@ namespace Server.Application.HangfireService
                 {
                     GrowthDataId = growthData.Id,
                     RecommendedCheckupId = template.Id,
-                    ScheduledDate = DateTime.Now.Date,
+                    ScheduledDate = DateTime.UtcNow.Date,
                     IsCompleted = false,
                     CompletedDate = null
                 };
@@ -72,9 +79,10 @@ namespace Server.Application.HangfireService
         /// </summary>
         public async Task ProcessDueReminders()
         {
-            var now = DateTime.Now.Date;
+            var now = DateTime.UtcNow.Date;
 
             var allReminders = await _recommendedCheckupReminderRepository.GetAllActiveCheckupLinks();
+            
 
             foreach (var reminder in allReminders)
             {
@@ -94,17 +102,22 @@ namespace Server.Application.HangfireService
                 var recommendedStartDate = growthData.FirstDayOfLastMenstrualPeriod
                     .AddDays(checkup.RecommendedStartWeek.Value * 7);
 
-                var reminderSendDate = recommendedStartDate.AddDays(-7); 
+                var reminderSendDate = recommendedStartDate.AddDays(-7);
 
                 _logger.LogInformation(
                     $"Evaluating reminder {reminder.RecommendedCheckupId}: " +
                     $"RecommendedStartDate={recommendedStartDate}, ReminderSendDate={reminderSendDate}, Now={now}");
 
-                if (now != reminderSendDate)
+                if (now.Date < reminderSendDate.Date)
                 {
-                    _logger.LogInformation($"Reminder {reminder.RecommendedCheckupId}: Not the correct day to send.");
+                    _logger.LogInformation($"Reminder {reminder.RecommendedCheckupId}: Not yet due.");
                     continue;
                 }
+                if (reminder.IsCompleted)
+                {
+                    continue;
+                }
+
 
                 var userEmail = growthData?.GrowthDataCreatedBy?.Email;
                 if (string.IsNullOrEmpty(userEmail))
@@ -121,17 +134,48 @@ namespace Server.Application.HangfireService
 
                     reminder.IsCompleted = true;
                     reminder.CompletedDate = now;
-                    _unitOfWork.RecommendedCheckupReminderRepository.UpdateCheckupLink(reminder);
+                    await _unitOfWork.SaveChangeAsync();
 
                     _logger.LogInformation($"Reminder {reminder.RecommendedCheckupId} sent and marked completed.");
+
+
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, $"Error sending reminder {reminder.RecommendedCheckupId} for GrowthData {reminder.GrowthDataId}");
                 }
+
+
+                var userId = growthData?.GrowthDataCreatedBy?.Id;
+                var startweek = reminder?.RecommendedCheckup?.RecommendedStartWeek;
+                var notiReminderId = reminder?.RecommendedCheckup?.Id;
+                if (userId == null)
+                {
+                    _logger.LogWarning($"Reminder {notiReminderId}: User not found, cannot create notification.");
+                    continue;
+                }
+
+                var notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    Message = $"We recommended that you should schedule for an upcoming consultation soon for the week {startweek}",
+                    CreatedBy = userId.Value,  
+                    IsSent = true,
+                    IsRead = false,
+                    CreationDate = DateTime.UtcNow.Date
+                };
+
+                if (reminder == null)
+                {
+                    _logger.LogWarning($"Reminder not found, cannot create notification.");
+                    continue;
+                }
+                await _notificationService.CreateNotification(notification, reminder, "RecommendedCheckupReminder");
+
             }
 
             await _unitOfWork.SaveChangeAsync();
+
         }
 
     }

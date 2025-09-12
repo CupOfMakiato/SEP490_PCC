@@ -36,7 +36,7 @@ namespace Server.Application.Services
 
         public async Task<Notification> CreateNotification(Notification notification, object payload = null, string type = "Generic")
         {
-            await _notificationRepository.AddAsync(notification);
+            await _notificationRepository.Add(notification);
             await _unitOfWork.SaveChangeAsync();
 
             await _notificationSender.SendNotificationToServer((Guid)notification.CreatedBy, payload ?? notification.Message, type);
@@ -66,10 +66,19 @@ namespace Server.Application.Services
             await _unitOfWork.SaveChangeAsync();
             return notification;
         }
+        public async Task<Notification> MarkNotificationAsRead(Guid id)
+        {
+            var notification = await _notificationRepository.GetNotificationById(id);
+            if (notification == null) return null;
+            notification.IsRead = true;
+            _notificationRepository.Update(notification);
+            await _unitOfWork.SaveChangeAsync();
+            return notification;
+        }
 
         public async Task<bool> DeleteNotification(Guid id)
         {
-            var notification = await _notificationRepository.GetByIdAsync(id);
+            var notification = await _notificationRepository.GetNotificationById(id);
             if (notification == null) return false;
 
             _notificationRepository.SoftRemove(notification);

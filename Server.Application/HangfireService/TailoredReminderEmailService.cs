@@ -30,7 +30,8 @@ namespace Server.Application.HangfireService
         }
         public async Task SendTailoredReminderCheckupEmail()
         {
-            var today = DateTime.Now.Date;
+            //var today = DateTime.UtcNow.Date;
+            var today = _currentTime.GetCurrentTime().Date;
             var reminders = await _unitOfWork.TailoredCheckupReminderRepository.GetAllActiveTailoredCheckupReminders();
             
 

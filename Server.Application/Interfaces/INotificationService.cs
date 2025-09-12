@@ -13,6 +13,8 @@ namespace Server.Application.Interfaces
         Task<Notification> GetNotificationById(Guid id);
         Task<Notification> CreateNotification(Notification notification, object payload = null, string type = "Generic");
         Task<List<Notification>> GetNotificationsByUserId(Guid userId);
+        Task<Notification> MarkNotificationAsRead(Guid id);
+        Task<Notification> UpdateNotification(Notification notification);
         Task<bool> DeleteNotification(Guid id);
     }
 }

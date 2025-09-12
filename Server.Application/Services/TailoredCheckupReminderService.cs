@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.CustomChecklist;
+using Server.Application.DTOs.Journal;
 using Server.Application.DTOs.TailoredCheckupReminder;
 using Server.Application.DTOs.UserChecklist;
 using Server.Application.Interfaces;
@@ -28,6 +29,7 @@ namespace Server.Application.Services
         private readonly ICurrentTime _currentTime;
         private readonly IClaimsService _claimsService;
         private readonly IEmailService _emailService;
+        private readonly INotificationService _notificationService;
         private readonly ILogger<TailoredCheckupReminderService> _logger;
         public TailoredCheckupReminderService(
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
@@ -35,7 +37,8 @@ namespace Server.Application.Services
             IUnitOfWork unitOfWork,
             ICurrentTime currentTime,
             IClaimsService claimsService,
-            IEmailService emailService)
+            IEmailService emailService,
+            INotificationService notificationService)
         {
             _tailoredCheckupReminderRepository = tailoredCheckupReminderRepository;
             _mapper = mapper;
@@ -43,6 +46,7 @@ namespace Server.Application.Services
             _currentTime = currentTime;
             _claimsService = claimsService;
             _emailService = emailService;
+            _notificationService = notificationService;
         }
         public async Task<Result<List<ViewTailoredCheckupReminderDTO>>> ViewAllReminders()
         {
@@ -152,7 +156,7 @@ namespace Server.Application.Services
             var reminder = CreateTailoredCheckupReminderDTO.ToTailoredReminder();
 
             reminder.CreatedBy = user;
-            reminder.CreationDate = DateTime.Now.Date;
+            reminder.CreationDate = DateTime.UtcNow.Date;
 
             await _unitOfWork.TailoredCheckupReminderRepository.AddAsync(reminder);
             var result = await _unitOfWork.SaveChangeAsync();
@@ -211,7 +215,7 @@ namespace Server.Application.Services
             reminder.CheckupStatus = EditTailoredCheckupReminderDTO.CheckupStatus ?? reminder.CheckupStatus;
             reminder.Type = EditTailoredCheckupReminderDTO.Type ?? reminder.Type;
             reminder.ModificationBy = user;
-            reminder.ModificationDate = DateTime.Now;
+            reminder.ModificationDate = DateTime.UtcNow;
             _tailoredCheckupReminderRepository.Update(reminder);
             var result = await _unitOfWork.SaveChangeAsync();
             return new Result<object>
@@ -305,7 +309,7 @@ namespace Server.Application.Services
             }
 
             reminder.CheckupStatus = CheckupStatus.Completed;
-            reminder.CompletedDate = DateTime.Now;
+            reminder.CompletedDate = DateTime.UtcNow;
             reminder.ModificationDate = _currentTime.GetCurrentTime();
             reminder.ModificationBy = userId;
 
@@ -402,6 +406,17 @@ namespace Server.Application.Services
             await _unitOfWork.SaveChangeAsync();
 
             await _emailService.SendEmergencyBiometricAlert(email, subject, message);
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                Message = $"System detected abnormal readings please check your email for detailed information!",
+                CreatedBy = bio.GrowthData?.CreatedBy,
+                IsSent = true,
+                IsRead = false,
+                CreationDate = DateTime.UtcNow.Date
+            };
+
+            await _notificationService.CreateNotification(notification, reminder, "TailoredCheckupReminder");
 
             _logger.LogInformation(
                 $"Created emergency reminder (Weeks {reminder.RecommendedStartWeek}-{reminder.RecommendedEndWeek}) " +
