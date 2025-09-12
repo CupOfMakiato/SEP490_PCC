@@ -39,6 +39,7 @@ namespace Server.Infrastructure.Data
         public DbSet<TemplateChecklistGrowthData> TemplateChecklistGrowthData { get; set; }
         public DbSet<TailoredCheckupReminder> TailoredCheckupReminder { get; set; }
         public DbSet<RecommendedCheckup> RecommendedCheckup { get; set; }
+        public DbSet<RecommendedCheckupGrowthData> RecommendedCheckupGrowthData { get; set; }
         public DbSet<Journal> Journal { get; set; }
         public DbSet<RecordedSymptom> RecordedSymptom { get; set; }
         public DbSet<JournalSymptom> JournalSymptoms { get; set; }
@@ -93,6 +94,9 @@ namespace Server.Infrastructure.Data
         // Doctor
         public DbSet<Doctor> Doctor { get; set; }
 
+        // Notification
+        public DbSet<Notification> Notification { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -107,11 +111,11 @@ namespace Server.Infrastructure.Data
             );
 
             modelBuilder.Entity<User>().HasData(
-               new User { Id = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"), UserName = "Administrator", Email = "passswp@gmail.com", Password = "$2y$10$4TyXDqqGDcs1xNAgD0mptec9AcdOwPc57jYjE/AzUqBqXmzc1vyie", Status = StatusEnums.Active, RoleId = 1, IsVerified = true, PhoneNumber = "123456789", Address = "District 2, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false },
-               new User { Id = Guid.Parse("5de81f1c-c715-46c1-b40a-7dcbfe25cafa"), UserName = "TestHealth", Email = "nguyenbr23@gmail.com", Password = "$2y$10$Ll0VAQfmgd6kUzUzmM7dxOkHHUFTd4kD5WZSKVcmdy1jGNGL1giCi", Status = StatusEnums.Active, RoleId = 3, IsVerified = true, PhoneNumber = "123456789", Address = "Dong Nai", CreationDate = DateTime.Now, IsDeleted = false },
-               new User { Id = Guid.Parse("7e4fd68f-7a71-4dbf-873a-0605b72a64ec"), UserName = "TestNutrient", Email = "swdproject73@gmail.com", Password = "$2y$10$vpseCsSPCEa7fHNdo7fJX.Fg9x/r2vXjzh3FpmUKezOevJIFKpvMe", Status = StatusEnums.Active, RoleId = 4, IsVerified = true, PhoneNumber = "123456789", Address = "Go Vap District, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false },
-               new User { Id = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"), UserName = "TestClinic", Email = "nguyenlmse171333@fpt.edu.vn", Password = "$2y$10$3.0ODOCeEea3SbAWoD51Z.x8A8tSZJ3srprmvkw0xvXsbHdH/D9Rq", Status = StatusEnums.Active, RoleId = 5, IsVerified = true, PhoneNumber = "123456789", Address = "Thu Duc city", CreationDate = DateTime.Now, IsDeleted = false },
-               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, DateOfBirth = new DateTime(2003, 08, 29), IsVerified = true, PhoneNumber = "123456789", Address = "District 7, Ho Chi Minh city", CreationDate = DateTime.Now, IsDeleted = false }
+               new User { Id = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"), UserName = "Administrator", Email = "passswp@gmail.com", Password = "$2y$10$4TyXDqqGDcs1xNAgD0mptec9AcdOwPc57jYjE/AzUqBqXmzc1vyie", Status = StatusEnums.Active, RoleId = 1, IsVerified = true, PhoneNumber = "123456789", Address = "District 2, Ho Chi Minh city", CreationDate = DateTime.UtcNow, IsDeleted = false },
+               new User { Id = Guid.Parse("5de81f1c-c715-46c1-b40a-7dcbfe25cafa"), UserName = "TestHealth", Email = "nguyenbr23@gmail.com", Password = "$2y$10$Ll0VAQfmgd6kUzUzmM7dxOkHHUFTd4kD5WZSKVcmdy1jGNGL1giCi", Status = StatusEnums.Active, RoleId = 3, IsVerified = true, PhoneNumber = "123456789", Address = "Dong Nai", CreationDate = DateTime.UtcNow, IsDeleted = false },
+               new User { Id = Guid.Parse("7e4fd68f-7a71-4dbf-873a-0605b72a64ec"), UserName = "TestNutrient", Email = "swdproject73@gmail.com", Password = "$2y$10$vpseCsSPCEa7fHNdo7fJX.Fg9x/r2vXjzh3FpmUKezOevJIFKpvMe", Status = StatusEnums.Active, RoleId = 4, IsVerified = true, PhoneNumber = "123456789", Address = "Go Vap District, Ho Chi Minh city", CreationDate = DateTime.UtcNow, IsDeleted = false },
+               new User { Id = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"), UserName = "TestClinic", Email = "nguyenlmse171333@fpt.edu.vn", Password = "$2y$10$3.0ODOCeEea3SbAWoD51Z.x8A8tSZJ3srprmvkw0xvXsbHdH/D9Rq", Status = StatusEnums.Active, RoleId = 5, IsVerified = true, PhoneNumber = "123456789", Address = "Thu Duc city", CreationDate = DateTime.UtcNow, IsDeleted = false },
+               new User { Id = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), UserName = "NguyenLe", Email = "swpproject406@gmail.com", Password = "$2y$10$cITY98BqKNmttf6aCa.PeeOjqJCPKNoqTcUZSkOcBfH0ltD3Yjn/i", Status = StatusEnums.Active, RoleId = 2, DateOfBirth = new DateTime(2003, 08, 29), IsVerified = true, PhoneNumber = "123456789", Address = "District 7, Ho Chi Minh city", CreationDate = DateTime.UtcNow, IsDeleted = false }
 
            );
 
@@ -133,7 +137,7 @@ namespace Server.Infrastructure.Data
                    EstimatedDueDate = new DateTime(2025, 12, 06),
                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
                    Status = GrowthDataStatus.Active,
-                   CreationDate = DateTime.Now,
+                   CreationDate = DateTime.UtcNow,
                    IsDeleted = false
                }
             );
@@ -146,7 +150,7 @@ namespace Server.Infrastructure.Data
                     WeightKg = 60,
                     Notes = "I have no chronic diseases!",
                     CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsDeleted = false
                 }
                 );
@@ -158,7 +162,7 @@ namespace Server.Infrastructure.Data
                     Body = "Congratulations on your pregnancy! This blog will help you get oriented: what to expect, where to share stories, and how to find support as you begin the first trimester.",
                     CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
                     CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     Status = BlogStatus.Approved,
                     IsDeleted = false
                 },
@@ -169,7 +173,7 @@ namespace Server.Infrastructure.Data
                     Body = "Discussing early pregnancy symptoms like bloating, fatigue, breast tenderness, and spotting. When to call a doctor—and when to relax and go with the flow.",
                     CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
                     CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     Status = BlogStatus.Approved,
                     IsDeleted = false
                 },
@@ -180,7 +184,7 @@ namespace Server.Infrastructure.Data
                     Body = "From eating small, frequent meals to resting when needed, share practical tips for managing early pregnancy exhaustion and nausea.",
                     CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
                     CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     Status = BlogStatus.Approved,
                     IsDeleted = false
                 },
@@ -191,7 +195,7 @@ namespace Server.Infrastructure.Data
                     Body = "If you were active before pregnancy, discover modifications and when to pause core workouts—especially ab-focused routines—as your body changes early on.",
                     CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
                     CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     Status = BlogStatus.Approved,
                     IsDeleted = false
                 },
@@ -202,7 +206,7 @@ namespace Server.Infrastructure.Data
                     Body = "Share stories and realize you’re not alone—whether it’s anxieties, excitement, or feeling like you ‘failed the first trimester.’ Real talk from real moms-to-be.",
                     CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
                     CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     Status = BlogStatus.Approved,
                     IsDeleted = false
                 },
@@ -213,7 +217,7 @@ namespace Server.Infrastructure.Data
                     Body = "Eating a balanced diet is crucial for the health of both the mother and the baby during pregnancy. It is important to include a variety of foods from all food groups to ensure that both mother and baby receive the necessary nutrients.",
                     CategoryId = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"),
                     CreatedBy = Guid.Parse("9fac4a22-9bda-45b0-a41a-fdf93ea72a39"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     Status = BlogStatus.Approved,
                     IsDeleted = false
                 }
@@ -224,7 +228,7 @@ namespace Server.Infrastructure.Data
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e8"),
                     SymptomName = "Nausea",
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsActive = true,
                     IsTemplate = true,
                     IsDeleted = false
@@ -234,7 +238,7 @@ namespace Server.Infrastructure.Data
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e9"),
                     SymptomName = "Fatigue",
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsActive = true,
                     IsTemplate = true,
                     IsDeleted = false
@@ -244,7 +248,7 @@ namespace Server.Infrastructure.Data
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5ea"),
                     SymptomName = "Headache",
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsActive = true,
                     IsTemplate = true,
                     IsDeleted = false
@@ -254,7 +258,7 @@ namespace Server.Infrastructure.Data
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5eb"),
                     SymptomName = "Backache",
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsActive = true,
                     IsTemplate = true,
                     IsDeleted = false
@@ -264,7 +268,7 @@ namespace Server.Infrastructure.Data
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5ec"),
                     SymptomName = "Dizziness",
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsActive = true,
                     IsTemplate = true,
                     IsDeleted = false
@@ -274,7 +278,7 @@ namespace Server.Infrastructure.Data
                     Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5ed"),
                     SymptomName = "None",
                     CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
-                    CreationDate = DateTime.Now,
+                    CreationDate = DateTime.UtcNow,
                     IsActive = true,
                     IsTemplate = true,
                     IsDeleted = false
@@ -884,6 +888,14 @@ namespace Server.Infrastructure.Data
                 .WithOne(c => c.Clinic)
                 .HasForeignKey<Clinic>(s => s.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //Notification
+            modelBuilder.Entity<Notification>()
+            .HasOne(n => n.NotificationCreatedByUser)
+            .WithMany(u => u.Notifications)
+            .HasForeignKey(n => n.CreatedBy)
+            .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

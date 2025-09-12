@@ -32,12 +32,13 @@ namespace Server.Application.Services
         private readonly IRecordedSymptomRepository _symptomRepository;
         private readonly IBasicBioMetricService _basicBioMetricService;
         private readonly ITailoredCheckupReminderService _tailoredCheckupReminderService;
+        private readonly INotificationService _notificationService;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
             IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository, IBasicBioMetricService basicBioMetricService,
-            ITailoredCheckupReminderService tailoredCheckupReminderService)
+            ITailoredCheckupReminderService tailoredCheckupReminderService, INotificationService notificationService)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -49,6 +50,7 @@ namespace Server.Application.Services
             _symptomRepository = symptomRepository;
             _basicBioMetricService = basicBioMetricService;
             _tailoredCheckupReminderService = tailoredCheckupReminderService;
+            _notificationService = notificationService;
         }
         private async Task<ViewJournalDTO> MapJournalToViewJournalDTO(Journal journal)
         {
@@ -380,6 +382,33 @@ namespace Server.Application.Services
             // this service already have savechange sooooo no need to save again
             await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
 
+            //var journalDto = new
+            //{
+            //    journal.Id,
+            //    journal.CurrentWeek,
+            //    journal.CurrentWeight,
+            //    journal.SystolicBP,
+            //    journal.DiastolicBP,
+            //    journal.HeartRateBPM,
+            //    journal.BloodSugarLevelMgDl,
+            //    journal.Note,
+            //    Media = journal.Media.Select(m => new { m.FileUrl, m.FileType }),
+            //    Symptoms = journal.JournalSymptoms.Select(js => js.RecordedSymptomId)
+            //};
+
+            //// Send notification after successful journal creation
+            //var notification = new Notification
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Message = $"Your journal entry for week {currentWeek} was created successfully.",
+            //    CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId,
+            //    IsSent = true,
+            //    IsRead = false,
+            //    CreationDate = DateTime.UtcNow.Date
+            //};
+
+            //await _notificationService.CreateNotification(notification, journalDto, "Journal");
+
             return new Result<object>
             {
                 Error = result > 0 ? 0 : 1,
@@ -582,11 +611,13 @@ namespace Server.Application.Services
             var reminder = await _unitOfWork.TailoredCheckupReminderRepository
                 .GetActiveReminderByGrowthDataAndWeek(growthDataId, journal.CurrentWeek);
 
+            if (reminder != null)
+            {
                 reminder.IsActive = false;
                 reminder.ModificationDate = _currentTime.GetCurrentTime();
                 reminder.Note = $"Deactivated because journal week {journal.CurrentWeek} was deleted.";
                 _unitOfWork.TailoredCheckupReminderRepository.Update(reminder);
-            
+            }
 
             _unitOfWork.JournalRepository.SoftRemove(journal);
             await _unitOfWork.SaveChangeAsync();
