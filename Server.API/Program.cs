@@ -3,6 +3,7 @@ using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Server.API.Middlewares;
 using Server.Application;
 using Server.Application.Commons;
 using Server.Application.HangfireInterface;
@@ -12,6 +13,7 @@ using Server.Infrastructure.Hubs;
 using Server.WebAPI;
 using Server.WebAPI.Middlewares;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -160,6 +162,8 @@ app.UseAuthorization();
 
 // Use Global Exception Middleware 
 app.UseMiddleware<GlobalExceptionMiddleware>();
+
+app.UseMiddleware<RateLimitMiddleware>();
 
 app.UseHttpsRedirection();
 
