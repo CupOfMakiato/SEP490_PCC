@@ -119,8 +119,8 @@ using (var scope = app.Services.CreateScope())
      recurringJobManager.AddOrUpdate<IRecommendedCheckupReminderBGService>(
     "send-recommended-checkup-reminder",
         job => job.ProcessDueReminders(),
-        //Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
-                             Cron.MinuteInterval(1) // Run every minute for testing
+        Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
+                             //Cron.MinuteInterval(1) // Run every minute for testing
     );
 
 }
