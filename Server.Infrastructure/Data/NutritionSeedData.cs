@@ -980,7 +980,7 @@ namespace Server.Infrastructure.Data
                 new Food
                 {
                     Id = FBanhMi,
-                    Name = "Bánh Mì (Vietnamese Sandwich)",
+                    Name = "Vietnamese Baguette (Banh Mi)",
                     Description = "Vietnamese baguette sandwich typically with bread, protein, pickled vegetables, herbs, and condiments.",
                     FoodCategoryId = FCBakedPr, // Baked Products
                     ImageUrl = null,
@@ -2186,46 +2186,172 @@ namespace Server.Infrastructure.Data
                 new FoodDisease
                 {
                     DiseaseId = DDiabetes,
-                    FoodId = FButter,
-                    Status = FoodDiseaseStatus.Warning,
-                    Description = "High in saturated fat, may worsen insulin resistance."
+                    FoodId = FSpinach,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Non-starchy vegetable; high fiber and low calorie to support glycemic control."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DDiabetes,
-                    FoodId = FSpinach,
+                    FoodId = FBroccoli,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Rich in folate, fiber, and low in calories. Supports blood sugar control."
+                    Description = "Non-starchy vegetable with fiber and micronutrients supportive of blood sugar management."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DDiabetes,
                     FoodId = FAlmond,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Provides healthy fats and protein to stabilize blood sugar."
+                    Description = "Provides healthy fats and protein that can help stabilize post-meal glucose."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FYogurt, // Yogurt (Plain, Low-fat)
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Plain low‑fat yogurt offers protein and can fit into a carb-controlled plan."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FOliveOil,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Unsaturated fat source to replace saturated fat and support cardiometabolic health."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FChicken,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Lean protein; helps with satiety and glycemic balance when paired with non-starchy vegetables."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FTuna,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Lean protein option; portion and frequency should account for mercury guidance."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FButter,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "High in saturated fat; excess intake may worsen insulin resistance."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FSugar,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Added sugar can rapidly raise blood glucose; use sparingly in a gestational diabetes plan."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FOrangeJuice,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Fruit juice concentrates carbohydrate without fiber and may spike blood glucose."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FAppleJuice,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Fruit juice concentrates carbohydrate without fiber and may spike blood glucose."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FGrapeJuice,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Fruit juice concentrates carbohydrate without fiber and may spike blood glucose."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiabetes,
+                    FoodId = FPineappleJuice,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Fruit juice concentrates carbohydrate without fiber and may spike blood glucose."
                 },
 
-                // === Hypertension ===
+                // === Chronic Hypertension ===
                 new FoodDisease
                 {
                     DiseaseId = DHypertension,
-                    FoodId = FPeanuts,
+                    FoodId = FTableSalt,
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "Limit salted peanuts due to high sodium content, which raises blood pressure."
+                    Description = "Direct sodium source; excess sodium intake raises blood pressure."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FSoysauce,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Typically very high in sodium; use reduced-sodium alternatives sparingly."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FFishSauce,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "High-sodium condiment; contributes significantly to daily sodium load."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FOysterSauce,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "High-sodium sauce; limit use to manage blood pressure."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FSoupPowder,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Processed soup bases are often high in sodium; prefer low-sodium homemade broth."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FChineseSausage,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Processed meat frequently high in sodium and saturated fat."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DHypertension,
                     FoodId = FOliveOil,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Rich in heart-healthy monounsaturated fats. Supports blood pressure regulation."
+                    Description = "Rich in monounsaturated fats; supportive of heart health when replacing saturated fats."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DHypertension,
                     FoodId = FBroccoli,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "High in potassium and fiber. Helps regulate blood pressure."
+                    Description = "Vegetable rich in potassium and fiber; supportive of blood pressure control."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FSpinach,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Leafy green with potassium and magnesium; fits a DASH-style pattern."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FBanana,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Potassium-containing fruit that can help counterbalance sodium."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DHypertension,
+                    FoodId = FSweetPotato,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Potassium-containing starchy vegetable suitable in balanced portions."
                 },
 
                 // === Celiac Disease ===
@@ -2234,124 +2360,376 @@ namespace Server.Infrastructure.Data
                     DiseaseId = DCeliac,
                     FoodId = FChicken,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Naturally gluten-free, safe source of protein."
+                    Description = "Naturally gluten-free lean protein."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DCeliac,
                     FoodId = FTuna,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Naturally gluten-free and rich in omega-3, but limit due to mercury."
+                    Description = "Naturally gluten-free fish protein; verify seasonings are GF."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DCeliac,
-                    FoodId = FGFMultigrainBread,
+                    FoodId = FGFMultigrainBread, // Gluten-Free Multigrain Bread
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Gluten-free alternative that you can try."
+                    Description = "Gluten-free bread option when certified GF."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DCeliac,
                     FoodId = FRiceBread,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Gluten-free alternative that you can try."
+                    Description = "Gluten-free bread alternative based on rice."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FVermicelli, // Vermicelli (Rice Noodles)
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Rice noodles are naturally gluten-free; confirm no cross-contact."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FRicePaper,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Rice paper wraps are typically gluten-free."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FRiceMilk,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Rice-based milk substitute; check for GF certification."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FRice,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Naturally gluten-free grain staple."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FPotato,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Naturally gluten-free starchy vegetable."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FSweetPotato,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Naturally gluten-free starchy vegetable."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DCeliac,
                     FoodId = FWheatBread,
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "Please choose bread that is gluten-free"
+                    Description = "Contains gluten; must be avoided in celiac disease."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DCeliac,
-                    FoodId = FBanhMi,
+                    FoodId = FBanhMi, // Vietnamese Sandwich (wheat baguette)
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "Please choose bread that is gluten-free"
+                    Description = "Wheat-based baguette contains gluten."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FSoysauce,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Typically brewed with wheat; avoid unless verified gluten-free."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FNoodles,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Often wheat-based; avoid unless verified gluten-free."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCeliac,
+                    FoodId = FCereal,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Many cereals contain gluten; avoid unless specifically GF."
                 },
 
-                // === Anemia ===
+                // === Anemia (Iron-Deficiency) ===
                 new FoodDisease
                 {
                     DiseaseId = DAnemia,
                     FoodId = FBeef,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Excellent source of heme iron and vitamin B12."
+                    Description = "Heme-iron source and vitamin B12; supports red blood cell production."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DAnemia,
+                    FoodId = FTuna,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Fish with heme iron and protein; include as part of iron-rich meals."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DAnemia,
+                    FoodId = FMackerel,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Heme-iron fish; pair with vitamin C sources to optimize absorption."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DAnemia,
                     FoodId = FSpinach,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Good source of non-heme iron and folate, supports red blood cell production."
-                },
-
-                // === Acute Conditions ===
-
-                // Cough
-                new FoodDisease
-                {
-                    DiseaseId = DCough,
-                    FoodId = FMilk,
-                    Status = FoodDiseaseStatus.Warning,
-                    Description = "May increase mucus production and worsen cough in some individuals."
+                    Description = "Non-heme iron and folate; absorption improves when eaten with vitamin C."
                 },
                 new FoodDisease
                 {
-                    DiseaseId = DCough,
-                    FoodId = FChicken,
+                    DiseaseId = DAnemia,
+                    FoodId = FKale,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Leafy green providing non-heme iron and folate; combine with citrus for absorption."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DAnemia,
+                    FoodId = FOrange,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Vitamin C source that enhances non-heme iron absorption from plant foods."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DAnemia,
+                    FoodId = FBlackTea,
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "Chicken can worsen the symptom"
+                    Description = "Tea polyphenols can inhibit non-heme iron absorption when consumed with meals."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DAnemia,
+                    FoodId = FGreenTea,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Tea polyphenols can inhibit non-heme iron absorption when consumed with meals."
                 },
 
-                // Cold
+                // === Acute / Temporary Conditions ===
+
+                // Cough and Respiratory Irritation
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FHerbalTea, // Chamomile, Ginger, Rooibos
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm, non-caffeinated fluids can soothe the throat and support hydration."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FGinger, // Ginger Root (Fresh)
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Ginger is commonly used for throat comfort; can be infused into warm drinks."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FBroth, // Bone Broth
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm broth supports hydration and is easy to tolerate."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FBottledWater,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Adequate fluids can help thin mucus and ease irritation."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FChiliPowder,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Spicy seasonings may irritate a sensitive throat and trigger coughing."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FChilliSauce,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Spicy sauces may aggravate throat irritation during cough."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCough,
+                    FoodId = FBlackPepper,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Pungent spices can trigger cough reflex in sensitive individuals."
+                },
+
+                // Common Cold
                 new FoodDisease
                 {
                     DiseaseId = DCold,
                     FoodId = FOrange,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "High in vitamin C, supports immune function."
+                    Description = "Vitamin C-containing citrus fits a balanced pattern during colds."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCold,
+                    FoodId = FBroth,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm broth for fluids and easy-to-digest nourishment."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCold,
+                    FoodId = FHerbalTea,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm non-caffeinated teas support comfort and hydration."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DCold,
+                    FoodId = FBottledWater,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Hydration supports recovery from upper respiratory infections."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DCold,
                     FoodId = FButter,
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "High-fat foods may worsen inflammation and slow recovery."
+                    Description = "High-fat foods may be harder to tolerate and can slow recovery for some."
                 },
 
-                // Flu
+                // Seasonal Flu
                 new FoodDisease
                 {
                     DiseaseId = DFlu,
                     FoodId = FTomato,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Rich in vitamin C and antioxidants, helps immune system."
+                    Description = "Vegetable with vitamins and hydration; suitable in soups and light meals."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFlu,
+                    FoodId = FBroth,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm broth helps with hydration and is easy on the stomach."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFlu,
+                    FoodId = FHerbalTea,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm non-caffeinated fluids to soothe the throat and support hydration."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFlu,
+                    FoodId = FBottledWater,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Fluids are essential for recovery and to replace losses from fever."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFlu,
+                    FoodId = FOrangeJuice,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Source of vitamin C and fluids; consider small portions if sensitive to acidity."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DFlu,
                     FoodId = FSunflowerOil,
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "Fried foods cooked in excess oil may worsen nausea and fatigue."
+                    Description = "Fried and greasy foods may worsen nausea and fatigue."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFlu,
+                    FoodId = FChiliPowder,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Spicy seasonings may aggravate throat or reflux during illness."
                 },
 
                 // Diarrhea
                 new FoodDisease
                 {
                     DiseaseId = DDiarrhea,
-                    FoodId = FButter,
-                    Status = FoodDiseaseStatus.Warning,
-                    Description = "High-fat foods worsen diarrhea symptoms."
+                    FoodId = FRice,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Bland, binding carbohydrate often tolerated during acute diarrhea."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FBanana,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Commonly tolerated and provides potassium lost with diarrhea."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FAppleJuice,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Clear fluids can help hydration; consider small, diluted portions if sensitive."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FBroth,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Clear broth supports hydration and electrolyte replacement."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FBottledWater,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Hydration is primary; frequent small sips are often better tolerated."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DDiarrhea,
                     FoodId = FCarrot,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Easy to digest and part of the BRAT diet (bananas, rice, applesauce, toast)."
+                    Description = "Generally easy to digest when cooked; fits a bland diet."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FButter,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "High-fat foods can worsen diarrhea symptoms."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FMilk,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Lactose may be poorly tolerated during acute diarrhea; consider avoiding temporarily."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FSkimmedUnSweetenMilk, // Skimmed Milk (Unsweetened)
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Even low-fat milk contains lactose, which may be poorly tolerated acutely."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DDiarrhea,
+                    FoodId = FChilliSauce,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Spicy sauces can irritate the gut during recovery."
                 },
 
                 // Fever
@@ -2360,14 +2738,49 @@ namespace Server.Infrastructure.Data
                     DiseaseId = DFever,
                     FoodId = FChicken,
                     Status = FoodDiseaseStatus.Recommend,
-                    Description = "Light, protein-rich food that is easy to digest during fever."
+                    Description = "Light, lean protein that is easy to digest when appetite returns."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFever,
+                    FoodId = FBroth,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Clear broth supports hydration and electrolyte intake during fever."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFever,
+                    FoodId = FBottledWater,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Fluids are essential to counter dehydration associated with fever."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFever,
+                    FoodId = FWatermelon,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "High-water fruit that contributes to hydration with a gentle flavor."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFever,
+                    FoodId = FHerbalTea,
+                    Status = FoodDiseaseStatus.Recommend,
+                    Description = "Warm non-caffeinated beverages to support comfort and hydration."
                 },
                 new FoodDisease
                 {
                     DiseaseId = DFever,
                     FoodId = FButter,
                     Status = FoodDiseaseStatus.Warning,
-                    Description = "High-fat foods can be harder to digest during fever."
+                    Description = "High-fat foods may be harder to digest during fever."
+                },
+                new FoodDisease
+                {
+                    DiseaseId = DFever,
+                    FoodId = FChiliPowder,
+                    Status = FoodDiseaseStatus.Warning,
+                    Description = "Spicy seasonings may aggravate throat and stomach during illness."
                 }
             );
 
@@ -2536,77 +2949,53 @@ namespace Server.Infrastructure.Data
             // FOOD-ALLERGY RELATIONS
             // ---------------------------------------------------
             modelBuilder.Entity<FoodAllergy>().HasData(
-            // Dairy
-            new FoodAllergy
-            {
-                FoodId = FMilk,
-                AllergyId = MilkA,
-                Description = "Milk is a common allergen that can cause hives, digestive issues, or respiratory problems in allergic individuals. Lactose intolerance is different and involves difficulty digesting milk sugar."
-            },
-            new FoodAllergy
-            {
-                FoodId = FButter,
-                AllergyId = MilkA,
-                Description = "Butter contains milk proteins that can trigger allergic reactions, though clarified butter (ghee) may sometimes be tolerated."
-            },
-            new FoodAllergy
-            {
-                FoodId = FEgg,
-                AllergyId = EggA,
-                Description = "Egg allergy is common in children and may cause skin rashes, respiratory issues, and digestive symptoms. Avoid both yolk and white unless tolerance is confirmed."
-            },
+            // Peanut
+            new FoodAllergy { FoodId = FPeanuts, AllergyId = PeanutA, Description = "Peanut allergy can be severe and may cause anaphylaxis; strict avoidance is recommended." },
 
-            // Peanuts
-            new FoodAllergy
-            {
-                FoodId = FPeanuts,
-                AllergyId = PeanutA,
-                Description = "Peanuts are one of the most severe allergens, often causing rapid reactions including anaphylaxis. Strict avoidance is essential."
-            },
+            // Tree nut
+            new FoodAllergy { FoodId = FAlmond, AllergyId = TreeNutA, Description = "Almond is a tree nut; reactions may be severe including anaphylaxis." },
+            new FoodAllergy { FoodId = FAlmondMilk, AllergyId = TreeNutA, Description = "Almond milk is made from almonds (tree nut) and can trigger tree nut allergy." },
+            new FoodAllergy { FoodId = FWalnut, AllergyId = TreeNutA, Description = "Walnut is a tree nut; even small amounts can provoke reactions." },
+            new FoodAllergy { FoodId = FCashew, AllergyId = TreeNutA, Description = "Cashew allergy is often severe and can lead to anaphylaxis. Even trace amounts may provoke reactions." },
 
-            // Tree Nuts
-            new FoodAllergy
-            {
-                FoodId = FAlmond,
-                AllergyId = TreeNutA,
-                Description = "Almonds may cause allergic reactions ranging from mild itching to severe anaphylaxis in individuals sensitive to tree nuts."
-            },
-            new FoodAllergy
-            {
-                FoodId = FWalnut,
-                AllergyId = TreeNutA,
-                Description = "Walnuts are a common trigger of tree nut allergy, which can cause swelling, abdominal pain, and potentially life-threatening reactions."
-            },
-            new FoodAllergy
-            {
-                FoodId = FCashew,
-                AllergyId = TreeNutA,
-                Description = "Cashew allergy is often severe and can lead to anaphylaxis. Even trace amounts may provoke reactions."
-            },
+            // Milk
+            new FoodAllergy { FoodId = FMilk, AllergyId = MilkA, Description = "Contains milk proteins (casein and whey); common cause of allergic reactions." },
+            new FoodAllergy { FoodId = FSkimmedUnSweetenMilk, AllergyId = MilkA, Description = "Skimmed milk still contains milk proteins; avoid with milk allergy." }, // Skimmed Milk (Unsweetened)
+            new FoodAllergy { FoodId = FYogurt, AllergyId = MilkA, Description = "Yogurt contains milk proteins; fermentation does not remove allergenicity." }, // Yogurt (Plain, Low-fat)
+            new FoodAllergy { FoodId = FCheese, AllergyId = MilkA, Description = "Cheese contains concentrated milk proteins; avoid with milk allergy." },
+            new FoodAllergy { FoodId = FButter, AllergyId = MilkA, Description = "Butter is derived from milk; residual proteins can trigger reactions." },
+
+            // Soy
+            new FoodAllergy { FoodId = FSoyBean, AllergyId = SoyA, Description = "Soybean is a major allergen; avoid all soy-containing foods if allergic." },
+            new FoodAllergy { FoodId = FTofu, AllergyId = SoyA, Description = "Tofu is made from soy; contains soy proteins that trigger allergy." },
+            new FoodAllergy { FoodId = FSoysauce, AllergyId = SoyA, Description = "Soy sauce contains soy; avoid unless a soy-free alternative is used." },
+
+            // Egg
+            new FoodAllergy { FoodId = FEgg, AllergyId = EggA, Description = "Egg allergy can be triggered by both egg white and yolk proteins." },
+            new FoodAllergy { FoodId = FMayo, AllergyId = EggA, Description = "Traditional mayonnaise contains egg yolk; avoid with egg allergy." },
+
+            // Wheat
+            new FoodAllergy { FoodId = FWheatBread, AllergyId = WheatA, Description = "Wheat bread contains wheat/gluten; avoid with wheat allergy." },
+            new FoodAllergy { FoodId = FBanhMi, AllergyId = WheatA, Description = "Bánh mì uses a wheat-flour baguette; avoid with wheat allergy." },
+            new FoodAllergy { FoodId = FSoysauce, AllergyId = WheatA, Description = "Most soy sauce is brewed with wheat; choose certified gluten-free if avoiding wheat." },
+
+            // Shellfish (crustaceans and mollusks)
+            new FoodAllergy { FoodId = FShrimp, AllergyId = ShellfishA, Description = "Shrimp is a crustacean shellfish; common cause of severe reactions." },
+            new FoodAllergy { FoodId = FFieldCrab, AllergyId = ShellfishA, Description = "Crab is a crustacean shellfish; avoid due to risk of anaphylaxis." },
+            new FoodAllergy { FoodId = FSquid, AllergyId = ShellfishA, Description = "Squid is a mollusk shellfish; many with shellfish allergy avoid mollusks as well." },
+            new FoodAllergy { FoodId = FOysterSauce, AllergyId = ShellfishA, Description = "Oyster sauce contains oyster extract (mollusk shellfish); avoid with shellfish allergy." },
 
             // Fish
-            new FoodAllergy
-            {
-                FoodId = FTuna,
-                AllergyId = FishA,
-                Description = "Tuna allergy is less common but can cause hives, nausea, or asthma-like symptoms. Cross-contamination with other fish is also a risk."
-            },
-            new FoodAllergy
-            {
-                FoodId = FCod,
-                AllergyId = FishA,
-                Description = "Cod is a frequent cause of fish allergy, especially in children. Cooking does not remove allergenic proteins."
-            },
-
-            // Shellfish
-            new FoodAllergy
-            {
-                FoodId = FShrimp,
-                AllergyId = ShellfishA,
-                Description = "Shrimp is one of the most common shellfish allergens and can trigger severe reactions including anaphylaxis. Patients are usually allergic to multiple shellfish species."
-            }
-            );
-
+            new FoodAllergy { FoodId = FTuna, AllergyId = FishA, Description = "Tuna is finfish; fish allergy can be severe and requires strict avoidance." },
+            new FoodAllergy { FoodId = FMackerel, AllergyId = FishA, Description = "Mackerel is finfish; avoid all fish and fish-derived products if allergic." },
+            new FoodAllergy { FoodId = FMackerelScad, AllergyId = FishA, Description = "Mackerel scad (galunggong) is finfish; may trigger fish allergy." }, // Mackerel Scad (Galunggong)
+            new FoodAllergy { FoodId = FCod, AllergyId = FishA, Description = "Cod is finfish; fish proteins can provoke severe reactions." },
+            new FoodAllergy { FoodId = FEel, AllergyId = FishA, Description = "Eel is finfish; avoid with fish allergy." },
+            new FoodAllergy { FoodId = FBasaFish, AllergyId = FishA, Description = "Basa is finfish; avoid with fish allergy." },
+            new FoodAllergy { FoodId = FBasaFishBall, AllergyId = FishA, Description = "Fish balls contain fish proteins; processed items may include other allergens—check labels." },
+            new FoodAllergy { FoodId = FSnakeHeadFish, AllergyId = FishA, Description = "Snakehead is finfish; avoid with fish allergy." },
+            new FoodAllergy { FoodId = FFishSauce, AllergyId = FishA, Description = "Fish sauce is a fermented fish product; avoid with fish allergy." }
+    );
             // ---------------------------------------------------
             // AGE GROUP
             // ---------------------------------------------------
@@ -21344,14 +21733,14 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishComGa,
                     DishName = "Chicken Rice",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757772255/Dish/0455f1a6-3270-45d8-886f-33e0530c9750/COMKHAC8.jpg",
                     Description = "A simple dish composed of chicken breast served with fragrant rice and vegetables"
                 },
                 new Dish
                 {
                     Id = DishPhoGa,
                     DishName = "Chicken Noodle Soup (Chicken Pho)",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757772139/Dish/a6d5b8b5-266b-43b1-a458-2d813ecfb48e/PHO2.jpg",
                     Description = "Traditional Vietnamese noodle soup with chicken, herbs, and aromatic broth"
                 },
                 new Dish
@@ -21379,14 +21768,14 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishCanhChua,
                     DishName = "Sweet and Sour Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757780481/Dish/6635c557-0642-424b-9b67-a059b9c1312e/R.jpg",
                     Description = "Traditional Vietnamese soup with pineapple, tomatoes, and fish"
                 },
                 new Dish
                 {
                     Id = DishGoiGa,
                     DishName = "Vietnamese Chicken Salad",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757780883/Dish/eb3fa2f6-47f9-486b-83b7-28748f02de91/IMG_2132-800x530.jpg",
                     Description = "Fresh Vietnamese salad with shredded chicken and vegetables"
                 },
                 new Dish
@@ -21407,14 +21796,14 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishComTrang,
                     DishName = "Plain Steamed Rice",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757772572/Dish/49c51383-b739-426e-a101-e9b3349baee2/COMTRANG2.jpg",
                     Description = "Simple steamed white rice, a staple of Vietnamese cuisine"
                 },
                 new Dish
                 {
                     Id = DishBunBoHue,
                     DishName = "Spicy Beef Noodle Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757773044/Dish/e02fcffc-81a7-4b20-af66-52ab0b06ea9e/BUN11.jpg",
                     Description = "Spicy Vietnamese noodle soup with beef and aromatic herbs from Hue"
                 },
                 new Dish
@@ -21428,7 +21817,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishCanhRauMuong,
                     DishName = "Spinach and Shrimp Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757773452/Dish/7bed86f0-a3ba-4be3-9e00-5aeacfce215a/cooky-recipe-636916401369613073.jpg",
                     Description = "Light soup with fresh spinach and shrimp in clear broth"
                 },
                 new Dish
@@ -21484,7 +21873,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishBanhMiHeoQuay,
                     DishName = "Grilled Pork Banh Mi",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757771473/Dish/df9edb56-3fd2-4c3d-980c-673375c1e2a1/BANHMI3.jpg",
                     Description = "A Delicious banh mi filled with grilled pork!"
                 },
 
@@ -21494,7 +21883,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishBraisedPorkWithEggs,
                     DishName = "Braised Pork With Eggs",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757779824/Dish/ed7bfc94-85ae-4bec-a340-3893f1a1f101/MAN49.jpg",
                     Description = "Vietnamese-style braised pork with hard-boiled eggs."
                 },
                 
@@ -21509,21 +21898,21 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishComChienThitBoRauCu,
                     DishName = "Beef Fried rice With Stir-Fried Vegetables",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757772399/Dish/70911515-9f11-4001-9350-1e1483416907/COMKHAC4.jpg",
                     Description = "Vietnamese beef fried rice with mixed vegetables."
                 },
                 new Dish
                 {
                     Id = DishCanhCaiXanh,
                     DishName = "Mustard Green Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757771957/Dish/c2c5f641-b78c-4dfe-b5f8-0dd3be511ed8/CANH49.jpg",
                     Description = "Vietnamese warm mustard greens soup with chicken."
                 },
                 new Dish
                 {
                     Id = DishPhoBo,
                     DishName = "Beef Noodle Soup (Beef Pho)",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778905/Dish/f299d416-2b72-4e27-89c3-19fe86fd04b7/PHO1.jpg",
                     Description = "Traditional Vietnamese noodle soup with thinly sliced beef, herbs, and aromatic broth"
                 },
                 // --------------
@@ -21531,90 +21920,90 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishSteamedChineseCabbage,
                     DishName = "Steamed Chinese Cabbage",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778402/Dish/7080a5c5-422c-43c3-81c8-d3706a0b2651/LUOC13.jpg",
                     Description = "Side dish that can be eaten with other main dishes or diped in fish sauce"
                 },
                 new Dish
                 {
                     Id = DishCheese,
                     DishName = "Cheese (General Type)",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778274/Dish/346c839a-d62d-4e06-8a1c-85cf34c77706/PHOMAI1.jpg",
                     Description = "A Type of cheese you can eat in as a snack"
                 },
                 new Dish
                 {
                     Id = DishYogurt,
                     DishName = "Yogurt",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757772494/Dish/2103f2ba-6207-4d9e-82b9-b1125187e2f0/SUACHUA1.jpg",
                     Description = "Refreshing dish you can eat it as a snack"
                 },
                 new Dish
                 {
                     Id = DishCocktailRolls,
                     DishName = "Cocktail Rolls",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778196/Dish/006ccc67-8c8c-43ec-b528-ab1455a734ce/MONANKEM3.jpg",
                     Description = "Rice paper rolls with mint, pear, shrimp, apple, and a light mayo dressing."
                 },
                 new Dish
                 {
                     Id = DishOkraSourSoupWithPork,
                     DishName = "Okra Sour Soup With Pork",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778098/Dish/3239a42f-2df0-424f-a324-1324dabca77e/CANH57.jpg",
                     Description = "Vietnamese-style sweet-sour okra soup with pork, tamarind, tomatoes, and herbs."
                 },
                 new Dish
                 {
                     Id = DishMackerelScadTomatoSaute,
                     DishName = "Mackerel Scad Tomato Saute",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778027/Dish/7ffd5961-1d1f-47b6-9615-af3cb17b1fe6/MAN56.jpg",
                     Description = "Pan-sautéed mackerel scad with shallots, garlic, tomato, and seasoning."
                 },
                 new Dish
                 {
                     Id = DishTonkinCreeperSoup,
                     DishName = "Tonkin Creeper Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777519/Dish/53857683-0204-47a0-a4ad-37c9661b03a5/CANH58.jpg",
                     Description = "Light soup featuring Tonkinese creeper, corn, pork, and aromatics."
                 },
                 new Dish
                 {
                     Id = DishStirFriedPumpkinGarlic,
                     DishName = "Stir-Fried Pumpkin and Garlic",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777301/Dish/1352ff98-d063-406f-95b2-97a6d3821d2d/MAN49.jpg",
                     Description = "Stir-fried pumpkin with garlic, spring onion, enoki mushroom, and coriander."
                 },
                 new Dish
                 {
                     Id = DishCreamyPurpleYamSoup,
                     DishName = "Creamy Purple Yam Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777206/Dish/9f42019f-e8f0-483d-96a2-e4e496bfb838/CANH51.jpg",
                     Description = "Creamy purple yam soup with shrimp, herbs, and aromatics."
                 },
                 new Dish
                 {
                     Id = DishFriedChickenWithTamarindSauce,
                     DishName = "Fried Chicken with Tamarind Sauce",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777099/Dish/af2f9377-6c7e-4881-b0f8-4f7ae94b3ee7/MAN58.jpg",
                     Description = "Crispy fried chicken tossed in a tangy tamarind sauce with aromatics and seasonings."
                 },
                 new Dish
                 {
                     Id = DishSeaweedSoupWithTofu,
                     DishName = "Seaweed Soup With Tofu",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757776975/Dish/15bca040-5291-4388-bd2f-4a5dd392ec65/CANH61.jpg",
                     Description = "Light seaweed soup with tofu, aromatics, and gentle seasoning."
                 },
                 new Dish
                 {
                     Id = DishSteamedChayoteAndCarrot,
                     DishName = "Steamed Chayote and Carrot",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757776703/Dish/b1490747-50a0-40a6-9b6e-395832be0950/LUOC35.jpg",
                     Description = "Simple steamed chayote and carrot with light seasoning."
                 },
                 
             // 26 beverages, fruits
             // Beverages
-            new Dish { Id = DishWater, DishName = "Water", ImageUrl = null, Description = "Single-ingredient beverage: Water." },
+            new Dish { Id = DishWater, DishName = "Water", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777771/Dish/dd13b58f-b3a3-4467-a22f-179b5d2eacbc/WATER.jpg", Description = "Single-ingredient beverage: Water." },
                 new Dish { Id = DishHerbalTea, DishName = "Herbal Tea", ImageUrl = null, Description = "Single-ingredient beverage: Herbal tea." },
                 new Dish { Id = DishAppleJuice, DishName = "Apple Juice", ImageUrl = null, Description = "Single-ingredient beverage: Apple juice." },
                 new Dish { Id = DishOrangeJuice, DishName = "Orange Juice", ImageUrl = null, Description = "Single-ingredient beverage: Orange juice." },
@@ -21622,7 +22011,7 @@ namespace Server.Infrastructure.Data
                 new Dish { Id = DishCarrotJuice, DishName = "Carrot Juice", ImageUrl = null, Description = "Single-ingredient beverage: Carrot juice." },
                 new Dish { Id = DishTomatoJuice, DishName = "Tomato Juice", ImageUrl = null, Description = "Single-ingredient beverage: Tomato juice." },
                 new Dish { Id = DishCranberryJuice, DishName = "Cranberry Juice", ImageUrl = null, Description = "Single-ingredient beverage: Cranberry juice." },
-                new Dish { Id = DishGrapeJuice, DishName = "Nước Nho (Grape Juice", ImageUrl = null, Description = "Single-ingredient beverage: Grape juice." },
+                new Dish { Id = DishGrapeJuice, DishName = "Grape Juice", ImageUrl = null, Description = "Single-ingredient beverage: Grape juice." },
                 new Dish { Id = DishLemonade, DishName = "Lemonade", ImageUrl = null, Description = "Single-ingredient beverage: Lemonade." },
                 new Dish { Id = DishSmoothie, DishName = "Smoothie General Type", ImageUrl = null, Description = "Single-ingredient beverage: Fruit smoothie base." },
                 new Dish { Id = DishAlmondMilk, DishName = "Almond Milk", ImageUrl = null, Description = "Single-ingredient beverage: Almond milk." },
@@ -21632,19 +22021,19 @@ namespace Server.Infrastructure.Data
                 new Dish { Id = DishBlackTea, DishName = "Black Tea", ImageUrl = null, Description = "Single-ingredient beverage: Black tea." },
                 //new Dish { Id = DishCarbonatedWater, DishName = "Nước Có Gas (Carbonated Water)", ImageUrl = null, Description = "Single-ingredient beverage: Carbonated water." },
                 //new Dish { Id = DishBottledWater, DishName = "Nước Đóng Chai (Bottled Water)", ImageUrl = null, Description = "Single-ingredient beverage: Bottled water." },
-                new Dish { Id = DishSkimmedUnSweetenMilk, DishName = "Skimmed and Unsweetened Milk", ImageUrl = null, Description = "Single-ingredient beverage: Skimmed and Unsweetened Milk." },
+                new Dish { Id = DishSkimmedUnSweetenMilk, DishName = "Skimmed and Unsweetened Milk", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757776330/Dish/0e33d3ed-0ce9-485b-8e26-18475610a9ad/SUA11.jpg", Description = "Single-ingredient beverage: Skimmed and Unsweetened Milk." },
 
                 // Fruits
-                new Dish { Id = DishOrange, DishName = "Orange", ImageUrl = null, Description = "Single-ingredient fruit: Orange." },
-                new Dish { Id = DishApple, DishName = "Apple", ImageUrl = null, Description = "Single-ingredient fruit: Apple." },
+                new Dish { Id = DishOrange, DishName = "Orange", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777929/Dish/a2c117f9-c6cc-4ebe-8fb3-25cee4d1f288/TRAICAY7.jpg", Description = "Single-ingredient fruit: Orange." },
+                new Dish { Id = DishApple, DishName = "Apple", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757771314/Dish/220101b6-01bc-4d55-9193-80b7d72622bb/TRAICAY122.jpg", Description = "Single-ingredient fruit: Apple." },
                 new Dish { Id = DishWatermelon, DishName = "Watermelon", ImageUrl = null, Description = "Single-ingredient fruit: Watermelon." },
-                new Dish { Id = DishGrapefruit, DishName = "Grapefruit", ImageUrl = null, Description = "Single-ingredient fruit: Grapefruit." },
+                new Dish { Id = DishGrapefruit, DishName = "Grapefruit", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757779058/Dish/1e934367-3f12-4190-a536-924bedea0743/TRAICAY1.jpg", Description = "Single-ingredient fruit: Grapefruit." },
                 new Dish { Id = DishStrawberry, DishName = "Strawberry", ImageUrl = null, Description = "Single-ingredient fruit: Strawberry." },
                 new Dish { Id = DishRaspberry, DishName = "Raspberry", ImageUrl = null, Description = "Single-ingredient fruit: Raspberry." },
                 new Dish { Id = DishPineapple, DishName = "Pineapple", ImageUrl = null, Description = "Single-ingredient fruit: Pineapple." },
-                new Dish { Id = DishRambutan, DishName = "Rambutan", ImageUrl = null, Description = "Single-ingredient fruit: Rambutan." },
-                new Dish { Id = DishBanana, DishName = "Banana", ImageUrl = null, Description = "Single-ingredient fruit: Banana." },
-                new Dish { Id = DishPear, DishName = "Pear", ImageUrl = null, Description = "Single-ingredient fruit: Pear." }
+                new Dish { Id = DishRambutan, DishName = "Rambutan", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778778/Dish/b171e8ad-2fc6-4baa-91ef-70959700866e/TRAICAY8.jpg", Description = "Single-ingredient fruit: Rambutan." },
+                new Dish { Id = DishBanana, DishName = "Banana", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757779947/Dish/b69810fa-ed83-44d2-af59-ad1aa7b3e89e/TRAICAY18.jpg", Description = "Single-ingredient fruit: Banana." },
+                new Dish { Id = DishPear, DishName = "Pear", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757776470/Dish/bcfa322e-cabf-4945-bef1-4b73c98fd2ff/TRAICAY56.jpg", Description = "Single-ingredient fruit: Pear." }
                 //new Dish { Id = DishTamarind, DishName = "Me (Tamarind)", ImageUrl = null, Description = "Single-ingredient fruit: Tamarind." }
             );
             
@@ -22003,6 +22392,10 @@ namespace Server.Infrastructure.Data
             new FoodDish { FoodId = FSoupPowder, DishId = DishSteamedChayoteAndCarrot, Amount = 1, Unit = "g" },
             new FoodDish { FoodId = FFishSauce, DishId = DishSteamedChayoteAndCarrot, Amount = 1, Unit = "g" },
 
+            // Dish 37: Yogurt
+            new FoodDish { FoodId = FYogurt, DishId = DishYogurt, Amount = 100, Unit = "g" },
+
+            
             // 26 Fruits and Beverages
             // Beverages (use ml)
             new FoodDish { FoodId = FWater, DishId = DishWater, Amount = 250, Unit = "ml" },
