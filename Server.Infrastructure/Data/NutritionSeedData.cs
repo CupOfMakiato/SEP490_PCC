@@ -298,6 +298,12 @@ namespace Server.Infrastructure.Data
             var FBokchoy = Guid.NewGuid();
             var FSawleaf = Guid.NewGuid();
 
+            //
+            var FCornstarch = Guid.NewGuid();
+            var FDragonFruit = Guid.NewGuid();
+            var FPiperLolotLeaf = Guid.NewGuid();
+            var FMango = Guid.NewGuid();
+
             modelBuilder.Entity<Food>().HasData(
                 // --- Meat ---
                 new Food
@@ -1985,6 +1991,54 @@ namespace Server.Infrastructure.Data
                     ImageUrl = null,
                     PregnancySafe = true,
                     SafetyNote = "Safe when cooked. Must be thoroughly cooked before consumption. Do not eat raw.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+                new Food
+                {
+                    Id = FCornstarch,
+                    Name = "Cornstarch",
+                    Description = "Refined starch from corn endosperm; nearly pure carbohydrate used for thickening.",
+                    FoodCategoryId = FCBakedPr,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "High in refined carbs; use in small amounts for thickening.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+                new Food
+                {
+                    Id = FDragonFruit,
+                    Name = "Dragon Fruit",
+                    Description = "Tropical cactus fruit (pitaya) with mild sweetness and small edible seeds.",
+                    FoodCategoryId = FCFruits,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Wash and peel before eating; seeds are edible.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+                new Food
+                {
+                    Id = FPiperLolotLeaf,
+                    Name = "Piper Lolot Leaf (Lá Lốt)",
+                    Description = "Aromatic pepperleaf used for wrapping and seasoning in Vietnamese cooking.",
+                    FoodCategoryId = FCGreen,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Culinary amounts are typical; wash thoroughly before use.",
+                    IsDeleted = false,
+                    CreationDate = new DateTime(2025, 09, 05)
+                },
+                new Food
+                {
+                    Id = FMango,
+                    Name = "Mango",
+                    Description = "Sweet tropical drupe with orange-yellow flesh rich in vitamin C and A precursors.",
+                    FoodCategoryId = FCFruits,
+                    ImageUrl = null,
+                    PregnancySafe = true,
+                    SafetyNote = "Peel before eating; moderate portion due to sugars.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -21117,8 +21171,96 @@ namespace Server.Infrastructure.Data
                 new FoodNutrient { FoodId = FSawleaf, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 52.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FSawleaf, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 18.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
                 new FoodNutrient { FoodId = FSawleaf, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
-                new FoodNutrient { FoodId = FSawleaf, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.011, TotalWeight = 100.0, FoodEquivalent = "100g" }
-                            );
+                new FoodNutrient { FoodId = FSawleaf, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.011, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 381, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.3, TotalWeight = 100.0, FoodEquivalent = "100g" }, // ~0.26–0.3 g
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" }, // ~0.05–0.1 g
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 91.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" }, // 0–1 g fiber
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 2, TotalWeight = 100.0, FoodEquivalent = "100g" }, // trace
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.00, TotalWeight = 100.0, FoodEquivalent = "100g" }, // near zero
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.00, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.00, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FCornstarch, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.01, TotalWeight = 100.0, FoodEquivalent = "100g" }, // ~9 mg Na ≈ 0.01 g salt
+
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 57, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.8, TotalWeight = 100.0, FoodEquivalent = "100g" }, // between 0.36–1.18
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.3, TotalWeight = 100.0, FoodEquivalent = "100g" }, // 0.14–0.4
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 15.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 18, TotalWeight = 100.0, FoodEquivalent = "100g" }, // typical small amount
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.3, TotalWeight = 100.0, FoodEquivalent = "100g" }, // ~0.1–0.3
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" }, // pitaya not a retinol source
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.1, TotalWeight = 100.0, FoodEquivalent = "100g" }, // seeds small E
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.04, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.05, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.05, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 7, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 9.0, TotalWeight = 100.0, FoodEquivalent = "100g" }, // 5–10 mg typical
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 6.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FDragonFruit, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.00, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 50, TotalWeight = 100.0, FoodEquivalent = "100g" }, // ~50–60 kcal
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 4.3, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.4, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 10.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 2.5, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 260, TotalWeight = 100.0, FoodEquivalent = "100g" }, // source figures
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 3.0, TotalWeight = 100.0, FoodEquivalent = "100g" }, // proximate leafy greens
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 5400, TotalWeight = 100.0, FoodEquivalent = "100g" }, // β-carotene → vitamin A activity (approx)
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 1.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 300, TotalWeight = 100.0, FoodEquivalent = "100g" }, // leafy greens high K (approx)
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.05, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.08, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.10, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 80, TotalWeight = 100.0, FoodEquivalent = "100g" }, // leafy avg
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 20.0, TotalWeight = 100.0, FoodEquivalent = "100g" }, // ~20–35 mg
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 10.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FPiperLolotLeaf, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.01, TotalWeight = 100.0, FoodEquivalent = "100g" },
+
+                new FoodNutrient { FoodId = FMango, NutrientId = calorieId, NutrientEquivalent = 1.0, Unit = "kcal", AmountPerUnit = 60, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = proteinId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.82, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = lipidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.38, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = glucidId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 15.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = fiberId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 1.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = calciumId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 11, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = ironId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.16, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = zincId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.09, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = iodineId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminAId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 54, TotalWeight = 100.0, FoodEquivalent = "100g" }, // as retinol activity equivalent
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminDId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminEId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.9, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminKId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 4.2, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminB1Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.03, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminB2Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.04, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminB6Id, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 0.12, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = folateId, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 43, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminB12Id, NutrientEquivalent = 1e-06, Unit = "μg", AmountPerUnit = 0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = vitaminCId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 36.0, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = cholineId, NutrientEquivalent = 0.001, Unit = "mg", AmountPerUnit = 7.6, TotalWeight = 100.0, FoodEquivalent = "100g" },
+                new FoodNutrient { FoodId = FMango, NutrientId = saltId, NutrientEquivalent = 1.0, Unit = "g", AmountPerUnit = 0.00, TotalWeight = 100.0, FoodEquivalent = "100g" }
+            );
             // ---------------------------------------------------
             // DISH
             // ---------------------------------------------------
@@ -21150,6 +21292,52 @@ namespace Server.Infrastructure.Data
             var DishComChienThitBoRauCu = Guid.NewGuid();
             var DishCanhCaiXanh = Guid.NewGuid();
             var DishPhoBo = Guid.NewGuid();
+
+            // --------------------------------
+            var DishWater = Guid.NewGuid();
+            var DishHerbalTea = Guid.NewGuid();
+            var DishAppleJuice = Guid.NewGuid();
+            var DishOrangeJuice = Guid.NewGuid();
+            var DishPineappleJuice = Guid.NewGuid();
+            var DishCarrotJuice = Guid.NewGuid();
+            var DishTomatoJuice = Guid.NewGuid();
+            var DishCranberryJuice = Guid.NewGuid();
+            var DishGrapeJuice = Guid.NewGuid();
+            var DishLemonade = Guid.NewGuid();
+            var DishSmoothie = Guid.NewGuid();
+            var DishAlmondMilk = Guid.NewGuid();
+            var DishRiceMilk = Guid.NewGuid();
+            //var DishAloeVeraJuice = Guid.NewGuid();
+            var DishGreenTea = Guid.NewGuid();
+            var DishBlackTea = Guid.NewGuid();
+            //var DishCarbonatedWater = Guid.NewGuid();
+            //var DishBottledWater = Guid.NewGuid();
+
+            var DishOrange = Guid.NewGuid();
+            var DishApple = Guid.NewGuid();
+            var DishWatermelon = Guid.NewGuid();
+            var DishGrapefruit = Guid.NewGuid();
+            var DishStrawberry = Guid.NewGuid();
+            var DishRaspberry = Guid.NewGuid();
+            var DishPineapple = Guid.NewGuid();
+            var DishRambutan = Guid.NewGuid();
+            var DishBanana = Guid.NewGuid();
+            var DishPear = Guid.NewGuid();
+            //var DishTamarind = Guid.NewGuid();
+            var DishSkimmedUnSweetenMilk = Guid.NewGuid();
+            //--
+            var DishSteamedChineseCabbage = Guid.NewGuid();
+            var DishCheese = Guid.NewGuid(); 
+            var DishYogurt = Guid.NewGuid();
+            var DishCocktailRolls = Guid.NewGuid();
+            var DishOkraSourSoupWithPork = Guid.NewGuid();
+            var DishMackerelScadTomatoSaute = Guid.NewGuid();
+            var DishTonkinCreeperSoup = Guid.NewGuid();
+            var DishStirFriedPumpkinGarlic = Guid.NewGuid();
+            var DishCreamyPurpleYamSoup = Guid.NewGuid();
+            var DishFriedChickenWithTamarindSauce = Guid.NewGuid();
+            var DishSeaweedSoupWithTofu = Guid.NewGuid();
+            var DishSteamedChayoteAndCarrot = Guid.NewGuid();
 
             modelBuilder.Entity<Dish>().HasData(
                 new Dish
@@ -21274,9 +21462,9 @@ namespace Server.Infrastructure.Data
                 new Dish
                 {
                     Id = DishCaChienNuocMam,
-                    DishName = "Pan-fried Fish with Fish Sauce",
+                    DishName = "Pan-fried Mackerel with Fish Sauce",
                     ImageUrl = null,
-                    Description = "Crispy fried cod with caramelized fish sauce glaze"
+                    Description = "Crispy fried mackerel with caramelized fish sauce glaze"
                 },
                 new Dish
                 {
@@ -21337,7 +21525,127 @@ namespace Server.Infrastructure.Data
                     DishName = "Beef Noodle Soup (Beef Pho)",
                     ImageUrl = null,
                     Description = "Traditional Vietnamese noodle soup with thinly sliced beef, herbs, and aromatic broth"
-                }
+                },
+                // --------------
+                new Dish
+                {
+                    Id = DishSteamedChineseCabbage,
+                    DishName = "Steamed Chinese Cabbage",
+                    ImageUrl = null,
+                    Description = "Side dish that can be eaten with other main dishes or diped in fish sauce"
+                },
+                new Dish
+                {
+                    Id = DishCheese,
+                    DishName = "Cheese (General Type)",
+                    ImageUrl = null,
+                    Description = "A Type of cheese you can eat in as a snack"
+                },
+                new Dish
+                {
+                    Id = DishYogurt,
+                    DishName = "Yogurt",
+                    ImageUrl = null,
+                    Description = "Refreshing dish you can eat it as a snack"
+                },
+                new Dish
+                {
+                    Id = DishCocktailRolls,
+                    DishName = "Cocktail Rolls",
+                    ImageUrl = null,
+                    Description = "Rice paper rolls with mint, pear, shrimp, apple, and a light mayo dressing."
+                },
+                new Dish
+                {
+                    Id = DishOkraSourSoupWithPork,
+                    DishName = "Okra Sour Soup With Pork",
+                    ImageUrl = null,
+                    Description = "Vietnamese-style sweet-sour okra soup with pork, tamarind, tomatoes, and herbs."
+                },
+                new Dish
+                {
+                    Id = DishMackerelScadTomatoSaute,
+                    DishName = "Mackerel Scad Tomato Saute",
+                    ImageUrl = null,
+                    Description = "Pan-sautéed mackerel scad with shallots, garlic, tomato, and seasoning."
+                },
+                new Dish
+                {
+                    Id = DishTonkinCreeperSoup,
+                    DishName = "Tonkin Creeper Soup",
+                    ImageUrl = null,
+                    Description = "Light soup featuring Tonkinese creeper, corn, pork, and aromatics."
+                },
+                new Dish
+                {
+                    Id = DishStirFriedPumpkinGarlic,
+                    DishName = "Stir-Fried Pumpkin and Garlic",
+                    ImageUrl = null,
+                    Description = "Stir-fried pumpkin with garlic, spring onion, enoki mushroom, and coriander."
+                },
+                new Dish
+                {
+                    Id = DishCreamyPurpleYamSoup,
+                    DishName = "Creamy Purple Yam Soup",
+                    ImageUrl = null,
+                    Description = "Creamy purple yam soup with shrimp, herbs, and aromatics."
+                },
+                new Dish
+                {
+                    Id = DishFriedChickenWithTamarindSauce,
+                    DishName = "Fried Chicken with Tamarind Sauce",
+                    ImageUrl = null,
+                    Description = "Crispy fried chicken tossed in a tangy tamarind sauce with aromatics and seasonings."
+                },
+                new Dish
+                {
+                    Id = DishSeaweedSoupWithTofu,
+                    DishName = "Seaweed Soup With Tofu",
+                    ImageUrl = null,
+                    Description = "Light seaweed soup with tofu, aromatics, and gentle seasoning."
+                },
+                new Dish
+                {
+                    Id = DishSteamedChayoteAndCarrot,
+                    DishName = "Steamed Chayote and Carrot",
+                    ImageUrl = null,
+                    Description = "Simple steamed chayote and carrot with light seasoning."
+                },
+                
+            // 26 beverages, fruits
+            // Beverages
+            new Dish { Id = DishWater, DishName = "Water", ImageUrl = null, Description = "Single-ingredient beverage: Water." },
+                new Dish { Id = DishHerbalTea, DishName = "Herbal Tea", ImageUrl = null, Description = "Single-ingredient beverage: Herbal tea." },
+                new Dish { Id = DishAppleJuice, DishName = "Apple Juice", ImageUrl = null, Description = "Single-ingredient beverage: Apple juice." },
+                new Dish { Id = DishOrangeJuice, DishName = "Orange Juice", ImageUrl = null, Description = "Single-ingredient beverage: Orange juice." },
+                new Dish { Id = DishPineappleJuice, DishName = "Pineapple Juice", ImageUrl = null, Description = "Single-ingredient beverage: Pineapple juice." },
+                new Dish { Id = DishCarrotJuice, DishName = "Carrot Juice", ImageUrl = null, Description = "Single-ingredient beverage: Carrot juice." },
+                new Dish { Id = DishTomatoJuice, DishName = "Tomato Juice", ImageUrl = null, Description = "Single-ingredient beverage: Tomato juice." },
+                new Dish { Id = DishCranberryJuice, DishName = "Cranberry Juice", ImageUrl = null, Description = "Single-ingredient beverage: Cranberry juice." },
+                new Dish { Id = DishGrapeJuice, DishName = "Nước Nho (Grape Juice", ImageUrl = null, Description = "Single-ingredient beverage: Grape juice." },
+                new Dish { Id = DishLemonade, DishName = "Lemonade", ImageUrl = null, Description = "Single-ingredient beverage: Lemonade." },
+                new Dish { Id = DishSmoothie, DishName = "Smoothie General Type", ImageUrl = null, Description = "Single-ingredient beverage: Fruit smoothie base." },
+                new Dish { Id = DishAlmondMilk, DishName = "Almond Milk", ImageUrl = null, Description = "Single-ingredient beverage: Almond milk." },
+                new Dish { Id = DishRiceMilk, DishName = "Rice Milk", ImageUrl = null, Description = "Single-ingredient beverage: Rice milk." },
+                //new Dish { Id = DishAloeVeraJuice, DishName = "Nước Nha Đam (Aloe Vera Juice)", ImageUrl = null, Description = "Single-ingredient beverage: Aloe vera juice." },
+                new Dish { Id = DishGreenTea, DishName = "Green Tea", ImageUrl = null, Description = "Single-ingredient beverage: Green tea." },
+                new Dish { Id = DishBlackTea, DishName = "Black Tea", ImageUrl = null, Description = "Single-ingredient beverage: Black tea." },
+                //new Dish { Id = DishCarbonatedWater, DishName = "Nước Có Gas (Carbonated Water)", ImageUrl = null, Description = "Single-ingredient beverage: Carbonated water." },
+                //new Dish { Id = DishBottledWater, DishName = "Nước Đóng Chai (Bottled Water)", ImageUrl = null, Description = "Single-ingredient beverage: Bottled water." },
+                new Dish { Id = DishSkimmedUnSweetenMilk, DishName = "Skimmed and Unsweetened Milk", ImageUrl = null, Description = "Single-ingredient beverage: Skimmed and Unsweetened Milk." },
+
+                // Fruits
+                new Dish { Id = DishOrange, DishName = "Orange", ImageUrl = null, Description = "Single-ingredient fruit: Orange." },
+                new Dish { Id = DishApple, DishName = "Apple", ImageUrl = null, Description = "Single-ingredient fruit: Apple." },
+                new Dish { Id = DishWatermelon, DishName = "Watermelon", ImageUrl = null, Description = "Single-ingredient fruit: Watermelon." },
+                new Dish { Id = DishGrapefruit, DishName = "Grapefruit", ImageUrl = null, Description = "Single-ingredient fruit: Grapefruit." },
+                new Dish { Id = DishStrawberry, DishName = "Strawberry", ImageUrl = null, Description = "Single-ingredient fruit: Strawberry." },
+                new Dish { Id = DishRaspberry, DishName = "Raspberry", ImageUrl = null, Description = "Single-ingredient fruit: Raspberry." },
+                new Dish { Id = DishPineapple, DishName = "Pineapple", ImageUrl = null, Description = "Single-ingredient fruit: Pineapple." },
+                new Dish { Id = DishRambutan, DishName = "Rambutan", ImageUrl = null, Description = "Single-ingredient fruit: Rambutan." },
+                new Dish { Id = DishBanana, DishName = "Banana", ImageUrl = null, Description = "Single-ingredient fruit: Banana." },
+                new Dish { Id = DishPear, DishName = "Pear", ImageUrl = null, Description = "Single-ingredient fruit: Pear." }
+                //new Dish { Id = DishTamarind, DishName = "Me (Tamarind)", ImageUrl = null, Description = "Single-ingredient fruit: Tamarind." }
             );
             
             // ---------------------------------------------------
@@ -21503,7 +21811,7 @@ namespace Server.Infrastructure.Data
             new FoodDish { FoodId = FFishSauce, DishId = DishRauXaoCuQua, Amount = 4, Unit = "g" },
 
             // Dish 18: Pan-fried Fish with Fish Sauce
-            new FoodDish { FoodId = FCod, DishId = DishCaChienNuocMam, Amount = 100, Unit = "g" },
+            new FoodDish { FoodId = FMackerel, DishId = DishCaChienNuocMam, Amount = 100, Unit = "g" },
             new FoodDish { FoodId = FFishSauce, DishId = DishCaChienNuocMam, Amount = 8, Unit = "g" },
             new FoodDish { FoodId = FSugar, DishId = DishCaChienNuocMam, Amount = 4, Unit = "g" },
             new FoodDish { FoodId = FGarlic, DishId = DishCaChienNuocMam, Amount = 6, Unit = "g" },
@@ -21598,7 +21906,137 @@ namespace Server.Infrastructure.Data
             new FoodDish { FoodId = FStarAnise, DishId = DishPhoBo, Amount = 2, Unit = "g" },
             new FoodDish { FoodId = FCinnamon, DishId = DishPhoBo, Amount = 1, Unit = "g" },
             new FoodDish { FoodId = FFishSauce, DishId = DishPhoBo, Amount = 6, Unit = "g" },
-            new FoodDish { FoodId = FTableSalt, DishId = DishPhoBo, Amount = 3, Unit = "g" }
+            new FoodDish { FoodId = FTableSalt, DishId = DishPhoBo, Amount = 3, Unit = "g" },
+
+            // Dish 27: Steamed Chinese Cabbage
+            new FoodDish { FoodId = FChineseCabbage, DishId = DishSteamedChineseCabbage, Amount = 80, Unit = "g" },
+            new FoodDish { FoodId = FSoupPowder, DishId = DishSteamedChineseCabbage, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FFishSauce, DishId = DishSteamedChineseCabbage, Amount = 1, Unit = "g" },
+            
+            // Dish 28: Cocktail Rolls
+            new FoodDish { FoodId = FRicePaper, DishId = DishCocktailRolls, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FMint, DishId = DishCocktailRolls, Amount = 5, Unit = "g" },
+            new FoodDish { FoodId = FPear, DishId = DishCocktailRolls, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FShrimp, DishId = DishCocktailRolls, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FApple, DishId = DishCocktailRolls, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishCocktailRolls, Amount = 44, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishCocktailRolls, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FMayo, DishId = DishCocktailRolls, Amount = 4, Unit = "g" },
+
+            // Dish 29: Okra Sour Soup With Pork
+            new FoodDish { FoodId = FSawleaf, DishId = DishOkraSourSoupWithPork, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FWater, DishId = DishOkraSourSoupWithPork, Amount = 200, Unit = "ml" },
+            new FoodDish { FoodId = FTomato, DishId = DishOkraSourSoupWithPork, Amount = 20, Unit = "g" }, 
+            new FoodDish { FoodId = FPork, DishId = DishOkraSourSoupWithPork, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FShallots, DishId = DishOkraSourSoupWithPork, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FTamarind, DishId = DishOkraSourSoupWithPork, Amount = 3, Unit = "g" },
+            new FoodDish { FoodId = FOkra, DishId = DishOkraSourSoupWithPork, Amount = 30, Unit = "g" },
+            new FoodDish { FoodId = FCilantro, DishId = DishOkraSourSoupWithPork, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FSugar, DishId = DishOkraSourSoupWithPork, Amount = 3, Unit = "g" },
+            new FoodDish { FoodId = FFishSauce, DishId = DishOkraSourSoupWithPork, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishOkraSourSoupWithPork, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FSoupPowder, DishId = DishOkraSourSoupWithPork, Amount = 2, Unit = "g" },
+
+            // Dish 30: Mackerel Scad Tomato Saute
+            new FoodDish { FoodId = FShallots, DishId = DishMackerelScadTomatoSaute, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FGarlic, DishId = DishMackerelScadTomatoSaute, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FMackerelScad, DishId = DishMackerelScadTomatoSaute, Amount = 80, Unit = "g" },
+            new FoodDish { FoodId = FTomato, DishId = DishMackerelScadTomatoSaute, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishMackerelScadTomatoSaute, Amount = 4, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishMackerelScadTomatoSaute, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FTableSalt, DishId = DishMackerelScadTomatoSaute, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FBlackPepper, DishId = DishMackerelScadTomatoSaute, Amount = 1, Unit = "g" },
+
+            // Dish 31: Tonkin Creeper Soup
+            new FoodDish { FoodId = FShallots, DishId = DishTonkinCreeperSoup, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FTonkineseCreeper, DishId = DishTonkinCreeperSoup, Amount = 50, Unit = "g" },
+            new FoodDish { FoodId = FCorn, DishId = DishTonkinCreeperSoup, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FWater, DishId = DishTonkinCreeperSoup, Amount = 200, Unit = "ml" },
+            new FoodDish { FoodId = FPork, DishId = DishTonkinCreeperSoup, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishTonkinCreeperSoup, Amount = 2, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishTonkinCreeperSoup, Amount = 3, Unit = "g" },
+
+            // Dish 32: Stir Fried Pumpkin Garlic
+            new FoodDish { FoodId = FSpringOnion, DishId = DishStirFriedPumpkinGarlic, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FEnokiMushroom, DishId = DishStirFriedPumpkinGarlic, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FGarlic, DishId = DishStirFriedPumpkinGarlic, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FPumpkin, DishId = DishStirFriedPumpkinGarlic, Amount = 50, Unit = "g" },
+            new FoodDish { FoodId = FCoriander, DishId = DishStirFriedPumpkinGarlic, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishStirFriedPumpkinGarlic, Amount = 4, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishStirFriedPumpkinGarlic, Amount = 2, Unit = "g" },
+
+            // Dish 33: Creamy Purple Yam Soup
+            new FoodDish { FoodId = FCilantro, DishId = DishCreamyPurpleYamSoup, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FSawleaf, DishId = DishCreamyPurpleYamSoup, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FWater, DishId = DishCreamyPurpleYamSoup, Amount = 200, Unit = "ml" },
+            new FoodDish { FoodId = FShallots, DishId = DishCreamyPurpleYamSoup, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FPurpleYam, DishId = DishCreamyPurpleYamSoup, Amount = 50, Unit = "g" },
+            new FoodDish { FoodId = FShrimp, DishId = DishCreamyPurpleYamSoup, Amount = 10, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishCreamyPurpleYamSoup, Amount = 2, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishCreamyPurpleYamSoup, Amount = 4, Unit = "g" },
+
+            // Dish 34: Fried Chicken With Tamarind Sauce
+            new FoodDish { FoodId = FGarlic, DishId = DishFriedChickenWithTamarindSauce, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FChicken, DishId = DishFriedChickenWithTamarindSauce, Amount = 80, Unit = "g" },
+            new FoodDish { FoodId = FShallots, DishId = DishFriedChickenWithTamarindSauce, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FTamarind, DishId = DishFriedChickenWithTamarindSauce, Amount = 3, Unit = "g" },
+            new FoodDish { FoodId = FChilliSauce, DishId = DishFriedChickenWithTamarindSauce, Amount = 2, Unit = "g" },
+            new FoodDish { FoodId = FFishSauce, DishId = DishFriedChickenWithTamarindSauce, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FCornstarch, DishId = DishFriedChickenWithTamarindSauce, Amount = 3, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishFriedChickenWithTamarindSauce, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FSugar, DishId = DishFriedChickenWithTamarindSauce, Amount = 2, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishFriedChickenWithTamarindSauce, Amount = 66, Unit = "g" },
+
+            // Dish 35: Seaweed Soup With Tofu
+            new FoodDish { FoodId = FCoriander, DishId = DishSeaweedSoupWithTofu, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FSeaweed, DishId = DishSeaweedSoupWithTofu, Amount = 5, Unit = "g" },
+            new FoodDish { FoodId = FTofu, DishId = DishSeaweedSoupWithTofu, Amount = 20, Unit = "g" },
+            new FoodDish { FoodId = FWater, DishId = DishSeaweedSoupWithTofu, Amount = 150, Unit = "g" }, // use "ml" if liquids are tracked by volume in your schema
+            new FoodDish { FoodId = FShallots, DishId = DishSeaweedSoupWithTofu, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FVegetableOil, DishId = DishSeaweedSoupWithTofu, Amount = 2, Unit = "g" },
+            new FoodDish { FoodId = FMSG, DishId = DishSeaweedSoupWithTofu, Amount = 2, Unit = "g" },
+            new FoodDish { FoodId = FSoupPowder, DishId = DishSeaweedSoupWithTofu, Amount = 1, Unit = "g" },
+
+            // Dish 36: Steamed Chayote and Carrot
+            new FoodDish { FoodId = FChayote, DishId = DishSteamedChayoteAndCarrot, Amount = 40, Unit = "g" },
+            new FoodDish { FoodId = FCarrot, DishId = DishSteamedChayoteAndCarrot, Amount = 40, Unit = "g" },
+            new FoodDish { FoodId = FSoupPowder, DishId = DishSteamedChayoteAndCarrot, Amount = 1, Unit = "g" },
+            new FoodDish { FoodId = FFishSauce, DishId = DishSteamedChayoteAndCarrot, Amount = 1, Unit = "g" },
+
+            // 26 Fruits and Beverages
+            // Beverages (use ml)
+            new FoodDish { FoodId = FWater, DishId = DishWater, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FHerbalTea, DishId = DishHerbalTea, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FAppleJuice, DishId = DishAppleJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FOrangeJuice, DishId = DishOrangeJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FPineappleJuice, DishId = DishPineappleJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FCarrotJuice, DishId = DishCarrotJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FTomatoJuice, DishId = DishTomatoJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FCranberryJuice, DishId = DishCranberryJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FGrapeJuice, DishId = DishGrapeJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FLemonade, DishId = DishLemonade, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FSmoothie, DishId = DishSmoothie, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FAlmondMilk, DishId = DishAlmondMilk, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FRiceMilk, DishId = DishRiceMilk, Amount = 250, Unit = "ml" },
+            //new FoodDish { FoodId = FAloeVeraJuice, DishId = DishAloeVeraJuice, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FGreenTea, DishId = DishGreenTea, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FBlackTea, DishId = DishBlackTea, Amount = 250, Unit = "ml" },
+            new FoodDish { FoodId = FSkimmedUnSweetenMilk, DishId = DishSkimmedUnSweetenMilk, Amount = 250, Unit = "ml" },
+            //new FoodDish { FoodId = FCarbonatedWater, DishId = DishCarbonatedWater, Amount = 250, Unit = "ml" },
+            //new FoodDish { FoodId = FBottledWater, DishId = DishBottledWater, Amount = 250, Unit = "ml" },
+
+            // Fruits (use g)
+            new FoodDish { FoodId = FOrange, DishId = DishOrange, Amount = 180, Unit = "g" },
+            new FoodDish { FoodId = FApple, DishId = DishApple, Amount = 180, Unit = "g" },
+            new FoodDish { FoodId = FWatermelon, DishId = DishWatermelon, Amount = 200, Unit = "g" },
+            new FoodDish { FoodId = FGrapefruit, DishId = DishGrapefruit, Amount = 180, Unit = "g" },
+            new FoodDish { FoodId = FStrawberry, DishId = DishStrawberry, Amount = 150, Unit = "g" },
+            new FoodDish { FoodId = FRaspberry, DishId = DishRaspberry, Amount = 120, Unit = "g" },
+            new FoodDish { FoodId = FPineapple, DishId = DishPineapple, Amount = 180, Unit = "g" },
+            new FoodDish { FoodId = FRambutan, DishId = DishRambutan, Amount = 150, Unit = "g" },
+            new FoodDish { FoodId = FBanana, DishId = DishBanana, Amount = 150, Unit = "g" },
+            new FoodDish { FoodId = FPear, DishId = DishPear, Amount = 180, Unit = "g" }
+            //new FoodDish { FoodId = FTamarind, DishId = DishTamarind, Amount = 60, Unit = "g" }
 
             // Dish 
             //new FoodDish { FoodId = Fdemo, DishId = demo, Amount = 10, Unit = "g" },
@@ -21613,15 +22051,97 @@ namespace Server.Infrastructure.Data
             // ---------------------------------------------------
             // MEAL
             // ---------------------------------------------------
-            //modelBuilder.Entity<Meal>().HasData(
-            //    new Meal
-            //    {
-            //        Id = Guid.NewGuid(),
-            //        MealType = MealType.Breakfast,
-            //        TotalCalories = 399
-            //    }
-            //);
+            var MealBreakFast1 = Guid.NewGuid();
+            
 
+            var MealLunch1 = Guid.NewGuid();
+            
+
+            var MealDinner1 = Guid.NewGuid();
+
+            var MealSnack1_1 = Guid.NewGuid();
+
+            var MealSnack2_1 = Guid.NewGuid();
+
+            var MealLunch2 = Guid.NewGuid();
+
+            var MealBreakFast2 = Guid.NewGuid();
+
+            var MealDinner2 = Guid.NewGuid();
+
+            var MealSnack1_2 = Guid.NewGuid();
+
+            var MealSnack2_2 = Guid.NewGuid();
+
+            modelBuilder.Entity<Meal>().HasData(
+                new Meal { Id = MealBreakFast1, MealType = MealType.Breakfast },
+
+                new Meal { Id = MealLunch1, MealType = MealType.Lunch },
+
+                new Meal { Id = MealDinner1, MealType = MealType.Dinner },
+
+                new Meal { Id = MealSnack1_1, MealType = MealType.Snack1 },
+
+                new Meal { Id = MealSnack2_1, MealType = MealType.Snack2 },
+
+                new Meal { Id = MealBreakFast2, MealType = MealType.Breakfast },
+
+                new Meal { Id = MealLunch2, MealType = MealType.Lunch },
+
+                //new Meal { Id = MealDinner2, MealType = MealType.Dinner },
+
+                new Meal { Id = MealSnack1_2, MealType = MealType.Snack1 },
+
+                new Meal { Id = MealSnack2_2, MealType = MealType.Snack2 }
+            );
+
+
+            // ---------------------------------------------------
+            // DISH-MEAL
+            // ---------------------------------------------------
+            // test 1 Day
+            modelBuilder.Entity<DishMeal>().HasData(
+                // 1
+
+                new DishMeal { MealId = MealBreakFast1, DishId = DishPhoBo},
+                new DishMeal { MealId = MealBreakFast1, DishId =  DishSkimmedUnSweetenMilk },
+
+                new DishMeal { MealId = MealLunch1, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch1, DishId = DishSteamedChineseCabbage },
+                new DishMeal { MealId = MealLunch1, DishId = DishCreamyPurpleYamSoup },
+                new DishMeal { MealId = MealLunch1, DishId = DishBraisedPorkWithEggs },
+                new DishMeal { MealId = MealLunch1, DishId = DishRambutan },
+
+                new DishMeal { MealId = MealDinner1, DishId = DishTonkinCreeperSoup },
+                new DishMeal { MealId = MealDinner1, DishId = DishGrapefruit },
+                new DishMeal { MealId = MealDinner1, DishId = DishStirFriedPumpkinGarlic },
+                new DishMeal { MealId = MealDinner1, DishId = DishComTrang },
+                new DishMeal { MealId = MealDinner1, DishId = DishMackerelScadTomatoSaute },
+
+
+                new DishMeal { MealId = MealSnack1_1, DishId = DishSkimmedUnSweetenMilk },
+
+                new DishMeal { MealId = MealSnack2_1, DishId = DishYogurt },
+                new DishMeal { MealId = MealSnack2_1, DishId = DishBanana },
+
+                // 2
+
+                new DishMeal { MealId = MealBreakFast2, DishId = DishPhoGa },
+                new DishMeal { MealId = MealBreakFast2, DishId = DishSkimmedUnSweetenMilk },
+
+                new DishMeal { MealId = MealLunch2, DishId = DishSeaweedSoupWithTofu },
+                new DishMeal { MealId = MealLunch2, DishId = DishSteamedChayoteAndCarrot },
+                new DishMeal { MealId = MealLunch2, DishId = DishFriedChickenWithTamarindSauce },
+                new DishMeal { MealId = MealLunch2, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch2, DishId = DishOrange },
+
+                new DishMeal { MealId = MealSnack1_2, DishId = DishYogurt },
+                new DishMeal { MealId = MealSnack1_2, DishId = DishPear },
+
+                new DishMeal { MealId = MealSnack2_2, DishId = DishYogurt },
+                new DishMeal { MealId = MealSnack2_2, DishId = DishApple }
+
+            );
         }
     }
 }
