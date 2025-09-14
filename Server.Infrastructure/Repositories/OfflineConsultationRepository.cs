@@ -46,11 +46,26 @@ namespace Server.Infrastructure.Repositories
                     Status = oc.Status,
                     StartDate = oc.StartDate,
                     EndDate = oc.EndDate,
-                    DayOfWeek = oc.DayOfWeek,
+                    FromMonth = oc.FromMonth,
+                    ToMonth = oc.ToMonth,
                     HealthNote = oc.HealthNote,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()
                         ? oc.Attachments.Where(a => a != null && !a.IsDeleted).ToList()
                         : new List<Media>(),
+                    Schedules = oc.Schedules != null && oc.Schedules.Any()
+                        ? oc.Schedules
+                            .Where(s => s != null && !s.IsDeleted)
+                            .Select(s => new Schedule
+                            {
+                                Id = s.Id,
+                                SlotId = s.SlotId,
+                                DoctorId = s.DoctorId,
+                                OfflineConsultationId = s.OfflineConsultationId,
+                                IsDeleted = s.IsDeleted,
+                                Slot = s.Slot != null && !s.Slot.IsDeleted ? s.Slot : null
+                            })
+                            .ToList()
+                        : new List<Schedule>(),
                     User = oc.User != null && !oc.User.IsDeleted
                         ? new User
                         {
@@ -112,12 +127,13 @@ namespace Server.Infrastructure.Repositories
                     IsDeleted = oc.IsDeleted
                 })
                 .FirstOrDefaultAsync();
-
         }
 
         public async Task<OfflineConsultation?> GetOfflineConsultationByOfflineConsultationIdAsync(Guid offlineConsultationId)
         {
             return await _context.OfflineConsultation
+                .Include(oc => oc.Schedules)
+                    .ThenInclude(s => s.Slot)
                 .FirstOrDefaultAsync(oc => oc.Id == offlineConsultationId && !oc.IsDeleted);
         }
 
@@ -125,6 +141,7 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.OfflineConsultation
                 .Where(oc => oc.CreatedBy == userId && !oc.IsDeleted && oc.Clinic.IsActive)
+                .OrderByDescending(oc => oc.CreationDate)
                 .Select(oc => new OfflineConsultation
                 {
                     Id = oc.Id,
@@ -135,11 +152,15 @@ namespace Server.Infrastructure.Repositories
                     Status = oc.Status,
                     StartDate = oc.StartDate,
                     EndDate = oc.EndDate,
-                    DayOfWeek = oc.DayOfWeek,
+                    FromMonth = oc.FromMonth,
+                    ToMonth = oc.ToMonth,
                     HealthNote = oc.HealthNote,
                     Attachments = oc.Attachments != null && oc.Attachments.Any()
                         ? oc.Attachments.Where(a => a != null && !a.IsDeleted).ToList()
                         : new List<Media>(),
+                    Schedules = oc.Schedules != null && oc.Schedules.Any()
+                        ? oc.Schedules.Where(s => s != null && !s.IsDeleted).ToList()
+                        : new List<Schedule>(),
                     User = oc.User != null && !oc.User.IsDeleted
                         ? new User
                         {
