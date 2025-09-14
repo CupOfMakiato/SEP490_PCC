@@ -57,13 +57,36 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<List<Food>> GetFoodsAsync()
         {
-            return await _context.Food.Include(f => f.FoodNutrients)
-                                        .ThenInclude(fn => fn.Nutrient)
-                                      .Include(f => f.FoodAllergies)
-                                      .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDiseases)
-                                      .ToListAsync();
+            return await _context.Food
+                .AsSplitQuery().
+                AsNoTracking()
+                .Select(fn => new Food
+                {
+                    Id = fn.Id,
+                    Name = fn.Name,
+                    Description = fn.Description,
+                    ImageUrl = fn.ImageUrl,
+                    PregnancySafe = fn.PregnancySafe,
+                    FoodCategoryId = fn.FoodCategoryId,
+                    SafetyNote = fn.SafetyNote,
+                    FoodNutrients = fn.FoodNutrients.Select(n => new FoodNutrient
+                    {
+                        NutrientId = n.NutrientId,
+                        AmountPerUnit = n.AmountPerUnit,
+                        FoodEquivalent = n.FoodEquivalent,
+                        NutrientEquivalent = n.NutrientEquivalent,
+                        TotalWeight = n.TotalWeight,
+                        Unit = n.Unit,
+                        Nutrient = new Nutrient
+                        {
+                            Id = n.Nutrient.Id,
+                            Name = n.Nutrient.Name,
+                        }
+                    }).ToList()
+                })
+                .ToListAsync();
         }
+
 
         public async Task<Food> GetFoodWithFoodNutrient(Guid foodId, Guid NutrientId)
         {
