@@ -33,7 +33,7 @@ namespace Server.Application.HangfireService
             //var today = DateTime.UtcNow.Date;
             var today = _currentTime.GetCurrentTime().Date;
             var reminders = await _unitOfWork.TailoredCheckupReminderRepository.GetAllActiveTailoredCheckupReminders();
-            
+
 
             foreach (var reminder in reminders)
             {
@@ -47,44 +47,34 @@ namespace Server.Application.HangfireService
                     continue;
                 }
 
+                // Calculate recommended start date based on pregnancy weeks
+                if (growthdata?.FirstDayOfLastMenstrualPeriod == default || !reminder.RecommendedStartWeek.HasValue)
+                {
+                    _logger.LogWarning($"Reminder {reminder.Id}: Missing FirstDayOfLastMenstrualPeriod or RecommendedStartWeek.");
+                    continue;
+                }
+
+                var recommendedStartDate = growthdata.FirstDayOfLastMenstrualPeriod
+                    .AddDays(reminder.RecommendedStartWeek.Value * 7);
+                var cleanupDate = recommendedStartDate.AddDays(7);
+
                 switch (reminder.CheckupStatus)
                 {
                     case CheckupStatus.NotScheduled:
-                        //if (reminder.CreationDate == today)
-                        //{
-                        //    await _emailService.SendNewlyCreatedCheckupReminder(email);
-                        //    _logger.LogInformation($"[Hangfire] Sent mewly created checkup reminder email to {email} for reminder ID: {reminder.Id}");
-                        //}
-
-                        //if (reminder.CreationDate <= DateTime.UtcNow.Date.AddMinutes(-1)) //test
-                        if (reminder.CreationDate.AddDays(2) == today)
+                        // Check if we're past the cleanup date - auto-disable reminder
+                        if (today >= cleanupDate)
                         {
-                            await _emailService.SendUnScheduledCheckupReminder(email);
-                            _logger.LogInformation($"[Hangfire] Sent unscheduled checkup reminder email to {email} for reminder ID: {reminder.Id}");
-                        }
-                        break;
-
-                    case CheckupStatus.Scheduled:
-                        if (reminder.ScheduledDate > today && reminder.ScheduledDate <= today.AddDays(3))
-                        //if (reminder.ModificationDate <= DateTime.UtcNow.AddMinutes(-1))
-                        {
-                            await _emailService.SendUpcomingCheckupReminder(email, reason);
-                            _logger.LogInformation($"[Hangfire] Sent upcoming checkup reminder email to {email} for reminder ID: {reminder.Id}");
-                        }
-                        else if (reminder.ScheduledDate < today)
-                        {
-                            reminder.CheckupStatus = CheckupStatus.Missed;
+                            reminder.IsActive = false;
                             reminder.ModificationDate = _currentTime.GetCurrentTime();
                             _unitOfWork.TailoredCheckupReminderRepository.Update(reminder);
-                            // w.i.p send missed checkup reminder email
-                            await _emailService.SendMissedScheduledCheckupReminder(email, reason);
-                            _logger.LogInformation($"[Hangfire] Sent missed scheduled checkup reminder email to {email} for reminder ID: {reminder.Id}");
+                            _logger.LogInformation($"[Hangfire] Auto-disabled reminder ID: {reminder.Id} - past recommended window (cleanup date: {cleanupDate})");
                         }
                         break;
+
                 }
             }
-
             await _unitOfWork.SaveChangeAsync();
+
         }
 
         //public async Task SendEmergencyBiometricAlert(DateTime lastCheckTime)

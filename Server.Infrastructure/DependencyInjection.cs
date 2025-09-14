@@ -84,6 +84,7 @@ namespace Server.Infrastructure
             services.AddScoped<IGoogleService, GoogleService>();
 
             services.AddMemoryCache();
+            services.AddLogging();
 
             services.AddScoped<IRecommendedCheckupReminderService, RecommendedCheckupReminderService>();
             services.AddScoped<INotificationService, NotificationService>();
