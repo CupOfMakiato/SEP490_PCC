@@ -56,7 +56,7 @@ namespace Server.Application.HangfireService
 
                 var recommendedStartDate = growthdata.FirstDayOfLastMenstrualPeriod
                     .AddDays(reminder.RecommendedStartWeek.Value * 7);
-                var cleanupDate = recommendedStartDate.AddDays(7);
+                var cleanupDate = recommendedStartDate.AddDays(14); // delete after 2 weeks
 
                 switch (reminder.CheckupStatus)
                 {
