@@ -75,7 +75,7 @@ namespace Server.API.Controllers
 
             try
             {
-                if (await _energyService.UpdateEnergySuggestion(request))
+                if (!await _energyService.UpdateEnergySuggestion(request))
                     return BadRequest("Update fail");
 
                 return Ok("Update Success");
