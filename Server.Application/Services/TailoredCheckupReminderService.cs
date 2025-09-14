@@ -418,10 +418,10 @@ namespace Server.Application.Services
 
             await _notificationService.CreateNotification(notification, reminder, "TailoredCheckupReminder");
 
-            _logger.LogInformation(
-                $"Created emergency reminder (Weeks {reminder.RecommendedStartWeek}-{reminder.RecommendedEndWeek}) " +
-                $"& sent email to {email} for biometric ID: {bio.Id}, reminder ID: {reminder.Id}"
-            );
+            //_logger.LogInformation(
+            //    $"Created emergency reminder (Weeks {reminder.RecommendedStartWeek}-{reminder.RecommendedEndWeek}) " +
+            //    $"& sent email to {email} for biometric ID: {bio.Id}, reminder ID: {reminder.Id}"
+            //);
         }
 
 
