@@ -367,47 +367,30 @@ namespace Server.Application.Services
 
             await _unitOfWork.SaveChangeAsync();
 
-            // after saving journal then update this too
-            var editBbmDto = new EditBasicBioMetricDTO
+            // after saving journal then maybe update BBM
+            var growthDataUpdated = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(journal.GrowthDataId);
+            if (growthDataUpdated?.BasicBioMetric != null)
             {
-                Id = growthData.BasicBioMetric.Id,
-                WeightKg = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
-                SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
-                DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
-                HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
-                BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
-                Notes = $"System reacored from Journal week {currentWeek}"
-            };
+                // calculate current gestational week
+                var currentGestationalWeek = growthDataUpdated.GetCurrentGestationalAgeInWeeks(today);
 
-            // this service already have savechange sooooo no need to save again
-            await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+                // only sync biometric if journal belongs to "closest" current week
+                if (journal.CurrentWeek == currentGestationalWeek)
+                {
+                    var editBbmDto = new EditBasicBioMetricDTO
+                    {
+                        Id = growthDataUpdated.BasicBioMetric.Id,
+                        WeightKg = journal.CurrentWeight,
+                        SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
+                        DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
+                        HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
+                        BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
+                        Notes = $"System recorded from Journal week {journal.CurrentWeek}"
+                    };
 
-            //var journalDto = new
-            //{
-            //    journal.Id,
-            //    journal.CurrentWeek,
-            //    journal.CurrentWeight,
-            //    journal.SystolicBP,
-            //    journal.DiastolicBP,
-            //    journal.HeartRateBPM,
-            //    journal.BloodSugarLevelMgDl,
-            //    journal.Note,
-            //    Media = journal.Media.Select(m => new { m.FileUrl, m.FileType }),
-            //    Symptoms = journal.JournalSymptoms.Select(js => js.RecordedSymptomId)
-            //};
-
-            //// Send notification after successful journal creation
-            //var notification = new Notification
-            //{
-            //    Id = Guid.NewGuid(),
-            //    Message = $"Your journal entry for week {currentWeek} was created successfully.",
-            //    CreatedBy = CreateNewJournalEntryForCurrentWeekDTO.UserId,
-            //    IsSent = true,
-            //    IsRead = false,
-            //    CreationDate = DateTime.UtcNow.Date
-            //};
-
-            //await _notificationService.CreateNotification(notification, journalDto, "Journal");
+                    await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+                }
+            }
 
             return new Result<object>
             {
@@ -561,15 +544,10 @@ namespace Server.Application.Services
             {
                 // calculate current gestational week
                 var today = _currentTime.GetCurrentTime().Date;
-                int actualWeek = 0;
-                if (growthData.FirstDayOfLastMenstrualPeriod != null)
-                {
-                    var gestationalDays = (today - growthData.FirstDayOfLastMenstrualPeriod.Date).TotalDays;
-                    actualWeek = (int)(gestationalDays / 7) + 1;
-                }
+                var currentGestationalWeek = growthData.GetCurrentGestationalAgeInWeeks(today);
 
                 // only sync biometric if journal belongs to "closest" current week
-                if (journal.CurrentWeek == actualWeek)
+                if (journal.CurrentWeek == currentGestationalWeek)
                 {
                     var editBbmDto = new EditBasicBioMetricDTO
                     {
