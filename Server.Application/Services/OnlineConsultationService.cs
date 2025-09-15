@@ -286,8 +286,22 @@ namespace Server.Application.Services
                 await _emailService.SendEmailAsync(emailUserDTO);
             }
 
-            // notification for online consultation, logic is sent noti after email sent
-            // can't test this yet!!!
+            // update dto payload
+            var onlineConsultationDto = new
+            {
+                onlineConsultation.Id,
+                onlineConsultation.UserId,
+                onlineConsultation.ConsultantId,
+                onlineConsultation.Trimester,
+                onlineConsultation.Date,
+                onlineConsultation.GestationalWeek,
+                onlineConsultation.Summary,
+                onlineConsultation.ConsultantNote,
+                onlineConsultation.UserNote,
+                onlineConsultation.VitalSigns,
+                onlineConsultation.Recommendations,
+                Media = onlineConsultation.Attachments.Select(m => new { m.FileUrl, m.FileType }),
+            };
             var notification = new Notification
             {
                 Id = Guid.NewGuid(),
@@ -298,7 +312,7 @@ namespace Server.Application.Services
                 CreationDate = DateTime.UtcNow.Date
             };
 
-            await _notificationService.CreateNotification(notification, onlineConsultation, "OnlineConsultation");
+            await _notificationService.CreateNotification(notification, onlineConsultationDto, "OnlineConsultation");
 
             return new Result<bool>
             {

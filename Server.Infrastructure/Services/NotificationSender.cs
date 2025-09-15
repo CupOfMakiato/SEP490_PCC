@@ -23,10 +23,10 @@ namespace Server.Infrastructure.Services
             if (NotificationHub._ConnectionsMap.TryGetValue(userId, out var connectionId))
             {
                 await _hubContext.Clients.Client(connectionId)
-                    .SendAsync("ReceiveNotification", new
+                    .SendAsync("ReceivedNotification", new
                     {
-                        Type = type,
-                        Payload = payload
+                        type = type,
+                        payload = payload
                     });
             }
         }

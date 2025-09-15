@@ -612,6 +612,21 @@ namespace Server.Application.Services
                 await _emailService.SendEmailAsync(emailUserDTO);
             }
             // same for onlinecon i did not test this code yet ~
+            // update dto payload
+            var offlineConsulattionDto = new
+            {
+                offlineConsulattion.Id,
+                offlineConsulattion.UserId,
+                offlineConsulattion.ClinicId,
+                offlineConsulattion.DoctorId,
+                offlineConsulattion.CheckupName,
+                offlineConsulattion.ConsultationType,
+                offlineConsulattion.StartDate,
+                offlineConsulattion.EndDate,
+                offlineConsulattion.DayOfWeek, // not sure if this still exists
+                offlineConsulattion.HealthNote,
+                Media = offlineConsulattion.Attachments.Select(m => new { m.FileUrl, m.FileType }),
+            };
             var notification = new Notification
             {
                 Id = Guid.NewGuid(),
@@ -622,7 +637,7 @@ namespace Server.Application.Services
                 CreationDate = DateTime.UtcNow.Date
             };
 
-            await _notificationService.CreateNotification(notification, offlineConsulattion, "OfflineConsultation");
+            await _notificationService.CreateNotification(notification, offlineConsulattionDto, "OfflineConsultation");
 
             // Send email to doctor
             if (!string.IsNullOrEmpty(doctor.User.Email))

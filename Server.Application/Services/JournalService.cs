@@ -617,6 +617,7 @@ namespace Server.Application.Services
                     bbm.BloodSugarLevelMgDl = latestJournal.BloodSugarLevelMgDl;
                     bbm.Notes = $"System rolled back from deleted journal, now using journal week {latestJournal.CurrentWeek}";
                 }
+
                 else
                 {
                     bbm.WeightKg = growthData.PreWeight ?? bbm.WeightKg;
@@ -631,6 +632,30 @@ namespace Server.Application.Services
                 await _unitOfWork.SaveChangeAsync();
 
                 await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id);
+
+                var userId = growthData.GrowthDataCreatedBy?.Id;
+                var notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    Message = "Journal deleted successfully, BBM updated, and related reminders deactivated.",
+                    CreatedBy = userId,
+                    IsSent = true,
+                    IsRead = false,
+                    CreationDate = _currentTime.GetCurrentTime()
+                };
+                var bbmDto = new
+                {
+                    bbm.Id,
+                    bbm.HeightCm,
+                    bbm.WeightKg,
+                    bbm.SystolicBP,
+                    bbm.DiastolicBP,
+                    bbm.HeartRateBPM,
+                    bbm.BloodSugarLevelMgDl,
+                    bbm.Notes
+                };
+
+                await _notificationService.CreateNotification(notification, bbmDto, "BBM");
             }
 
             return new Result<object>

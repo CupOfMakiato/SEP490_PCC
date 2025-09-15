@@ -30,7 +30,7 @@ namespace Server.Infrastructure.Hubs
         {
             if (_ConnectionsMap.TryGetValue(userId, out var connectionId))
             {
-                await Clients.Client(connectionId).SendAsync("ReceiveNotification", message);
+                await Clients.Client(connectionId).SendAsync("ReceivedNotification", message);
             }
         }
         //public async Task Ping()
