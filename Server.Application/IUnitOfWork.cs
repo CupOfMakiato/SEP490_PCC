@@ -37,6 +37,7 @@ namespace Server.Application
         public IChatThreadRepository ChatThreadRepository { get; }
         public IOfflineConsultationRepository OfflineConsultationRepository { get; }
         public ITailoredCheckupReminderRepository TailoredCheckupReminderRepository { get; }
+        public IRecommendedCheckupReminderRepository RecommendedCheckupReminderRepository { get; }
         public INutrientSuggetionRepository NutrientSuggetionRepository { get; }
         public IFeedbackRepository FeedbackRepository { get; }
         public INSAttributeRepository NSAttributeRepository { get; }

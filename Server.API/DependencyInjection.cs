@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Server.API.Middlewares;
 using Server.Application.Interfaces;
 using Server.Infrastructure.Hubs;
+using Server.Infrastructure.ThirdPartyServices;
 using Server.WebAPI.Middlewares;
 using Server.WebAPI.Services;
 using System.Diagnostics;
@@ -13,6 +14,16 @@ namespace Server.WebAPI
     {
         public static IServiceCollection AddWebAPIService(this IServiceCollection services)
         {
+            services.AddHttpClient<IGeminiChatService, GeminiChatService>((provider, client) =>
+            {
+                client.BaseAddress = new Uri("https://generativelanguage.googleapis.com/");
+                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            })
+            .AddTypedClient((httpClient, provider) =>
+            {
+                var config = provider.GetRequiredService<IConfiguration>();
+                return new GeminiChatService(httpClient, config);
+            });
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {

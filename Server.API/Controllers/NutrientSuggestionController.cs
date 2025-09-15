@@ -28,6 +28,63 @@ namespace Server.API.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet("view-all-nutrient-suggestions")]
+        public async Task<IActionResult> ViewNutrientSuggestions()
+        {
+            try
+            {
+                var result = await _nutrientSuggestionService.ViewNutrientSuggestions();
+                if (result.Error != 0)
+                    return BadRequest(result.Message);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("view-nutrient-suggestion-by-id")]
+        public async Task<IActionResult> ViewById([FromQuery] Guid Id)
+        {
+            if (Id == Guid.Empty)
+                return BadRequest("Id is required");
+
+            try
+            {
+                var result = await _nutrientSuggestionService.ViewNutrientSuggestionById(Id);
+                if (result.Error != 0)
+                    return BadRequest(result.Message);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("delete-nutrient-suggestion-by-id")]
+        public async Task<IActionResult> DeleteById([FromQuery] Guid Id)
+        {
+            if (Id == Guid.Empty)
+                return BadRequest("Id is required");
+
+            try
+            {
+                var result = await _nutrientSuggestionService.DeleteNutrientSuggestion(Id);
+                if (result.Error != 0)
+                    return BadRequest(result.Message);
+
+                return Ok("Update Success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] UpdateNutrientSuggestionRequest request)
         {
@@ -91,7 +148,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPost("AddAttribute")]
+        [HttpPut("AddAttribute")]
         public async Task<IActionResult> AddAttribute([FromBody] AddNutrientSuggestionAttributeRequest request)
         {
             if (request.NutrientSuggetionId == Guid.Empty)

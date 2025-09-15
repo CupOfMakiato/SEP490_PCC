@@ -20,7 +20,7 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<AgeGroup> GetAgeGroupById(Guid id)
         {
-            return await _dbSet.Include(ag => ag.EnergySuggestions).Include(ag => ag.NutrientSuggetions).FirstOrDefaultAsync(ag => ag.Id == id);
+            return await _dbSet.Include(ag => ag.EnergySuggestions).Include(ag => ag.NutrientSuggestions).FirstOrDefaultAsync(ag => ag.Id == id);
         }
 
         public async Task<AgeGroup> GetAgeGroupByUserDateOfBirth(DateTime dateOfBirth)
@@ -36,6 +36,11 @@ namespace Server.Infrastructure.Repositories
             return await _dbSet
                 .AsNoTracking()
                 .FirstOrDefaultAsync(ag => ag.FromAge <= 29 && ag.ToAge >= 20);
+        }
+
+        public async Task<Guid> GetAgeGroupIdByAge(int age)
+        {
+            return await _dbSet.AsNoTracking().Where(ag => ag.FromAge < age && age < ag.ToAge).Select(a => a.Id).FirstOrDefaultAsync();
         }
     }
 }

@@ -15,9 +15,38 @@ namespace Server.Infrastructure.Repositories
         {
         }
 
-        public async Task<List<MealDto>> GetMealsWithCalories(Guid caloriesNutrientId)
+        public void DeleteMeal(Meal meal)
+        {
+            _dbSet.Remove(meal);
+        }
+
+        public async Task<List<Meal>> GetMeals()
         {
             return await _dbSet
+                .Include(m => m.DishMeals)
+                    .ThenInclude(dm => dm.Dish)
+                        .ThenInclude(d => d.Foods)
+                            .ThenInclude(fd => fd.Food)
+                                .ThenInclude(f => f.FoodNutrients)
+                                .AsSplitQuery()
+                .ToListAsync();
+        }
+
+        public async Task<Meal> GetMealsById(Guid mealId)
+        {
+            return await _dbSet
+                .Include(m => m.DishMeals)
+                    .ThenInclude(dm => dm.Dish)
+                        .ThenInclude(d => d.Foods)
+                            .ThenInclude(fd => fd.Food)
+                                .ThenInclude(f => f.FoodNutrients)
+                                .AsSplitQuery()
+                .FirstOrDefaultAsync(m => m.Id == mealId);
+        }
+
+        public async Task<List<MealDto>> GetMealsWithCalories(Guid caloriesNutrientId)
+        {
+            var result = await _dbSet
                 .Select(m => new MealDto
                 {
                     MealType = m.MealType,
@@ -26,7 +55,7 @@ namespace Server.Infrastructure.Repositories
                         .SelectMany(fd => fd.Food.FoodNutrients
                             .Where(fn => fn.NutrientId == caloriesNutrientId)
                             .Select(fn => fn.AmountPerUnit * fd.Amount))
-                        .Sum(),
+                        .Sum()/100,
 
                     Dishes = m.DishMeals.Select(dm => new DishDto
                     {
@@ -38,10 +67,12 @@ namespace Server.Infrastructure.Repositories
                             .SelectMany(fd => fd.Food.FoodNutrients
                                 .Where(fn => fn.NutrientId == caloriesNutrientId)
                                 .Select(fn => fn.AmountPerUnit * fd.Amount))
-                            .Sum()
+                            .Sum()/100
                     }).ToList()
                 })
                 .ToListAsync();
+
+            return result;
         }
     }
 }

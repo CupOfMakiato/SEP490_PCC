@@ -2,6 +2,7 @@
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -43,9 +44,9 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.Food.Include(f => f.FoodNutrients)
                                         .ThenInclude(fn => fn.Nutrient)
-                                      .Include(f => f.FoodAllergy)
+                                      .Include(f => f.FoodAllergies)
                                       .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDiseaseWarning)
+                                      .Include(f => f.FoodDiseases)
                                       .FirstOrDefaultAsync(f => f.Id.Equals(foodId));
         }
 
@@ -56,21 +57,101 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<List<Food>> GetFoodsAsync()
         {
-            return await _context.Food.Include(f => f.FoodNutrients)
-                                        .ThenInclude(fn => fn.Nutrient)
-                                      .Include(f => f.FoodAllergy)
-                                      .Include(f => f.FoodCategory)
-                                      .Include(f => f.FoodDiseaseWarning)
-                                      .ToListAsync();
+            return await _context.Food
+                .AsSplitQuery().
+                AsNoTracking()
+                .Select(fn => new Food
+                {
+                    Id = fn.Id,
+                    Name = fn.Name,
+                    Description = fn.Description,
+                    ImageUrl = fn.ImageUrl,
+                    PregnancySafe = fn.PregnancySafe,
+                    FoodCategoryId = fn.FoodCategoryId,
+                    SafetyNote = fn.SafetyNote,
+                    FoodNutrients = fn.FoodNutrients.Select(n => new FoodNutrient
+                    {
+                        NutrientId = n.NutrientId,
+                        AmountPerUnit = n.AmountPerUnit,
+                        FoodEquivalent = n.FoodEquivalent,
+                        NutrientEquivalent = n.NutrientEquivalent,
+                        TotalWeight = n.TotalWeight,
+                        Unit = n.Unit,
+                        Nutrient = new Nutrient
+                        {
+                            Id = n.Nutrient.Id,
+                            Name = n.Nutrient.Name,
+                        }
+                    }).ToList()
+                })
+                .ToListAsync();
         }
+
 
         public async Task<Food> GetFoodWithFoodNutrient(Guid foodId, Guid NutrientId)
         {
             return await _dbSet
                 .Where(f => f.Id == foodId && f.FoodNutrients
                     .Any(fn => fn.NutrientId == NutrientId))
-                .Include(f => f.FoodNutrients.Where(fn => fn.NutrientId == NutrientId))    
+                .Include(f => f.FoodNutrients.Where(fn => fn.NutrientId == NutrientId))
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Guid>> GetFoodWarningIdsByAllergiesAndDiseases(
+    List<Guid> allergyIds,
+    List<Guid> diseaseIds)
+        {
+            var foodIds = new List<Guid>();
+
+            if (allergyIds is not null && allergyIds.Any())
+            {
+                var allergyFoodIds = await _dbSet
+                    .Where(f => f.FoodAllergies.Any(a => allergyIds.Contains(a.AllergyId)))
+                    .Select(f => f.Id)
+                    .ToListAsync();
+
+                foodIds.AddRange(allergyFoodIds);
+            }
+
+            if (diseaseIds is not null && diseaseIds.Any())
+            {
+                var diseaseFoodIds = await _dbSet
+                    .Where(f => f.FoodDiseases.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.Status == FoodDiseaseStatus.Warning))
+                    .Select(f => f.Id)
+                    .ToListAsync();
+
+                foodIds.AddRange(diseaseFoodIds);
+            }
+
+            return foodIds.Distinct().ToList();
+        }
+
+        public async Task<List<Food>> GetFoodWarningsByAllergiesAndDiseases(
+    List<Guid>? allergyIds,
+    List<Guid>? diseaseIds)
+        {
+            var query = _dbSet.AsQueryable().AsNoTracking().AsSplitQuery();
+
+            if (allergyIds is not null && allergyIds.Any())
+            {
+                query = query.Where(f =>
+                    f.FoodAllergies.Any(a => allergyIds.Contains(a.AllergyId)));
+            }
+
+            if (diseaseIds is not null && diseaseIds.Any())
+            {
+                query = query.Where(f =>
+                    f.FoodDiseases.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.Status == FoodDiseaseStatus.Warning));
+            }
+
+            return await query
+                .Include(f => f.FoodAllergies)
+                    .ThenInclude(fa => fa.Allergy)
+                .Include(f => f.FoodDiseases)
+                    .ThenInclude(fd => fd.Disease)
+                .Include(f => f.FoodNutrients)
+                    .ThenInclude(fn => fn.Nutrient)
+                .ToListAsync();
         }
     }
 }

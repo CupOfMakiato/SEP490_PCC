@@ -3,8 +3,8 @@
     public class NutrientSuggestionAttribute
     {
         public Guid NutrientSuggestionAttributeId { get; set; }
-        public Guid NutrientSuggetionId { get; set; }
-        public NutrientSuggetion NutrientSuggetion { get; set; }
+        public Guid NutrientSuggestionId { get; set; } // Fix the typo here from "NutrientSuggetionId"
+        public NutrientSuggestion NutrientSuggestion { get; set; }
         public Guid AttributeId { get; set; }
         public NSAttribute Attribute { get; set; }
         public Guid? AgeGroudId { get; set; }

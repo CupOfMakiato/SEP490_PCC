@@ -1,27 +1,208 @@
-﻿using Server.Application.Abstractions.Shared;
+﻿using AutoMapper;
+using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.Dish;
 using Server.Application.DTOs.Meal;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
 using System;
+using System.Linq;
 
 namespace Server.Application.Services
 {
     public class MealService : IMealService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public MealService(IUnitOfWork unitOfWork)
+        public MealService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
+
+        public async Task<Result<MealDto>> UpdateMeal(Guid id, UpdateMealRequest request)
+        {
+            var meal = await _unitOfWork.MealRepository.GetByIdAsync(id);
+            if (meal == null)
+                return new Result<MealDto> { Error = 1, Message = "Meal not found" };
+
+            meal.MealType = request.MealType;
+
+            var existingDishIds = meal.DishMeals.Select(dm => dm.DishId).ToList();
+            var requestDishIds = request.DishMeals.Select(dm => dm.DishId).ToList();
+
+            var toRemove = meal.DishMeals
+                .Where(dm => !requestDishIds.Contains(dm.DishId))
+                .ToList();
+            foreach (var remove in toRemove)
+            {
+                meal.DishMeals.Remove(remove);
+            }
+
+            var toAdd = requestDishIds
+                .Where(did => !existingDishIds.Contains(did))
+                .ToList();
+            foreach (var dishId in toAdd)
+            {
+                var dish = await _unitOfWork.DishRepository.GetDishById(dishId);
+                if (dish != null)
+                {
+                    meal.DishMeals.Add(new DishMeal
+                    {
+                        MealId = id,
+                        DishId = dish.Id,
+                        Dish = dish
+                    });
+                }
+            }
+            _unitOfWork.MealRepository.Update(meal);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<MealDto>
+                {
+                    Error = 0,
+                    Message = "Meal updated successfully",
+                    Data = _mapper.Map<MealDto>(meal)
+                };
+
+            return new Result<MealDto>
+            {
+                Error = 1,
+                Message = "Failed to update meal"
+            };
+        }
+
+        public async Task<Result<bool>> DeleteMeal(Guid id)
+        {
+            var meal = await _unitOfWork.MealRepository.GetMealsById(id);
+            if (meal == null)
+                return new Result<bool> { Error = 1, Message = "Meal not found" };
+            meal.DishMeals.Clear();
+            _unitOfWork.MealRepository.DeleteMeal(meal);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<bool>
+                {
+                    Error = 0,
+                    Message = "Meal deleted successfully"
+                };
+
+            return new Result<bool>
+            {
+                Error = 1,
+                Message = "Failed to delete meal"
+            };
+        }
+
+        public async Task<Result<MealDto>> MealsSuggestion(MealsSuggestionRequest request)
+        {
+            int trimester = request.Stage switch
+            {
+                < 14 => 1,
+                < 28 => 2,
+                _ => 3
+            };
+
+            var age = 22; // default age
+            if (!string.IsNullOrEmpty(request.DateOfBirth))
+            {
+                var dob = DateTime.Parse(request.DateOfBirth);
+                age = DateTime.Now.Year - dob.Year;
+            }
+
+            var energy = await _unitOfWork.EnergySuggestionRepository
+                .GetEnergySuggestionByAgeAndTrimester(age, trimester);
+
+            var caloriesId = await _unitOfWork.NutrientRepository
+                .GetNutrientIdByName("Calories");
+
+            var foodsWarningIds = await _unitOfWork.FoodRepository
+                .GetFoodWarningIdsByAllergiesAndDiseases(request.allergyIds, request.diseaseIds);
+
+            var distribution = new Dictionary<MealType, double>
+            {
+                { MealType.Breakfast, 0.25 },
+                { MealType.Lunch, 0.35 },
+                { MealType.Dinner, 0.25 },
+                { MealType.Snack1, 0.10 },
+                { MealType.Snack2, 0.05 }
+            };
+
+            double calorieTarget = (energy.BaseCalories + energy.AdditionalCalories) * distribution.GetValueOrDefault(request.Type);
+
+            var result = new MealDto();
+            if (request.favouriteDishId is not null)
+            {
+                var favouriteDish = await _unitOfWork.DishRepository.GetDishById((Guid)request.favouriteDishId);
+                if (favouriteDish is null)
+                    return new Result<MealDto>()
+                    {
+                        Error = 1,
+                        Message = "Invalid favourite dish Id"
+                    };
+                if (foodsWarningIds is not null && foodsWarningIds.Count > 0)
+                {
+                    foreach (var food in favouriteDish.Foods)
+                        if (foodsWarningIds.Contains(food.FoodId))
+                        return new Result<MealDto>
+                        {
+                            Error = 0,
+                            Message = "Your favourite food is not good for you. Base on you health",
+                        };
+                }
+                result.Dishes.Add(_mapper.Map<DishDto>(favouriteDish, opt => opt.Items["CaloriesId"] = caloriesId));
+                calorieTarget -= result.Dishes[0].Calories;
+                if (request.NumberOfDishes > 0)
+                {
+                    request.NumberOfDishes -= 1;
+                }
+            }            
+
+            var dishes = new List<Dish>();
+            if (request.NumberOfDishes > 0)
+            {
+                dishes = await _unitOfWork.DishRepository.GetDishesByCaloriesAndMealType(
+                calorieTarget,
+                caloriesId,
+                foodsWarningIds,
+                request.NumberOfDishes
+                );
+
+                if (dishes == null || dishes.Count < 1 || (dishes.Count == 0 && request.Type == MealType.Snack1 || request.Type == MealType.Snack2))
+                {
+                    return new Result<MealDto>
+                    {
+                        Error = 1,
+                        Message = "No suitable dishes found"
+                    };
+                }
+            }          
+
+            var mapped = _mapper.Map<List<DishDto>>(dishes, opt =>
+                opt.Items["CaloriesId"] = caloriesId);
+            result.Dishes.AddRange(mapped);
+
+            foreach (var item in result.Dishes)
+            {
+                result.TotalCalories += item.Calories;
+            }
+
+            return new Result<MealDto>
+            {
+                Error = 0,
+                Message = "Get success",
+                Data = result
+            };
+        }
+
+
         public async Task<Result<Meal>> CreateMeal(CreateMealRequest request)
         {
             var meal = new Meal
             {
                 Id = Guid.NewGuid(),
-                DishMeals = new List<DishMeal>()
+                DishMeals = new List<DishMeal>(),
+                MealType = request.MealType
             };
 
             foreach (var item in request.DishMeals)
@@ -34,7 +215,7 @@ namespace Server.Application.Services
                 {
                     MealId = meal.Id,
                     DishId = item.DishId,
-                  });
+                });
             }
 
             await _unitOfWork.MealRepository.AddAsync(meal);
@@ -97,7 +278,7 @@ namespace Server.Application.Services
 
             var result = new MealPlanResponse
             {
-                TargetCalories = targetCalories   
+                TargetCalories = targetCalories
             };
 
             for (int dayIndex = 1; dayIndex <= 7; dayIndex++)
@@ -132,6 +313,28 @@ namespace Server.Application.Services
                 Error = 0,
                 Data = result,
                 Message = "Build meal plan success"
+            };
+        }
+
+        public async Task<Result<GetMealResponse>> GetMealById(Guid id)
+        {
+            var meal = await _unitOfWork.MealRepository.GetMealsById(id);
+            return new Result<GetMealResponse>()
+            {
+                Error = 0,
+                Data = _mapper.Map<GetMealResponse>(meal),
+                Message = "Get success"
+            };
+        }
+
+        public async Task<Result<List<GetMealResponse>>> GetMeals()
+        {
+            var meals = await _unitOfWork.MealRepository.GetMeals();
+            return new Result<List<GetMealResponse>>()
+            {
+                Error = 0,
+                Data = _mapper.Map<List<GetMealResponse>>(meals),
+                Message = "Get success"
             };
         }
     }

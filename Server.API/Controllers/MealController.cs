@@ -2,6 +2,7 @@
 using Server.Application.DTOs.Meal;
 using Server.Application.Interfaces;
 using Server.Application.Services;
+using Server.Domain.Entities;
 using Server.Domain.Enums;
 
 namespace Server.API.Controllers
@@ -15,6 +16,41 @@ namespace Server.API.Controllers
         public MealController(IMealService mealService)
         {
             _mealService = mealService;
+        }
+
+        [HttpGet("view-meal-by-id")]
+        public async Task<IActionResult> ViewMealById([FromQuery] Guid mealId)
+        {
+            if (mealId == Guid.Empty)
+                return BadRequest("MealId cannot be empty");
+
+            try
+            {
+                var result = await _mealService.GetMealById(mealId);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet("view-all-meals")]
+        public async Task<IActionResult> ViewAllMeals()
+        {
+            try
+            {
+                var result = await _mealService.GetMeals();
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet("view-menu-suggestion-by-trimester")]
@@ -38,32 +74,108 @@ namespace Server.API.Controllers
             }
         }
 
+        [HttpGet("view-meals-suggestion")]
+        public async Task<IActionResult> MealsSuggestion([FromQuery] MealsSuggestionRequest request)
+        {
+            if (request == null)
+                return BadRequest("Request is null");
+
+            if (request.Stage <= 0 || request.Stage > 40)
+                return BadRequest("Stage must be between 1 and 40");
+
+            if (request.NumberOfDishes <= 0)
+                return BadRequest("NumberOfDishes must be greater than 0");
+
+            try
+            {
+                var result = await _mealService.MealsSuggestion(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+
         [HttpPost("add-meal")]
         public async Task<IActionResult> CreateMeal(CreateMealRequest request)
         {
-            if (request.Trimester <= 0 && request.Trimester > 3)
-                return BadRequest("Trimester must be greater than 0 and smaller than 4");
-
             if (request.DishMeals == null || request.DishMeals.Count == 0)
                 return BadRequest("DishMeals list cannot be null or empty");
 
-            foreach (var dishMeal in request.DishMeals)
+            if (!Enum.IsDefined(typeof(MealType), request.MealType))
+                return BadRequest($"Invalid MealType value: {request.MealType}");
+
+            if (request.DishMeals.Any(dm => dm.DishId == Guid.Empty ))
+                return BadRequest("DishId cannot be null or empty");
+
+            switch (request.MealType)
             {
-                if (dishMeal.DishId == Guid.Empty)
-                    return BadRequest("DishId cannot be null or empty");
-
-                if (!Enum.IsDefined(typeof(MealType), dishMeal.MealType))
-                    return BadRequest($"Invalid MealType value: {dishMeal.MealType}");
+                case MealType.Breakfast:
+                    break;
+                case MealType.Lunch:
+                    break;
+                case MealType.Dinner:
+                    break;
+                case MealType.Snack1:
+                    break;
+                case MealType.Snack2:
+                    break;
+                default:
+                    return BadRequest("Invalid MealType");
             }
-
-            if (!Enum.IsDefined(typeof(DayOfWeek), request.DayOfWeek))
-                return BadRequest($"Invalid DayOfWeek value: {request.DayOfWeek}");
 
             try
             {
                 var result = await _mealService.CreateMeal(request);
                 if (result.Error == 1)
                     return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-meal/{id}")]
+        public async Task<IActionResult> UpdateMeal(Guid id, UpdateMealRequest request)
+        {
+            if (id == Guid.Empty)
+                return BadRequest("MealId cannot be empty");
+
+            if (request.DishMeals == null || request.DishMeals.Count == 0)
+                return BadRequest("DishMeals list cannot be null or empty");
+
+            try
+            {
+                var result = await _mealService.UpdateMeal(id, request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("delete-meal/{id}")]
+        public async Task<IActionResult> DeleteMeal(Guid id)
+        {
+            if (id == Guid.Empty)
+                return BadRequest("MealId cannot be empty");
+
+            try
+            {
+                var result = await _mealService.DeleteMeal(id);
+                if (result.Error == 1)
+                    return BadRequest(result);
+
                 return Ok(result);
             }
             catch (Exception ex)

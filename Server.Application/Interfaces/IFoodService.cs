@@ -7,6 +7,9 @@ namespace Server.Application.Interfaces
 {
     public interface IFoodService
     {
+        public Task<Result<bool>> CreateWarningFoodForAllergy(CreateWarningFoodForAllergyRequest request);
+        public Task<Result<bool>> CreateRecommendFoodForDisease(CreateRecommendFoodForDiseaseRequest request);
+        public Task<List<ViewWarningFoodsResponse>> GetWarningFoods(ViewWarningFoodsRequest request);
         public Task<ViewFoodResponse> GetFoodByIdAsync(Guid foodId);
         public Task<List<ViewFoodResponse>> GetFoodsAsync();
         public Task<bool> SoftDeleteFood(Guid foodId);
@@ -17,5 +20,9 @@ namespace Server.Application.Interfaces
         public Task<Result<FoodDTO>> UpdateFoodImage(UpdateFoodImageRequest request);
         public Task<Result<bool>> RemoveFoodNutrient(RemoveFoodNutrientRequest request);
         public Task<Result<Food>> AddNutrientsByNames(AddNutrientsRequest request);
+        public Task<Result<bool>> CreateWarningFoodForDisease(CreateWarningFoodForDiseaseRequest request);
+        public Task<Result<bool>> RemoveFoodDisease(RemoveFoodDiseaseRequest request);
+        public Task<Result<bool>> RemoveFoodAllergy(RemoveFoodAllergyRequest request);
+
     }
 }

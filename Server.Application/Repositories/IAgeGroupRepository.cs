@@ -8,5 +8,6 @@ namespace Server.Application.Repositories
         Task<AgeGroup> GetAgeGroupFrom20To29();
         void Delete(AgeGroup ageGroup);
         Task<AgeGroup> GetAgeGroupById(Guid id);
+        Task<Guid> GetAgeGroupIdByAge(int age);
     }
 }

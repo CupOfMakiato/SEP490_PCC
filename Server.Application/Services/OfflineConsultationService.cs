@@ -17,18 +17,21 @@ namespace Server.Application.Services
         private readonly IOfflineConsultationRepository _offlineConsultationRepository;
         private readonly IEmailService _emailService;
         private readonly ICloudinaryService _cloudinaryService;
+        private readonly INotificationService _notificationService;
 
         public OfflineConsultationService(IUnitOfWork unitOfWork,
             IMapper mapper,
             IOfflineConsultationRepository offlineConsultationRepository,
             IEmailService emailService,
-            ICloudinaryService cloudinaryService)
+            ICloudinaryService cloudinaryService,
+            INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _offlineConsultationRepository = offlineConsultationRepository;
             _emailService = emailService;
             _cloudinaryService = cloudinaryService;
+            _notificationService = notificationService;
         }
 
         public async Task<Result<ViewOfflineConsultationDTO>> BookOfflineConsultationAsync(BookingOfflineConsultationDTO offlineConsultation)
@@ -646,6 +649,18 @@ namespace Server.Application.Services
 
                 await _emailService.SendEmailAsync(emailUserDTO);
             }
+            // same for onlinecon i did not test this code yet ~
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                Message = $"You have booked a new offline consultation on {date} with the doctor {doctorName} at {location}",
+                CreatedBy = user.Id,
+                IsSent = true,
+                IsRead = false,
+                CreationDate = DateTime.UtcNow.Date
+            };
+
+            await _notificationService.CreateNotification(notification, offlineConsulattion, "OfflineConsultation");
 
             // Send email to doctor
             if (!string.IsNullOrEmpty(doctor.User.Email))

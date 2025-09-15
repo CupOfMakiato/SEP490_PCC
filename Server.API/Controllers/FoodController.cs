@@ -22,6 +22,127 @@ namespace Server.API.Controllers
             return Ok(await _foodService.GetFoodsAsync());
         }
 
+        [HttpPut("create-warning-food-for-disease")]
+        public async Task<IActionResult> CreateWarningFoodForDisease([FromBody] CreateWarningFoodForDiseaseRequest request)
+        {
+            if (request.DiseaseId == Guid.Empty)
+                return BadRequest("DiseaseId is required");
+
+            if (request.warningFoodDtos == null || !request.warningFoodDtos.Any())
+                return BadRequest("At least one warning food is required");
+
+            foreach (var dto in request.warningFoodDtos)
+            {
+                if (dto.FoodId == Guid.Empty)
+                    return BadRequest("Food Id is required for each warning food");
+
+                if (string.IsNullOrWhiteSpace(dto.Description))
+                    return BadRequest("Description is required for each warning food");
+            }
+            try
+            {
+                var result = await _foodService.CreateWarningFoodForDisease(request);
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }                
+        }
+
+        [HttpPut("remove-recommend-or-warning-food-for-disease")]
+        public async Task<IActionResult> RemoveFoodDisease([FromBody] RemoveFoodDiseaseRequest request)
+        {
+            if (request.DiseaseId == Guid.Empty)
+                return BadRequest("DiseaseId is required");
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("FoodId is required");
+            var result = await _foodService.RemoveFoodDisease(request);
+            try
+            {
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }            
+        }
+
+        [HttpPut("remove-recommend-or-warning-food-for-allergy")]
+        public async Task<IActionResult> RemoveFoodAllergy([FromBody] RemoveFoodAllergyRequest request)
+        {
+            if (request.AllergyId == Guid.Empty)
+                return BadRequest("AllergyId is required");
+            if (request.FoodId == Guid.Empty)
+                return BadRequest("FoodId is required");
+            var result = await _foodService.RemoveFoodAllergy(request);
+            try
+            {
+                if (result.Error == 1)
+                    return BadRequest(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("create-warning-food-for-allergy")]
+        public async Task<IActionResult> CreateWarningFoodForAllergy([FromBody] CreateWarningFoodForAllergyRequest request)
+        {
+            if (request.AllergyId == Guid.Empty)
+                return BadRequest("AllergyId is required");
+            foreach (var dto in request.warningFoodDtos)
+            {
+                if (dto.FoodId == Guid.Empty)
+                    return BadRequest("Food Id is required for each warning food");
+
+                if (string.IsNullOrWhiteSpace(dto.Description))
+                    return BadRequest("Description is required for each warning food");
+            }
+            var result = await _foodService.CreateWarningFoodForAllergy(request);
+            if (result.Error == 1)
+                return BadRequest(result);
+            return Ok(result);
+        }
+        [HttpPut("create-recommend-food-for-disease")]
+        public async Task<IActionResult> CreateRecommendFoodForDisease([FromBody] CreateRecommendFoodForDiseaseRequest request)
+        {
+            if (request.DiseaseId == Guid.Empty)
+                return BadRequest("DiseaseId is required");
+            foreach (var dto in request.recommendFoodDtos)
+            {
+                if (dto.FoodId == Guid.Empty)
+                    return BadRequest("Food Id is required for each recommend food");
+
+                if (string.IsNullOrWhiteSpace(dto.Description))
+                    return BadRequest("Description is required for each recommend food");
+            }
+            var result = await _foodService.CreateRecommendFoodForDisease(request);
+            if (result.Error == 1)
+                return BadRequest(result);
+            return Ok(result);
+        }
+
+        [HttpPost("view-warning-foods")]
+        public async Task<IActionResult> ViewWarningFoods([FromBody] ViewWarningFoodsRequest request)
+        {
+            if ((request.AllergyIds == null || request.AllergyIds.Count == 0) &&
+                (request.DiseaseIds == null || request.DiseaseIds.Count == 0))
+            {
+                return BadRequest("At least one allergy or disease ID is required.");
+            }
+
+            var result = await _foodService.GetWarningFoods(request);
+            return Ok(result);
+        }
+
+
         [HttpGet("view-food-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid foodId)
         {

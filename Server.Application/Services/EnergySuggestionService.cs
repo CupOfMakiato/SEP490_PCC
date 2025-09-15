@@ -88,6 +88,17 @@ namespace Server.Application.Services
                 return false; 
             }
             energySuggestion.ActivityLevel = (ActivityLevel)request.ActivityLevel;
+            energySuggestion.AdditionalCalories = request.AdditionalCalories;
+            energySuggestion.BaseCalories = request.BaseCalories;
+            energySuggestion.Trimester = request.Trimester;
+            if (energySuggestion.AgeGroupId != request.AgeGroupId)
+            {
+                var ageGroup = await _unitOfWork.AgeGroupRepository.GetByIdAsync(request.AgeGroupId);
+                if (ageGroup == null)
+                    return false;
+                energySuggestion.AgeGroup = ageGroup;
+                energySuggestion.AgeGroupId = request.AgeGroupId;
+            }
             _unitOfWork.EnergySuggestionRepository.Update(energySuggestion);
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
