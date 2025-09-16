@@ -77,7 +77,7 @@ namespace Server.API.Controllers
                 if (result.Error != 0)
                     return BadRequest(result.Message);
 
-                return Ok("Update Success");
+                return Ok("Delete Success");
             }
             catch (Exception ex)
             {

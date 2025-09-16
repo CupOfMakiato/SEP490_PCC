@@ -3,7 +3,7 @@
     public class NutrientSuggestionDTO
     {
         public Guid Id { get; set; }
-        public string NutrientSuggetionName { get; set; }
+        public string NutrientSuggestionName { get; set; }
         public List<NutrientSuggestionAttributeDTO> NutrientSuggestionAttributes { get; set; }
     }
 }
