@@ -406,6 +406,21 @@ namespace Server.Application.Services
             await _unitOfWork.SaveChangeAsync();
 
             await _emailService.SendEmergencyBiometricAlert(email, subject, message);
+
+            var reminderDto = new
+            {
+                reminder.Id,
+                reminder.GrowthDataId,
+                reminder.Title,
+                reminder.Description,
+                reminder.CheckupStatus,
+                reminder.Type,
+                reminder.RecommendedStartWeek,
+                reminder.RecommendedEndWeek,
+                reminder.ScheduledDate,
+                reminder.CompletedDate,
+                reminder.Note,
+            };
             var notification = new Notification
             {
                 Id = Guid.NewGuid(),
@@ -416,7 +431,7 @@ namespace Server.Application.Services
                 CreationDate = DateTime.UtcNow.Date
             };
 
-            await _notificationService.CreateNotification(notification, reminder, "TailoredCheckupReminder");
+            await _notificationService.CreateNotification(notification, reminderDto, "TailoredCheckupReminder");
 
             //_logger.LogInformation(
             //    $"Created emergency reminder (Weeks {reminder.RecommendedStartWeek}-{reminder.RecommendedEndWeek}) " +
