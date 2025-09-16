@@ -428,7 +428,7 @@ namespace Server.Application.Services
                 };
             }
 
-            if (suggestion.NutrientSuggestionAttributes is not null || suggestion.NutrientSuggestionAttributes.Count > 0)
+            if (suggestion.NutrientSuggestionAttributes is not null && suggestion.NutrientSuggestionAttributes.Count > 0)
             {
                 return new Result<bool>()
                 {
