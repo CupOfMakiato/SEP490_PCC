@@ -23,7 +23,8 @@ namespace Server.Infrastructure.Repositories
         {
             return await _context.UserSubscription
                 .Where(us => us.UserId == userId && !us.IsDeleted /* && us.IsActive */)
-                .OrderByDescending(us => us.PaymentDate)
+                .Include(us => us.Payment)
+                .OrderByDescending(us => us.Payment.PaymentDate)
                 .FirstOrDefaultAsync();
         }
 

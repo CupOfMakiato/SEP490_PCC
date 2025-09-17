@@ -205,14 +205,21 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "Dish is not found"
                 };
-            var uploadImageResponse = await _cloudinaryService.UploadImage(request.Image, "Dish");
-            if (uploadImageResponse == null)
-                return new Result<Dish>()
-                {
-                    Error = 1,
-                    Message = "Invalid file"
-                };
-            dish.ImageUrl = uploadImageResponse.FileUrl;
+            if (request.Image is not null)
+            {
+                var uploadImageResponse = await _cloudinaryService.UploadImage(request.Image, "Dish");
+                if (uploadImageResponse == null)
+                    return new Result<Dish>()
+                    {
+                        Error = 1,
+                        Message = "Invalid file"
+                    };
+                dish.ImageUrl = uploadImageResponse.FileUrl;
+            }else
+            {
+                dish.ImageUrl = null;
+            }
+            
             _unitOfWork.DishRepository.Update(dish);
             if (await _unitOfWork.SaveChangeAsync() > 0)
                 return new Result<Dish>()

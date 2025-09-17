@@ -51,7 +51,8 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "AgeGroup is not found"
                 };
-            if (ageGroup.EnergySuggestions != null || ageGroup.NutrientSuggestions.Count() > 0)
+            if (ageGroup.EnergySuggestions != null)
+                if (ageGroup.NutrientSuggestions.Count() > 0)
                 return new Result<AgeGroupDTO>()
                 {
                     Error = 1,
@@ -62,7 +63,7 @@ namespace Server.Application.Services
                 return new Result<AgeGroupDTO>()
                 {
                     Error = 0,
-                    Data = ageGroup.ToAgeGroupDTO()
+                    Message = "Delete success"
                 };
             return new Result<AgeGroupDTO>()
             {
