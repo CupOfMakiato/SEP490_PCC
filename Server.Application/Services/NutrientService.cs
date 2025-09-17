@@ -66,11 +66,14 @@ namespace Server.Application.Services
 
         public async Task<bool> DeleteNutrient(Guid nutrientId)
         {
-            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(nutrientId);
+            var nutrient = await _unitOfWork.NutrientRepository.GetNutrientById(nutrientId);
             if (nutrient is null)
             {
                 return false;
             }
+            if (nutrient.FoodNutrients is not null)
+                if (nutrient.FoodNutrients.Count > 0)
+                    return false;
             _unitOfWork.NutrientRepository.DeleteNutrient(nutrient);
             return await _unitOfWork.SaveChangeAsync() > 0;
         }
