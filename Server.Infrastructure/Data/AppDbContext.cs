@@ -288,6 +288,9 @@ namespace Server.Infrastructure.Data
             // Nutrition seed data
             NutritionSeedData.SeedData(modelBuilder);
 
+            // Consultation seed data
+            ConsultationSeedData.SeedData(modelBuilder);
+
             //User
             modelBuilder.Entity<User>()
             .Property(u => u.Status)
@@ -696,11 +699,11 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(m => m.OnlineConsultationId)
             .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Media>()
-            .HasOne(u => u.Clinic)
-            .WithOne(m => m.ImageUrl)
-            .HasForeignKey<Media>(m => m.ClinicId)
-            .OnDelete(DeleteBehavior.Restrict);
+            //modelBuilder.Entity<Media>()
+            //.HasOne(u => u.Clinic)
+            //.WithOne(m => m.ImageUrl)
+            //.HasForeignKey<Media>(m => m.ClinicId)
+            //.OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Media>()
             .HasOne(u => u.Message)
