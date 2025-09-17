@@ -45,6 +45,7 @@ namespace Server.Application
         public IAllergyCategoryRepository AllergyCategoryRepository { get; }
         public IMealRepository MealRepository { get; }
         public IAllergyRepository AllergyRepository { get; }
+        public INotificationRepository NotificationRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }
