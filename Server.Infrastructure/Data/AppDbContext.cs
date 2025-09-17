@@ -154,6 +154,38 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
                 );
+            var MaternalHealthTag = Guid.NewGuid();
+            var PregnancyNutritionTag = Guid.NewGuid();
+            var PregnancyTherapyTag = Guid.NewGuid();
+            modelBuilder.Entity<Tag>().HasData(
+                new Tag
+                {
+                    Id = MaternalHealthTag,
+                    Name = "MaternalHealth",
+                    CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
+                    CreationDate = DateTime.UtcNow,
+                    Status = StatusEnums.Active,
+                    IsDeleted = false
+                },
+                new Tag
+                {
+                    Id = PregnancyTherapyTag,
+                    Name = "PregnancyTherapy",
+                    CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
+                    CreationDate = DateTime.UtcNow,
+                    Status = StatusEnums.Active,
+                    IsDeleted = false
+                },
+                new Tag
+                {
+                    Id = PregnancyNutritionTag,
+                    Name = "PregnancyNutrition",
+                    CreatedBy = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f"),
+                    CreationDate = DateTime.UtcNow,
+                    Status = StatusEnums.Active,
+                    IsDeleted = false
+                }
+            );
             modelBuilder.Entity<Blog>().HasData(
                 new Blog
                 {
@@ -222,6 +254,43 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
             );
+            modelBuilder.Entity<BlogTag>().HasData(
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("26872b7a-1b74-4403-bf2f-e92d6d4f15c4"),
+                    TagId = MaternalHealthTag
+                },
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("94aa1f89-9765-4771-81d4-adc2083bdd38"),
+                    TagId = MaternalHealthTag
+                },
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("49c67e45-f583-4ad6-9b9d-a1e60c9dc75e"),
+                    TagId = MaternalHealthTag
+                },
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("9624a1fe-176c-43b7-804e-05fc85d4490b"),
+                    TagId = MaternalHealthTag
+                },
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("d828c580-d83b-4147-b110-91a7cb25b176"),
+                    TagId = MaternalHealthTag
+                },
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("d828c580-d83b-4147-b110-91a7cb25b176"),
+                    TagId = PregnancyTherapyTag
+                },
+                new BlogTag
+                {
+                    BlogId = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e0"),
+                    TagId = PregnancyNutritionTag
+                }
+            );
             modelBuilder.Entity<RecordedSymptom>().HasData(
                 new RecordedSymptom
                 {
@@ -284,6 +353,8 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
             );
+            
+
 
             // Nutrition seed data
             NutritionSeedData.SeedData(modelBuilder);
