@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.SignalR;
+using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.GrowthData;
+using Server.Application.DTOs.Journal;
+using Server.Application.DTOs.Notification;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -50,14 +54,49 @@ namespace Server.Application.Services
             return await _notificationRepository.GetAllNotifications();
         }
 
-        public async Task<Notification> GetNotificationById(Guid id)
+        public async Task<Result<ViewNotificationDTO>> GetNotificationById(Guid id)
         {
-            return await _notificationRepository.GetNotificationById(id);
+            var noti = await _notificationRepository.GetNotificationById(id);
+            var result = _mapper.Map<ViewNotificationDTO>(noti);
+
+            if (noti == null)
+            {
+                return new Result<ViewNotificationDTO>
+                {
+                    Error = 1,
+                    Message = "Notification not found",
+                    Data = null
+                };
+            }
+
+            return new Result<ViewNotificationDTO>
+            {
+                Error = 0,
+                Message = "View notification by id successfully",
+                Data = result
+            };
         }
 
-        public async Task<List<Notification>> GetNotificationsByUserId(Guid userId)
+        public async Task<Result<List<ViewNotificationDTO>>> GetNotificationsByUserId(Guid userId)
         {
-            return await _notificationRepository.GetNotificationsByUserId(userId);
+            var notis = await _unitOfWork.NotificationRepository.GetNotificationsByUserId(userId);
+            var result = _mapper.Map<List<ViewNotificationDTO>>(notis);
+            if (notis == null)
+            {
+                return new Result<List<ViewNotificationDTO>>
+                {
+                    Error = 1,
+                    Message = "No notification found for this user",
+                    Data = null
+                };
+            }
+
+            return new Result<List<ViewNotificationDTO>>
+            {
+                Error = 0,
+                Message = "View all notifications for user successfully",
+                Data = result
+            };
         }
 
         public async Task<Notification> UpdateNotification(Notification notification)
@@ -66,14 +105,20 @@ namespace Server.Application.Services
             await _unitOfWork.SaveChangeAsync();
             return notification;
         }
-        public async Task<Notification> MarkNotificationAsRead(Guid id)
+        public async Task<Result<ViewNotificationDTO>> MarkNotificationAsRead(Guid id)
         {
             var notification = await _notificationRepository.GetNotificationById(id);
+            var result = _mapper.Map<ViewNotificationDTO>(notification);
             if (notification == null) return null;
             notification.IsRead = true;
             _notificationRepository.Update(notification);
             await _unitOfWork.SaveChangeAsync();
-            return notification;
+            return new Result<ViewNotificationDTO>
+            {
+                Error = 0,
+                Message = "Mark notification as read successfully",
+                Data = null
+            };
         }
 
         public async Task<bool> DeleteNotification(Guid id)

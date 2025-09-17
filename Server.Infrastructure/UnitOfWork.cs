@@ -58,6 +58,8 @@ namespace Server.Infrastructure
         private readonly IDishRepository _dishRepository;
         private readonly IRecommendedCheckupReminderRepository _recommendedCheckupReminderRepository;
 
+        private readonly INotificationRepository _notificationRepository;
+
         public UnitOfWork(AppDbContext dbContext,
             IUserRepository userRepository,
             ICategoryRepository categoryRepository,
@@ -99,7 +101,8 @@ namespace Server.Infrastructure
             INSAttributeRepository iNSAttributeRepository,
             IDishRepository dishRepository,
             IFeedbackRepository feedbackRepository,
-            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository)
+            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository,
+            INotificationRepository notificationRepository)
 
         {
             _dbContext = dbContext;
@@ -144,6 +147,7 @@ namespace Server.Infrastructure
             _feedbackRepository = feedbackRepository;
             _dishRepository = dishRepository;
             _recommendedCheckupReminderRepository = recommendedCheckupReminderRepository;
+            _notificationRepository = notificationRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -187,6 +191,7 @@ namespace Server.Infrastructure
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public IMealRepository MealRepository => _mealRepository;
         public IRecommendedCheckupReminderRepository RecommendedCheckupReminderRepository => _recommendedCheckupReminderRepository;
+        public INotificationRepository NotificationRepository => _notificationRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

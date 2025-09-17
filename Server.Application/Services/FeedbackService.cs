@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.Feedback;
+using Server.Application.DTOs.Journal;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -12,14 +13,20 @@ namespace Server.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly INotificationService _notificationService;
+        private readonly ICurrentTime _currentTime;
 
         public FeedbackService(IUnitOfWork unitOfWork,
             IMapper mapper,
-            IFeedbackRepository feedbackRepository)
+            IFeedbackRepository feedbackRepository,
+            INotificationService notificationService,
+            ICurrentTime currentTime)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _feedbackRepository = feedbackRepository;
+            _notificationService = notificationService;
+            _currentTime = currentTime;
         }
 
         public async Task<Result<ViewFeedbackDTO>> CreateFeedbackAsync(AddFeedbackDTO feedback)
@@ -65,6 +72,31 @@ namespace Server.Application.Services
             await _feedbackRepository.AddAsync(feedbackMapper);
 
             var result = await _unitOfWork.SaveChangeAsync();
+
+            if( result > 0)
+            {
+                var clinicName = clinic.User?.UserName;
+                var clinicRating = feedback.Rating;
+                var feedbackDto = new
+                {
+                    feedbackMapper.Id,
+                    feedbackMapper.UserId,
+                    feedbackMapper.User?.UserName,
+                    feedbackMapper.ClinicId,
+                    feedbackMapper.Rating,
+                    feedbackMapper.Comment,
+                };
+
+                var notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    Message = $"Rated {clinicName} a {clinicRating} stars rating successfully!",
+                    CreatedBy = feedbackMapper.UserId,
+                    CreationDate = _currentTime.GetCurrentTime()
+                };
+
+                await _notificationService.CreateNotification(notification, feedbackDto, "Feedback");
+            }
 
             return new Result<ViewFeedbackDTO>
             {
