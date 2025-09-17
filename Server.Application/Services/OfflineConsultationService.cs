@@ -657,11 +657,9 @@ namespace Server.Application.Services
                 offlineConsulattion.UserId,
                 offlineConsulattion.ClinicId,
                 offlineConsulattion.DoctorId,
-                offlineConsulattion.CheckupName,
                 offlineConsulattion.ConsultationType,
                 offlineConsulattion.StartDate,
                 offlineConsulattion.EndDate,
-                offlineConsulattion.DayOfWeek, // not sure if this still exists
                 offlineConsulattion.HealthNote,
                 Media = offlineConsulattion.Attachments.Select(m => new { m.FileUrl, m.FileType }),
             };

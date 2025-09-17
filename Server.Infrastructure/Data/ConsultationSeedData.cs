@@ -10,14 +10,6 @@ namespace Server.Infrastructure.Data
     {
         public static void SeedData(ModelBuilder modelBuilder)
         {
-            // Hashing helper
-            string HashPassword(string password)
-            {
-                using var sha = SHA256.Create();
-                var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return BitConverter.ToString(bytes).Replace("-", "").ToLower();
-            }
-
             // Seed Clinic User
             var clinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
@@ -8267,6 +8259,11 @@ namespace Server.Infrastructure.Data
                 }
             );
 
+        }
+
+        private static string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }
