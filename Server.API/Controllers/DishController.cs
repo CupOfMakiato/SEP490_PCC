@@ -168,5 +168,41 @@ namespace Server.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPut("update-dish-image")]
+        public async Task<IActionResult> UpdateDishImage([FromForm] AddDishImageRequest request)
+        {
+            if (request == null)
+                return BadRequest("Request must not be null");
+
+            if (request.dishId == Guid.Empty)
+                return BadRequest("Dish Id is required");
+
+            if (request.Image is not null)
+            {
+                // Validate file type
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+                var fileExtension = Path.GetExtension(request.Image.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(fileExtension))
+                    return BadRequest("Invalid file type. Only .jpg, .jpeg, and .png files are allowed");
+
+                // Validate file size (e.g., max 5MB)
+                if (request.Image.Length > 5 * 1024 * 1024)
+                    return BadRequest("File size exceeds maximum limit of 5MB");
+            }            
+
+            try
+            {
+                var result = await _dishService.AddDishImage(request);
+                if (result.Error == 1)
+                    return BadRequest("Update fail");
+
+                return Ok(new { Message = "Update succes", Data = result.Data });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
 }

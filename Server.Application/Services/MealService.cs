@@ -24,7 +24,7 @@ namespace Server.Application.Services
 
         public async Task<Result<MealDto>> UpdateMeal(Guid id, UpdateMealRequest request)
         {
-            var meal = await _unitOfWork.MealRepository.GetByIdAsync(id);
+            var meal = await _unitOfWork.MealRepository.GetMealsById(id);
             if (meal == null)
                 return new Result<MealDto> { Error = 1, Message = "Meal not found" };
 

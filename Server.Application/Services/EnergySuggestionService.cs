@@ -59,6 +59,17 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<bool> DeleteEnergySuggestion(Guid energySuggestionId)
+        {
+            var energySuggestion = await _unitOfWork.EnergySuggestionRepository.GetByIdAsync(energySuggestionId);
+            if (energySuggestion is null)
+            {
+                return false;
+            }
+            _unitOfWork.EnergySuggestionRepository.Delete(energySuggestion);
+            return await _unitOfWork.SaveChangeAsync() > 0;
+        }
+
         public async Task<EnergySuggestion> GetEnergySuggestionByIdAsync(Guid energySuggestionId)
         {
             return await _unitOfWork.EnergySuggestionRepository.GetByIdAsync(energySuggestionId);

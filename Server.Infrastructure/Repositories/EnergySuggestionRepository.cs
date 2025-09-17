@@ -14,6 +14,11 @@ namespace Server.Infrastructure.Repositories
         {
         }
 
+        public void Delete(EnergySuggestion energySuggestion)
+        {
+            _dbSet.Remove(energySuggestion);
+        }
+
         public async Task<EnergySuggestion> GetEnergySuggestionByAgeAndTrimester(int age, int trimester)
         {
             return await _dbSet.Include(es => es.AgeGroup).FirstOrDefaultAsync(es => es.AgeGroup.FromAge <= age && es.AgeGroup.ToAge >= age && es.Trimester == trimester);

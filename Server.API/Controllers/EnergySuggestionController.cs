@@ -86,6 +86,26 @@ namespace Server.API.Controllers
             }
         }
 
+        [HttpPost("delete-energy-suggestion-by-id")]
+        public async Task<IActionResult> Delete([FromQuery] Guid energySuggestionId)
+        {
+            if (energySuggestionId == Guid.Empty)
+                return BadRequest("energySuggestionId is required");
+
+            try
+            {
+                var result = await _energyService.DeleteEnergySuggestion(energySuggestionId);
+                if (!result)
+                    return BadRequest("Delete fail");
+
+                return Ok("Delete success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpPut("SoftDelete")]
         public async Task<IActionResult> SoftDelete([FromQuery] Guid energySuggestionId)
         {
