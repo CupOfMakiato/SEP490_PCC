@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.OfflineConsultation;
 using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 
 namespace Server.Application.Services
 {
@@ -34,9 +36,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewOfflineConsultationDTO>> BookOfflineConsultationAsync(BookingOfflineConsultationDTO offlineConsultation)
         {
-            var user = await _unitOfWork.UserRepository
-                .GetByIdAsync(offlineConsultation.UserId);
-
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(offlineConsultation.UserId);
             if (user == null)
             {
                 return new Result<ViewOfflineConsultationDTO>
@@ -47,9 +47,7 @@ namespace Server.Application.Services
                 };
             }
 
-            var doctor = await _unitOfWork.DoctorRepository
-                .GetDoctorByIdAsync(offlineConsultation.DoctorId);
-
+            var doctor = await _unitOfWork.DoctorRepository.GetDoctorByIdAsync(offlineConsultation.DoctorId);
             if (doctor == null)
             {
                 return new Result<ViewOfflineConsultationDTO>
@@ -60,9 +58,7 @@ namespace Server.Application.Services
                 };
             }
 
-            var clinic = await _unitOfWork.ClinicRepository
-                .GetClinicByIdAsync(doctor.ClinicId);
-
+            var clinic = await _unitOfWork.ClinicRepository.GetClinicByIdAsync(doctor.ClinicId);
             if (clinic == null)
             {
                 return new Result<ViewOfflineConsultationDTO>
@@ -73,125 +69,179 @@ namespace Server.Application.Services
                 };
             }
 
-            var hasOverlap = await _unitOfWork.DoctorRepository
-                .HasOverlappingScheduleAsync(offlineConsultation.DoctorId,
-                    offlineConsultation.Schedule.Slot.StartTime,
-                    offlineConsultation.Schedule.Slot.EndTime,
-                    offlineConsultation.Schedule.Slot.DayOfWeek);
+            OfflineConsultation offlineConsultationEntity;
 
-            if (hasOverlap)
+            if (offlineConsultation.ConsultationType == ConsultationType.OneTime)
             {
-                return new Result<ViewOfflineConsultationDTO>
+                if (offlineConsultation.StartDate == null || offlineConsultation.EndDate == null)
                 {
-                    Error = 1,
-                    Message = "The selected time slot overlaps with an existing schedule for this doctor.",
-                    Data = null
-                };
-            }
-
-            var slot = _mapper.Map<Slot>(offlineConsultation.Schedule.Slot);
-
-            slot.IsAvailable = false;
-
-            await _unitOfWork.SlotRepository.AddAsync(slot);
-
-            var slotSaveResult = await _unitOfWork.SaveChangeAsync();
-
-            if (slotSaveResult <= 0)
-            {
-                return new Result<ViewOfflineConsultationDTO>
-                {
-                    Error = 1,
-                    Message = "Failed to create slot.",
-                    Data = null
-                };
-            }
-
-            var scheduleEntity = new Schedule
-            {
-                SlotId = slot.Id,
-                DoctorId = offlineConsultation.DoctorId
-            };
-
-            await _unitOfWork.ScheduleRepository.AddAsync(scheduleEntity);
-
-            var scheduleSaveResult = await _unitOfWork.SaveChangeAsync();
-
-            if (scheduleSaveResult <= 0)
-            {
-                return new Result<ViewOfflineConsultationDTO>
-                {
-                    Error = 1,
-                    Message = "Failed to create schedule.",
-                    Data = null
-                };
-            }
-
-            var attachments = new List<Media>();
-
-            var offlineConsulattionMapper = new OfflineConsultation
-            {
-                Id = Guid.NewGuid(),
-                UserId = offlineConsultation.UserId,
-                DoctorId = offlineConsultation.DoctorId,
-                ClinicId = doctor.ClinicId,
-                CheckupName = offlineConsultation.CheckupName,
-                ConsultationType = offlineConsultation.ConsultationType,
-                Status = "Confirmed",
-                StartDate = offlineConsultation.Schedule.Slot.StartTime,
-                EndDate = offlineConsultation.Schedule.Slot.EndTime,
-                DayOfWeek = offlineConsultation.Schedule.Slot.DayOfWeek,
-                HealthNote = offlineConsultation.HealthNote,
-                Attachments = attachments
-            };
-
-            await _offlineConsultationRepository.AddAsync(offlineConsulattionMapper);
-
-            var result = await _unitOfWork.SaveChangeAsync();
-
-            if (result <= 0)
-            {
-                return new Result<ViewOfflineConsultationDTO>
-                {
-                    Error = 1,
-                    Message = "Failed to book offline consultation.",
-                    Data = null
-                };
-            }
-
-            if (offlineConsultation.Attachments != null && offlineConsultation.Attachments.Any())
-            {
-                foreach (var file in offlineConsultation.Attachments)
-                {
-                    var response = await _cloudinaryService.UploadOfflineConsultationAttachment(
-                        file.FileName, file, offlineConsulattionMapper);
-
-                    if (response != null)
+                    return new Result<ViewOfflineConsultationDTO>
                     {
-                        var media = new Media
-                        {
-                            OfflineConsultationId = offlineConsulattionMapper.Id,
-                            FileName = file.FileName,
-                            FileUrl = response.FileUrl,
-                            FilePublicId = response.PublicFileId,
-                            FileType = file.ContentType
-                        };
-                        await _unitOfWork.MediaRepository.AddAsync(media);
-                        if (await _unitOfWork.SaveChangeAsync() > 0)
-                            offlineConsulattionMapper.Attachments.Add(media);
-                    }
+                        Error = 1,
+                        Message = "StartDate and EndDate are required for OneTime consultation.",
+                        Data = null
+                    };
                 }
 
-                _offlineConsultationRepository.Update(offlineConsulattionMapper);
+                var hasOverlap = await _unitOfWork.DoctorRepository.HasOverlappingScheduleAsync(
+                    offlineConsultation.DoctorId,
+                    offlineConsultation.StartDate.Value,
+                    offlineConsultation.EndDate.Value
+                );
+                if (hasOverlap)
+                {
+                    return new Result<ViewOfflineConsultationDTO>
+                    {
+                        Error = 1,
+                        Message = "The selected time slot overlaps with an existing schedule for this doctor.",
+                        Data = null
+                    };
+                }
 
+                offlineConsultationEntity = new OfflineConsultation
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = offlineConsultation.UserId,
+                    DoctorId = offlineConsultation.DoctorId,
+                    ClinicId = doctor.ClinicId,
+                    ConsultationType = ConsultationType.OneTime,
+                    Status = "Confirmed",
+                    StartDate = offlineConsultation.StartDate.Value,
+                    EndDate = offlineConsultation.EndDate.Value,
+                    HealthNote = offlineConsultation.HealthNote
+                };
+
+                await _offlineConsultationRepository.AddAsync(offlineConsultationEntity);
                 await _unitOfWork.SaveChangeAsync();
+
+                // Create slot and schedule, set OfflineConsultationId
+                var slot = new Slot
+                {
+                    StartTime = offlineConsultation.StartDate.Value,
+                    EndTime = offlineConsultation.EndDate.Value,
+                    IsAvailable = false
+                };
+                await _unitOfWork.SlotRepository.AddAsync(slot);
+                await _unitOfWork.SaveChangeAsync();
+
+                var scheduleEntity = new Schedule
+                {
+                    SlotId = slot.Id,
+                    DoctorId = offlineConsultation.DoctorId,
+                    OfflineConsultationId = offlineConsultationEntity.Id
+                };
+                await _unitOfWork.ScheduleRepository.AddAsync(scheduleEntity);
+                await _unitOfWork.SaveChangeAsync();
+
+                offlineConsultationEntity.Schedules = new List<Schedule> { scheduleEntity };
             }
+            else if (offlineConsultation.ConsultationType == ConsultationType.Periodic)
+            {
+                if (offlineConsultation.FromMonth == null || offlineConsultation.ToMonth == null || offlineConsultation.Schedule == null || !offlineConsultation.Schedule.Any())
+                {
+                    return new Result<ViewOfflineConsultationDTO>
+                    {
+                        Error = 1,
+                        Message = "FromMonth, ToMonth, and Schedule are required for Periodic consultation.",
+                        Data = null
+                    };
+                }
+
+                offlineConsultationEntity = new OfflineConsultation
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = offlineConsultation.UserId,
+                    DoctorId = offlineConsultation.DoctorId,
+                    ClinicId = doctor.ClinicId,
+                    ConsultationType = ConsultationType.Periodic,
+                    Status = "Confirmed",
+                    FromMonth = offlineConsultation.FromMonth.Value,
+                    ToMonth = offlineConsultation.ToMonth.Value,
+                    HealthNote = offlineConsultation.HealthNote
+                };
+
+                await _offlineConsultationRepository.AddAsync(offlineConsultationEntity);
+                await _unitOfWork.SaveChangeAsync();
+
+                var scheduleEntities = new List<Schedule>();
+                foreach (var scheduleDto in offlineConsultation.Schedule)
+                {
+                    var slotDto = scheduleDto.Slot;
+                    if (slotDto == null) continue;
+                    if (slotDto.StartTime < offlineConsultation.FromMonth.Value || slotDto.StartTime > offlineConsultation.ToMonth.Value)
+                        continue;
+
+                    var hasOverlap = await _unitOfWork.DoctorRepository.HasOverlappingScheduleAsync(
+                        offlineConsultation.DoctorId,
+                        slotDto.StartTime,
+                        slotDto.EndTime
+                    );
+                    if (hasOverlap)
+                    {
+                        return new Result<ViewOfflineConsultationDTO>
+                        {
+                            Error = 1,
+                            Message = $"The selected time slot {slotDto.StartTime:dd/MM/yyyy HH:mm} - {slotDto.EndTime:HH:mm} overlaps with an existing schedule for this doctor.",
+                            Data = null
+                        };
+                    }
+
+                    var slot = new Slot
+                    {
+                        StartTime = slotDto.StartTime,
+                        EndTime = slotDto.EndTime,
+                        IsAvailable = false
+                    };
+                    await _unitOfWork.SlotRepository.AddAsync(slot);
+                    await _unitOfWork.SaveChangeAsync();
+
+                    var scheduleEntity = new Schedule
+                    {
+                        SlotId = slot.Id,
+                        DoctorId = offlineConsultation.DoctorId,
+                        OfflineConsultationId = offlineConsultationEntity.Id
+                    };
+                    await _unitOfWork.ScheduleRepository.AddAsync(scheduleEntity);
+                    await _unitOfWork.SaveChangeAsync();
+
+                    scheduleEntities.Add(scheduleEntity);
+                }
+
+                if (!scheduleEntities.Any())
+                {
+                    return new Result<ViewOfflineConsultationDTO>
+                    {
+                        Error = 1,
+                        Message = "No valid schedules found within the selected period.",
+                        Data = null
+                    };
+                }
+
+                var minStart = scheduleEntities.Min(s => s.Slot.StartTime);
+                var maxEnd = scheduleEntities.Max(s => s.Slot.EndTime);
+
+                offlineConsultationEntity.StartDate = minStart;
+                offlineConsultationEntity.EndDate = maxEnd;
+                offlineConsultationEntity.Schedules = scheduleEntities;
+            }
+            else
+            {
+                return new Result<ViewOfflineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Invalid consultation type.",
+                    Data = null
+                };
+            }
+
+            _offlineConsultationRepository.Update(offlineConsultationEntity);
+            await _unitOfWork.SaveChangeAsync();
 
             return new Result<ViewOfflineConsultationDTO>
             {
                 Error = 0,
                 Message = "Offline consultation booked successfully",
-                Data = _mapper.Map<ViewOfflineConsultationDTO>(offlineConsulattionMapper)
+                Data = _mapper.Map<ViewOfflineConsultationDTO>(offlineConsultationEntity)
             };
         }
 
@@ -363,8 +413,6 @@ namespace Server.Application.Services
                     continue; // Skip if clinic not found or not active
                 }
 
-                var dayOfWeekName = GetDayOfWeekName(consultation.DayOfWeek);
-
                 // Doctor.User may be null if not included, so check and load if needed
                 var doctorUser = doctor?.User;
 
@@ -373,10 +421,9 @@ namespace Server.Application.Services
 
                 var doctorName = doctor?.User.UserName ?? "Doctor";
                 var username = user.UserName ?? "User";
-                var checkupname = consultation.CheckupName;
-                var date = consultation.StartDate.ToString("dd/MM/yyyy");
-                var startTime = consultation.StartDate.ToString("HH:mm");
-                var endTime = consultation.EndDate.ToString("HH:mm");
+                var date = consultation.StartDate?.ToString("dd/MM/yyyy");
+                var startTime = consultation.StartDate?.ToString("HH:mm");
+                var endTime = consultation.EndDate?.ToString("HH:mm");
                 var form = consultation.ConsultationType.ToString();
                 var location = clinic?.Address ?? "Clinic";
                 var supportContact = clinic?.User.PhoneNumber ?? clinic?.User.Email ?? "our support";
@@ -385,9 +432,9 @@ namespace Server.Application.Services
 
                 var emailUserBody = $@"
                                 Hi {username},<br/><br/>
-                                This is an email reminder that you have a consultation named {checkupname} scheduled. Here are the details:<br/><br/>
+                                This is an email reminder that you have a consultation scheduled. Here are the details:<br/><br/>
                                 Doctor: {doctorName}<br/>
-                                Time: {dayOfWeekName}, {date} – {startTime} to {endTime}<br/>
+                                Time: {date} – {startTime} to {endTime}<br/>
                                 Form: {form}<br/>
                                 Location: {location}<br/><br/>
                                 👉 Please arrive at least 5 minutes before your appointment time to ensure that your forum consultation is on time and effective.<br/><br/>
@@ -400,9 +447,9 @@ namespace Server.Application.Services
 
                 var emailDoctorBody = $@"
                                 Hi Doctor {doctorName},<br/><br/>
-                                The system would like to remind you that you have an upcoming consultation named {checkupname}. The details are as follows:<br/><br/>
+                                The system would like to remind you that you have an upcoming consultation. The details are as follows:<br/><br/>
                                 User: {username}<br/>
-                                Time: {dayOfWeekName}, {date} – {startTime} to {endTime}<br/>
+                                Time: {date} – {startTime} to {endTime}<br/>
                                 Form: {form}<br/>
                                 Location: {location}<br/>
                                 You can view details or manage your consultation schedule at the following link:<br/>
@@ -488,13 +535,6 @@ namespace Server.Application.Services
             };
         }
 
-        private static string GetDayOfWeekName(int dayOfWeek)
-        {
-            return Enum.IsDefined(typeof(DayOfWeek), dayOfWeek)
-                ? ((DayOfWeek)dayOfWeek).ToString()
-                : "Unknown";
-        }
-
         public async Task<Result<bool>> SendBookingEmailAsync(Guid offlineConsultationId)
         {
             var offlineConsulattion = await _offlineConsultationRepository
@@ -559,13 +599,11 @@ namespace Server.Application.Services
                 };
             }
 
-            var dayOfWeekName = GetDayOfWeekName(offlineConsulattion.DayOfWeek);
             var username = user.UserName ?? "User";
             var doctorName = doctor.User.UserName ?? "Doctor";
-            var checkupname = offlineConsulattion.CheckupName;
-            var startTime = offlineConsulattion.StartDate.ToString("HH:mm");
-            var endTime = offlineConsulattion.EndDate.ToString("HH:mm");
-            var date = offlineConsulattion.StartDate.ToString("dd/MM/yyyy");
+            var startTime = offlineConsulattion.StartDate?.ToString("HH:mm");
+            var endTime = offlineConsulattion.EndDate?.ToString("HH:mm");
+            var date = offlineConsulattion.StartDate?.ToString("dd/MM/yyyy");
             var form = offlineConsulattion.ConsultationType.ToString();
             var location = clinic.Address ?? "Clinic";
             var contact = clinic.User.Email ?? "our support email";
@@ -574,9 +612,9 @@ namespace Server.Application.Services
 
             var emailUserBody = $@"
                             Hi {username},<br/><br/>
-                            We would like to inform you that your consultation named {checkupname} has been successfully booked with the following information:<br/><br/>
+                            We would like to inform you that your consultation has been successfully booked with the following information:<br/><br/>
                             Doctor: {doctorName}<br/>
-                            Time: {dayOfWeekName}, {date} - {startTime} to {endTime}<br/>
+                            Time: {date} - {startTime} to {endTime}<br/>
                             Form: {form}<br/>
                             Location: {location}<br/><br/>
                             Please prepare in advance the questions or issues you want to discuss to make the consultation most effective.<br/><br/>
@@ -588,9 +626,9 @@ namespace Server.Application.Services
 
             var emailDoctorBody = $@"
                             Hi Doctor {doctorName},<br/><br/>
-                            You have just been assigned to a new consultation named {checkupname} with a user. Here are the details:<br/><br/>
+                            You have just been assigned to a new consultation with a user. Here are the details:<br/><br/>
                             User: {username}<br/>
-                            Time: {dayOfWeekName}, {date} - {startTime} to {endTime}<br/>
+                            Time: {date} - {startTime} to {endTime}<br/>
                             Form: {form}<br/>
                             Location: {location}<br/><br/>
                             Please check your schedule to ensure you can attend on time.<br/><br/>
@@ -619,11 +657,9 @@ namespace Server.Application.Services
                 offlineConsulattion.UserId,
                 offlineConsulattion.ClinicId,
                 offlineConsulattion.DoctorId,
-                offlineConsulattion.CheckupName,
                 offlineConsulattion.ConsultationType,
                 offlineConsulattion.StartDate,
                 offlineConsulattion.EndDate,
-                offlineConsulattion.DayOfWeek, // not sure if this still exists
                 offlineConsulattion.HealthNote,
                 Media = offlineConsulattion.Attachments.Select(m => new { m.FileUrl, m.FileType }),
             };
@@ -669,6 +705,138 @@ namespace Server.Application.Services
                 Error = 0,
                 Message = "View offline consultation successfully",
                 Data = result
+            };
+        }
+
+        public async Task<Result<bool>> AddAttachmentsAsync(Guid offlineConsultationId, List<IFormFile> attachments)
+        {
+            var offlineConsultation = await _offlineConsultationRepository
+                .GetOfflineConsultationByOfflineConsultationIdAsync(offlineConsultationId);
+
+            if (offlineConsultation == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Offline consultation not found.",
+                    Data = false
+                };
+            }
+
+            if (attachments == null || !attachments.Any())
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "No attachments provided.",
+                    Data = false
+                };
+            }
+
+            foreach (var file in attachments)
+            {
+                var response = await _cloudinaryService.UploadOfflineConsultationAttachment(
+                    file.FileName, file, offlineConsultation);
+
+                if (response != null)
+                {
+                    var media = new Media
+                    {
+                        OfflineConsultationId = offlineConsultation.Id,
+                        FileName = file.FileName,
+                        FileUrl = response.FileUrl,
+                        FilePublicId = response.PublicFileId,
+                        FileType = file.ContentType
+                    };
+                    await _unitOfWork.MediaRepository.AddAsync(media);
+                    if (await _unitOfWork.SaveChangeAsync() > 0)
+                        offlineConsultation.Attachments.Add(media);
+                }
+            }
+
+            _offlineConsultationRepository.Update(offlineConsultation);
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<bool>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Attachments added successfully." : "Failed to add attachments.",
+                Data = result > 0
+            };
+        }
+
+        public async Task<Result<ViewOfflineConsultationDTO>> UpdateOfflineConsultationAsync(UpdateOfflineConsultationDTO offlineConsultation)
+        {
+            var offlineConsultationObj = await _offlineConsultationRepository
+                .GetOfflineConsultationByOfflineConsultationIdAsync(offlineConsultation.Id);
+
+            if (offlineConsultationObj == null)
+            {
+                return new Result<ViewOfflineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "Didn't find any offline consultation, please try again!",
+                    Data = null
+                };
+            }
+
+            // Update for OneTime consultation
+            if (offlineConsultationObj.ConsultationType == ConsultationType.OneTime)
+            {
+                if (offlineConsultation.StartDate != null)
+                    offlineConsultationObj.StartDate = offlineConsultation.StartDate;
+                if (offlineConsultation.EndDate != null)
+                    offlineConsultationObj.EndDate = offlineConsultation.EndDate;
+            }
+            // Update for Periodic consultation
+            else if (offlineConsultationObj.ConsultationType == ConsultationType.Periodic)
+            {
+                if (offlineConsultation.FromMonth != null)
+                    offlineConsultationObj.FromMonth = offlineConsultation.FromMonth;
+                if (offlineConsultation.ToMonth != null)
+                    offlineConsultationObj.ToMonth = offlineConsultation.ToMonth;
+
+                // If Schedules are provided in DTO, update them
+                if (offlineConsultation.Schedule != null && offlineConsultation.Schedule.Any())
+                {
+                    // Clear existing schedules and add new ones
+                    offlineConsultationObj.Schedules?.Clear();
+                    foreach (var scheduleDto in offlineConsultation.Schedule)
+                    {
+                        var scheduleEntity = _mapper.Map<Schedule>(scheduleDto);
+                        scheduleEntity.OfflineConsultationId = offlineConsultationObj.Id;
+                        offlineConsultationObj.Schedules?.Add(scheduleEntity);
+                    }
+                }
+
+                // Set StartDate and EndDate based on min/max slot times
+                if (offlineConsultationObj.Schedules != null && offlineConsultationObj.Schedules.Any())
+                {
+                    var minStart = offlineConsultationObj.Schedules
+                        .Where(s => s.Slot != null)
+                        .Min(s => s.Slot.StartTime);
+
+                    var maxEnd = offlineConsultationObj.Schedules
+                        .Where(s => s.Slot != null)
+                        .Max(s => s.Slot.EndTime);
+
+                    offlineConsultation.StartDate = minStart;
+                    offlineConsultation.EndDate = maxEnd;
+                }
+            }
+
+            // Map other updatable properties if needed
+            _mapper.Map(offlineConsultation, offlineConsultationObj);
+
+            _offlineConsultationRepository.Update(offlineConsultationObj);
+
+            var result = await _unitOfWork.SaveChangeAsync();
+
+            return new Result<ViewOfflineConsultationDTO>
+            {
+                Error = result > 0 ? 0 : 1,
+                Message = result > 0 ? "Update offline consultation successfully" : "Update offline consultation fail",
+                Data = result > 0 ? _mapper.Map<ViewOfflineConsultationDTO>(offlineConsultationObj) : null
             };
         }
     }

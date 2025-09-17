@@ -10,7 +10,6 @@ namespace Server.Domain.Entities
     {
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public int DayOfWeek { get; set; } // 0 = Sunday
         public bool IsAvailable { get; set; }
     }
 }
