@@ -35,6 +35,16 @@ namespace Server.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<UserSubscription>> GetAllUserSubscriptionsAsync()
+        {
+            return await _dbSet
+                .Include(us => us.User)
+                .Include(us => us.SubscriptionPlan)
+                .Include(us => us.Payments)
+                .AsSplitQuery()
+                .ToListAsync();
+        }
+
         public async Task<List<UserSubscription>> GetSubscriptionsByUserIdAsync(Guid userId)
         {
             return await _dbSet
@@ -55,6 +65,24 @@ namespace Server.Infrastructure.Repositories
                     && us.NextBillingDate.Value.Date == DateTime.UtcNow.AddDays(days).Date
                     && us.Status == Domain.Enums.UserSubscriptionStatus.Active)
                 .ToListAsync();
+        }
+
+        public async Task<UserSubscription> GetUserSubscriptionByIdAsync(Guid userSubscriptionId)
+        {
+            return await _dbSet
+                .Include(us => us.User)
+                .Include(us => us.SubscriptionPlan)
+                .Include(us => us.Payments)
+                .OrderByDescending(us => us.NextBillingDate)
+                .FirstOrDefaultAsync(us => us.Id == userSubscriptionId);
+        }
+
+        public async Task<UserSubscription> IsUserSubscriptionCreated(Guid subscriptionId, Guid userId)
+        {
+            return await _dbSet
+                .Include(us => us.User)
+                .Include(us => us.SubscriptionPlan)
+                .FirstOrDefaultAsync(us => us.User.Id == userId && us.SubscriptionPlanId == subscriptionId);
         }
     }
 }

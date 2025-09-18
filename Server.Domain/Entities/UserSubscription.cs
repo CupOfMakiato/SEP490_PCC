@@ -15,9 +15,8 @@ namespace Server.Domain.Entities
         public SubscriptionPlan SubscriptionPlan { get; set; }
         public ICollection<Payment> Payments { get; set; }
         public UserSubscriptionStatus Status { get; set; } // Current status of the subscription, e.g., Active, Canceled, Expired
-        public DateTime? NextBillingDate { get; set; }
-        public PaymentMethod PaymentMethod { get; set; } // Payment method used for the subscription, e.g., Credit Card, PayPal, etc.
-        //public bool IsActive { get; set; } = true;
+        public DateTime ExpiresAt { get; set; }
+        public DateTime? NextBillingDate { get; set; }        
         public bool IsAutoRenew { get; set; } = true; // Indicates if the subscription will auto-renew at the end of the period
     }
 }

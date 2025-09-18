@@ -13,7 +13,7 @@ namespace Server.Domain.Entities
 
         public string GatewayTransactionId { get; set; } // Mã giao dịch từ PayOS
         public string Provider { get; set; } // PayOS, Stripe, PayPal...
-
+        public PaymentMethod PaymentMethod { get; set; } // Payment method used for the subscription, e.g., Credit Card, PayPal, etc.
         public PaymentStatus Status { get; set; } // Pending, Success, Failed, Refunded
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? CompletedAt { get; set; }
