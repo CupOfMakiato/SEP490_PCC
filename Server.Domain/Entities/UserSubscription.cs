@@ -13,9 +13,8 @@ namespace Server.Domain.Entities
         public User User { get; set; }
         public Guid SubscriptionPlanId { get; set; }
         public SubscriptionPlan SubscriptionPlan { get; set; }
-        public float InvoicedPrice { get; set; } // The price charged for this subscription, can differ from the plan price due to discounts or offers
-        public string Description { get; set; } // Description of the subscription, can include details like "First month free", "Discount applied", etc.
-        public Payment Payment { get; set; }
+        public ICollection<Payment> Payments { get; set; }
+        public UserSubscriptionStatus Status { get; set; } // Current status of the subscription, e.g., Active, Canceled, Expired
         public DateTime? NextBillingDate { get; set; }
         public PaymentMethod PaymentMethod { get; set; } // Payment method used for the subscription, e.g., Credit Card, PayPal, etc.
         //public bool IsActive { get; set; } = true;

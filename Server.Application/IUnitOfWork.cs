@@ -12,10 +12,12 @@ namespace Server.Application
         public ITagRepository TagRepository { get; }
         public IBookmarkRepository BookmarkRepository { get; }
         public ILikeRepository LikeRepository { get; }
+        public ISubscriptionPlanRepository SubscriptionPlanRepository { get; }
         public IFoodCategoryRepository FoodCategoryRepository { get; }
         public IFoodRepository FoodRepository { get; }
         public INutrientRepository NutrientRepository { get; }
         public INutrientCategoryRepository NutrientCategoryRepository { get; }
+        public IUserSubscriptionRepository UserSubscriptionRepository { get; }
         public IDiseaseRepository DiseaseRepository { get; }
         public IGrowthDataRepository GrowthDataRepository { get; }
         public IJournalRepository JournalRepository { get; }
@@ -44,6 +46,7 @@ namespace Server.Application
         public IAllergyCategoryRepository AllergyCategoryRepository { get; }
         public IMealRepository MealRepository { get; }
         public IAllergyRepository AllergyRepository { get; }
+        public IPaymentRepository PaymentRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }
