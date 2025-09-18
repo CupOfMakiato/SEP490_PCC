@@ -37,6 +37,7 @@ namespace Server.Infrastructure.Repositories
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
+                        UserId = c.UserId,
                         User = c.User != null && !c.User.IsDeleted
                                 ? new User
                                 {
@@ -85,6 +86,7 @@ namespace Server.Infrastructure.Repositories
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
                                 IsDeleted = doc.IsDeleted,
+                                UserId = doc.UserId,
                                 User = doc.User != null && !doc.User.IsDeleted
                                 ? new User
                                 {
@@ -122,6 +124,7 @@ namespace Server.Infrastructure.Repositories
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
+                        UserId = c.UserId,
                         User = c.User != null && !c.User.IsDeleted
                                 ? new User
                                 {
@@ -170,6 +173,7 @@ namespace Server.Infrastructure.Repositories
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
                                 IsDeleted = doc.IsDeleted,
+                                UserId = doc.UserId,
                                 User = doc.User != null && !doc.User.IsDeleted
                                 ? new User
                                 {
@@ -195,6 +199,59 @@ namespace Server.Infrastructure.Repositories
                     .ToListAsync();
         }
 
+        public async Task<Clinic> GetClinicByUserId(Guid userId)
+        {
+            return await _context.Clinic
+                    .Where(c => c.UserId == userId && !c.IsDeleted && c.IsActive)
+                    .Select(c => new Clinic
+                    {
+                        Id = c.Id,
+                        Address = c.Address,
+                        Description = c.Description,
+                        IsInsuranceAccepted = c.IsInsuranceAccepted,
+                        IsActive = c.IsActive,
+                        Specializations = c.Specializations,
+                        UserId = c.UserId,
+                        User = c.User != null && !c.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = c.User.Id,
+                                    UserName = c.User.UserName,
+                                    Email = c.User.Email,
+                                    PhoneNumber = c.User.PhoneNumber,
+                                    Status = c.User.Status,
+                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                                }
+                                : null,
+                        Doctors = c.Doctors
+                            .Where(doc => !doc.IsDeleted)
+                            .Select(doc => new Doctor
+                            {
+                                Id = doc.Id,
+                                Gender = doc.Gender,
+                                Specialization = doc.Specialization,
+                                Certificate = doc.Certificate,
+                                ExperienceYear = doc.ExperienceYear,
+                                WorkPosition = doc.WorkPosition,
+                                Description = doc.Description,
+                                IsDeleted = doc.IsDeleted,
+                                UserId = doc.UserId,
+                                User = doc.User != null && !doc.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = doc.User.Id,
+                                    UserName = doc.User.UserName,
+                                    Email = doc.User.Email,
+                                    PhoneNumber = doc.User.PhoneNumber,
+                                    Status = doc.User.Status,
+                                    Avatar = doc.User.Avatar != null && !doc.User.Avatar.IsDeleted ? doc.User.Avatar : null
+                                }
+                                : null
+                            }).ToList()
+                    })
+                    .FirstOrDefaultAsync();
+        }
+
         public async Task<List<Clinic>> GetClinicsAsync()
         {
             return await _context.Clinic
@@ -207,6 +264,7 @@ namespace Server.Infrastructure.Repositories
                         IsInsuranceAccepted = c.IsInsuranceAccepted,
                         IsActive = c.IsActive,
                         Specializations = c.Specializations,
+                        UserId = c.UserId,
                         User = c.User != null && !c.User.IsDeleted
                                 ? new User
                                 {
@@ -255,6 +313,7 @@ namespace Server.Infrastructure.Repositories
                                 WorkPosition = doc.WorkPosition,
                                 Description = doc.Description,
                                 IsDeleted = doc.IsDeleted,
+                                UserId = doc.UserId,
                                 User = doc.User != null && !doc.User.IsDeleted
                                 ? new User
                                 {

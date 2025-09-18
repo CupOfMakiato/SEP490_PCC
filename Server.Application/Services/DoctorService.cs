@@ -55,10 +55,11 @@ namespace Server.Application.Services
             var user = new User
             {
                 UserName = doctor.UserName,
+                Password = HashPassword("doctor#123"),
                 Email = doctor.Email,
                 Balance = 0,
                 PhoneNumber = doctor.PhoneNumber,
-                Status = StatusEnums.Pending,
+                Status = StatusEnums.Active,
                 IsStaff = false,
                 RoleId = 7,
                 CreationDate = DateTime.Now,
@@ -145,7 +146,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> SoftDeleteDoctor(Guid doctorId)
         {
-            var doctor = await _doctorRepository.GetDoctorByIdAsync(doctorId);
+            var doctor = await _doctorRepository.GetDoctorByDoctorIdAsync(doctorId);
 
             if (doctor == null)
             {
@@ -239,6 +240,11 @@ namespace Server.Application.Services
                 Message = result > 0 ? "Update doctor successfully" : "Update doctor failed",
                 Data = _mapper.Map<ViewDoctorDTO>(doctorObj)
             };
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }
