@@ -86,7 +86,7 @@ namespace Server.API.Controllers
             }
         }
 
-        [HttpPost("delete-energy-suggestion-by-id")]
+        [HttpDelete("delete-energy-suggestion-by-id")]
         public async Task<IActionResult> Delete([FromQuery] Guid energySuggestionId)
         {
             if (energySuggestionId == Guid.Empty)
