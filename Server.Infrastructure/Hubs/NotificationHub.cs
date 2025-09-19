@@ -24,5 +24,18 @@ namespace Server.Infrastructure.Hubs
             _ConnectionsMap.Remove(userId);
             await base.OnDisconnectedAsync(exception);
         }
+
+        // Called by server service to send notification
+        public async Task SendNotification(Guid userId, string message)
+        {
+            if (_ConnectionsMap.TryGetValue(userId, out var connectionId))
+            {
+                await Clients.Client(connectionId).SendAsync("ReceivedNotification", message);
+            }
+        }
+        //public async Task Ping()
+        //{
+        //    await Clients.Caller.SendAsync("Pong");
+        //}
     }
 }

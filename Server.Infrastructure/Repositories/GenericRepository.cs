@@ -5,6 +5,7 @@ using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Application.Commons;
 using System.Linq.Expressions;
+using Org.BouncyCastle.Asn1;
 
 namespace Server.Infrastructure.Repositories
 {
@@ -33,6 +34,10 @@ namespace Server.Infrastructure.Repositories
         {
             entity.CreationDate = _timeService.GetCurrentTime();
             entity.CreatedBy = _claimsService.GetCurrentUserId;
+            await _dbSet.AddAsync(entity);
+        }
+        public async Task Add(TEntity entity)
+        {
             await _dbSet.AddAsync(entity);
         }
 

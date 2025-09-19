@@ -62,8 +62,7 @@ namespace Server.Application.Services
                                         (
                                             schedule.DoctorId,
                                             schedule.Slot.StartTime,
-                                            schedule.Slot.EndTime,
-                                            schedule.Slot.DayOfWeek
+                                            schedule.Slot.EndTime
                                         );
 
             if (overlappingSlotExists)
@@ -252,8 +251,7 @@ namespace Server.Application.Services
                                     (
                                         scheduleObj.DoctorId.Value,
                                         schedule.Slot.StartTime,
-                                        schedule.Slot.EndTime,
-                                        schedule.Slot.DayOfWeek
+                                        schedule.Slot.EndTime
                                     );
 
             if (overlappingSlotExists)

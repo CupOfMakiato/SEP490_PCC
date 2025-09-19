@@ -32,12 +32,13 @@ namespace Server.Application.Services
         private readonly IRecordedSymptomRepository _symptomRepository;
         private readonly IBasicBioMetricService _basicBioMetricService;
         private readonly ITailoredCheckupReminderService _tailoredCheckupReminderService;
+        private readonly INotificationService _notificationService;
 
 
         public JournalService(IUnitOfWork unitOfWork, IMapper mapper, IJournalRepository journalRepository,
             ICurrentTime currentTime, IClaimsService claimsService, ICloudinaryService cloudinaryService,
             IRecordedSymptomService symptomService, IRecordedSymptomRepository symptomRepository, IBasicBioMetricService basicBioMetricService,
-            ITailoredCheckupReminderService tailoredCheckupReminderService)
+            ITailoredCheckupReminderService tailoredCheckupReminderService, INotificationService notificationService)
         {
             _journalRepository = journalRepository;
             _unitOfWork = unitOfWork;
@@ -49,6 +50,7 @@ namespace Server.Application.Services
             _symptomRepository = symptomRepository;
             _basicBioMetricService = basicBioMetricService;
             _tailoredCheckupReminderService = tailoredCheckupReminderService;
+            _notificationService = notificationService;
         }
         private async Task<ViewJournalDTO> MapJournalToViewJournalDTO(Journal journal)
         {
@@ -365,20 +367,30 @@ namespace Server.Application.Services
 
             await _unitOfWork.SaveChangeAsync();
 
-            // after saving journal then update this too
-            var editBbmDto = new EditBasicBioMetricDTO
+            // after saving journal then maybe update BBM
+            var growthDataUpdated = await _unitOfWork.GrowthDataRepository.GetGrowthDataById(journal.GrowthDataId);
+            if (growthDataUpdated?.BasicBioMetric != null)
             {
-                Id = growthData.BasicBioMetric.Id,
-                WeightKg = CreateNewJournalEntryForCurrentWeekDTO.CurrentWeight,
-                SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
-                DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
-                HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
-                BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
-                Notes = $"System reacored from Journal week {currentWeek}"
-            };
+                // calculate current gestational week
+                var currentGestationalWeek = growthDataUpdated.GetCurrentGestationalAgeInWeeks(today);
 
-            // this service already have savechange sooooo no need to save again
-            await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+                // only sync biometric if journal belongs to "closest" current week
+                if (journal.CurrentWeek == currentGestationalWeek)
+                {
+                    var editBbmDto = new EditBasicBioMetricDTO
+                    {
+                        Id = growthDataUpdated.BasicBioMetric.Id,
+                        WeightKg = journal.CurrentWeight,
+                        SystolicBP = CreateNewJournalEntryForCurrentWeekDTO.SystolicBP,
+                        DiastolicBP = CreateNewJournalEntryForCurrentWeekDTO.DiastolicBP,
+                        HeartRateBPM = CreateNewJournalEntryForCurrentWeekDTO.HeartRateBPM,
+                        BloodSugarLevelMgDl = CreateNewJournalEntryForCurrentWeekDTO.BloodSugarLevelMgDl,
+                        Notes = $"System recorded from Journal week {journal.CurrentWeek}"
+                    };
+
+                    await _basicBioMetricService.EditBasicBioMetric(editBbmDto);
+                }
+            }
 
             return new Result<object>
             {
@@ -532,15 +544,10 @@ namespace Server.Application.Services
             {
                 // calculate current gestational week
                 var today = _currentTime.GetCurrentTime().Date;
-                int actualWeek = 0;
-                if (growthData.FirstDayOfLastMenstrualPeriod != null)
-                {
-                    var gestationalDays = (today - growthData.FirstDayOfLastMenstrualPeriod.Date).TotalDays;
-                    actualWeek = (int)(gestationalDays / 7) + 1;
-                }
+                var currentGestationalWeek = growthData.GetCurrentGestationalAgeInWeeks(today);
 
                 // only sync biometric if journal belongs to "closest" current week
-                if (journal.CurrentWeek == actualWeek)
+                if (journal.CurrentWeek == currentGestationalWeek)
                 {
                     var editBbmDto = new EditBasicBioMetricDTO
                     {
@@ -582,11 +589,13 @@ namespace Server.Application.Services
             var reminder = await _unitOfWork.TailoredCheckupReminderRepository
                 .GetActiveReminderByGrowthDataAndWeek(growthDataId, journal.CurrentWeek);
 
+            if (reminder != null)
+            {
                 reminder.IsActive = false;
                 reminder.ModificationDate = _currentTime.GetCurrentTime();
                 reminder.Note = $"Deactivated because journal week {journal.CurrentWeek} was deleted.";
                 _unitOfWork.TailoredCheckupReminderRepository.Update(reminder);
-            
+            }
 
             _unitOfWork.JournalRepository.SoftRemove(journal);
             await _unitOfWork.SaveChangeAsync();
@@ -608,6 +617,7 @@ namespace Server.Application.Services
                     bbm.BloodSugarLevelMgDl = latestJournal.BloodSugarLevelMgDl;
                     bbm.Notes = $"System rolled back from deleted journal, now using journal week {latestJournal.CurrentWeek}";
                 }
+
                 else
                 {
                     bbm.WeightKg = growthData.PreWeight ?? bbm.WeightKg;
@@ -622,6 +632,30 @@ namespace Server.Application.Services
                 await _unitOfWork.SaveChangeAsync();
 
                 await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id);
+
+                var userId = growthData.GrowthDataCreatedBy?.Id;
+                var notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    Message = "Journal deleted successfully, BBM updated, and related reminders deactivated.",
+                    CreatedBy = userId,
+                    IsSent = true,
+                    IsRead = false,
+                    CreationDate = _currentTime.GetCurrentTime()
+                };
+                var bbmDto = new
+                {
+                    bbm.Id,
+                    bbm.HeightCm,
+                    bbm.WeightKg,
+                    bbm.SystolicBP,
+                    bbm.DiastolicBP,
+                    bbm.HeartRateBPM,
+                    bbm.BloodSugarLevelMgDl,
+                    bbm.Notes
+                };
+
+                await _notificationService.CreateNotification(notification, bbmDto, "BBM");
             }
 
             return new Result<object>

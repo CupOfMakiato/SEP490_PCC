@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.SignalR;
 using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.BasicBioMetric;
 using Server.Application.DTOs.Blog;
@@ -25,9 +26,10 @@ namespace Server.Application.Services
         private readonly IClaimsService _claimsService;
         private readonly ICurrentTime _currentTime;
         private readonly ITailoredCheckupReminderService _tailoredCheckupReminderService;
+        private readonly INotificationService _notificationService;
 
         public BasicBioMetricService(IUnitOfWork unitOfWork, IMapper mapper, IBasicBioMetricRepository basicBioMetricRepository,
-            IClaimsService claimsService, ICurrentTime currentTime, ITailoredCheckupReminderService tailoredCheckupReminderService)
+            IClaimsService claimsService, ICurrentTime currentTime, ITailoredCheckupReminderService tailoredCheckupReminderService, INotificationService notificationService)
         {
             _basicBioMetricRepository = basicBioMetricRepository;
             _unitOfWork = unitOfWork;
@@ -35,6 +37,7 @@ namespace Server.Application.Services
             _claimsService = claimsService;
             _currentTime = currentTime;
             _tailoredCheckupReminderService = tailoredCheckupReminderService;
+            _notificationService = notificationService;
         }
         public async Task<Result<List<ViewBasicBioMetricDTO>>> ViewAllBasicBioMetrics()
         {
@@ -166,6 +169,20 @@ namespace Server.Application.Services
             {
                 int? recordedWeek = latestJournal?.CurrentWeek; 
                 await _tailoredCheckupReminderService.SendEmergencyBiometricAlert(bbm.Id, recordedWeek);
+
+                var growthData = await _unitOfWork.GrowthDataRepository.GetActiveGrowthDataById(bbm.GrowthDataId);
+                var userId = growthData.GrowthDataCreatedBy?.Id;
+                var notification = new Notification
+                {
+                    Id = Guid.NewGuid(),
+                    Message = "Your health metrics (BBM) were updated successfully.",
+                    CreatedBy = userId,
+                    IsSent = true,
+                    IsRead = false,
+                    CreationDate = _currentTime.GetCurrentTime()
+                };
+                await _notificationService.CreateNotification(notification, bbm, "BBM");
+
             }
 
             return new Result<object>

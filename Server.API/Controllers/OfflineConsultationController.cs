@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.OfflineConsultation;
 using Server.Application.Interfaces;
 
@@ -40,7 +41,7 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("book-offline-consultation")]
-        public async Task<IActionResult> BookOfflineConsultation([FromForm] BookingOfflineConsultationDTO offlineConsultation)
+        public async Task<IActionResult> BookOfflineConsultation([FromBody] BookingOfflineConsultationDTO offlineConsultation)
         {
             var result = await _offlineConsultationService.BookOfflineConsultationAsync(offlineConsultation);
 
@@ -75,6 +76,22 @@ namespace Server.API.Controllers
         public async Task<IActionResult> SendBookingEmailAsync(Guid offlineConsultationId)
         {
             var result = await _offlineConsultationService.SendBookingEmailAsync(offlineConsultationId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("add-attachments/{offlineConsultationId}")]
+        public async Task<IActionResult> AddAttachmentsAsync(Guid offlineConsultationId, [FromForm] List<IFormFile> attachments)
+        {
+            var result = await _offlineConsultationService.AddAttachmentsAsync(offlineConsultationId, attachments);
+            
+            return Ok(result);
+        }
+
+        [HttpPut("update-offline-consultation")]
+        public async Task<IActionResult> UpdateOfflineConsultation([FromBody] UpdateOfflineConsultationDTO offlineConsultation)
+        {
+            var result = await _offlineConsultationService.UpdateOfflineConsultationAsync(offlineConsultation);
 
             return Ok(result);
         }

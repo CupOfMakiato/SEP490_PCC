@@ -1,4 +1,5 @@
-﻿using Server.Application.Abstractions.Shared;
+﻿using Microsoft.AspNetCore.Http;
+using Server.Application.Abstractions.Shared;
 using Server.Application.DTOs.OfflineConsultation;
 
 namespace Server.Application.Interfaces
@@ -14,5 +15,7 @@ namespace Server.Application.Interfaces
         public Task SendOfflineConsultationRemindersAsync();
         public Task<Result<bool>> SendBookingEmailAsync(Guid offlineConsultationId);
         public Task<Result<List<ViewOfflineConsultationDTO>>> GetOfflineConsultationsByCreatedByAsync(Guid userId);
+        public Task<Result<bool>> AddAttachmentsAsync(Guid offlineConsultationId, List<IFormFile> attachments);
+        public Task<Result<ViewOfflineConsultationDTO>> UpdateOfflineConsultationAsync(UpdateOfflineConsultationDTO offlineConsultation);
     }
 }
