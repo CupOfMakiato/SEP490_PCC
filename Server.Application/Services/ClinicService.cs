@@ -5,6 +5,7 @@ using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace Server.Application.Services
 {
@@ -275,6 +276,18 @@ namespace Server.Application.Services
                 var otp = BitConverter.ToUInt32(byteArray, 0) % 1000000; // Generate a 6-digit OTP
                 return otp.ToString("D6");
             }
+        }
+
+        public async Task<Result<ViewClinicDTO>> GetClinicByUserIdAsync(Guid userId)
+        {
+            var result = _mapper.Map<ViewClinicDTO>(await _clinicRepository.GetClinicByUserId(userId));
+
+            return new Result<ViewClinicDTO>
+            {
+                Error = 0,
+                Message = "View clinic by user id successfully",
+                Data = result
+            };
         }
     }
 }
