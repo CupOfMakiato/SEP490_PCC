@@ -1,27 +1,28 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Net.payOS;
+using Server.Application;
+using Server.Application.HangfireInterface;
+using Server.Application.HangfireService;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Application.Services;
-using Server.Application;
+using Server.Application.Settings.CloudinaryService;
+using Server.Application.Utils;
 using Server.Infrastructure.Data;
+using Server.Infrastructure.Mappers;
 using Server.Infrastructure.Repositories;
+using Server.Infrastructure.Services;
+using Server.Infrastructure.ThirdPartyServices;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Server.Infrastructure.Mappers;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Server.Application.Settings.CloudinaryService;
-using Server.Infrastructure.ThirdPartyServices;
-using StackExchange.Redis;
-using Server.Application.Utils;
-using Server.Application.HangfireInterface;
-using Server.Application.HangfireService;
-using Hangfire;
-using Server.Infrastructure.Services;
 
 namespace Server.Infrastructure
 {
@@ -168,6 +169,13 @@ namespace Server.Infrastructure
             {
                 options.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+            PayOS payOS = new PayOS(configuration["Environment:PAYOS_CLIENT_ID"] ?? throw new Exception("Cannot find environment"),
+                    configuration["Environment:PAYOS_API_KEY"] ?? throw new Exception("Cannot find environment"),
+                    configuration["Environment:PAYOS_CHECKSUM_KEY"] ?? throw new Exception("Cannot find environment"));
+
+            services.AddSingleton(payOS);
 
             return services;
         }
