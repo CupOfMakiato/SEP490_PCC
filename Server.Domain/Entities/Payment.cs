@@ -10,7 +10,7 @@ namespace Server.Domain.Entities
         public decimal InvoicedPrice { get; set; } // The price charged for this subscription, can differ from the plan price due to discounts or offers
         public decimal Amount { get; set; }
         public string Currency { get; set; } = "VND";
-
+        public string CheckoutUrl { get; set; } // URL to redirect the user for payment
         public string GatewayTransactionId { get; set; } // Mã giao dịch từ PayOS
         public string Provider { get; set; } // PayOS, Stripe, PayPal...
         public PaymentMethod PaymentMethod { get; set; } // Payment method used for the subscription, e.g., Credit Card, PayPal, etc.
