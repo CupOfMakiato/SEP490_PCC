@@ -56,6 +56,13 @@ namespace Server.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Doctor?> GetDoctorByDoctorIdAsync(Guid doctorId)
+        {
+            return await _context.Doctor
+                .Where(d => d.Id == doctorId && !d.IsDeleted)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Doctor?> GetDoctorByIdAsync(Guid doctorId)
         {
             return await _context.Doctor

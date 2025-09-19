@@ -9,5 +9,6 @@ namespace Server.Application.Repositories
                                                       DateTime startTime,
                                                       DateTime endTime);
         public Task<List<Doctor>> GetAllDoctorsAsync();
+        public Task<Doctor?> GetDoctorByDoctorIdAsync(Guid doctorId);
     }
 }
