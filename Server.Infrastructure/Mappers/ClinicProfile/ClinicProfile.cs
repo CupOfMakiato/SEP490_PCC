@@ -8,9 +8,10 @@ namespace Server.Infrastructure.Mappers.ClinicProfile
     {
         public ClinicProfile()
         {
-            CreateMap<ViewClinicDTO, Clinic>().ReverseMap()
-                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id));
-
+            CreateMap<ViewClinicDTO, Clinic>()
+                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id))
+                .ForMember(dest => dest.User, src => src.MapFrom(x => x.User))
+                .ReverseMap();
             CreateMap<AddClinicDTO, Clinic>().ReverseMap();
 
             CreateMap<UpdateClinicDTO, Clinic>().ReverseMap();

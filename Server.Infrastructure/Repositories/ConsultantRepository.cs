@@ -97,34 +97,57 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<Consultant> GetConsultantByUserIdAsync(Guid userId)
         {
-            return await _context.Consultant.Where(c => c.UserId == userId && !c.IsDeleted)
-                                            .Select(c => new Consultant
-                                            {
-                                                Id = c.Id,
-                                                Specialization = c.Specialization,
-                                                Certificate = c.Certificate,
-                                                Gender = c.Gender,
-                                                JoinedAt = c.JoinedAt,
-                                                IsCurrentlyConsulting = c.IsCurrentlyConsulting,
-                                                ExperienceYears = c.ExperienceYears,
-                                                UserId = c.UserId,
-                                                User = c.User != null && !c.User.IsDeleted
-                                                ? new User
-                                                {
-                                                    Id = c.User.Id,
-                                                    UserName = c.User.UserName,
-                                                    Email = c.User.Email,
-                                                    PhoneNumber = c.User.PhoneNumber,
-                                                    Status = c.User.Status,
-                                                    Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
-                                                }
-                                                : null,
-                                                ClinicId = c.ClinicId,
-                                                Clinic = c.Clinic != null && !c.Clinic.IsDeleted ? c.Clinic : null,
-                                                IsDeleted = c.IsDeleted
-                                            })
-                                            .FirstOrDefaultAsync();
+            return await _context.Consultant
+                .Where(c => c.UserId == userId && !c.IsDeleted)
+                .Select(c => new Consultant
+                {
+                    Id = c.Id,
+                    Specialization = c.Specialization,
+                    Certificate = c.Certificate,
+                    Gender = c.Gender,
+                    JoinedAt = c.JoinedAt,
+                    IsCurrentlyConsulting = c.IsCurrentlyConsulting,
+                    ExperienceYears = c.ExperienceYears,
+                    UserId = c.UserId,
+                    User = c.User != null && !c.User.IsDeleted
+                        ? new User
+                        {
+                            Id = c.User.Id,
+                            UserName = c.User.UserName,
+                            Email = c.User.Email,
+                            PhoneNumber = c.User.PhoneNumber,
+                            Status = c.User.Status,
+                            Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
+                        }
+                        : null,
+                    ClinicId = c.ClinicId,
+                    Clinic = c.Clinic != null && !c.Clinic.IsDeleted
+                        ? new Clinic
+                        {
+                            Id = c.Clinic.Id,
+                            Address = c.Clinic.Address,
+                            Description = c.Clinic.Description,
+                            IsInsuranceAccepted = c.Clinic.IsInsuranceAccepted,
+                            Specializations = c.Clinic.Specializations,
+                            UserId = c.Clinic.UserId,
+                            User = c.Clinic.User != null && !c.Clinic.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = c.Clinic.User.Id,
+                                    UserName = c.Clinic.User.UserName, // 👈 this will now show up
+                                    Email = c.Clinic.User.Email,
+                                    PhoneNumber = c.Clinic.User.PhoneNumber,
+                                    Status = c.Clinic.User.Status,
+                                    Avatar = c.Clinic.User.Avatar != null && !c.Clinic.User.Avatar.IsDeleted ? c.Clinic.User.Avatar : null
+                                }
+                                : null
+                        }
+                        : null,
+                    IsDeleted = c.IsDeleted
+                })
+                .FirstOrDefaultAsync();
         }
+
 
         //public async Task<bool> HasOverlappingScheduleAsync(Guid consultantId, DateTime startTime, DateTime endTime, int dayOfWeek)
         //{

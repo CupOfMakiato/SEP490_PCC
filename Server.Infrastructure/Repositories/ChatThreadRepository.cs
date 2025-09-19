@@ -52,6 +52,8 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<ChatThread?>> GetChatThreadByUserIdAsync(Guid userId)
         {
             return await _context.ChatThread
+                .Include(m => m.Messages)
+                .Include(m => m.User)
                 .Where(ct => ct.ConsultantId == userId || ct.UserId == userId && !ct.IsDeleted)
                 .ToListAsync();
         }
