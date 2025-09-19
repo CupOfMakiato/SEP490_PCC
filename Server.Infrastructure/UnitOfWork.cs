@@ -59,6 +59,9 @@ namespace Server.Infrastructure
         private readonly INSAttributeRepository _iNSAttributeRepository;
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly IDishRepository _dishRepository;
+        private readonly IRecommendedCheckupReminderRepository _recommendedCheckupReminderRepository;
+
+        private readonly INotificationRepository _notificationRepository;
 
         public UnitOfWork(AppDbContext dbContext,
             IUserRepository userRepository,
@@ -103,7 +106,9 @@ namespace Server.Infrastructure
             ITailoredCheckupReminderRepository tailoredCheckupReminderRepository,
             INSAttributeRepository iNSAttributeRepository,
             IDishRepository dishRepository,
-            IFeedbackRepository feedbackRepository)
+            IFeedbackRepository feedbackRepository,
+            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository,
+            INotificationRepository notificationRepository)
 
         {
             _dbContext = dbContext;
@@ -150,6 +155,8 @@ namespace Server.Infrastructure
             _iNSAttributeRepository = iNSAttributeRepository;
             _feedbackRepository = feedbackRepository;
             _dishRepository = dishRepository;
+            _recommendedCheckupReminderRepository = recommendedCheckupReminderRepository;
+            _notificationRepository = notificationRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -195,6 +202,8 @@ namespace Server.Infrastructure
         public IDishRepository DishRepository => _dishRepository;
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public IMealRepository MealRepository => _mealRepository;
+        public IRecommendedCheckupReminderRepository RecommendedCheckupReminderRepository => _recommendedCheckupReminderRepository;
+        public INotificationRepository NotificationRepository => _notificationRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

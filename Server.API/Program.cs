@@ -3,6 +3,7 @@ using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Server.API.Middlewares;
 using Server.Application;
 using Server.Application.Commons;
 using Server.Application.HangfireInterface;
@@ -12,6 +13,7 @@ using Server.Infrastructure.Hubs;
 using Server.WebAPI;
 using Server.WebAPI.Middlewares;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +80,7 @@ builder.Services.AddCors(options =>
                 "http://nestlycare.live"
                 )
                    .AllowAnyHeader()
+                   .AllowCredentials()
                    .AllowAnyMethod();
         });
 });
@@ -115,12 +118,12 @@ using (var scope = app.Services.CreateScope())
         Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
                              //Cron.MinuteInterval(1) // Run every minute for testing
         );
-    // recurringJobManager.AddOrUpdate<ITailoredReminderEmailService>(
-    //"send-emergency-biometric-alert",
-    //    job => job.RunEmergencyBiometricJob(),
-    //    Cron.Minutely
-    //    //Cron.MinuteInterval(1) // Run every minute for testing
-    //);
+     recurringJobManager.AddOrUpdate<IRecommendedCheckupReminderBGService>(
+    "send-recommended-checkup-reminder",
+        job => job.ProcessDueReminders(),
+        Cron.Daily(hour: 17) // fire at 00:00 Vietnam Time
+                             //Cron.MinuteInterval(1) // Run every minute for testing
+    );
 
 }
 
@@ -159,6 +162,8 @@ app.UseAuthorization();
 
 // Use Global Exception Middleware 
 app.UseMiddleware<GlobalExceptionMiddleware>();
+
+app.UseMiddleware<RateLimitMiddleware>();
 
 app.UseHttpsRedirection();
 

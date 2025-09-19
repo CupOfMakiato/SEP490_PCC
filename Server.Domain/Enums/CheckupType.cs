@@ -8,6 +8,7 @@ namespace Server.Domain.Enums
 {
     public enum CheckupType
     {
+        recommneded,
         RoutinePrenatal,
         Ultrasound,
         Screening,

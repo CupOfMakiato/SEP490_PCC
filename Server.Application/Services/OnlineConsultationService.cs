@@ -16,19 +16,22 @@ namespace Server.Application.Services
         private readonly IOnlineConsultationRepository _onlineConsultationRepository;
         private readonly ICloudinaryService _cloudinaryService;
         private readonly IEmailService _emailService;
+        private readonly INotificationService _notificationService;
 
         public OnlineConsultationService(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IOnlineConsultationRepository onlineConsultationRepository,
             ICloudinaryService cloudinaryService,
-            IEmailService emailService)
+            IEmailService emailService,
+            INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _onlineConsultationRepository = onlineConsultationRepository;
             _cloudinaryService = cloudinaryService;
             _emailService = emailService;
+            _notificationService = notificationService;
         }
 
         public async Task<Result<ViewOnlineConsultationDTO>> CreateOnlineConsultation(AddOnlineConsultationDTO onlineConsultation)
@@ -282,6 +285,34 @@ namespace Server.Application.Services
 
                 await _emailService.SendEmailAsync(emailUserDTO);
             }
+
+            // update dto payload
+            var onlineConsultationDto = new
+            {
+                onlineConsultation.Id,
+                onlineConsultation.UserId,
+                onlineConsultation.ConsultantId,
+                onlineConsultation.Trimester,
+                onlineConsultation.Date,
+                onlineConsultation.GestationalWeek,
+                onlineConsultation.Summary,
+                onlineConsultation.ConsultantNote,
+                onlineConsultation.UserNote,
+                onlineConsultation.VitalSigns,
+                onlineConsultation.Recommendations,
+                Media = onlineConsultation.Attachments.Select(m => new { m.FileUrl, m.FileType }),
+            };
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                Message = $"You have booked a new online consultation on {consultationDateTime} with {consultantName}",
+                CreatedBy = user.Id,
+                IsSent = true,
+                IsRead = false,
+                CreationDate = DateTime.UtcNow.Date
+            };
+
+            await _notificationService.CreateNotification(notification, onlineConsultationDto, "OnlineConsultation");
 
             return new Result<bool>
             {

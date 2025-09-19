@@ -19,7 +19,6 @@ namespace Server.Domain.Entities
         public ICollection<Consultant> Consultants { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
         public ICollection<Doctor> Doctors { get; set; }
-        public Media? ImageUrl { get; set; }
         public User User { get; set; }
     }
 }

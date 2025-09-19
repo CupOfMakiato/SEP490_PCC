@@ -12,6 +12,8 @@ namespace Server.Infrastructure.Mappers.OfflineConsultationProfile
                 .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id));
 
             CreateMap<BookingOfflineConsultationDTO, OfflineConsultation>().ReverseMap();
+
+            CreateMap<UpdateOfflineConsultationDTO, OfflineConsultation>().ReverseMap();
         }
     }
 }

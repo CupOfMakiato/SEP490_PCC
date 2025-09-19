@@ -7,8 +7,7 @@ namespace Server.Application.Repositories
         public Task<Doctor?> GetDoctorByIdAsync(Guid doctorId);
         public Task<bool> HasOverlappingScheduleAsync(Guid doctorId,
                                                       DateTime startTime,
-                                                      DateTime endTime,
-                                                      int dayOfWeek);
+                                                      DateTime endTime);
         public Task<List<Doctor>> GetAllDoctorsAsync();
     }
 }

@@ -37,6 +37,7 @@ namespace Server.Application.Interfaces
 
         // basicbiometric alert
         Task SendEmergencyBiometricAlert(string email, string subject, string body);
-
+        // recommended checkup reminder
+        Task SendUpcomingRecommendedCheckupReminder(string email, string reason);
     }
 }
