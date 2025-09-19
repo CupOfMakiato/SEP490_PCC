@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.ChatThread;
 using Server.Application.DTOs.Message;
+using Server.Application.DTOs.Notification;
 using Server.Application.Interfaces;
 
 namespace Server.API.Controllers
@@ -40,7 +43,9 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("start-thread")]
-        public async Task<IActionResult> StartThreadAsync([FromBody] ChatThreadDTO chatThread)
+        [ProducesResponseType(200, Type = typeof(ViewChatThreadDTO))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))]
+        public async Task<IActionResult> StartThreadAsync([FromBody] CreateChatThreadDTO chatThread)
         {
             var result = await _messageService.StartThreadAsync(chatThread);
 
