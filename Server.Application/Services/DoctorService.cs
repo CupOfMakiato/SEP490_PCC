@@ -194,7 +194,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewDoctorDTO>> UpdateDoctor(UpdateDoctorDTO doctor)
         {
-            var doctorObj = await _doctorRepository.GetDoctorByIdAsync(doctor.Id);
+            var doctorObj = await _doctorRepository.GetDoctorByDoctorIdAsync(doctor.Id);
 
             if (doctorObj == null)
             {
@@ -229,8 +229,38 @@ namespace Server.Application.Services
             }
 
             _mapper.Map(doctor, doctorObj);
-
             _doctorRepository.Update(doctorObj);
+
+            var user = await _unitOfWork.UserRepository.GetUserById(doctorObj.UserId);
+            if (user != null)
+            {
+                bool userChanged = false;
+                if (!string.IsNullOrWhiteSpace(doctor.UserName) && doctor.UserName != user.UserName)
+                {
+                    user.UserName = doctor.UserName;
+                    userChanged = true;
+                }
+                if (!string.IsNullOrWhiteSpace(doctor.PhoneNumber) && doctor.PhoneNumber != user.PhoneNumber)
+                {
+                    user.PhoneNumber = doctor.PhoneNumber;
+                    userChanged = true;
+                }
+                if (!string.IsNullOrWhiteSpace(doctor.Email) && doctor.Email != user.Email)
+                {
+                    user.Email = doctor.Email;
+                    userChanged = true;
+                }
+                if (doctor.DateOfBirth.HasValue && doctor.DateOfBirth != user.DateOfBirth)
+                {
+                    user.DateOfBirth = doctor.DateOfBirth.Value;
+                    userChanged = true;
+                }
+
+                if (userChanged)
+                {
+                    await _unitOfWork.UserRepository.UpdateAsync(user);
+                }
+            }
 
             var result = await _unitOfWork.SaveChangeAsync();
 
