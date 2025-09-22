@@ -895,9 +895,9 @@ namespace Server.Infrastructure.Data
             .HasForeignKey(us => us.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<UserSubscription>()
-                .Property(s => s.PaymentMethod)
-                .HasConversion(v => v.ToString(), v => (PaymentMethod)Enum.Parse(typeof(PaymentMethod), v));
+            //modelBuilder.Entity<UserSubscription>()
+            //    .Property(s => s.PaymentMethod)
+            //    .HasConversion(v => v.ToString(), v => (PaymentMethod)Enum.Parse(typeof(PaymentMethod), v));
 
             modelBuilder.Entity<SubscriptionPlan>()
                 .Property(s => s.SubscriptionType)
