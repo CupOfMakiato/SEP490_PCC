@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Server.Application.DTOs.Media;
+using Server.Application.DTOs.Message;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
@@ -52,11 +54,47 @@ namespace Server.Infrastructure.Repositories
         public async Task<List<ChatThread?>> GetChatThreadByUserIdAsync(Guid userId)
         {
             return await _context.ChatThread
-                .Include(m => m.Messages)
-                .Include(m => m.User)
-                .Where(ct => ct.ConsultantId == userId || ct.UserId == userId && !ct.IsDeleted)
+                .Include(ct => ct.Messages)
+                    .ThenInclude(m => m.Media)
+                .Include(ct => ct.User)
+                .Where(ct => (ct.ConsultantId == userId || ct.UserId == userId) && !ct.IsDeleted)
+                .Select(ct => new ChatThread
+                {
+                    Id = ct.Id,
+                    UserId = ct.UserId,
+                    ConsultantId = ct.ConsultantId,
+                    Status = ct.Status,
+                    User = ct.User,
+                    Messages = ct.Messages
+                        .Where(m => !m.IsDeleted)
+                        .Select(m => new Message
+                        {
+                            Id = m.Id,
+                            SenderId = m.SenderId,
+                            MessageText = m.MessageText,
+                            IsRead = m.IsRead,
+                            SentAt = m.SentAt,
+                            ReadAt = m.ReadAt,
+                            Media = m.Media != null
+                                ? m.Media
+                                    .Where(media => !media.IsDeleted)
+                                    .Select(media => new Media
+                                    {
+                                        Id = media.Id,
+                                        FileName = media.FileName,
+                                        FileUrl = media.FileUrl,
+                                        FileType = media.FileType,
+                                        IsDeleted = media.IsDeleted
+                                    })
+                                    .ToList()
+                                : new List<Media>()
+                        })
+                        .ToList(),
+                    IsDeleted = ct.IsDeleted
+                })
                 .ToListAsync();
         }
+
 
         public async Task<ChatThread?> GetExistingChatThreadByIdAsync(Guid userId, Guid consultantId)
         {

@@ -191,13 +191,13 @@ namespace Server.Application.Services
 
             if (result > 0)
             {
-                await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, new
-                {
-                    MessageId = message.Id,
-                    SenderId = message.SenderId,
-                    MessageText = message.MessageText,
-                    SentAt = message.SentAt
-                });
+                //await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, new
+                //{
+                //    MessageId = message.Id,
+                //    SenderId = message.SenderId,
+                //    MessageText = message.MessageText,
+                //    SentAt = message.SentAt
+                //});
 
                 if (sendMessage.Attachments != null && sendMessage.Attachments.Any())
                 {
@@ -231,13 +231,17 @@ namespace Server.Application.Services
             {
                 var responseData = new
                 {
+                    message.CreatedBy,
+                    message.CreationDate,
+                    message.SenderId,
                     message.Id,
                     message.MessageText,
                     message.MessageType,
                     message.IsRead,
-                    Media = message.Media.Select(m => new { m.FileUrl, m.FileType }),
+                    Media = message.Media.Select(m => new { m.FileUrl, m.FileType, m.FileName }),
                 }; 
-                
+
+                await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, responseData, "Message");
                 return new Result<object>
                 {
                     Error = 0,

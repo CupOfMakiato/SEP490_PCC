@@ -13,8 +13,8 @@ namespace Server.Application.Interfaces
         Task<User> GetByEmail(string email);
         Task UpdateUserAsync(User user);
 
-
-        Task<UserDTO> GetUserById(Guid id);
+        Task<Result<GetUserDTO>> ViewUserById(Guid id);
+        //Task<UserDTO> GetUserById(Guid id);
         Task<Result<UserDTO>> GetCurrentUserById();
         // Delete
         Task<User> HardDeleteUser(Guid userId);

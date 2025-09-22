@@ -2,6 +2,6 @@
 {
     public interface IMessageNotifier
     {
-        public Task NotifyMessageSentAsync(Guid chatThreadId, object message);
+        Task NotifyMessageSentAsync(Guid chatThreadId, object payload, string type);
     }
 }
