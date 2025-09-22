@@ -52,7 +52,7 @@ namespace Server.Application.Services
 
             await _unitOfWork.NSAttributeRepository.AddAsync(attribute);            
 
-            var ageGroup = await _unitOfWork.AgeGroupRepository.GetByIdAsync((Guid)request.AgeGroudId);
+            var ageGroup = await _unitOfWork.AgeGroupRepository.GetByIdAsync((Guid)request.AgeGroupId);
             if (ageGroup is null)
                 return new Result<NSAttribute>()
                 {
@@ -68,7 +68,7 @@ namespace Server.Application.Services
                 };
             var nutrientSuggestionRela = new NutrientSuggestionAttribute()
             {
-                AgeGroudId = request.AgeGroudId,
+                AgeGroupId = request.AgeGroupId,
                 AgeGroup = ageGroup,
                 NutrientSuggestionId = request.NutrientSuggetionId,
                 NutrientSuggestion = nutrientSuggestion,

@@ -276,13 +276,6 @@ namespace Server.Application.Services
                     Error = 1,
                     Message = "No paid payment found for the subscription"
                 };
-            if (lastSuccessPayment.ExpiresAt != ExpiresAt)
-                return new Result<UserSubscription>()
-                {
-                    Data = null,
-                    Error = 1,
-                    Message = "ExpiresAt is invalid"
-                };
             userSubscription.Status = UserSubscriptionStatus.Active;
             userSubscription.ExpiresAt = ExpiresAt;
             _unitOfWork.UserSubscriptionRepository.Update(userSubscription);

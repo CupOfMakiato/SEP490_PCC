@@ -3,7 +3,7 @@
     public class AddNutrientSuggestionAttributeRequest
     {
         public Guid NutrientSuggetionId { get; set; }
-        public Guid? AgeGroudId { get; set; }
+        public Guid? AgeGroupId { get; set; }
         public int Trimester { get; set; }
         public float? MaxEnergyPercentage { get; set; }
         public float? MinEnergyPercentage { get; set; }
