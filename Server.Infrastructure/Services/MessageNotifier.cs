@@ -13,10 +13,15 @@ namespace Server.Infrastructure.Services
             _hubContext = hubContext;
         }
 
-        public async Task NotifyMessageSentAsync(Guid chatThreadId, object message)
+        public async Task NotifyMessageSentAsync(Guid chatThreadId, object payload, string type)
         {
             await _hubContext.Clients.Group(chatThreadId.ToString())
-                .SendAsync("ReceiveMessage", message);
+            .SendAsync("ReceivedMessage", new
+            {
+                type = type,
+                payload = payload
+            });
+
         }
     }
 }

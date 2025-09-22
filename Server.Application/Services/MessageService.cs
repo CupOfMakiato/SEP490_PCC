@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Org.BouncyCastle.Asn1.Ocsp;
 using Server.Application.Abstractions.Shared;
+using Server.Application.DTOs.ChatThread;
 using Server.Application.DTOs.Message;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using System.Threading;
 
 namespace Server.Application.Services
 {
@@ -145,14 +148,14 @@ namespace Server.Application.Services
         //        .SendAsync("ThreadLeft", new { ThreadId = threadId, Status = chatThread.Status });
         //}
 
-        public async Task<Result<bool>> SendMessageAsync(SendMessageDTO sendMessage)
+        public async Task<Result<object>> SendMessageAsync(SendMessageDTO sendMessage)
         {
             var chatThread = await _unitOfWork.ChatThreadRepository
                 .GetChatThreadByIdAsync(sendMessage.ChatThreadId);
 
             if (chatThread == null)
             {
-                return new Result<bool>
+                return new Result<object>
                 {
                     Error = 1,
                     Message = "Didn't find any chat thread, please try again!",
@@ -164,11 +167,11 @@ namespace Server.Application.Services
 
             if (user == null)
             {
-                return new Result<bool>
+                return new Result<object>
                 {
                     Error = 1,
                     Message = "Didn't find any user, please try again!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -188,13 +191,13 @@ namespace Server.Application.Services
 
             if (result > 0)
             {
-                await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, new
-                {
-                    MessageId = message.Id,
-                    SenderId = message.SenderId,
-                    MessageText = message.MessageText,
-                    SentAt = message.SentAt
-                });
+                //await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, new
+                //{
+                //    MessageId = message.Id,
+                //    SenderId = message.SenderId,
+                //    MessageText = message.MessageText,
+                //    SentAt = message.SentAt
+                //});
 
                 if (sendMessage.Attachments != null && sendMessage.Attachments.Any())
                 {
@@ -224,26 +227,50 @@ namespace Server.Application.Services
                     await _unitOfWork.SaveChangeAsync();
                 }
             }
-
-            return new Result<bool>
+            if (result > 0)
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Message sent successfully!" : "Failed to send message.",
-                Data = result > 0
-            };
+                var responseData = new
+                {
+                    message.CreatedBy,
+                    message.CreationDate,
+                    message.SenderId,
+                    message.Id,
+                    message.MessageText,
+                    message.MessageType,
+                    message.IsRead,
+                    Media = message.Media.Select(m => new { m.FileUrl, m.FileType, m.FileName }),
+                }; 
+
+                await _messageNotifier.NotifyMessageSentAsync(chatThread.Id, responseData, "Message");
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Message sent successfully!",
+                    Data = responseData
+                };
+            }
+            else
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Failed to send message.",
+                    Data = null
+                };
+            }
         }
 
-        public async Task<Result<bool>> StartThreadAsync(ChatThreadDTO chatThread)
+        public async Task<Result<object>> StartThreadAsync(CreateChatThreadDTO chatThread)
         {
             var user = await _unitOfWork.UserRepository.GetByIdAsync(chatThread.UserId);
 
             if (user == null)
             {
-                return new Result<bool>
+                return new Result<object>
                 {
                     Error = 1,
                     Message = "Didn't find any user, please try again!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -251,11 +278,11 @@ namespace Server.Application.Services
 
             if (user == null)
             {
-                return new Result<bool>
+                return new Result<object>
                 {
                     Error = 1,
                     Message = "Didn't find any user, please try again!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -264,11 +291,11 @@ namespace Server.Application.Services
 
             if (existingThread != null)
             {
-                return new Result<bool>
+                return new Result<object>
                 {
                     Error = 1,
                     Message = "Chat thread already exists!",
-                    Data = false
+                    Data = null
                 };
             }
 
@@ -280,12 +307,34 @@ namespace Server.Application.Services
 
             var result = await _unitOfWork.SaveChangeAsync();
 
-            return new Result<bool>
+            if (result > 0)
             {
-                Error = result > 0 ? 0 : 1,
-                Message = result > 0 ? "Chat thread started successfully!" : "Failed to start chat thread.",
-                Data = result > 0
-            };
+                var responseData = new
+                {
+                    Id = thread.Id,
+                    UserId = thread.UserId,
+                    ConsultantId = thread.ConsultantId,
+                    Status = thread.Status,
+                };
+
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Chat thread started successfully!",
+                    Data = responseData
+                };
+            }
+            else
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Failed to start chat thread.",
+                    Data = null
+                };
+            }
+
+
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Server.Infrastructure
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ISubCategoryRepository _subCategoryRepository;
+        private readonly ISubscriptionPlanRepository _subscriptionPlanRepository;
         private readonly IAuthRepository _authRepository;
         private readonly IBlogRepository _blogRepository;
         private readonly ITagRepository _tagRepository;
@@ -29,7 +30,9 @@ namespace Server.Infrastructure
         private readonly INutrientRepository _nutrientRepository;
         private readonly INutrientCategoryRepository _nutrientCategoryRepository;
         private readonly IDiseaseRepository _diseaseRepository;
+        private readonly IPaymentRepository _paymentRepository;
         private readonly IGrowthDataRepository _growthDataRepository;
+        private readonly IUserSubscriptionRepository _userSubscriptionRepository;
         private readonly IJournalRepository _journalRepository;
         private readonly IBasicBioMetricRepository _basicBioMetricRepository;
         private readonly IAgeGroupRepository _ageGroupRepository;
@@ -58,6 +61,8 @@ namespace Server.Infrastructure
         private readonly IDishRepository _dishRepository;
         private readonly IRecommendedCheckupReminderRepository _recommendedCheckupReminderRepository;
 
+        private readonly INotificationRepository _notificationRepository;
+
         public UnitOfWork(AppDbContext dbContext,
             IUserRepository userRepository,
             ICategoryRepository categoryRepository,
@@ -69,6 +74,8 @@ namespace Server.Infrastructure
             ILikeRepository likeRepository,
             IFoodCategoryRepository foodCategoryRepository,
             IFoodRepository foodRepository,
+            IUserSubscriptionRepository userSubscriptionRepository,
+            ISubscriptionPlanRepository subscriptionPlanRepository,
             INutrientRepository nutrientRepository,
             IDiseaseRepository diseaseRepository,
             IGrowthDataRepository growthDataRepository,
@@ -86,6 +93,7 @@ namespace Server.Infrastructure
             IClinicRepository clinicRepository,
             IDoctorRepository doctorRepository,
             IConsultantRepository consultantRepository,
+            IPaymentRepository paymentRepository,
             IScheduleRepository scheduleRepository,
             IAllergyRepository allergyRepository,
             ISlotRepository slotRepository,
@@ -99,13 +107,15 @@ namespace Server.Infrastructure
             INSAttributeRepository iNSAttributeRepository,
             IDishRepository dishRepository,
             IFeedbackRepository feedbackRepository,
-            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository)
+            IRecommendedCheckupReminderRepository recommendedCheckupReminderRepository,
+            INotificationRepository notificationRepository)
 
         {
             _dbContext = dbContext;
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
             _subCategoryRepository = subCategoryRepository;
+            _subscriptionPlanRepository = subscriptionPlanRepository;
             _authRepository = authRepository;
             _blogRepository = blogRepository;
             _tagRepository = tagRepository;
@@ -117,7 +127,9 @@ namespace Server.Infrastructure
             _nutrientRepository = nutrientRepository;
             _nutrientCategoryRepository = nutrientCategoryRepository;
             _diseaseRepository = diseaseRepository;
+            _paymentRepository = paymentRepository;
             _growthDataRepository = growthDataRepository;
+            _userSubscriptionRepository = userSubscriptionRepository;
             _journalRepository = journalRepository;
             _foodRecommendationHistoryRepository = foodRecommendationHistoryRepository;
             _basicBioMetricRepository = basicBioMetricRepository;
@@ -144,6 +156,7 @@ namespace Server.Infrastructure
             _feedbackRepository = feedbackRepository;
             _dishRepository = dishRepository;
             _recommendedCheckupReminderRepository = recommendedCheckupReminderRepository;
+            _notificationRepository = notificationRepository;
         }
 
         public IUserRepository UserRepository => _userRepository;
@@ -153,7 +166,10 @@ namespace Server.Infrastructure
         public IBlogRepository BlogRepository => _blogRepository;
         public ITagRepository TagRepository => _tagRepository;
         public IBookmarkRepository BookmarkRepository => _bookmarkRepository;
+        public ISubscriptionPlanRepository SubscriptionPlanRepository => _subscriptionPlanRepository;
         public ILikeRepository LikeRepository => _likeRepository;
+        public IPaymentRepository PaymentRepository => _paymentRepository;
+        public IUserSubscriptionRepository UserSubscriptionRepository => _userSubscriptionRepository;
         public IGrowthDataRepository GrowthDataRepository => _growthDataRepository;
         public ICustomChecklistRepository CustomChecklistRepository => _customChecklistRepository;
         public ITemplateChecklistRepository TemplateChecklistRepository => _templateChecklistRepository;
@@ -187,6 +203,7 @@ namespace Server.Infrastructure
         public IFeedbackRepository FeedbackRepository => _feedbackRepository;
         public IMealRepository MealRepository => _mealRepository;
         public IRecommendedCheckupReminderRepository RecommendedCheckupReminderRepository => _recommendedCheckupReminderRepository;
+        public INotificationRepository NotificationRepository => _notificationRepository;
         public async Task<int> SaveChangeAsync()
         {
             return await _dbContext.SaveChangesAsync();

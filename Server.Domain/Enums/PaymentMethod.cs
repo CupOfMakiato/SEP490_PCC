@@ -8,9 +8,11 @@ namespace Server.Domain.Enums
 {
     public enum PaymentMethod
     {
-        Visa,
-        MasterCard,
-        PayPal,
-        //add more later
+        Unknown,
+        CreditCard,
+        DebitCard,
+        BankTransfer,
+        QRCode,
+        EWallet
     }
 }

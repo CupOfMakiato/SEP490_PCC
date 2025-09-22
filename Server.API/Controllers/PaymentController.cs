@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Server.Application.Interfaces;
+using Server.Infrastructure.Services;
 
 namespace Server.API.Controllers
 {
@@ -6,8 +8,11 @@ namespace Server.API.Controllers
     [ApiController]
     public class PaymentController
     {
-        public PaymentController()
+        private readonly IPaymentService _paymentService;
+
+        public PaymentController(IPaymentService paymentService)
         {
+            _paymentService = paymentService;
         }
     }
 }
