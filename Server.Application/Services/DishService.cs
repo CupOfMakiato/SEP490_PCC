@@ -81,7 +81,7 @@ namespace Server.Application.Services
             if (dish.HistoryDish.Count > 0 || dish.DishMeals.Count > 0)
                 return new Result<object>()
                 {
-                    Error = 0,
+                    Error = 1,
                     Message = "Can't remove this dish"
                 };
             _unitOfWork.DishRepository.RemoveDish(dish);

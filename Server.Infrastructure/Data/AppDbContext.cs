@@ -907,6 +907,12 @@ namespace Server.Infrastructure.Data
                 .Property(s => s.SubscriptionName)
                 .HasConversion(v => v.ToString(), v => (SubscriptionName)Enum.Parse(typeof(SubscriptionName), v));
 
+            modelBuilder.Entity<UserSubscription>()
+                .HasMany(e => e.Payments)
+                .WithOne(p => p.UserSubscription)
+                .HasForeignKey(p => p.UserSubscriptionId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
             // Consultant
 
             modelBuilder.Entity<Consultant>()
