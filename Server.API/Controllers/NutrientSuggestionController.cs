@@ -128,6 +128,26 @@ namespace Server.API.Controllers
             }
         }
 
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete([FromQuery] Guid nutrientSuggestionId)
+        {
+            if (nutrientSuggestionId == Guid.Empty)
+                return BadRequest("nutrientSuggestionId is null or empty");
+
+            try
+            {
+                var result = await _nutrientSuggestionService.DeleteNutrientSuggestion(nutrientSuggestionId);
+                if (result.Error != 0)
+                    return BadRequest(result.Message);
+
+                return Ok("Soft delete success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromBody] CreateNutrientSuggestionRequest request)
         {
