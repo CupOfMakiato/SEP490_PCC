@@ -215,7 +215,85 @@ namespace Server.API.Controllers
                 if (result.Error != 0)
                     return BadRequest(result.Message);
 
-                return Ok("Create Success");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpDelete("delete-attribute")]
+        public async Task<IActionResult> DeleteAttribute([FromQuery] Guid nutrientSuggestionId, Guid attributeId)
+        {
+            if (nutrientSuggestionId == Guid.Empty)
+                return BadRequest("nutrientSuggestionId is null or empty");
+
+            try
+            {
+                var result = await _nutrientSuggestionService.DeleteAttribute(nutrientSuggestionId, attributeId);
+                if (result.Error != 0)
+                    return BadRequest(result.Message);
+
+                return Ok("Delete success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPut("update-attribute")]
+        public async Task<IActionResult> UpdateAttribute([FromBody] UpdateNutrientSuggestionAttributeRequest request)
+        {
+            if (request.AttributeId == Guid.Empty)
+                return BadRequest("AttributeId is required");
+
+            if (request.NutrientSuggetionId == Guid.Empty)
+                return BadRequest("NutrientSuggetionId is required");
+
+            if (string.IsNullOrWhiteSpace(request.Unit))
+                return BadRequest("Unit is required");
+
+            if (request.Amount < 0)
+                return BadRequest("Amount must be non-negative");
+
+            if (request.NutrientId == Guid.Empty)
+                return BadRequest("NutrientId is required");
+
+            if (request.Type < 0)
+                return BadRequest("Type must be non-negative");
+
+            if (request.Trimester < 0 || request.Trimester > 3)
+                return BadRequest("Trimester must be between 0 and 3");
+
+            if (request.MinEnergyPercentage.HasValue &&
+                (request.MinEnergyPercentage < 0 || request.MinEnergyPercentage > 100))
+                return BadRequest("MinEnergyPercentage must be between 0 and 100");
+
+            if (request.MaxEnergyPercentage.HasValue &&
+                (request.MaxEnergyPercentage < 0 || request.MaxEnergyPercentage > 100))
+                return BadRequest("MaxEnergyPercentage must be between 0 and 100");
+
+            if (request.MinEnergyPercentage.HasValue && request.MaxEnergyPercentage.HasValue &&
+                request.MinEnergyPercentage > request.MaxEnergyPercentage)
+                return BadRequest("MinEnergyPercentage cannot be greater than MaxEnergyPercentage");
+
+            if (request.MinValuePerDay.HasValue && request.MaxValuePerDay.HasValue &&
+                request.MinValuePerDay > request.MaxValuePerDay)
+                return BadRequest("MinValuePerDay cannot be greater than MaxValuePerDay");
+
+            if (request.MinAnimalProteinPercentageRequire.HasValue &&
+                (request.MinAnimalProteinPercentageRequire < 0 || request.MinAnimalProteinPercentageRequire > 100))
+                return BadRequest("MinAnimalProteinPercentageRequire must be between 0 and 100");
+
+            try
+            {
+                var result = await _nutrientSuggestionService.UpdateNutrientSuggestionAttribute(request);
+                if (result.Error != 0)
+                    return BadRequest(result.Message);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

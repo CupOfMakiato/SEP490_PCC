@@ -90,6 +90,56 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<NSAttribute>> UpdateNutrientSuggestionAttribute(UpdateNutrientSuggestionAttributeRequest request)
+        {
+            var attribute = await _unitOfWork.NSAttributeRepository.GetNSAttributeById(request.AttributeId);
+            if (attribute == null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid AttributeId"
+                };
+            if (request == null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Request is null"
+                };
+            var nutrient = await _unitOfWork.NutrientRepository.GetByIdAsync(request.NutrientId);
+            if (nutrient is null)
+                return new Result<NSAttribute>()
+                {
+                    Error = 1,
+                    Message = "Invalid NutrientId"
+                };
+            if (attribute.NutrientId != request.NutrientId)
+            {
+                attribute.NutrientId = request.NutrientId;
+                attribute.Nutrient = nutrient;
+            }
+            attribute.Amount = request.Amount;
+            attribute.MaxEnergyPercentage = request.MaxEnergyPercentage;
+            attribute.MaxValuePerDay = request.MaxValuePerDay;
+            attribute.MinAnimalProteinPercentageRequire = request.MinAnimalProteinPercentageRequire;
+            attribute.MinEnergyPercentage = request.MinEnergyPercentage;
+            attribute.MinValuePerDay = request.MinValuePerDay;
+            attribute.Unit = request.Unit;
+            attribute.Type = request.Type;
+            _unitOfWork.NSAttributeRepository.Update(attribute);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<NSAttribute>()
+                {
+                    Error = 0,
+                    Data = attribute,
+                    Message = "Update successfully"
+                };
+            return new Result<NSAttribute>()
+            {
+                Error = 1,
+                Message = "Update fail"
+            };
+        }
+
         public async Task<Result<NutrientSuggestion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request)
         {
             var nutrientSuggestion = new NutrientSuggestion()
@@ -477,5 +527,50 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<bool>> DeleteAttribute(Guid nutrientSuggestionId, Guid attributeId)
+        {
+            var nutrientSuggestion = await _unitOfWork.NutrientSuggetionRepository.GetNutrientSuggetionById(nutrientSuggestionId);
+            if (nutrientSuggestion is null)
+            {
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Nutrient suggestion not found"
+                };
+            }
+            var nsAttribute = await _unitOfWork.NSAttributeRepository.GetByIdAsync(attributeId);
+            if (nsAttribute is null)
+            {
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Attribute not found"
+                };
+            }
+            bool containsAttribute = nutrientSuggestion.NutrientSuggestionAttributes
+                .Any(nsa => nsa.AttributeId == attributeId);
+            if (!containsAttribute)
+                {
+                return new Result<bool>()
+                {
+                    Error = 1,
+                    Message = "Attribute does not belong to the specified nutrient suggestion"
+                };
+            }
+            _unitOfWork.NSAttributeRepository.Remove(nsAttribute);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<bool>()
+                {
+                    Error = 0,
+                    Data = true
+                };
+            }
+            return new Result<bool>()
+            {
+                Error = 1,
+                Message = "Delete failed"
+            };
+        }
     }
 }
