@@ -13,6 +13,7 @@ namespace Server.Application.DTOs.User
         public string UserName { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string Status { get; set; }
         public MediaDTO? Avatar { get; set; }
         public int RoleId { get; set; }
