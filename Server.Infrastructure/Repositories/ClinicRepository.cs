@@ -223,6 +223,31 @@ namespace Server.Infrastructure.Repositories
                                     Avatar = c.User.Avatar != null && !c.User.Avatar.IsDeleted ? c.User.Avatar : null
                                 }
                                 : null,
+                        Consultants = c.Consultants
+                            .Where(con => !con.IsDeleted && con.User != null && !con.User.IsDeleted)
+                            .Select(con => new Consultant
+                            {
+                                Id = con.Id,
+                                Specialization = con.Specialization,
+                                Certificate = con.Certificate,
+                                Gender = con.Gender,
+                                JoinedAt = con.JoinedAt,
+                                IsCurrentlyConsulting = con.IsCurrentlyConsulting,
+                                ExperienceYears = con.ExperienceYears,
+                                UserId = con.UserId,
+                                IsDeleted = con.IsDeleted,
+                                User = con.User != null && !con.User.IsDeleted
+                                ? new User
+                                {
+                                    Id = con.User.Id,
+                                    UserName = con.User.UserName,
+                                    Email = con.User.Email,
+                                    PhoneNumber = con.User.PhoneNumber,
+                                    Status = con.User.Status,
+                                    Avatar = con.User.Avatar != null && !con.User.Avatar.IsDeleted ? con.User.Avatar : null
+                                }
+                                : null,
+                            }).ToList(),
                         Doctors = c.Doctors
                             .Where(doc => !doc.IsDeleted)
                             .Select(doc => new Doctor
@@ -244,9 +269,19 @@ namespace Server.Infrastructure.Repositories
                                     Email = doc.User.Email,
                                     PhoneNumber = doc.User.PhoneNumber,
                                     Status = doc.User.Status,
+                                    DateOfBirth = doc.User.DateOfBirth,
                                     Avatar = doc.User.Avatar != null && !doc.User.Avatar.IsDeleted ? doc.User.Avatar : null
                                 }
                                 : null
+                            }).ToList(),
+                        Feedbacks = c.Feedbacks
+                            .Where(fb => !fb.IsDeleted)
+                            .Select(fb => new Feedback
+                            {
+                                Id = fb.Id,
+                                Rating = fb.Rating,
+                                Comment = fb.Comment,
+                                IsDeleted = fb.IsDeleted
                             }).ToList()
                     })
                     .FirstOrDefaultAsync();
@@ -354,17 +389,17 @@ namespace Server.Infrastructure.Repositories
 
             var suggested = clinics
                 .Select(c => new
-                    {
-                        Clinic = c,
-                        // Calculate average rating, default to 0 if no feedbacks
-                        AverageRating = c.Feedbacks != null && c.Feedbacks.Any(fb => !fb.IsDeleted)
+                {
+                    Clinic = c,
+                    // Calculate average rating, default to 0 if no feedbacks
+                    AverageRating = c.Feedbacks != null && c.Feedbacks.Any(fb => !fb.IsDeleted)
                             ? c.Feedbacks.Where(fb => !fb.IsDeleted).Average(fb => fb.Rating)
                             : 0,
-                        // Simple proximity: 0 if address matches, 1 otherwise (replace with real distance logic as needed)
-                        Proximity = !string.IsNullOrEmpty(userAddress) && !string.IsNullOrEmpty(c.Address)
+                    // Simple proximity: 0 if address matches, 1 otherwise (replace with real distance logic as needed)
+                    Proximity = !string.IsNullOrEmpty(userAddress) && !string.IsNullOrEmpty(c.Address)
                             ? (c.Address.Contains(userAddress) ? 0 : 1)
                             : int.MaxValue
-                    })
+                })
                 .OrderBy(s => s.Proximity)
                 .ThenByDescending(s => s.AverageRating)
                 .Take(maxResults)

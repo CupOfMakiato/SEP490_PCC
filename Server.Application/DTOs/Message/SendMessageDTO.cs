@@ -6,7 +6,7 @@ namespace Server.Application.DTOs.Message
     {
         public Guid ChatThreadId { get; set; }
         public Guid SenderId { get; set; }
-        public string MessageText { get; set; }
+        public string? MessageText { get; set; }
         public List<IFormFile>? Attachments { get; set; }
     }
 }
