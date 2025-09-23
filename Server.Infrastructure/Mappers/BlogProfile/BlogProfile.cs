@@ -34,6 +34,8 @@ namespace Server.Infrastructure.Mappers.BlogProfile
             .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src =>
                 src.Category != null ? src.Category.CategoryName : null)) 
 
+            .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Category.Id))
+
             .ForMember(dest => dest.BookmarkCount, opt => opt.Ignore())
 
             .ForMember(dest => dest.LikeCount, opt => opt.Ignore()
