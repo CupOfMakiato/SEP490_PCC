@@ -75,7 +75,8 @@ namespace Server.Infrastructure.Services
                 .ToUnixTimeSeconds()
                 );
             CreatePaymentResult result = await _payOS.createPaymentLink(paymentData);
-            if (result == null || result.status != "success")
+            //if (result == null || result.status != "success")
+            if (result == null)
             {
                 return new Result<Payment>()
                 {
