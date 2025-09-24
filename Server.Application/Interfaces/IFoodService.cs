@@ -10,6 +10,8 @@ namespace Server.Application.Interfaces
         public Task<Result<bool>> CreateWarningFoodForAllergy(CreateWarningFoodForAllergyRequest request);
         public Task<Result<bool>> CreateRecommendFoodForDisease(CreateRecommendFoodForDiseaseRequest request);
         public Task<List<ViewWarningFoodsResponse>> GetWarningFoods(ViewWarningFoodsRequest request);
+        public Task<List<ViewWarningFoodsResponse>> GetWarningFoodsByDiseases(List<Guid> diseaseIds);
+        public Task<List<ViewWarningFoodsResponse>> GetWarningFoodsByAllergies(List<Guid> allergyIds);
         public Task<ViewFoodResponse> GetFoodByIdAsync(Guid foodId);
         public Task<List<ViewFoodResponse>> GetFoodsAsync();
         public Task<bool> SoftDeleteFood(Guid foodId);

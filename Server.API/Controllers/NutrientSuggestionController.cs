@@ -249,9 +249,6 @@ namespace Server.API.Controllers
             if (request.AttributeId == Guid.Empty)
                 return BadRequest("AttributeId is required");
 
-            if (request.NutrientSuggetionId == Guid.Empty)
-                return BadRequest("NutrientSuggetionId is required");
-
             if (string.IsNullOrWhiteSpace(request.Unit))
                 return BadRequest("Unit is required");
 
