@@ -9,7 +9,7 @@ namespace Server.Domain.Enums
     public enum SubscriptionType
     {
         Monthly,
-        Anuually,
-        //Lifetime = 3
+        Annually,
+        Lifetime,
     }
 }

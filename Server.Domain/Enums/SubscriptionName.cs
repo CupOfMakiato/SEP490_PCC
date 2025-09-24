@@ -8,6 +8,7 @@ namespace Server.Domain.Enums
 {
     public enum SubscriptionName
     {
+        Free,
         Basic,
         Plus,
         Pro,

@@ -353,7 +353,64 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
             );
-            
+            var FreePlan = Guid.NewGuid();
+            var PlusPlan = Guid.NewGuid();
+            var ProPlan = Guid.NewGuid();
+            modelBuilder.Entity<SubscriptionPlan>().HasData(
+                new SubscriptionPlan
+                {
+                    Id = FreePlan,
+                    SubscriptionName = SubscriptionName.Free,
+                    Description = "Access to community;Pregnancy Tracking;Access Most Of Nutritional Guidance;Access AI Assistant;Basic Support",
+                    Price = 0,
+                    DurationInDays = null,
+                    SubscriptionType = SubscriptionType.Lifetime,
+                    IsActive = true,
+                    CreationDate = DateTime.UtcNow,
+                    IsDeleted = false
+                },
+                new SubscriptionPlan
+                {
+                    Id = PlusPlan,
+                    SubscriptionName = SubscriptionName.Plus,
+                    Description = "Everything in Free;Consultation Chat;Offline Consultation Booking;Custom Meal Planner;Specialist Advice",
+                    Price = 39000,
+                    DurationInDays = 30,
+                    SubscriptionType = SubscriptionType.Monthly,
+                    IsActive = true,
+                    CreationDate = DateTime.UtcNow,
+                    IsDeleted = false
+                },
+                new SubscriptionPlan
+                {
+                    Id = ProPlan,
+                    SubscriptionName = SubscriptionName.Pro,
+                    Description = "Everything in Plus;Billed Annually;Full Support!",
+                    Price = 439000,
+                    DurationInDays = 365,
+                    SubscriptionType = SubscriptionType.Annually,
+                    IsActive = true,
+                    CreationDate = DateTime.UtcNow,
+                    IsDeleted = false
+                }
+            );
+            var testUserSubs = Guid.NewGuid();
+            modelBuilder.Entity<UserSubscription>().HasData(
+                new UserSubscription
+                {
+                    Id = testUserSubs,
+                    UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
+                    SubscriptionPlanId = FreePlan,
+                    Status = UserSubscriptionStatus.Active,
+                    CreationDate = DateTime.UtcNow,
+                    ExpiresAt = DateTime.MaxValue,
+                    NextBillingDate = null,
+                    IsDeleted = false,
+                    IsAutoRenew = false
+                }
+            );
+
+
 
 
             // Nutrition seed data

@@ -22,12 +22,14 @@ namespace Server.Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IAuthRepository _authRepository;
+        private readonly IUserSubscriptionService _userSubscriptionService;
 
-        public GoogleService(IConfiguration configuration, IUserRepository userRepository, IAuthRepository authRepository)
+        public GoogleService(IConfiguration configuration, IUserRepository userRepository, IAuthRepository authRepository, IUserSubscriptionService userSubscriptionService)
         {
             _configuration = configuration;
             _userRepository = userRepository;
             _authRepository = authRepository;
+            _userSubscriptionService = userSubscriptionService;
         }
         public async Task<string> GoogleCallback(string code)
         {
@@ -134,6 +136,7 @@ namespace Server.Application.Services
                     OtpExpiryTime = null
                 };
                 await _userRepository.AddAsync(user);
+                await _userSubscriptionService.CreateUserSubscriptionFreePlan();
             }
 
             return new Result<object>
