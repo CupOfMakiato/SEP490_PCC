@@ -175,4 +175,6 @@ app.MapControllers();
 
 app.MapHub<NotificationHub>("hub/notificationHub");
 
+app.MapHub<MessageHub>("hub/messageHub");
+
 app.Run();

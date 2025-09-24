@@ -8,9 +8,10 @@ namespace Server.Infrastructure.Mappers.ConsultantProfile
     {
         public ConsultantProfile()
         {
-            CreateMap<ViewConsultantDTO, Consultant>().ReverseMap()
-                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id));
-
+            CreateMap<ViewConsultantDTO, Consultant>()
+                .ForMember(dest => dest.Id, src => src.MapFrom(x => x.Id))
+                .ForMember(dest => dest.User, src => src.MapFrom(x => x.User))
+                .ReverseMap();
             CreateMap<AddConsultantDTO, Consultant>().ReverseMap();
             CreateMap<UpdateConsultantDTO, Consultant>().ReverseMap();
         }

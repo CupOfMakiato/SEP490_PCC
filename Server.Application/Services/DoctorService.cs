@@ -55,10 +55,11 @@ namespace Server.Application.Services
             var user = new User
             {
                 UserName = doctor.UserName,
+                Password = HashPassword("doctor#123"),
                 Email = doctor.Email,
                 Balance = 0,
                 PhoneNumber = doctor.PhoneNumber,
-                Status = StatusEnums.Pending,
+                Status = StatusEnums.Active,
                 IsStaff = false,
                 RoleId = 7,
                 CreationDate = DateTime.Now,
@@ -145,7 +146,7 @@ namespace Server.Application.Services
 
         public async Task<Result<bool>> SoftDeleteDoctor(Guid doctorId)
         {
-            var doctor = await _doctorRepository.GetDoctorByIdAsync(doctorId);
+            var doctor = await _doctorRepository.GetDoctorByDoctorIdAsync(doctorId);
 
             if (doctor == null)
             {
@@ -193,7 +194,7 @@ namespace Server.Application.Services
 
         public async Task<Result<ViewDoctorDTO>> UpdateDoctor(UpdateDoctorDTO doctor)
         {
-            var doctorObj = await _doctorRepository.GetDoctorByIdAsync(doctor.Id);
+            var doctorObj = await _doctorRepository.GetDoctorByDoctorIdAsync(doctor.Id);
 
             if (doctorObj == null)
             {
@@ -228,8 +229,38 @@ namespace Server.Application.Services
             }
 
             _mapper.Map(doctor, doctorObj);
-
             _doctorRepository.Update(doctorObj);
+
+            var user = await _unitOfWork.UserRepository.GetUserById(doctorObj.UserId);
+            if (user != null)
+            {
+                bool userChanged = false;
+                if (!string.IsNullOrWhiteSpace(doctor.UserName) && doctor.UserName != user.UserName)
+                {
+                    user.UserName = doctor.UserName;
+                    userChanged = true;
+                }
+                if (!string.IsNullOrWhiteSpace(doctor.PhoneNumber) && doctor.PhoneNumber != user.PhoneNumber)
+                {
+                    user.PhoneNumber = doctor.PhoneNumber;
+                    userChanged = true;
+                }
+                if (!string.IsNullOrWhiteSpace(doctor.Email) && doctor.Email != user.Email)
+                {
+                    user.Email = doctor.Email;
+                    userChanged = true;
+                }
+                if (doctor.DateOfBirth.HasValue && doctor.DateOfBirth != user.DateOfBirth)
+                {
+                    user.DateOfBirth = doctor.DateOfBirth.Value;
+                    userChanged = true;
+                }
+
+                if (userChanged)
+                {
+                    await _unitOfWork.UserRepository.UpdateAsync(user);
+                }
+            }
 
             var result = await _unitOfWork.SaveChangeAsync();
 
@@ -239,6 +270,11 @@ namespace Server.Application.Services
                 Message = result > 0 ? "Update doctor successfully" : "Update doctor failed",
                 Data = _mapper.Map<ViewDoctorDTO>(doctorObj)
             };
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

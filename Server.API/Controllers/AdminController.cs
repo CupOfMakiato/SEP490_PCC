@@ -32,7 +32,7 @@ namespace Server.API.Controllers
             _httpClient = httpClient;
             _adminService = adminService;
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpGet("view-all-users")]
         [ProducesResponseType(200, Type = typeof(Result<List<GetUserDTO>>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -41,7 +41,7 @@ namespace Server.API.Controllers
             var result = await _adminService.ViewAllUsers();
             return Ok(result);
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpGet("view-all-staff")]
         [ProducesResponseType(200, Type = typeof(Result<List<GetUserDTO>>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -50,7 +50,7 @@ namespace Server.API.Controllers
             var result = await _adminService.ViewAllStaff();
             return Ok(result);
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpGet("view-all-clinics")]
         [ProducesResponseType(200, Type = typeof(Result<List<GetUserDTO>>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -59,7 +59,7 @@ namespace Server.API.Controllers
             var result = await _adminService.ViewAllClinics();
             return Ok(result);
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpPost("create-health-expert-account")]
         [ProducesResponseType(200, Type = typeof(Result<GetUserDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -80,7 +80,7 @@ namespace Server.API.Controllers
                 });
             }
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpPost("create-nutrient-specialist-account")]
         [ProducesResponseType(200, Type = typeof(Result<GetUserDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -101,7 +101,7 @@ namespace Server.API.Controllers
                 });
             }
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpPost("create-clinic-account")]
         [ProducesResponseType(200, Type = typeof(Result<GetUserDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -122,7 +122,7 @@ namespace Server.API.Controllers
                 });
             }
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpPut("change-account-authorize")]
         [ProducesResponseType(200, Type = typeof(Result<EditAccountDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -143,7 +143,7 @@ namespace Server.API.Controllers
                 });
             }
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpPut("ban-account")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -164,7 +164,7 @@ namespace Server.API.Controllers
                 });
             }
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpPut("unban-account")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
@@ -185,7 +185,7 @@ namespace Server.API.Controllers
                 });
             }
         }
-        [Authorize(Policy = "Admin")]
+        //[Authorize(Policy = "Admin")]
         [HttpDelete("hard-delete-account")]
         [ProducesResponseType(200, Type = typeof(Result<object>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]

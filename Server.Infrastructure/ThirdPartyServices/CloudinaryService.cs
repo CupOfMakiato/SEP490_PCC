@@ -229,7 +229,9 @@ namespace Server.Infrastructure.ThirdPartyServices
 
             var extension = Path.GetExtension(fileName).ToLowerInvariant();
 
-            var imageExtensions = new[] { ".jpg", ".jpeg", ".png", ".docx", ".bmp", ".xls", ".pdf", ".xlsx" };
+            // Separate image vs. document/file extensions
+            var imageExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var docExtensions = new[] { ".docx", ".xls", ".xlsx", ".pdf" };
 
             UploadResult uploadResult;
 
@@ -244,7 +246,7 @@ namespace Server.Infrastructure.ThirdPartyServices
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
             }
-            else
+            else if (docExtensions.Contains(extension))
             {
                 var uploadParams = new RawUploadParams
                 {
@@ -254,6 +256,10 @@ namespace Server.Infrastructure.ThirdPartyServices
                     Folder = "message"
                 };
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
+            }
+            else
+            {
+                throw new NotSupportedException($"File type {extension} is not supported");
             }
 
             if (uploadResult.Error != null ||
@@ -269,6 +275,7 @@ namespace Server.Infrastructure.ThirdPartyServices
                 PublicFileId = uploadResult.PublicId
             };
         }
+
 
         public async Task<CloudinaryResponse> UploadImage(IFormFile file, string folderName)
         {

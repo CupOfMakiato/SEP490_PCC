@@ -15,14 +15,14 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = clinicUserId,
-                UserName = "Bệnh viện Từ Dũ",
+                UserName = "Tu Du Hospital",
                 Email = "web.admin@tudu.com.vn",
                 PhoneNumber = "(028) 3952.6568",
                 Password = HashPassword("clinic#1"),
                 Balance = 0,
                 RoleId = 5, // Assuming 5 is the role ID for clinics
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "284 Cống Quỳnh, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh",
+                Address = "284 Cong Quynh, Ben Thanh Ward, District 1, Ho Chi Minh City",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -35,10 +35,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = clinicId,
                 UserId = clinicUserId,
-                Address = "284 Cống Quỳnh, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh",
-                Description = "Bệnh viện Từ Dũ là bệnh viện đầu ngành về Sản - Phụ khoa và hỗ trợ điều trị hiếm muộn tại khu vực phía Nam. Được giao nhiệm vụ giám sát, chuyển giao kỹ thuật cho nhiều tỉnh, cung cấp dịch vụ khám chữa bệnh, can thiệp chuyên sâu về sản phụ khoa và hỗ trợ sinh sản.",
+                Address = "284 Cong Quynh, Ben Thanh Ward, District 1, Ho Chi Minh City",
+                Description = "Tu Du Hospital is the leading hospital in Obstetrics - Gynecology and infertility treatment in the South of Vietnam. It is tasked with supervising, transferring techniques to many provinces, and providing medical examination, advanced interventions in obstetrics and gynecology, as well as assisted reproduction.",
                 IsInsuranceAccepted = true,
-                Specializations = "Sản khoa (thai sản, đỡ đẻ, chăm sóc sơ sinh);Phụ khoa (phẫu thuật phụ khoa, nội soi phụ khoa);Hiếm muộn - Hỗ trợ sinh sản (IVF, thụ tinh nhân tạo);Can thiệp bào thai;Khám và tầm soát ung thư phụ khoa và ung thư vú;Kế hoạch hóa gia đình",
+                Specializations = "Obstetrics (pregnancy, delivery, neonatal care);Gynecology (gynecological surgery, endoscopy);Infertility - Assisted Reproduction (IVF, artificial insemination);Fetal interventions;Gynecologic and breast cancer screening;Family planning",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -53,11 +53,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = doctorUser1Id,
-                    UserName = "Đặng Thị Trân Hạnh",
+                    UserName = "Dang Thi Tran Hanh",
                     Email = "dang.tran.hanh@tudu.com.vn",
                     PhoneNumber = "+84-28-3952-6568",
                     Password = HashPassword("doctor#1"),
-                    Address = "Khoa Cấp cứu / Sản, Bệnh viện Từ Dũ",
+                    Address = "Emergency/Obstetrics Department, Tu Du Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7, // Assuming 7 is the role ID for doctors
                     IsDeleted = false,
@@ -67,11 +67,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = doctorUser2Id,
-                    UserName = "Lê Văn Minh",
+                    UserName = "Le Van Minh",
                     Email = "le.minh@tudu.com.vn",
                     PhoneNumber = "+84-914-111-222",
                     Password = HashPassword("doctor#2"),
-                    Address = "Khoa Phẫu thuật - Bệnh viện Từ Dũ",
+                    Address = "Surgery Department - Tu Du Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7, // Assuming 7 is the role ID for doctors
                     IsDeleted = false,
@@ -81,11 +81,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = doctorUser3Id,
-                    UserName = "Phan Thị Hương",
+                    UserName = "Phan Thi Huong",
                     Email = "phan.huong@tudu.com.vn",
                     PhoneNumber = "+84-915-333-444",
                     Password = HashPassword("doctor#3"),
-                    Address = "Đơn vị Hỗ trợ sinh sản, Bệnh viện Từ Dũ",
+                    Address = "Assisted Reproduction Unit, Tu Du Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7, // Assuming 7 is the role ID for doctors
                     IsDeleted = false,
@@ -106,11 +106,11 @@ namespace Server.Infrastructure.Data
                     UserId = doctorUser1Id,
                     ClinicId = clinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa, cấp cứu sản",
-                    Certificate = "Bác sĩ Chuyên khoa I Sản Phụ khoa",
+                    Specialization = "Obstetrics and Gynecology, Emergency Obstetrics",
+                    Certificate = "Specialist Doctor Level I in Obstetrics and Gynecology",
                     ExperienceYear = 25,
-                    WorkPosition = "Trưởng khoa Cấp cứu",
-                    Description = "Bác sĩ Đặng Thị Trân Hạnh hiện đang giữ vị trí Trưởng khoa Cấp cứu tại Bệnh viện Từ Dũ.",
+                    WorkPosition = "Head of Emergency Department",
+                    Description = "Dr. Dang Thi Tran Hanh is currently Head of the Emergency Department at Tu Du Hospital.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -120,11 +120,11 @@ namespace Server.Infrastructure.Data
                     UserId = doctorUser2Id,
                     ClinicId = clinicId,
                     Gender = "Male",
-                    Specialization = "Phẫu thuật phụ khoa, nội soi",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Gynecological surgery, endoscopy",
+                    Certificate = "Specialist Doctor Level II",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ phẫu thuật chính",
-                    Description = "Bác sĩ chuyên phẫu thuật phụ khoa nội soi, tham gia nhiều ca mổ phức tạp.",
+                    WorkPosition = "Chief Surgeon",
+                    Description = "Doctor specialized in laparoscopic gynecological surgery, involved in many complex surgeries.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -134,11 +134,11 @@ namespace Server.Infrastructure.Data
                     UserId = doctorUser3Id,
                     ClinicId = clinicId,
                     Gender = "Female",
-                    Specialization = "Hiếm muộn - IVF",
-                    Certificate = "Chuyên gia Hỗ trợ sinh sản",
+                    Specialization = "Infertility - IVF",
+                    Certificate = "Assisted Reproduction Specialist",
                     ExperienceYear = 15,
-                    WorkPosition = "Trưởng nhóm IVF",
-                    Description = "Tham gia điều trị IVF, can thiệp hỗ trợ sinh sản.",
+                    WorkPosition = "IVF Team Leader",
+                    Description = "Participates in IVF treatment and assisted reproduction interventions.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -152,12 +152,12 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = consultantUser1Id,
-                    UserName = "Huỳnh Thị Anh",
+                    UserName = "Huynh Thi Anh",
                     Email = "huynh.anh@tudu.com.vn",
                     PhoneNumber = "+84-912-345-678",
                     Password = HashPassword("consultant#1"),
-                    Address = "Khoa Khám, Bệnh viện Từ Dũ, 284 Cống Quỳnh, Q1",
-                    RoleId = 6, // Assuming 6 is the role ID for consultants,
+                    Address = "Outpatient Department, Tu Du Hospital, 284 Cong Quynh, District 1",
+                    RoleId = 6, // Assuming 6 is the role ID for consultants
                     IsDeleted = false,
                     IsStaff = true,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -167,12 +167,12 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = consultantUser2Id,
-                    UserName = "Ngô Thị Lan",
+                    UserName = "Ngo Thi Lan",
                     Email = "ngo.lan@tudu.com.vn",
                     PhoneNumber = "+84-913-222-333",
                     Password = HashPassword("consultant#2"),
-                    Address = "Trung tâm tư vấn dinh dưỡng sản phụ, Bệnh viện Từ Dũ",
-                    RoleId = 6, // Assuming 6 is the role ID for consultants,
+                    Address = "Maternal Nutrition Counseling Center, Tu Du Hospital",
+                    RoleId = 6, // Assuming 6 is the role ID for consultants
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05),
                     IsVerified = true,
@@ -189,8 +189,8 @@ namespace Server.Infrastructure.Data
                     Id = consultant1Id,
                     UserId = consultantUser1Id,
                     ClinicId = clinicId,
-                    Specialization = "Tư vấn khám thai định kỳ, tầm soát ung thư cổ tử cung",
-                    Certificate = "Thạc sĩ Sản Phụ khoa",
+                    Specialization = "Prenatal check-up counseling, cervical cancer screening",
+                    Certificate = "Master of Obstetrics and Gynecology",
                     Gender = "Female",
                     ExperienceYears = 10,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -201,8 +201,8 @@ namespace Server.Infrastructure.Data
                     Id = consultant2Id,
                     UserId = consultantUser2Id,
                     ClinicId = clinicId,
-                    Specialization = "Tư vấn dinh dưỡng thai kỳ",
-                    Certificate = "Cử nhân Dinh dưỡng lâm sàng",
+                    Specialization = "Maternal nutrition counseling",
+                    Certificate = "Bachelor of Clinical Nutrition",
                     Gender = "Female",
                     ExperienceYears = 6,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -221,7 +221,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = clinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ chuyên môn tốt, đông bệnh nhân nên thời gian chờ lâu.",
+                    Comment = "Good professional service, but waiting time is long due to high patient volume.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -230,47 +230,48 @@ namespace Server.Infrastructure.Data
                     ClinicId = clinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Đội ngũ bác sĩ giàu kinh nghiệm, quy trình khám chuyên nghiệp.",
+                    Comment = "Experienced doctors, professional examination process.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bv Hùng Vương
-            // Seed Hùng Vương Clinic User
+
+            // Hung Vuong Hospital
+            // Seed Hung Vuong Clinic User
             var hvClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hvClinicUserId,
-                UserName = "Bệnh viện Hùng Vương",
+                UserName = "Hung Vuong Hospital",
                 Email = "bv.hungvuong@tphcm.gov.vn",
                 PhoneNumber = "(028) 3855 8532",
                 Password = HashPassword("clinic#2"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "128 Hồng Bàng, Phường 12, Quận 5, TP. Hồ Chí Minh, Việt Nam",
+                Address = "128 Hong Bang, Ward 12, District 5, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Hùng Vương Clinic
+            // Seed Hung Vuong Clinic
             var hvClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = hvClinicId,
                 UserId = hvClinicUserId,
-                Address = "128 Hồng Bàng, Phường 12, Quận 5, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện chuyên ngành Sản – Phụ khoa tuyến Trung ương, hạng I. Quy mô khoảng 900 giường (trong đó có 100 giường sơ sinh), với hơn 1.300 nhân viên, bao gồm các khoa lâm sàng, cận lâm sàng và phòng chức năng. Trung bình mỗi năm tiếp nhận hàng chục nghìn trẻ sơ sinh chào đời và hàng nghìn ca phẫu thuật.",
+                Address = "128 Hong Bang, Ward 12, District 5, Ho Chi Minh City, Vietnam",
+                Description = "A Central-level, Category I hospital specialized in Obstetrics – Gynecology. Around 900 beds (including 100 neonatal beds), with more than 1,300 staff across clinical, paraclinical, and functional departments. Each year, the hospital handles tens of thousands of births and thousands of surgeries.",
                 IsInsuranceAccepted = true,
-                Specializations = "Sản khoa (thai sản, đỡ đẻ);Phụ khoa (bao gồm phẫu thuật phụ khoa);Hiếm muộn – hỗ trợ sinh sản;Khám tiền sản – thai sản dịch vụ;Khám nhũ – tầm soát ung thư vú;Khám sàn chậu / niệu phụ khoa;Khám trẻ sơ sinh, chăm sóc sơ sinh",
+                Specializations = "Obstetrics (pregnancy, delivery);Gynecology (including gynecological surgery);Infertility – Assisted reproduction;Antenatal & premium maternity care;Breast clinic – breast cancer screening;Pelvic floor / Urogynecology;Neonatal examination & care",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Hùng Vương Doctor Users
+            // Seed Hung Vuong Doctor Users
             var hvDoctorUser1Id = Guid.NewGuid();
             var hvDoctorUser2Id = Guid.NewGuid();
 
@@ -278,11 +279,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = hvDoctorUser1Id,
-                    UserName = "Nguyễn Thị Hiền",
+                    UserName = "Nguyen Thi Hien",
                     Email = "nguyen.thi.hien@bvhungvuong.vn",
                     PhoneNumber = "+84-28-3855-8532",
                     Password = HashPassword("doctor#4"),
-                    Address = "Phó trưởng khoa Nhi, Bệnh viện Hùng Vương",
+                    Address = "Deputy Head of Pediatrics Department, Hung Vuong Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -293,11 +294,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = hvDoctorUser2Id,
-                    UserName = "Phùng Chí Nhân",
+                    UserName = "Phung Chi Nhan",
                     Email = "phung.chinhan@bvhungvuong.vn",
                     PhoneNumber = "+84-28-3855 8532",
                     Password = HashPassword("doctor#5"),
-                    Address = "Khoa Hồi sức cấp cứu, Bệnh viện Hùng Vương",
+                    Address = "Emergency & ICU Department, Hung Vuong Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -307,7 +308,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Hùng Vương Doctors
+            // Seed Hung Vuong Doctors
             var hvDoctor1Id = Guid.NewGuid();
             var hvDoctor2Id = Guid.NewGuid();
 
@@ -318,11 +319,11 @@ namespace Server.Infrastructure.Data
                     UserId = hvDoctorUser1Id,
                     ClinicId = hvClinicId,
                     Gender = "Female",
-                    Specialization = "Nhi",
-                    Certificate = "Bác sĩ Chuyên khoa I",
+                    Specialization = "Pediatrics",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 15,
-                    WorkPosition = "Phó trưởng khoa",
-                    Description = "Phó trưởng khoa Nhi, tham gia khám – điều trị các bệnh nhi.",
+                    WorkPosition = "Deputy Head of Department",
+                    Description = "Deputy Head of Pediatrics, participating in pediatric examination and treatment.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -332,26 +333,26 @@ namespace Server.Infrastructure.Data
                     UserId = hvDoctorUser2Id,
                     ClinicId = hvClinicId,
                     Gender = "Male",
-                    Specialization = "Hồi sức cấp cứu",
-                    Certificate = "Bác sĩ Chuyên khoa I",
+                    Specialization = "Emergency & Intensive Care",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ",
-                    Description = "Bác sĩ tại Khoa Hồi sức cấp cứu.",
+                    WorkPosition = "Doctor",
+                    Description = "Doctor at Emergency & ICU Department.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Hùng Vương Consultant User
+            // Seed Hung Vuong Consultant User
             var hvConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hvConsultantUserId,
-                UserName = "PGS.TS.BS Huỳnh Nguyễn Khánh Trang",
+                UserName = "Assoc. Prof. Dr. Huynh Nguyen Khanh Trang",
                 Email = "huynh.khanhtrang@bvhungvuong.vn",
                 PhoneNumber = "+84-28-3855-8532",
                 Password = HashPassword("consultant#3"),
-                Address = "Khoa Sản bệnh, Bệnh viện Hùng Vương",
+                Address = "Obstetric Pathology Department, Hung Vuong Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -361,22 +362,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Hùng Vương Consultant
+            // Seed Hung Vuong Consultant
             var hvConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = hvConsultantId,
                 UserId = hvConsultantUserId,
                 ClinicId = hvClinicId,
-                Specialization = "Sản khoa – thai kỳ bệnh lý",
-                Certificate = "Phó Giáo sư, Tiến sĩ, Bác sĩ Chuyên khoa II",
+                Specialization = "Obstetrics – High-risk pregnancy",
+                Certificate = "Associate Professor, PhD, Specialist Level II",
                 Gender = "Female",
                 ExperienceYears = 30,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Hùng Vương Feedbacks
+            // Seed Hung Vuong Feedbacks
             var hvFeedback1Id = Guid.NewGuid();
             var hvFeedback2Id = Guid.NewGuid();
 
@@ -387,7 +388,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = hvClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bác sĩ chuyên môn tốt, cơ sở vật chất đầy đủ, nhưng thời gian chờ khá lâu.",
+                    Comment = "Good medical expertise, full facilities, but the waiting time is quite long.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -396,47 +397,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = hvClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ BHYT được chấp nhận dễ dàng, nhân viên thân thiện.",
+                    Comment = "Health insurance service accepted smoothly, friendly staff.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bv Đại học Y Dược TP. HCM
-            // Seed Đại học Y Dược Clinic User
+
+
+            // University Medical Center HCMC
+            // Seed UMC Clinic User
             var dhydClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = dhydClinicUserId,
-                UserName = "Bệnh viện Đại học Y Dược TP. Hồ Chí Minh",
+                UserName = "University Medical Center Ho Chi Minh City",
                 Email = "bvdhyd@umc.edu.vn",
                 PhoneNumber = "(84.28) 3855 4269",
                 Password = HashPassword("clinic#3"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "Cơ sở 1: 215 Hồng Bàng, Phường 11, Quận 5, TP. Hồ Chí Minh; Cơ sở 2: 201 Nguyễn Chí Thanh, Phường Chợ Lớn, Quận 5, TP. Hồ Chí Minh; Cơ sở 3: 221B Hoàng Văn Thụ, Phường Phú Nhuận, TP. Hồ Chí Minh",
+                Address = "Campus 1: 215 Hong Bang, Ward 11, District 5, HCMC; Campus 2: 201 Nguyen Chi Thanh, Cho Lon Ward, District 5, HCMC; Campus 3: 221B Hoang Van Thu, Phu Nhuan Ward, HCMC",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Đại học Y Dược Clinic
+            // Seed UMC Clinic
             var dhydClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = dhydClinicId,
                 UserId = dhydClinicUserId,
-                Address = "Cơ sở 1: 215 Hồng Bàng, Phường 11, Quận 5, TP. Hồ Chí Minh; Cơ sở 2: 201 Nguyễn Chí Thanh, Phường Chợ Lớn, Quận 5, TP. Hồ Chí Minh; Cơ sở 3: 221B Hoàng Văn Thụ, Phường Phú Nhuận, TP. Hồ Chí Minh",
-                Description = "Bệnh viện Đại học Y Dược TP. HCM là bệnh viện đa khoa, đa chuyên khoa, kết hợp giữa khám chữa bệnh, đào tạo và nghiên cứu khoa học. Có 3 cơ sở chính tại TP.HCM, cung cấp dịch vụ khám ngoại trú, điều trị nội trú, phẫu thuật, khám chuyên khoa sâu.",
+                Address = "Campus 1: 215 Hong Bang, Ward 11, District 5, HCMC; Campus 2: 201 Nguyen Chi Thanh, Cho Lon Ward, District 5, HCMC; Campus 3: 221B Hoang Van Thu, Phu Nhuan Ward, HCMC",
+                Description = "University Medical Center HCMC is a multidisciplinary hospital combining healthcare, teaching, and scientific research. With 3 main campuses, it provides outpatient, inpatient, surgical, and specialized services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Ngoại tổng quát;Nội tổng hợp;Chẩn đoán hình ảnh;Sản phụ khoa;Nhi;Tim mạch;Chấn thương chỉnh hình;Thẩm mỹ – Tạo hình;Tai Mũi Họng;Cơ xương khớp;Da liễu;Khám chuyên gia tại phòng khám",
+                Specializations = "General Surgery;Internal Medicine;Diagnostic Imaging;Obstetrics & Gynecology;Pediatrics;Cardiology;Orthopedics;Plastic & Aesthetic Surgery;ENT;Rheumatology;Dermatology;Expert consultations at specialty clinics",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Đại học Y Dược Doctor Users
+            // Seed UMC Doctor Users
             var dhydDoctorUser1Id = Guid.NewGuid();
             var dhydDoctorUser2Id = Guid.NewGuid();
 
@@ -444,11 +447,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = dhydDoctorUser1Id,
-                    UserName = "PGS. TS. BS Võ Tấn Đức",
+                    UserName = "Assoc. Prof. Dr. Vo Tan Duc",
                     Email = "vo.tan.duc@umc.edu.vn",
                     PhoneNumber = "+84-28-3855 4269",
                     Password = HashPassword("doctor#6"),
-                    Address = "Khoa Chẩn đoán hình ảnh, UMC cơ sở 1",
+                    Address = "Diagnostic Imaging Department, UMC Campus 1",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -459,11 +462,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = dhydDoctorUser2Id,
-                    UserName = "BS CKII Trần Hữu Lợi",
+                    UserName = "Specialist II Tran Huu Loi",
                     Email = "tran.huu.loi@umc.edu.vn",
                     PhoneNumber = "+84-28-3855 4269",
                     Password = HashPassword("doctor#7"),
-                    Address = "Phòng khám Nội Tổng quát, UMC cơ sở 1",
+                    Address = "General Internal Medicine Clinic, UMC Campus 1",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -473,7 +476,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Đại học Y Dược Doctors
+            // Seed UMC Doctors
             var dhydDoctor1Id = Guid.NewGuid();
             var dhydDoctor2Id = Guid.NewGuid();
 
@@ -484,11 +487,11 @@ namespace Server.Infrastructure.Data
                     UserId = dhydDoctorUser1Id,
                     ClinicId = dhydClinicId,
                     Gender = "Male",
-                    Specialization = "Chẩn đoán hình ảnh",
-                    Certificate = "PGS, TS, BS",
+                    Specialization = "Diagnostic Imaging",
+                    Certificate = "Assoc. Prof., PhD, MD",
                     ExperienceYear = 25,
-                    WorkPosition = "Trưởng khoa Chẩn đoán hình ảnh",
-                    Description = "Lãnh đạo khoa Chẩn đoán hình ảnh UMC; có nhiều công trình chuyên môn và tham gia đào tạo.",
+                    WorkPosition = "Head of Diagnostic Imaging Department",
+                    Description = "Head of Diagnostic Imaging Department; author of multiple scientific works and lecturer.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -498,17 +501,17 @@ namespace Server.Infrastructure.Data
                     UserId = dhydDoctorUser2Id,
                     ClinicId = dhydClinicId,
                     Gender = "Male",
-                    Specialization = "Nội tổng quát",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "General Internal Medicine",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 20,
-                    WorkPosition = "Bác sĩ khám tổng quát",
-                    Description = "Làm việc tại phòng khám Nội Tổng quát, nhiều năm kinh nghiệm khám chữa bệnh nội khoa.",
+                    WorkPosition = "Internal Medicine Doctor",
+                    Description = "Practicing at General Internal Medicine Clinic with years of internal medicine experience.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Đại học Y Dược Consultant Users
+            // Seed UMC Consultant Users
             var dhydConsultantUser1Id = Guid.NewGuid();
             var dhydConsultantUser2Id = Guid.NewGuid();
 
@@ -516,11 +519,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = dhydConsultantUser1Id,
-                    UserName = "GS. TS. BS Phạm Kiên Hữu",
+                    UserName = "Prof. Dr. Pham Kien Huu",
                     Email = "pham.kienhuu@umc.edu.vn",
                     PhoneNumber = "+84-28-3855 4269",
                     Password = HashPassword("consultant#4"),
-                    Address = "Phòng khám chuyên khoa, UMC cơ sở 1, 215 Hồng Bàng, Quận 5",
+                    Address = "Specialty Clinic, UMC Campus 1, 215 Hong Bang, District 5",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -532,11 +535,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = dhydConsultantUser2Id,
-                    UserName = "PGS. TS. BS Lê Anh Thư",
+                    UserName = "Assoc. Prof. Dr. Le Anh Thu",
                     Email = "le.anhthu@umc.edu.vn",
                     PhoneNumber = "+84-28-3855 4269",
                     Password = HashPassword("consultant#5"),
-                    Address = "Phòng khám chuyên khoa Cơ xương khớp, UMC cơ sở 1",
+                    Address = "Rheumatology Specialty Clinic, UMC Campus 1",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -546,7 +549,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Đại học Y Dược Consultants
+            // Seed UMC Consultants
             var dhydConsultant1Id = Guid.NewGuid();
             var dhydConsultant2Id = Guid.NewGuid();
 
@@ -556,8 +559,8 @@ namespace Server.Infrastructure.Data
                     Id = dhydConsultant1Id,
                     UserId = dhydConsultantUser1Id,
                     ClinicId = dhydClinicId,
-                    Specialization = "Tai – Mũi – Họng",
-                    Certificate = "Giáo sư, Tiến sĩ, Bác sĩ",
+                    Specialization = "Ear – Nose – Throat",
+                    Certificate = "Professor, PhD, MD",
                     Gender = "Male",
                     ExperienceYears = 30,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -568,8 +571,8 @@ namespace Server.Infrastructure.Data
                     Id = dhydConsultant2Id,
                     UserId = dhydConsultantUser2Id,
                     ClinicId = dhydClinicId,
-                    Specialization = "Cơ xương khớp",
-                    Certificate = "Phó Giáo sư, Tiến sĩ, Bác sĩ",
+                    Specialization = "Rheumatology",
+                    Certificate = "Associate Professor, PhD, MD",
                     Gender = "Female",
                     ExperienceYears = 40,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -577,7 +580,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Đại học Y Dược Feedbacks
+            // Seed UMC Feedbacks
             var dhydFeedback1Id = Guid.NewGuid();
             var dhydFeedback2Id = Guid.NewGuid();
 
@@ -588,7 +591,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = dhydClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Cơ sở khang trang, bác sĩ nhiệt tình; thời gian chờ hơi lâu.",
+                    Comment = "Modern facilities, dedicated doctors; waiting time is a bit long.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -597,12 +600,13 @@ namespace Server.Infrastructure.Data
                     ClinicId = dhydClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Dịch vụ khám chuyên gia tốt, trang thiết bị hiện đại.",
+                    Comment = "Excellent specialist consultations, modern equipment.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện FV (FV Hospital)
+
+            // FV Hospital (Franco-Vietnamese Hospital)
             // Seed FV Clinic User
             var fvClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
@@ -629,9 +633,9 @@ namespace Server.Infrastructure.Data
                 Id = fvClinicId,
                 UserId = fvClinicUserId,
                 Address = "6 Nguyen Luong Bang Street, Tan My Ward, District 7, Ho Chi Minh City, Vietnam",
-                Description = "FV Hospital là bệnh viện quốc tế cao cấp tại Quận 7, TP. HCM, được thành lập năm 2003 bởi các bác sĩ Pháp-Việt. Với chất lượng quốc tế, trang thiết bị y tế hiện đại, hơn 30 chuyên khoa, phục vụ cả bệnh nhân trong nước và quốc tế. Bệnh viện có 220 giường nội trú, dịch vụ cấp cứu 24/7, phòng khám ngoại trú, chăm sóc sản phụ khoa, ung thư, tim mạch, nhi, mắt, nội soi, xét nghiệm & chẩn đoán hình ảnh.",
+                Description = "FV Hospital is a high-standard international hospital in District 7, Ho Chi Minh City, established in 2003 by French-Vietnamese doctors. With international quality, modern medical equipment, and more than 30 specialties, FV serves both local and international patients. The hospital has 220 inpatient beds, 24/7 emergency services, outpatient clinics, obstetrics & gynecology, oncology, cardiology, pediatrics, ophthalmology, endoscopy, laboratory & imaging diagnostics.",
                 IsInsuranceAccepted = true,
-                Specializations = "Ung thư – Hy Vọng Cancer Care Centre;Sản – Phụ khoa;Nhi & sơ sinh;Mắt (Ophthalmology);Tiêu hóa – Gan mật;Nội tổng quát;Trao đổi chất;Chẩn đoán hình ảnh;Ngoại — phẫu thuật tổng quát;Tim mạch;Cấp cứu 24/7;Thăm khám quốc tế / quốc tế hóa dịch vụ y tế",
+                Specializations = "Cancer – Hy Vong Cancer Care Centre;Obstetrics & Gynecology;Pediatrics & Neonatology;Ophthalmology;Gastroenterology – Hepatology;Internal Medicine;Metabolism;Imaging Diagnostics;Surgery — General Surgery;Cardiology;24/7 Emergency;International consultations / internationalized medical services",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -645,7 +649,7 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = fvDoctorUser1Id,
-                    UserName = "Dr. Lê Minh Đức",
+                    UserName = "Dr. Le Minh Duc",
                     Email = "le.minh.duc@fvhospital.com",
                     PhoneNumber = "+84-28-3511-3333",
                     Password = HashPassword("doctor#8"),
@@ -660,7 +664,7 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = fvDoctorUser2Id,
-                    UserName = "Dr. Lê Đình Phương",
+                    UserName = "Dr. Le Dinh Phuong",
                     Email = "le.dinh.phuong@fvhospital.com",
                     PhoneNumber = "+84-28-3511-3333",
                     Password = HashPassword("doctor#9"),
@@ -685,11 +689,11 @@ namespace Server.Infrastructure.Data
                     UserId = fvDoctorUser1Id,
                     ClinicId = fvClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa (Obstetrics & Gynaecology)",
-                    Certificate = "Bác sĩ chuyên khoa I/II / tương đương",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Degree I/II or equivalent",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ khám chuyên khoa",
-                    Description = "Là một trong các bác sĩ công khai trên trang FV Hospital, thường khám chuyên khoa sản phụ khoa.",
+                    WorkPosition = "Specialist Doctor",
+                    Description = "One of the public doctors listed on the FV Hospital website, practicing in obstetrics & gynecology.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -699,11 +703,11 @@ namespace Server.Infrastructure.Data
                     UserId = fvDoctorUser2Id,
                     ClinicId = fvClinicId,
                     Gender = "Male",
-                    Specialization = "Nội tổng quát (Internal Medicine)",
-                    Certificate = "Bác sĩ chuyên khoa",
+                    Specialization = "Internal Medicine",
+                    Certificate = "Medical Specialist",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ chuyên khoa nội",
-                    Description = "Một bác sĩ trong khoa Nội tổng quát, lịch khám được công khai trên trang chủ.",
+                    WorkPosition = "Internal Medicine Doctor",
+                    Description = "A doctor in the Department of Internal Medicine, with public consultation schedules listed on the hospital website.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -714,11 +718,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = fvConsultantUserId,
-                UserName = "Dr Jane Smith",
+                UserName = "Dr. Jane Smith",
                 Email = "jane.smith@fvhospital.com",
                 PhoneNumber = "+84-28-3511-3333",
                 Password = HashPassword("consultant#6"),
-                Address = "Phòng khám chuyên khoa, FV Hospital, Quận 7",
+                Address = "Specialist Clinic, FV Hospital, District 7",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -736,7 +740,7 @@ namespace Server.Infrastructure.Data
                 UserId = fvConsultantUserId,
                 ClinicId = fvClinicId,
                 Specialization = "",
-                Certificate = "Tiến sĩ, Bác sĩ chuyên khoa II",
+                Certificate = "PhD, Specialist Doctor II",
                 Gender = "Female",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 05),
@@ -754,7 +758,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = fvClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ quốc tế, nhân viên thân thiện, bảo đảm vệ sinh tốt — nhưng giá hơi cao.",
+                    Comment = "International standard services, friendly staff, good hygiene — but prices are quite high.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -763,12 +767,13 @@ namespace Server.Infrastructure.Data
                     ClinicId = fvClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bệnh viện sạch, bác sĩ chuyên môn tốt; dịch vụ cấp cứu rất nhanh.",
+                    Comment = "Clean hospital, doctors with high expertise; emergency services are very fast.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Vinmec Central Park
+
+            // Vinmec Central Park International Hospital
             // Seed Vinmec Clinic User
             var vinmecClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
@@ -781,7 +786,7 @@ namespace Server.Infrastructure.Data
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "208 Nguyễn Hữu Cảnh, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh, Vietnam",
+                Address = "208 Nguyen Huu Canh, Ward 22, Binh Thanh District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -794,8 +799,8 @@ namespace Server.Infrastructure.Data
             {
                 Id = vinmecClinicId,
                 UserId = vinmecClinicUserId,
-                Address = "208 Nguyễn Hữu Cảnh, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh, Vietnam",
-                Description = "Vinmec Central Park là bệnh viện quốc tế thành viên hệ thống Vinmec, với cơ sở vật chất hiện đại, đội ngũ bác sĩ trong nước và quốc tế, tiêu chuẩn quốc tế (JCI), cung cấp nhiều chuyên khoa chuyên sâu như ung thư, tim mạch, ngoại, sản phụ khoa, nhi, chẩn đoán hình ảnh,… hoạt động 24/7 cho cấp cứu.",
+                Address = "208 Nguyen Huu Canh, Ward 22, Binh Thanh District, Ho Chi Minh City, Vietnam",
+                Description = "Vinmec Central Park is a member hospital of the Vinmec Healthcare System, equipped with modern facilities, a team of both local and international doctors, accredited by JCI international standards. It provides a wide range of specialized care such as oncology, cardiology, surgery, obstetrics & gynecology, pediatrics, diagnostic imaging, and operates 24/7 for emergency services.",
                 IsInsuranceAccepted = true,
                 Specializations = "Cardiology;Oncology;General Surgery;Obstetrics & Gynecology;Pediatrics;Neurology & Psychiatry;ENT (Otolaryngology);Dermatology;Endocrinology;Gastroenterology & Hepatology;Vaccination;Orthopedics & Traumatology;Medical Check-up;General Medicine;Pulmonology;Rehabilitation",
                 IsActive = true,
@@ -815,7 +820,7 @@ namespace Server.Infrastructure.Data
                     Email = "nguyen.van.phan@vinmec.com",
                     PhoneNumber = "+84-28-3622-1166",
                     Password = HashPassword("doctor#10"),
-                    Address = "Vinmec Central Park, Bình Thạnh, TP. HCM",
+                    Address = "Vinmec Central Park, Binh Thanh, TP. HCM",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -855,7 +860,7 @@ namespace Server.Infrastructure.Data
                     Certificate = "MD / Specialist",
                     ExperienceYear = 40,
                     WorkPosition = "Cardiac Surgeon",
-                    Description = "Bác sĩ phẫu thuật tim mạch với hơn 40 năm kinh nghiệm, được nhắc đến trong danh sách các bác sĩ nổi bật của Vinmec Central Park.",
+                    Description = "A cardiovascular surgeon with over 40 years of experience, recognized as one of the prominent doctors at Vinmec Central Park.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -869,7 +874,7 @@ namespace Server.Infrastructure.Data
                     Certificate = "MD / Specialist",
                     ExperienceYear = 15,
                     WorkPosition = "Dermatologist",
-                    Description = "Bác sĩ da liễu – thẩm mỹ, được đào tạo quốc tế, chuyên về laser & chăm sóc da.",
+                    Description = "An internationally trained dermatologist specializing in aesthetic laser and skin care.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -880,11 +885,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = vinmecConsultantUserId,
-                UserName = "Dr. Jane Doe (mẫu)",
+                UserName = "Dr. Jane Doe",
                 Email = "jane.doe@vinmec.com",
                 PhoneNumber = "+84-28-3622-1166",
                 Password = HashPassword("consultant#7"),
-                Address = "Vinmec Central Park, Quận Bình Thạnh",
+                Address = "Vinmec Central Park, Binh Thanh District",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -902,7 +907,7 @@ namespace Server.Infrastructure.Data
                 UserId = vinmecConsultantUserId,
                 ClinicId = vinmecClinicId,
                 Specialization = "Oncology",
-                Certificate = "Tiến sĩ, Bác sĩ chuyên khoa II",
+                Certificate = "PhD, Specialist Level II",
                 Gender = "Female",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 05),
@@ -910,44 +915,43 @@ namespace Server.Infrastructure.Data
             });
 
             // Seed Vinmec Feedbacks
-            var vinmecFeedback1Id = Guid.NewGuid();
-            var vinmecFeedback2Id = Guid.NewGuid();
-
             modelBuilder.Entity<Feedback>().HasData(
                 new Feedback
                 {
-                    Id = vinmecFeedback1Id,
+                    Id = Guid.NewGuid(),
                     ClinicId = vinmecClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Cơ sở rất sạch, nhân viên thân thiện; khám cấp cứu và xử lý nhanh chóng.",
+                    Comment = "Very clean facilities, friendly staff; emergency services were quick and effective.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
                 {
-                    Id = vinmecFeedback2Id,
+                    Id = Guid.NewGuid(),
                     ClinicId = vinmecClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Dịch vụ quốc tế tốt, chi phí hơi cao nhưng tương xứng chất lượng.",
+                    Comment = "High-quality international services, prices are a bit high but worth the value.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Hoàn Mỹ Sài Gòn
+
+
+            // Hoan My Saigon General Hospital
             // Seed Hoan My Clinic User
             var hoanmyClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hoanmyClinicUserId,
-                UserName = "Bệnh viện Đa khoa Hoàn Mỹ Sài Gòn",
+                UserName = "Hoan My Saigon General Hospital",
                 Email = "contact@hoanmysaigon.com",
                 PhoneNumber = "(028) 3990 2468",
                 Password = HashPassword("clinic#6"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "60-60A Phan Xích Long, Phường 1, Quận Phú Nhuận, TP. Hồ Chí Minh, Việt Nam",
+                Address = "60-60A Phan Xich Long, Ward 1, Phu Nhuan District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -960,10 +964,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = hoanmyClinicId,
                 UserId = hoanmyClinicUserId,
-                Address = "60-60A Phan Xích Long, Phường 1, Quận Phú Nhuận, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Hoàn Mỹ Sài Gòn là bệnh viện tư nhân, thành lập năm 1999, với quy mô khoảng 300 giường tại TP. HCM, phục vụ cả ngoại trú và nội trú. Thế mạnh gồm đa chuyên khoa, khám yêu cầu, gói khám tổng quát, dịch vụ cấp cứu 24/7. Thành viên của hệ thống Y khoa Hoàn Mỹ, được nhiều bệnh nhân đánh giá cao về chất lượng và dịch vụ.",
+                Address = "60-60A Phan Xich Long, Ward 1, Phu Nhuan District, Ho Chi Minh City, Vietnam",
+                Description = "Hoan My Saigon Hospital is a private hospital established in 1999 with about 300 beds, serving both inpatient and outpatient needs. It is known for multi-specialty services, premium health check-up packages, and 24/7 emergency care. As a member of the Hoan My Medical Corporation, it is highly rated for quality and patient services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Đa khoa tổng hợp;Ngoại - Phẫu thuật;Sản - Phụ khoa;Nhi;Cấp cứu 24/7;Khám sức khỏe tổng quát;Thận - Tiết niệu;Ung bướu;Chẩn đoán hình ảnh;Nội khoa;Phẫu thuật chỉnh hình;Tai Mũi Họng;Nội soi & tiêu hóa;Khám định kỳ",
+                Specializations = "General Medicine;Surgery;Obstetrics & Gynecology;Pediatrics;24/7 Emergency;General Health Check-up;Nephrology & Urology;Oncology;Diagnostic Imaging;Internal Medicine;Orthopedics;ENT;Endoscopy & Gastroenterology;Periodic Check-ups",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -978,11 +982,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = hoanmyDoctorUser1Id,
-                    UserName = "Dr. Vũ Đình Kha",
+                    UserName = "Dr. Vu Đinh Kha",
                     Email = "vu.dinh.kha@hoanmysaigon.com",
                     PhoneNumber = "+84-28-3990-2468",
                     Password = HashPassword("doctor#12"),
-                    Address = "Bệnh viện Hoàn Mỹ Sài Gòn, Phú Nhuận, TP. HCM",
+                    Address = "60-60A Phan Xich Long Street, Ward 1, Phu Nhuan District, Ho Chi Minh City",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -997,7 +1001,7 @@ namespace Server.Infrastructure.Data
                     Email = "tran.anh.huy@hoanmysaigon.com",
                     PhoneNumber = "+84-28-3990-2468",
                     Password = HashPassword("doctor#13"),
-                    Address = "Bệnh viện Hoàn Mỹ Sài Gòn, Phú Nhuận, TP. HCM",
+                    Address = "60-60A Phan Xich Long Street, Ward 1, Phu Nhuan District, Ho Chi Minh City",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1012,7 +1016,7 @@ namespace Server.Infrastructure.Data
                     Email = "tran.dinh.thanh@hoanmysaigon.com",
                     PhoneNumber = "+84-28-3990-2468",
                     Password = HashPassword("doctor#14"),
-                    Address = "Bệnh viện Hoàn Mỹ Sài Gòn, Phú Nhuận, TP. HCM",
+                    Address = "60-60A Phan Xich Long Street, Ward 1, Phu Nhuan District, Ho Chi Minh City",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1026,7 +1030,6 @@ namespace Server.Infrastructure.Data
             var hoanmyDoctor1Id = Guid.NewGuid();
             var hoanmyDoctor2Id = Guid.NewGuid();
             var hoanmyDoctor3Id = Guid.NewGuid();
-
             modelBuilder.Entity<Doctor>().HasData(
                 new Doctor
                 {
@@ -1034,11 +1037,11 @@ namespace Server.Infrastructure.Data
                     UserId = hoanmyDoctorUser1Id,
                     ClinicId = hoanmyClinicId,
                     Gender = "Male",
-                    Specialization = "Thận & Tiết niệu",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Nephrology & Urology",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 21,
-                    WorkPosition = "Trưởng khoa Ngoại Tiết niệu",
-                    Description = "Bác sĩ Vũ Đình Kha tốt nghiệp Y khoa năm 1995, có bằng Chuyên khoa I & II Thận Tiết niệu, hơn 21 năm kinh nghiệm trong thận và tiết niệu tại Hoàn Mỹ.",
+                    WorkPosition = "Head of Urology Department",
+                    Description = "Graduated in Medicine in 1995, with Specialist I & II in Urology, Dr. Vu Dinh Kha has over 21 years of experience in nephrology and urology at Hoan My Saigon.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1048,11 +1051,11 @@ namespace Server.Infrastructure.Data
                     UserId = hoanmyDoctorUser2Id,
                     ClinicId = hoanmyClinicId,
                     Gender = "Male",
-                    Specialization = "Tim mạch (Cardiology)",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Cardiology",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 22,
-                    WorkPosition = "Trưởng khoa Tim mạch",
-                    Description = "Lãnh đạo Khoa Tim mạch với hơn 22 năm kinh nghiệm; đảm nhận các can thiệp tim mạch và điều trị các bệnh lý tim đặc biệt.",
+                    WorkPosition = "Head of Cardiology Department",
+                    Description = "Head of the Cardiology Department with over 22 years of experience; performing interventional cardiology and treating complex heart diseases.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1062,11 +1065,11 @@ namespace Server.Infrastructure.Data
                     UserId = hoanmyDoctorUser3Id,
                     ClinicId = hoanmyClinicId,
                     Gender = "Male",
-                    Specialization = "Ung bướu (Oncology)",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Oncology",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 30,
-                    WorkPosition = "Trưởng khoa Ung bướu",
-                    Description = "Bác sĩ Trần Đình Thanh hiện là Trưởng khoa Ung bướu tại Hoàn Mỹ Sài Gòn; có nhiều năm làm việc tại Bệnh viện Phạm Ngọc Thạch trước khi chuyển sang Hoàn Mỹ.",
+                    WorkPosition = "Head of Oncology Department",
+                    Description = "Currently Head of Oncology at Hoan My Saigon; Dr. Tran Dinh Thanh previously worked for many years at Pham Ngoc Thach Hospital before joining Hoan My.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -1077,11 +1080,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hoanmyConsultantUserId,
-                UserName = "Dr. Mẫu Tư Vấn",
-                Email = "tu.van@hoanmysaigon.com",
+                UserName = "Dr. Ngo Ba Duong",
+                Email = "duong.ngo@hoanmysaigon.com",
                 PhoneNumber = "+84-28-3990-2468",
                 Password = HashPassword("consultant#8"),
-                Address = "Bệnh viện Hoàn Mỹ Sài Gòn, Phú Nhuận, TP. HCM",
+                Address = "60-60A Phan Xich Long Street, Ward 1, Phu Nhuan District, Ho Chi Minh City",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -1090,7 +1093,6 @@ namespace Server.Infrastructure.Data
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
-
             // Seed Hoan My Consultant
             var hoanmyConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
@@ -1098,8 +1100,8 @@ namespace Server.Infrastructure.Data
                 Id = hoanmyConsultantId,
                 UserId = hoanmyConsultantUserId,
                 ClinicId = hoanmyClinicId,
-                Specialization = "Khám chuyên gia nội tổng quát",
-                Certificate = "Chứng chỉ chuyên khoa cấp I/II",
+                Specialization = "General Internal Medicine Consultation",
+                Certificate = "Specialist Level I/II Certificate",
                 Gender = "Female",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 05),
@@ -1107,45 +1109,42 @@ namespace Server.Infrastructure.Data
             });
 
             // Seed Hoan My Feedbacks
-            var hoanmyFeedback1Id = Guid.NewGuid();
-            var hoanmyFeedback2Id = Guid.NewGuid();
-
             modelBuilder.Entity<Feedback>().HasData(
                 new Feedback
                 {
-                    Id = hoanmyFeedback1Id,
+                    Id = Guid.NewGuid(),
                     ClinicId = hoanmyClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ tốt, bác sĩ tận tâm; phòng chữa bệnh và thiết bị đầy đủ, tuy nhiên giá hơi cao với một số dịch vụ.",
+                    Comment = "Good services, dedicated doctors; treatment rooms and equipment are sufficient, but some services are a bit pricey.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
                 {
-                    Id = hoanmyFeedback2Id,
+                    Id = Guid.NewGuid(),
                     ClinicId = hoanmyClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 7,
-                    Comment = "Thời gian chờ khám lâu, nhưng bù lại bác sĩ giải thích rõ ràng, nhân viên thân thiện.",
+                    Comment = "Long waiting times, but doctors gave clear explanations and staff were friendly.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Tâm Anh TP.HCM
+            // Tam Anh General Hospital Ho Chi Minh City
 
             // Seed Tam Anh Clinic User
             var tamanhClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = tamanhClinicUserId,
-                UserName = "Bệnh viện Đa khoa Tâm Anh TP. HCM",
+                UserName = "Tam Anh General Hospital HCMC",
                 Email = "cskh@hcm.tahospital.vn",
                 PhoneNumber = "(028) 7102 6789",
                 Password = HashPassword("clinic#7"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "2B Phổ Quang, Phường 2, Quận Tân Bình, TP. Hồ Chí Minh, Việt Nam",
+                Address = "2B Pho Quang, Ward 2, Tan Binh District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -1158,10 +1157,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = tamanhClinicId,
                 UserId = tamanhClinicUserId,
-                Address = "2B Phổ Quang, Phường 2, Quận Tân Bình, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Đa khoa Tâm Anh TP.HCM là bệnh viện cao cấp được đầu tư theo chuẩn 5 sao, hoạt động từ năm 2021, quy tụ đội ngũ bác sĩ đầu ngành trong nước, hệ thống trang thiết bị y tế hiện đại, dịch vụ khám chữa bệnh đa khoa, khám theo yêu cầu và điều trị chuyên sâu. Được đánh giá cao về chất lượng dịch vụ và cơ sở vật chất sang trọng.",
+                Address = "2B Pho Quang, Ward 2, Tan Binh District, Ho Chi Minh City, Vietnam",
+                Description = "Tam Anh General Hospital HCMC is a premium hospital built to 5-star standards, operating since 2021. It brings together leading domestic doctors, modern medical equipment, and offers general healthcare, on-demand medical services, and specialized treatments. It is highly rated for service quality and luxurious facilities.",
                 IsInsuranceAccepted = true,
-                Specializations = "Chẩn đoán hình ảnh;Chấn thương chỉnh hình;Cơ-Xương-Khớp;Điều trị tích cực;Gây mê hồi sức;Ung bướu;Kiểm soát nhiễm khuẩn;Nhi khoa;Nội soi tiêu hóa;Sản-phụ khoa;Sơ sinh;Tai-Mũi-Họng;Tiết niệu;Tiểu đường / Nội tiết;Vac-xin;Nội tổng hợp",
+                Specializations = "Diagnostic Imaging;Orthopedics;Musculoskeletal;Intensive Care;Anesthesiology & Resuscitation;Oncology;Infection Control;Pediatrics;Gastrointestinal Endoscopy;Obstetrics & Gynecology;Neonatology;ENT;Urology;Diabetes / Endocrinology;Vaccination;General Internal Medicine",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -1176,11 +1175,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = tamanhDoctorUser1Id,
-                    UserName = "TS. BS Đỗ Minh Hùng",
+                    UserName = "PhD. MD. Do Minh Hung",
                     Email = "do.minh.hung@tahospital.vn",
                     PhoneNumber = "+84-28-7102-6789",
                     Password = HashPassword("doctor#15"),
-                    Address = "Trung tâm Nội soi và Phẫu thuật Nội soi Tiêu hóa, Bệnh viện Tâm Anh TP.HCM",
+                    Address = "Gastrointestinal Endoscopy & Laparoscopic Surgery Center, Tam Anh Hospital HCMC",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1191,11 +1190,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = tamanhDoctorUser2Id,
-                    UserName = "TS. BS Cam Ngọc Phượng",
+                    UserName = "PhD. MD. Cam Ngoc Phuong",
                     Email = "cam.ngoc.phuong@tahospital.vn",
                     PhoneNumber = "+84-28-7102-6789",
                     Password = HashPassword("doctor#16"),
-                    Address = "Trung tâm Sơ sinh, Bệnh viện Tâm Anh TP.HCM",
+                    Address = "Neonatology Center, Tam Anh Hospital HCMC",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1206,11 +1205,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = tamanhDoctorUser3Id,
-                    UserName = "Dr. Mẫu Khác",
-                    Email = "mau.khac@tahospital.vn",
+                    UserName = "Dr. Tran Gia Hung",
+                    Email = "gia.hung@tahospital.vn",
                     PhoneNumber = "+84-28-7102-6789",
                     Password = HashPassword("doctor#17"),
-                    Address = "Khoa Chẩn đoán hình ảnh, Bệnh viện Tâm Anh TP.HCM",
+                    Address = "Diagnostic Imaging Department, Tam Anh Hospital HCMC",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1232,11 +1231,11 @@ namespace Server.Infrastructure.Data
                     UserId = tamanhDoctorUser1Id,
                     ClinicId = tamanhClinicId,
                     Gender = "Male",
-                    Specialization = "Tiêu hóa - Gan mật",
-                    Certificate = "Tiến sĩ, BS chuyên khoa",
+                    Specialization = "Gastroenterology - Hepatology",
+                    Certificate = "PhD, Specialist Doctor",
                     ExperienceYear = 30,
-                    WorkPosition = "Giám đốc Trung tâm Nội soi & Phẫu thuật Nội soi",
-                    Description = "Chuyên gia đầu ngành về nội soi và phẫu thuật nội soi tiêu hóa, có nhiều năm kinh nghiệm tại các bệnh viện lớn.",
+                    WorkPosition = "Director, Endoscopy & Laparoscopic Surgery Center",
+                    Description = "Leading expert in gastrointestinal endoscopy and laparoscopic surgery, with many years of experience in major hospitals.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1246,11 +1245,11 @@ namespace Server.Infrastructure.Data
                     UserId = tamanhDoctorUser2Id,
                     ClinicId = tamanhClinicId,
                     Gender = "Female",
-                    Specialization = "Sơ sinh",
-                    Certificate = "Tiến sĩ, BS chuyên khoa",
+                    Specialization = "Neonatology",
+                    Certificate = "PhD, Specialist Doctor",
                     ExperienceYear = 30,
-                    WorkPosition = "Giám đốc Trung tâm Sơ sinh",
-                    Description = "Giám đốc Trung tâm Sơ sinh, chăm sóc sơ sinh, có nhiều năm kinh nghiệm trong chăm sóc trẻ nhỏ.",
+                    WorkPosition = "Director, Neonatology Center",
+                    Description = "Director of the Neonatology Center, with extensive experience in newborn and child healthcare.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1260,11 +1259,11 @@ namespace Server.Infrastructure.Data
                     UserId = tamanhDoctorUser3Id,
                     ClinicId = tamanhClinicId,
                     Gender = "Male",
-                    Specialization = "Chẩn đoán hình ảnh",
-                    Certificate = "BS CKII",
+                    Specialization = "Diagnostic Imaging",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 20,
-                    WorkPosition = "Bác sĩ cao cấp",
-                    Description = "Một bác sĩ khám và chẩn đoán hình ảnh với nhiều năm kinh nghiệm.",
+                    WorkPosition = "Senior Doctor",
+                    Description = "A doctor specializing in diagnostic imaging with many years of experience.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -1279,11 +1278,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = tamanhConsultantUser1Id,
-                    UserName = "PGS. TS. BS Phạm Nguyễn Vinh",
+                    UserName = "Assoc. Prof. PhD. MD. Pham Nguyen Vinh",
                     Email = "pham.nguyen.vinh@tahospital.vn",
                     PhoneNumber = "+84-28-7102-6789",
                     Password = HashPassword("consultant#9"),
-                    Address = "Trung tâm Tim mạch, Bệnh viện Đa khoa Tâm Anh TP.HCM",
+                    Address = "Cardiology Center, Tam Anh General Hospital HCMC",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -1295,11 +1294,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = tamanhConsultantUser2Id,
-                    UserName = "TTƯT. PGS. TS. BS Vũ Lê Chuyên",
+                    UserName = "People’s Doctor, Assoc. Prof. PhD. MD. Vu Le Chuyen",
                     Email = "vu.le.chuyen@tahospital.vn",
                     PhoneNumber = "+84-28-7102-6789",
                     Password = HashPassword("consultant#10"),
-                    Address = "Trung tâm Tiết niệu - Thận học - Nam khoa, Bệnh viện Đa khoa Tâm Anh TP.HCM",
+                    Address = "Urology - Nephrology - Andrology Center, Tam Anh General Hospital HCMC",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -1310,11 +1309,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = tamanhConsultantUser3Id,
-                    UserName = "BS CKII Nguyễn Bá Mỹ Nhi",
+                    UserName = "Specialist Level II, MD. Nguyen Ba My Nhi",
                     Email = "nguyen.ba.my.nhi@tahospital.vn",
                     PhoneNumber = "+84-28-7102-6789",
                     Password = HashPassword("consultant#11"),
-                    Address = "Trung tâm Sản Phụ khoa, Bệnh viện Tâm Anh TP.HCM",
+                    Address = "Obstetrics & Gynecology Center, Tam Anh Hospital HCMC",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -1335,8 +1334,8 @@ namespace Server.Infrastructure.Data
                     Id = tamanhConsultant1Id,
                     UserId = tamanhConsultantUser1Id,
                     ClinicId = tamanhClinicId,
-                    Specialization = "Nội tim mạch (Cardiology)",
-                    Certificate = "PGS, Tiến sĩ, Bác sĩ",
+                    Specialization = "Cardiology",
+                    Certificate = "Assoc. Prof., PhD, MD",
                     Gender = "Male",
                     ExperienceYears = 25,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -1347,8 +1346,8 @@ namespace Server.Infrastructure.Data
                     Id = tamanhConsultant2Id,
                     UserId = tamanhConsultantUser2Id,
                     ClinicId = tamanhClinicId,
-                    Specialization = "Tiết niệu - Nam học",
-                    Certificate = "PGS, Tiến sĩ, BS chuyên khoa cao cấp",
+                    Specialization = "Urology - Andrology",
+                    Certificate = "Assoc. Prof., PhD, Senior Specialist Doctor",
                     Gender = "Male",
                     ExperienceYears = 40,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -1359,8 +1358,8 @@ namespace Server.Infrastructure.Data
                     Id = tamanhConsultant3Id,
                     UserId = tamanhConsultantUser3Id,
                     ClinicId = tamanhClinicId,
-                    Specialization = "Sản Phụ khoa",
-                    Certificate = "BS CKII",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level II",
                     Gender = "Female",
                     ExperienceYears = 30,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -1380,7 +1379,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = tamanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ tốt, cơ sở sạch đẹp, bác sĩ chuyên môn cao.",
+                    Comment = "Good service, clean facilities, highly skilled doctors.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -1389,7 +1388,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = tamanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Thời gian chờ khám lâu, chi phí hơi cao nhưng chất lượng tốt.",
+                    Comment = "Long waiting time, slightly high cost but good quality.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -1398,26 +1397,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = tamanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Nhân viên tận tình, hỗ trợ tốt trong việc đặt lịch và thủ tục.",
+                    Comment = "Helpful staff, great support with appointment booking and procedures.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Nhân Dân 115
+
+            // ND115 Hospital
 
             // Seed ND115 Clinic User
             var nd115ClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = nd115ClinicUserId,
-                UserName = "Bệnh viện Nhân Dân 115",
+                UserName = "Nhan Dan 115 Hospital",
                 Email = "bvnd115tphcm@gmail.com",
                 PhoneNumber = "(028) 38.683.496",
                 Password = HashPassword("clinic#8"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "Khu Kỹ thuật cao: 818 Sư Vạn Hạnh, Phường Hòa Hưng, TP. Hồ Chí Minh; Cổng cấp cứu (Cổng 4): 527 Sư Vạn Hạnh, Phường Hòa Hưng; Khám yêu cầu (Cổng 3): 527 Sư Vạn Hạnh, Phường Hòa Hưng; Khám bảo hiểm: 88 Thành Thái, Phường Hòa Hưng; Trung tâm Nghiên cứu & Phát triển (Cổng 1): 3 Dương Quang Trung, Phường Hòa Hưng",
+                Address = "High-Tech Zone: 818 Su Van Hanh, Hoa Hung Ward, Ho Chi Minh City; Emergency Gate (Gate 4): 527 Su Van Hanh, Hoa Hung Ward; Request-based Examination (Gate 3): 527 Su Van Hanh, Hoa Hung Ward; Insurance Examination: 88 Thanh Thai, Hoa Hung Ward; Research & Development Center (Gate 1): 3 Duong Quang Trung, Hoa Hung Ward",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -1430,10 +1430,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = nd115ClinicId,
                 UserId = nd115ClinicUserId,
-                Address = "Khu Kỹ thuật cao: 818 Sư Vạn Hạnh, Phường Hòa Hưng, TP. Hồ Chí Minh; Cổng cấp cứu (Cổng 4): 527 Sư Vạn Hạnh, Phường Hòa Hưng; Khám yêu cầu (Cổng 3): 527 Sư Vạn Hạnh, Phường Hòa Hưng; Khám bảo hiểm: 88 Thành Thái, Phường Hòa Hưng; Trung tâm Nghiên cứu & Phát triển (Cổng 1): 3 Dương Quang Trung, Phường Hòa Hưng",
-                Description = "Bệnh viện Nhân Dân 115 là bệnh viện đa khoa hạng I tuyến cuối trực thuộc Sở Y Tế TP. Hồ Chí Minh. Với hơn 30 năm hoạt động, sở hữu 5 chuyên khoa mũi nhọn, 7 khối lâm sàng, 45 khoa phòng, khoảng 1.600 giường; đội ngũ bác sĩ trình độ sau đại học chiếm gần 70%. BV có các chuyên khoa mũi nhọn như Thần kinh, Tim mạch, Thận – Niệu, Can thiệp Mạch máu - Thần kinh, Cấp cứu – Gây mê – Hồi sức cấp cứu, Chống độc.",
+                Address = "High-Tech Zone: 818 Su Van Hanh, Hoa Hung Ward, Ho Chi Minh City; Emergency Gate (Gate 4): 527 Su Van Hanh, Hoa Hung Ward; Request-based Examination (Gate 3): 527 Su Van Hanh, Hoa Hung Ward; Insurance Examination: 88 Thanh Thai, Hoa Hung Ward; Research & Development Center (Gate 1): 3 Duong Quang Trung, Hoa Hung Ward",
+                Description = "People's Hospital 115 is a grade I multi-specialty hospital under the Department of Health of Ho Chi Minh City. With over 30 years of operation, it has 5 key specialties, 7 clinical divisions, 45 departments, about 1,600 beds; nearly 70% of doctors hold postgraduate qualifications. Key specialties include Neurology, Cardiology, Urology – Nephrology, Neurovascular Interventions, Emergency – Anesthesia – Critical Care, and Toxicology.",
                 IsInsuranceAccepted = true,
-                Specializations = "Thần kinh (Neurology, đột quỵ);Tim mạch & Tim mạch can thiệp;Thận – Niệu, Ghép thận;Can thiệp mạch máu - Thần kinh;Cấp cứu, Gây mê – Hồi sức cấp cứu;Chống độc;Ngoại Tổng quát;Ngoại Chấn thương Chỉnh hình;Nội Thần kinh;Nội tiêu hóa – Gan mật;Nội Tiết;Cơ Xương Khớp;Y học cổ truyền & Phục hồi chức năng;Khám theo yêu cầu;Khám bảo hiểm y tế",
+                Specializations = "Neurology (Stroke);Cardiology & Interventional Cardiology;Urology – Nephrology, Kidney Transplant;Neurovascular Interventions;Emergency, Anesthesia – Intensive Care;Toxicology;General Surgery;Orthopedics & Trauma Surgery;Internal Neurology;Gastroenterology & Hepatology;Endocrinology;Rheumatology;Traditional Medicine & Rehabilitation;On-demand Examination;Health Insurance Examination",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -1448,11 +1448,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nd115DoctorUser1Id,
-                    UserName = "BS CKII Phạm Đức Đạt",
+                    UserName = "MD, Specialist Level II Pham Duc Dat",
                     Email = "pham.duc.dat@bv115.vn",
                     PhoneNumber = "+84-28-3865-2368",
                     Password = HashPassword("doctor#18"),
-                    Address = "Khoa Tim mạch Can thiệp, Bệnh viện Nhân dân 115",
+                    Address = "Interventional Cardiology Department, People's Hospital 115",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1463,11 +1463,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nd115DoctorUser2Id,
-                    UserName = "ThS. BS Tạ Công Thành",
+                    UserName = "MSc, MD Ta Cong Thanh",
                     Email = "ta.cong.thanh@bv115.vn",
                     PhoneNumber = "+84-28-3865-2368",
                     Password = HashPassword("doctor#19"),
-                    Address = "Khoa Tim mạch Can thiệp, Bệnh viện Nhân dân 115",
+                    Address = "Interventional Cardiology Department, People's Hospital 115",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1478,11 +1478,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nd115DoctorUser3Id,
-                    UserName = "BS CKII Tôn Thất Tuấn Khiêm",
-                    Email = "tonthat.tuan khiem@bv115.vn",
+                    UserName = "MD, Specialist Level II Ton That Tuan Khiem",
+                    Email = "tonthat.tuan.khiem@bv115.vn",
                     PhoneNumber = "+84-28-3865-2368",
                     Password = HashPassword("doctor#20"),
-                    Address = "Khoa Tim mạch Can thiệp, Bệnh viện Nhân dân 115",
+                    Address = "Interventional Cardiology Department, People's Hospital 115",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1504,11 +1504,11 @@ namespace Server.Infrastructure.Data
                     UserId = nd115DoctorUser1Id,
                     ClinicId = nd115ClinicId,
                     Gender = "Male",
-                    Specialization = "Tim mạch can thiệp",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Interventional Cardiology",
+                    Certificate = "Specialist Level II Doctor",
                     ExperienceYear = 23,
-                    WorkPosition = "Trưởng Khoa Tim mạch Can thiệp",
-                    Description = "Là bác sĩ chuyên đầu ngành can thiệp tim mạch tại BV Nhân dân 115; được nhắc tới trong các bài viết “Top bác sĩ tim mạch bệnh viện 115” với trên 20 năm kinh nghiệm.",
+                    WorkPosition = "Head of Interventional Cardiology Department",
+                    Description = "Leading interventional cardiologist at People's Hospital 115; mentioned in articles 'Top Cardiologists at 115 Hospital' with over 20 years of experience.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1518,11 +1518,11 @@ namespace Server.Infrastructure.Data
                     UserId = nd115DoctorUser2Id,
                     ClinicId = nd115ClinicId,
                     Gender = "Male",
-                    Specialization = "Tim mạch can thiệp",
-                    Certificate = "Thạc sĩ, Bác sĩ",
+                    Specialization = "Interventional Cardiology",
+                    Certificate = "Master of Science, Medical Doctor",
                     ExperienceYear = 20,
-                    WorkPosition = "Bác sĩ Can thiệp",
-                    Description = "Một trong các bác sĩ trong Top 5 tim mạch bệnh viện 115; kinh nghiệm nhiều năm trong lĩnh vực.",
+                    WorkPosition = "Interventional Cardiologist",
+                    Description = "Listed among the Top 5 cardiologists at People's Hospital 115; many years of experience in interventional cardiology.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1532,11 +1532,11 @@ namespace Server.Infrastructure.Data
                     UserId = nd115DoctorUser3Id,
                     ClinicId = nd115ClinicId,
                     Gender = "Male",
-                    Specialization = "Tim mạch can thiệp",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Interventional Cardiology",
+                    Certificate = "Specialist Level II Doctor",
                     ExperienceYear = 18,
-                    WorkPosition = "Bác sĩ cao cấp",
-                    Description = "Được nhắc tới trong danh sách bác sĩ tim mạch nổi bật tại BV 115.",
+                    WorkPosition = "Senior Doctor",
+                    Description = "Recognized among the outstanding cardiologists at People's Hospital 115.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -1551,11 +1551,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nd115ConsultantUser1Id,
-                    UserName = "TTƯT. PGS. TS. BS Nguyễn Huy Thắng",
+                    UserName = "Meritorious Doctor, Assoc. Prof. Dr. Nguyen Huy Thang",
                     Email = "nguyen.huy.thang@bv115.vn",
                     PhoneNumber = "+84-28-3865-2368",
                     Password = HashPassword("consultant#12"),
-                    Address = "Khoa Bệnh lý Mạch Máu Não, Bệnh viện Nhân dân 115",
+                    Address = "Cerebrovascular Diseases Department, People's Hospital 115",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -1567,11 +1567,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nd115ConsultantUser2Id,
-                    UserName = "TS. BS. Trương Hoàng Minh",
+                    UserName = "PhD, MD Truong Hoang Minh",
                     Email = "truong.hoang.minh@bv115.vn",
                     PhoneNumber = "+84-28-3865-2368",
                     Password = HashPassword("consultant#13"),
-                    Address = "Khoa Ngoại Niệu – Ghép thận, BV Nhân dân 115",
+                    Address = "Urology – Kidney Transplant Department, People's Hospital 115",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -1582,11 +1582,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nd115ConsultantUser3Id,
-                    UserName = "BS CKII Nguyễn Hữu Tâm",
+                    UserName = "MD, Specialist Level II Nguyen Huu Tam",
                     Email = "nguyen.huu.tam@bv115.vn",
                     PhoneNumber = "+84-28-3865-2368",
                     Password = HashPassword("consultant#14"),
-                    Address = "Khoa Chấn thương Chỉnh hình, BV Nhân dân 115",
+                    Address = "Orthopedics Department, People's Hospital 115",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -1607,8 +1607,8 @@ namespace Server.Infrastructure.Data
                     Id = nd115Consultant1Id,
                     UserId = nd115ConsultantUser1Id,
                     ClinicId = nd115ClinicId,
-                    Specialization = "Thần kinh – Bệnh lý mạch máu não",
-                    Certificate = "Phó Giáo sư, Tiến sĩ, Bác sĩ chuyên khoa cao cấp",
+                    Specialization = "Neurology – Cerebrovascular Diseases",
+                    Certificate = "Associate Professor, PhD, Senior Specialist Doctor",
                     Gender = "Male",
                     ExperienceYears = 30,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -1619,8 +1619,8 @@ namespace Server.Infrastructure.Data
                     Id = nd115Consultant2Id,
                     UserId = nd115ConsultantUser2Id,
                     ClinicId = nd115ClinicId,
-                    Specialization = "Ngoại tiết niệu, Ghép thận",
-                    Certificate = "Tiến sĩ, Bác sĩ chuyên khoa II",
+                    Specialization = "Urology, Kidney Transplant",
+                    Certificate = "PhD, Specialist Level II Doctor",
                     Gender = "Male",
                     ExperienceYears = 28,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -1631,8 +1631,8 @@ namespace Server.Infrastructure.Data
                     Id = nd115Consultant3Id,
                     UserId = nd115ConsultantUser3Id,
                     ClinicId = nd115ClinicId,
-                    Specialization = "Chấn thương chỉnh hình",
-                    Certificate = "Bác sĩ chuyên khoa II",
+                    Specialization = "Orthopedic Surgery",
+                    Certificate = "Specialist Level II Doctor",
                     Gender = "Male",
                     ExperienceYears = 25,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -1652,7 +1652,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nd115ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Bệnh viện rộng, chuyên môn tốt; tuy nhiên số lượng bệnh nhân đông dẫn tới chờ khám lâu.",
+                    Comment = "The hospital is spacious with good expertise; however, it is very crowded, leading to long waiting times.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -1661,7 +1661,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nd115ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Cơ sở kỹ thuật tốt, các bác sĩ nhiệt tình, nhưng thủ tục hơi rườm rà.",
+                    Comment = "Good technical facilities, dedicated doctors, but procedures are somewhat complicated.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -1670,26 +1670,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = nd115ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám bảo hiểm thuận tiện; bác sĩ giải thích rõ ràng.",
+                    Comment = "Insurance examination is convenient; doctors explain thoroughly.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Thống Nhất TP.HCM
+
+            // Thong Nhat Hospital HCMC
 
             // Seed Thong Nhat Clinic User
             var thongnhatClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thongnhatClinicUserId,
-                UserName = "Bệnh viện Thống Nhất TP. HCM",
+                UserName = "Thong Nhat Hospital HCMC",
                 Email = "thongnhathospital@bvtn.org.vn",
                 PhoneNumber = "(028) 3869 0277",
                 Password = HashPassword("clinic#9"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "Số 1 Lý Thường Kiệt, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh, Việt Nam",
+                Address = "No. 1 Ly Thuong Kiet, Ward 7, Tan Binh District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -1702,10 +1703,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = thongnhatClinicId,
                 UserId = thongnhatClinicUserId,
-                Address = "Số 1 Lý Thường Kiệt, Phường 7, Quận Tân Bình, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện đa khoa hạng I, trực thuộc Bộ Y tế, thành lập ngày 01/11/1975, cung cấp nhiều chuyên khoa khám chữa bệnh nội trú & ngoại trú, có dịch vụ khám sản phụ khoa, khám thai, khám dịch vụ & khám bảo hiểm y tế.",
+                Address = "No. 1 Ly Thuong Kiet, Ward 7, Tan Binh District, Ho Chi Minh City, Vietnam",
+                Description = "A grade I general hospital under the Ministry of Health, established on 01/11/1975, providing various inpatient & outpatient specialties, including obstetrics & gynecology services, antenatal care, private services, and health insurance examinations.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ / sản phụ khoa;Tư vấn tiền sản;Siêu âm thai;Theo dõi tăng trưởng thai nhi;Xét nghiệm trước sinh;Khám phụ khoa;Khám sản dịch vụ;Khám theo yêu cầu",
+                Specializations = "Routine antenatal checkups / Obstetrics & Gynecology;Prenatal counseling;Fetal ultrasound;Fetal growth monitoring;Prenatal testing;Gynecology examinations;Private maternity services;On-demand examinations",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -1719,11 +1720,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thongnhatDoctorUser1Id,
-                    UserName = "BS Nguyễn Thị Phương Hạnh (mẫu)",
+                    UserName = "Dr. Nguyen Thi Phuong Hanh",
                     Email = "nguyen.phuong.hanh@bvtn.org.vn",
                     PhoneNumber = "(028) 3869 0277",
                     Password = HashPassword("doctor#21"),
-                    Address = "Khoa Sản-phụ khoa, Bệnh viện Thống Nhất",
+                    Address = "Obstetrics & Gynecology Department, Thong Nhat Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1734,11 +1735,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thongnhatDoctorUser2Id,
-                    UserName = "BS Lê Minh Đức (mẫu)",
+                    UserName = "Dr. Le Minh Duc",
                     Email = "le.minh.duc@bvtn.org.vn",
                     PhoneNumber = "(028) 3869 0277",
                     Password = HashPassword("doctor#22"),
-                    Address = "Khoa Khám bệnh / Sản-phụ khoa, Bệnh viện Thống Nhất",
+                    Address = "Outpatient Department / Obstetrics & Gynecology, Thong Nhat Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1759,11 +1760,11 @@ namespace Server.Infrastructure.Data
                     UserId = thongnhatDoctorUser1Id,
                     ClinicId = thongnhatClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa / khám thai & đỡ đẻ",
-                    Certificate = "Bác sĩ chuyên khoa II",
+                    Specialization = "Obstetrics & Gynecology / Antenatal care & delivery",
+                    Certificate = "Specialist Level II Doctor",
                     ExperienceYear = 20,
-                    WorkPosition = "Bác sĩ chuyên khoa Sản phụ khoa",
-                    Description = "Một trong những bác sĩ có lịch khám thai và đỡ đẻ, kinh nghiệm khám sản phụ khoa lâu năm.",
+                    WorkPosition = "Obstetrics & Gynecology Specialist",
+                    Description = "One of the doctors providing antenatal checkups and delivery services, with long experience in obstetrics & gynecology.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1773,11 +1774,11 @@ namespace Server.Infrastructure.Data
                     UserId = thongnhatDoctorUser2Id,
                     ClinicId = thongnhatClinicId,
                     Gender = "Male",
-                    Specialization = "Siêu âm thai & khám chuyên sản",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Fetal ultrasound & specialized maternity care",
+                    Certificate = "Specialist Level I Doctor",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ siêu âm thai",
-                    Description = "Thực hiện siêu âm thai định kỳ, theo dõi tăng trưởng thai nhi.",
+                    WorkPosition = "Fetal ultrasound doctor",
+                    Description = "Performs routine fetal ultrasounds and monitors fetal growth.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -1788,11 +1789,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thongnhatConsultantUserId,
-                UserName = "BS CKI Ngô Thị Kim Anh",
+                UserName = "Dr. Ngo Thi Kim Anh",
                 Email = "ngothi.kimanh@bvtn.org.vn",
                 PhoneNumber = "(028) 3869 0277",
                 Password = HashPassword("consultant#15"),
-                Address = "Khoa Khám bệnh / Sản-phụ khoa, Bệnh viện Thống Nhất",
+                Address = "Outpatient Department / Obstetrics & Gynecology, Thong Nhat Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -1809,8 +1810,8 @@ namespace Server.Infrastructure.Data
                 Id = thongnhatConsultantId,
                 UserId = thongnhatConsultantUserId,
                 ClinicId = thongnhatClinicId,
-                Specialization = "Sản phụ khoa / khám thai",
-                Certificate = "Bác sĩ Chuyên khoa I",
+                Specialization = "Obstetrics & Gynecology / Antenatal care",
+                Certificate = "Specialist Level I Doctor",
                 Gender = "Female",
                 ExperienceYears = 28,
                 CreationDate = new DateTime(2025, 09, 05),
@@ -1828,7 +1829,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = thongnhatClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai bình thường tốt, bác sĩ dễ thương, nhưng chờ lâu.",
+                    Comment = "Antenatal care is generally good, doctors are friendly, but waiting time is long.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -1837,26 +1838,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = thongnhatClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Dịch vụ khám thai dịch vụ ổn, siêu âm rõ, nhân viên tận tâm.",
+                    Comment = "Private antenatal care service is good, ultrasound is clear, staff are dedicated.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Chợ Rẫy
+
+            // Cho Ray Hospital
 
             // Seed Cho Ray Clinic User
             var chorayClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = chorayClinicUserId,
-                UserName = "Bệnh viện Chợ Rẫy",
+                UserName = "Cho Ray Hospital",
                 Email = "bvchoray@choray.vn",
                 PhoneNumber = "0283 8554 137",
                 Password = HashPassword("clinic#10"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "201B Nguyễn Chí Thanh, Phường 12, Quận 5, TP. Hồ Chí Minh, Việt Nam",
+                Address = "201B Nguyen Chi Thanh, Ward 12, District 5, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -1869,10 +1871,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = chorayClinicId,
                 UserId = chorayClinicUserId,
-                Address = "201B Nguyễn Chí Thanh, Phường 12, Quận 5, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Chợ Rẫy là bệnh viện đa khoa trung ương hạng đặc biệt, hơn 100 năm hoạt động, có nhiều chuyên khoa sâu, tiếp nhận cả các ca bệnh phức tạp, nguy kịch. Có dịch vụ sản phụ khoa / khám thai / tư vấn thai phụ bằng các khoa chuyên môn, hỗ trợ BHYT, đặt lịch khám.",
+                Address = "201B Nguyen Chi Thanh, Ward 12, District 5, Ho Chi Minh City, Vietnam",
+                Description = "Cho Ray Hospital is a special-class central general hospital with over 100 years of operation, offering many advanced specialties and handling complex and critical cases. It provides obstetrics & gynecology services, prenatal consultation, health insurance support, and appointment booking.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ / sản phụ khoa;Siêu âm thai;Xét nghiệm trước sinh;Theo dõi tăng trưởng / phát triển thai nhi;Đỡ đẻ / sinh thường / mổ lấy thai;Khám phụ khoa;Tư vấn tiền sản;Khám sản dịch vụ;Khám bệnh theo yêu cầu;Khám bảo hiểm Y tế",
+                Specializations = "Prenatal checkups / obstetrics & gynecology;Fetal ultrasound;Prenatal testing;Fetal growth monitoring;Delivery / natural birth / cesarean section;Gynecology checkups;Pre-pregnancy consultation;Premium maternity services;On-demand medical services;Health insurance examination",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -1886,11 +1888,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = chorayDoctorUser1Id,
-                    UserName = "BS Nguyễn Thị Hoa",
+                    UserName = "Dr. Nguyen Thi Hoa",
                     Email = "nguyen.thi.hoa@choray.vn",
                     PhoneNumber = "0283 8554 137",
                     Password = HashPassword("doctor#23"),
-                    Address = "Khoa Sản phụ khoa, Bệnh viện Chợ Rẫy",
+                    Address = "Department of Obstetrics & Gynecology, Cho Ray Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1901,11 +1903,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = chorayDoctorUser2Id,
-                    UserName = "BS Lê Văn Tuấn",
+                    UserName = "Dr. Le Van Tuan",
                     Email = "le.van.tuan@choray.vn",
                     PhoneNumber = "0283 8554 137",
                     Password = HashPassword("doctor#24"),
-                    Address = "Khoa Siêu âm / Sản phụ khoa, Bệnh viện Chợ Rẫy",
+                    Address = "Ultrasound Department / Obstetrics & Gynecology, Cho Ray Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -1926,11 +1928,11 @@ namespace Server.Infrastructure.Data
                     UserId = chorayDoctorUser1Id,
                     ClinicId = chorayClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa / đỡ đẻ",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Obstetrics & Gynecology / Delivery",
+                    Certificate = "Specialist Doctor Level I",
                     ExperienceYear = 18,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện các ca sinh, theo dõi thai kỳ, khám sản dịch vụ và tư vấn tiền sản.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Handles childbirth cases, pregnancy monitoring, maternity checkups, and pre-pregnancy consultation.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -1940,11 +1942,11 @@ namespace Server.Infrastructure.Data
                     UserId = chorayDoctorUser2Id,
                     ClinicId = chorayClinicId,
                     Gender = "Male",
-                    Specialization = "Siêu âm thai / thủ thuật phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Fetal ultrasound / gynecological procedures",
+                    Certificate = "Specialist Doctor Level I",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ siêu âm sản",
-                    Description = "Khám, thực hiện siêu âm thai định kỳ và phát hiện sớm bất thường trong thai kỳ.",
+                    WorkPosition = "Fetal Ultrasound Specialist",
+                    Description = "Performs prenatal ultrasound and early detection of abnormalities during pregnancy.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -1955,11 +1957,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = chorayConsultantUserId,
-                UserName = "BS CKII Trần Thị Thanh Mai",
+                UserName = "Dr. Tran Thi Thanh Mai",
                 Email = "tran.thanh.mai@choray.vn",
                 PhoneNumber = "0283 8554 137",
                 Password = HashPassword("consultant#16"),
-                Address = "Khoa Sản phụ khoa, Bệnh viện Chợ Rẫy",
+                Address = "Department of Obstetrics & Gynecology, Cho Ray Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -1976,8 +1978,8 @@ namespace Server.Infrastructure.Data
                 Id = chorayConsultantId,
                 UserId = chorayConsultantUserId,
                 ClinicId = chorayClinicId,
-                Specialization = "Sản phụ khoa / khám thai & theo dõi thai kỳ",
-                Certificate = "Bác sĩ chuyên khoa II",
+                Specialization = "Obstetrics & Gynecology / Prenatal checkups & pregnancy monitoring",
+                Certificate = "Specialist Doctor Level II",
                 Gender = "Female",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 05),
@@ -1995,7 +1997,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = chorayClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám thai tốt, bác sĩ chuyên môn cao, tuy nhiên phải chờ lâu vì đông bệnh nhân.",
+                    Comment = "Good prenatal checkup, highly qualified doctors, but waiting time is long due to many patients.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2004,26 +2006,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = chorayClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ sản phụ khoa đầy đủ; siêu âm rõ, nhân viên phòng khám thân thiện.",
+                    Comment = "Comprehensive obstetrics & gynecology services; clear ultrasound results, friendly clinic staff.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Nhi Đồng 1
+
+            // Nhi Dong 1 Hospital
 
             // Seed Nhi Dong 1 Clinic User
             var nhidong1ClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = nhidong1ClinicUserId,
-                UserName = "Bệnh viện Nhi Đồng 1",
+                UserName = "Nhi Dong 1 Hospital",
                 Email = "bvnhidong@nhidong.org.vn",
                 PhoneNumber = "(028) 3927 1119",
                 Password = HashPassword("clinic#11"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "341 Sư Vạn Hạnh, Phường Vườn Lài, TP. Hồ Chí Minh, Việt Nam",
+                Address = "341 Su Van Hanh, Vuon Lai Ward, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -2036,10 +2039,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = nhidong1ClinicId,
                 UserId = nhidong1ClinicUserId,
-                Address = "341 Sư Vạn Hạnh, Phường Vườn Lài, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện chuyên khoa Nhi hạng I, tuyến đầu về khám chữa bệnh nhi cho trẻ từ sơ sinh đến khoảng 15 tuổi tại khu vực phía Nam. Có các khoa như sơ sinh, hô hấp, nhiễm, tim mạch, dinh dưỡng, thần kinh, chẩn đoán hình ảnh, phẫu thuật nhi,… Hỗ trợ khám chữa bằng BHYT và khám dịch vụ. Không có chuyên khoa sản / khám thai cho phụ nữ vì chỉ khám nhi.",
+                Address = "341 Su Van Hanh, Vuon Lai Ward, Ho Chi Minh City, Vietnam",
+                Description = "A grade I pediatric specialty hospital, a frontline facility for pediatric healthcare for children from newborns to about 15 years old in Southern Vietnam. Departments include neonatology, respiratory, infectious diseases, cardiology, nutrition, neurology, diagnostic imaging, pediatric surgery, etc. Supports both health insurance and private service. No obstetrics/antenatal care for women, as it focuses solely on pediatrics.",
                 IsInsuranceAccepted = true,
-                Specializations = "Nhi sơ sinh;Hô hấp – Suyễn;Nhiễm trùng;Tim mạch trẻ em;Thận trẻ em;Thần kinh trẻ em;Dinh dưỡng;Tiêu hóa – Gan mật trẻ em;Chẩn đoán hình ảnh nhi;Nội tổng quát nhi;Phẫu thuật nhi;Khám bệnh theo yêu cầu nhi;Khám dịch vụ nhi",
+                Specializations = "Neonatology;Pediatric Respiratory – Asthma;Pediatric Infectious Diseases;Pediatric Cardiology;Pediatric Nephrology;Pediatric Neurology;Pediatric Nutrition;Pediatric Gastroenterology – Hepatology;Pediatric Imaging;General Pediatrics;Pediatric Surgery;Pediatric On-demand Consultation;Private Pediatric Services",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -2053,11 +2056,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhidong1DoctorUser1Id,
-                    UserName = "ThS. BS Nguyễn Ngọc Bách",
+                    UserName = "MSc. Dr. Nguyen Ngoc Bach",
                     Email = "nguyen.ngoc.bach@nhidong.org.vn",
                     PhoneNumber = "(028) 3927 1119",
                     Password = HashPassword("doctor#25"),
-                    Address = "Khoa Khám theo yêu cầu nhi – Nhi Đồng 1",
+                    Address = "Pediatric On-demand Clinic – Nhi Dong 1",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2068,11 +2071,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhidong1DoctorUser2Id,
-                    UserName = "BS Huỳnh Kim Anh",
+                    UserName = "Dr. Huynh Kim Anh",
                     Email = "huynh.kim.anh@nhidong.org.vn",
                     PhoneNumber = "(028) 3927 1119",
                     Password = HashPassword("doctor#26"),
-                    Address = "Khoa Sơ sinh – Nhi Đồng 1",
+                    Address = "Neonatology Department – Nhi Dong 1",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2093,11 +2096,11 @@ namespace Server.Infrastructure.Data
                     UserId = nhidong1DoctorUser1Id,
                     ClinicId = nhidong1ClinicId,
                     Gender = "Male",
-                    Specialization = "Khám dịch vụ Nhi",
-                    Certificate = "Thạc sĩ, BS chuyên khoa",
+                    Specialization = "Pediatric On-demand Services",
+                    Certificate = "Master’s Degree, Medical Specialist",
                     ExperienceYear = 20,
-                    WorkPosition = "Bác sĩ chuyên khoa cao cấp",
-                    Description = "Tham gia khám dịch vụ nhi, khám chuyên khoa theo yêu cầu; có lịch khám bệnh theo hẹn qua Medpro.",
+                    WorkPosition = "Senior Specialist Doctor",
+                    Description = "Provides pediatric on-demand services and specialist consultations; available for scheduled appointments via Medpro.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -2107,11 +2110,11 @@ namespace Server.Infrastructure.Data
                     UserId = nhidong1DoctorUser2Id,
                     ClinicId = nhidong1ClinicId,
                     Gender = "Female",
-                    Specialization = "Sơ sinh / chăm sóc trẻ sơ sinh",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Neonatology / Newborn Care",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ sơ sinh",
-                    Description = "Chăm sóc trẻ sơ sinh, hỗ trợ tiếp sinh, theo dõi sức khỏe sơ sinh.",
+                    WorkPosition = "Neonatologist",
+                    Description = "Provides newborn care, delivery support, and neonatal health monitoring.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -2122,11 +2125,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = nhidong1ConsultantUserId,
-                UserName = "BS CKII Trần Thị Mỹ Hạnh",
+                UserName = "CKII Dr. Tran Thi My Hanh",
                 Email = "tran.my.hanh@nhidong.org.vn",
                 PhoneNumber = "(028) 3927 1119",
                 Password = HashPassword("consultant#17"),
-                Address = "Khoa Nhiễm – Nhi Đồng 1",
+                Address = "Infectious Diseases Department – Nhi Dong 1",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -2143,8 +2146,8 @@ namespace Server.Infrastructure.Data
                 Id = nhidong1ConsultantId,
                 UserId = nhidong1ConsultantUserId,
                 ClinicId = nhidong1ClinicId,
-                Specialization = "Nhiễm trẻ em",
-                Certificate = "Bác sĩ chuyên khoa II",
+                Specialization = "Pediatric Infectious Diseases",
+                Certificate = "Specialist Level II",
                 Gender = "Female",
                 ExperienceYears = 25,
                 CreationDate = new DateTime(2025, 09, 05),
@@ -2163,7 +2166,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhidong1ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 5,
-                    Comment = "Chăm sóc trẻ em rất tốt, nhân viên thân thiện, nhưng chờ đợi lâu cho khám dịch vụ.",
+                    Comment = "Very good pediatric care, friendly staff, but long waiting times for on-demand services.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2172,7 +2175,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhidong1ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 4,
-                    Comment = "Thiết bị nhi hiện đại, bác sĩ tuyến đầu; nhưng bệnh viện rất đông nên hơi khó lấy lịch khám nhanh.",
+                    Comment = "Modern pediatric equipment and top-tier doctors; however, the hospital is very crowded, making it difficult to book quick appointments.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2181,26 +2184,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhidong1ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 5,
-                    Comment = "Khám yêu cầu qua Medpro tiện lợi; bác sĩ dịch vụ tốt — phụ huynh hài lòng.",
+                    Comment = "Booking via Medpro is convenient; service doctors are good — parents are satisfied.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Nhi Đồng 2
+
+            // Nhi Dong 2 Hospital
 
             // Seed Nhi Dong 2 Clinic User
             var nhidong2ClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = nhidong2ClinicUserId,
-                UserName = "Bệnh viện Nhi Đồng 2",
+                UserName = "Nhi Dong 2 Hospital",
                 Email = "contact@benhviennhi.org.vn",
                 PhoneNumber = "(028) 3829 5723 / (028) 3829 5724",
                 Password = HashPassword("clinic#12"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "14 Lý Tự Trọng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh, Việt Nam",
+                Address = "14 Ly Tu Trong, Ben Nghe Ward, District 1, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -2213,10 +2217,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = nhidong2ClinicId,
                 UserId = nhidong2ClinicUserId,
-                Address = "14 Lý Tự Trọng, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện chuyên khoa Nhi hạng I thuộc Sở Y tế TP. HCM, phục vụ trẻ em từ 0 đến dưới 16 tuổi. Gồm 38 khoa lâm sàng & cận lâm sàng, khoảng 1.400 giường bệnh, trang thiết bị hiện đại, khám chữa bệnh nội ngoại, khám dịch vụ, phòng khám theo yêu cầu chất lượng cao. Không chuyên sản / khám thai định kỳ cho phụ nữ vì chuyên nhi, nhưng có phòng tư vấn tiền sản khi liên quan tới chẩn đoán dị tật bẩm sinh trong thai kỳ.",
+                Address = "14 Ly Tu Trong, Ben Nghe Ward, District 1, Ho Chi Minh City, Vietnam",
+                Description = "A grade I pediatric specialty hospital under the Ho Chi Minh City Department of Health, serving children from newborn to under 16 years old. Includes 38 clinical and subclinical departments, about 1,400 beds, modern equipment, providing internal and surgical treatment, private services, and high-quality on-demand clinics. No obstetrics/regular prenatal checkups for women since it specializes in pediatrics, but there is prenatal counseling when related to diagnosing congenital defects during pregnancy.",
                 IsInsuranceAccepted = true,
-                Specializations = "Nhiễm trùng;Nhi sơ sinh;Hô hấp trẻ em;Tim mạch trẻ em;Thận – Nội tiết trẻ em;Thần kinh trẻ em;Tiêu hóa - Gan mật trẻ em;Ung bướu - Huyết học trẻ em;Khám dịch vụ nhi;Phòng khám theo yêu cầu chất lượng cao;Khám bệnh tổng quát nhi;Chẩn đoán hình ảnh nhi;Hồi sức sơ sinh / chống độc trẻ em;Khám tâm lý nhi;Phẫu thuật nhi",
+                Specializations = "Pediatric Infectious Diseases;Neonatology;Pediatric Respiratory;Pediatric Cardiology;Pediatric Nephrology – Endocrinology;Pediatric Neurology;Pediatric Gastroenterology – Hepatology;Pediatric Oncology – Hematology;Pediatric Private Services;High-quality On-demand Clinics;General Pediatrics;Pediatric Imaging;Neonatal Intensive Care / Pediatric Toxicology;Pediatric Psychology;Pediatric Surgery",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -2227,11 +2231,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = nhidong2DoctorUser1Id,
-                UserName = "BS Lê Thị Hương (mẫu)",
+                UserName = "Dr. Le Thi Huong (sample)",
                 Email = "le.thi.huong@benhviennhi.org.vn",
                 PhoneNumber = "(028) 3829 5723",
                 Password = HashPassword("doctor#27"),
-                Address = "Khoa Sức khỏe trẻ em / Khám theo yêu cầu, Nhi Đồng 2",
+                Address = "Child Health Department / On-demand Clinic, Nhi Dong 2",
                 CreationDate = new DateTime(2025, 09, 05),
                 RoleId = 7,
                 Avatar = null,
@@ -2248,11 +2252,11 @@ namespace Server.Infrastructure.Data
                 UserId = nhidong2DoctorUser1Id,
                 ClinicId = nhidong2ClinicId,
                 Gender = "Female",
-                Specialization = "Khám dịch vụ nhi",
-                Certificate = "Bác sĩ chuyên khoa I",
+                Specialization = "Pediatric Private Services",
+                Certificate = "Specialist Level I",
                 ExperienceYear = 12,
-                WorkPosition = "Bác sĩ điều trị",
-                Description = "Thực hiện khám dịch vụ nhi, khám đưa trẻ đến khám theo lịch hẹn, khám nhi tổng quát.",
+                WorkPosition = "Attending Doctor",
+                Description = "Provides pediatric private consultations, general checkups, and scheduled pediatric visits.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 05)
             });
@@ -2265,11 +2269,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhidong2ConsultantUser1Id,
-                    UserName = "BS.CK2 Phan Tấn Đức",
+                    UserName = "Dr. Phan Tan Duc",
                     Email = "phan.tan.duc@benhviennhi.org.vn",
                     PhoneNumber = "(028) 3829 5723",
                     Password = HashPassword("consultant#18"),
-                    Address = "Bệnh viện Nhi Đồng 2, Quận 1, TP. HCM",
+                    Address = "Nhi Dong 2 Hospital, District 1, HCMC",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -2281,11 +2285,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhidong2ConsultantUser2Id,
-                    UserName = "ThS. BS Nguyễn Hồng Vân Khánh",
+                    UserName = "MSc. Dr. Nguyen Hong Van Khanh",
                     Email = "nguyen.hong.van.khanh@benhviennhi.org.vn",
                     PhoneNumber = "(028) 3829 5723",
                     Password = HashPassword("consultant#19"),
-                    Address = "Bệnh viện Nhi Đồng 2, khoa Gan - mật - tụy",
+                    Address = "Nhi Dong 2 Hospital, Hepatobiliary – Pancreas Department",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -2306,8 +2310,8 @@ namespace Server.Infrastructure.Data
                     Id = nhidong2Consultant1Id,
                     UserId = nhidong2ConsultantUser1Id,
                     ClinicId = nhidong2ClinicId,
-                    Specialization = "Thận – Niệu nhi / Giải phẫu niệu trẻ em",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "Pediatric Nephro-urology / Pediatric Urological Surgery",
+                    Certificate = "Specialist Level II",
                     Gender = "Male",
                     ExperienceYears = 20,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -2318,8 +2322,8 @@ namespace Server.Infrastructure.Data
                     Id = nhidong2Consultant2Id,
                     UserId = nhidong2ConsultantUser2Id,
                     ClinicId = nhidong2ClinicId,
-                    Specialization = "Gan mật – Tụy nhi",
-                    Certificate = "Thạc sĩ, Bác sĩ chuyên khoa",
+                    Specialization = "Pediatric Hepatobiliary – Pancreas",
+                    Certificate = "Master’s Degree, Medical Specialist",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -2338,7 +2342,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhidong2ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Khám bệnh nhi rất tốt, nhân viên thân thiện, nhưng có nhiều trẻ nên chờ lâu vào buổi sáng.",
+                    Comment = "Excellent pediatric care, friendly staff, but long waiting times in the morning due to many children.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2347,26 +2351,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhidong2ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Phòng khám dịch vụ theo yêu cầu rõ ràng, thiết bị tốt; phụ huynh hài lòng.",
+                    Comment = "On-demand service clinic is clear and well-equipped; parents are satisfied.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Thành phố Thủ Đức
+
+            // Thu Duc City Hospital
 
             // Seed Thu Duc Clinic User
             var thuducClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thuducClinicUserId,
-                UserName = "Bệnh viện Thành phố Thủ Đức",
+                UserName = "Thu Duc City Hospital",
                 Email = "bv.dkthuduc@tphcm.gov.vn",
                 PhoneNumber = "09 6633 1010",
                 Password = HashPassword("clinic#13"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "29 Phú Châu, Phường Tam Phú, Thành phố Thủ Đức, TP. Hồ Chí Minh, Việt Nam",
+                Address = "29 Phu Chau, Tam Phu Ward, Thu Duc City, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -2379,10 +2384,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = thuducClinicId,
                 UserId = thuducClinicUserId,
-                Address = "29 Phú Châu, Phường Tam Phú, Thành phố Thủ Đức, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện thành phố Thủ Đức là bệnh viện hạng I theo tiêu chuẩn Bộ Y tế, có đầy đủ các chuyên khoa (gồm Sản phụ khoa), với các dịch vụ khám chữa bệnh nội trú & ngoại trú, khám dịch vụ chất lượng cao, khám thai, siêu âm, chăm sóc sức khỏe sinh sản. Khoa Sản có 15 bác sĩ, 42 điều dưỡng, 70 giường bệnh.",
+                Address = "29 Phu Chau, Tam Phu Ward, Thu Duc City, Ho Chi Minh City, Vietnam",
+                Description = "Thu Duc City Hospital is a Grade I hospital under the Ministry of Health standards, fully equipped with medical specialties (including Obstetrics & Gynecology), providing inpatient & outpatient services, high-quality healthcare, pregnancy check-ups, ultrasound, and reproductive health care. The Obstetrics Department has 15 doctors, 42 nurses, and 70 beds.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ / Sản phụ khoa;Khám phụ khoa;Siêu âm thai;Đỡ sinh & mổ lấy thai;Tư vấn tiền sản;Chăm sóc bà mẹ sau sinh;Khám sản dịch vụ;Khám sức khỏe sinh sản;Khám theo yêu cầu;Khám bảo hiểm y tế",
+                Specializations = "Antenatal check-ups / Obstetrics & Gynecology;Gynecology examination;Pregnancy ultrasound;Delivery & C-section;Prenatal counseling;Postnatal maternal care;Premium obstetrics services;Reproductive health check;On-demand services;Health insurance check",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -2396,11 +2401,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thuducDoctorUser1Id,
-                    UserName = "BS Lê Minh Thư (mẫu)",
+                    UserName = "Dr. Le Minh Thu",
                     Email = "le.minh.thu@bvthuduc.vn",
                     PhoneNumber = "09 6633 1010",
                     Password = HashPassword("doctor#29"),
-                    Address = "Khoa Sản, Bệnh viện Thành phố Thủ Đức",
+                    Address = "Obstetrics Department, Thu Duc City Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2411,11 +2416,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thuducDoctorUser2Id,
-                    UserName = "BS Trần Thị Hạnh (mẫu)",
+                    UserName = "Dr. Tran Thi Hanh",
                     Email = "tran.thi.hanh@bvthuduc.vn",
                     PhoneNumber = "09 6633 1010",
                     Password = HashPassword("doctor#30"),
-                    Address = "Khoa Sản, Bệnh viện Thành phố Thủ Đức",
+                    Address = "Obstetrics Department, Thu Duc City Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2436,11 +2441,11 @@ namespace Server.Infrastructure.Data
                     UserId = thuducDoctorUser1Id,
                     ClinicId = thuducClinicId,
                     Gender = "Female",
-                    Specialization = "Khám thai định kỳ / tư vấn thai phụ",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Antenatal check-ups / pregnancy counseling",
+                    Certificate = "Specialist Doctor Level I",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ Sản phụ khoa",
-                    Description = "Thực hiện khám thai, siêu âm định kỳ, theo dõi thai kỳ bình thường, dịch vụ khám sản phụ khoa dịch vụ.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs antenatal check-ups, routine ultrasound, monitors normal pregnancy, and provides obstetrics & gynecology premium services.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -2450,11 +2455,11 @@ namespace Server.Infrastructure.Data
                     UserId = thuducDoctorUser2Id,
                     ClinicId = thuducClinicId,
                     Gender = "Female",
-                    Specialization = "Siêu âm thai / chăm sóc sức khỏe sinh sản",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Pregnancy ultrasound / reproductive healthcare",
+                    Certificate = "Specialist Doctor Level I",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ siêu âm sản phụ khoa",
-                    Description = "Chịu trách nhiệm siêu âm thai, kiểm tra sức khỏe thai phụ định kỳ, đánh giá phát triển thai nhi.",
+                    WorkPosition = "Obstetric Ultrasound Specialist",
+                    Description = "Responsible for pregnancy ultrasound, routine maternal health checks, and fetal development assessment.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -2468,11 +2473,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thuducConsultantUser1Id,
-                    UserName = "BS CKII Nguyễn Thị Ngọc Bích",
+                    UserName = "Assoc. Prof. Dr. Nguyen Thi Ngoc Bich",
                     Email = "nguyen.thi.ngoc.bich@bvthuduc.vn",
                     PhoneNumber = "09 6633 1010",
                     Password = HashPassword("consultant#20"),
-                    Address = "Khoa Sản, Bệnh viện Thành phố Thủ Đức",
+                    Address = "Obstetrics Department, Thu Duc City Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -2484,11 +2489,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thuducConsultantUser2Id,
-                    UserName = "BS CKII Huỳnh Thị Kim Liên",
+                    UserName = "Assoc. Prof. Dr. Huynh Thi Kim Lien",
                     Email = "huynh.thi.kim.lien@bvthuduc.vn",
                     PhoneNumber = "09 6633 1010",
                     Password = HashPassword("consultant#21"),
-                    Address = "Khoa Sản, Bệnh viện Thành phố Thủ Đức",
+                    Address = "Obstetrics Department, Thu Duc City Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -2508,8 +2513,8 @@ namespace Server.Infrastructure.Data
                     Id = thuducConsultant1Id,
                     UserId = thuducConsultantUser1Id,
                     ClinicId = thuducClinicId,
-                    Specialization = "Sản phụ khoa / khám thai / mổ lấy thai",
-                    Certificate = "Bác sĩ chuyên khoa II",
+                    Specialization = "Obstetrics & Gynecology / pregnancy care / C-section",
+                    Certificate = "Specialist Doctor Level II",
                     Gender = "Female",
                     ExperienceYears = 20,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -2520,8 +2525,8 @@ namespace Server.Infrastructure.Data
                     Id = thuducConsultant2Id,
                     UserId = thuducConsultantUser2Id,
                     ClinicId = thuducClinicId,
-                    Specialization = "Sản phụ khoa / khám phụ khoa / đỡ đẻ",
-                    Certificate = "Bác sĩ chuyên khoa II",
+                    Specialization = "Obstetrics & Gynecology / gynecology care / delivery",
+                    Certificate = "Specialist Doctor Level II",
                     Gender = "Female",
                     ExperienceYears = 18,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -2541,7 +2546,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = thuducClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai định kỳ tốt, bác sĩ thân thiện, phòng khám tương đối sạch sẽ.",
+                    Comment = "Good antenatal check-ups, friendly doctors, relatively clean facilities.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2550,7 +2555,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = thuducClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Thời gian chờ khám sản phụ khoa hơi lâu, nhưng chất lượng khám ổn.",
+                    Comment = "Waiting time for OB-GYN check-up is a bit long, but overall service quality is good.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2559,48 +2564,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = thuducClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Giá khám dịch vụ sản phụ khoa hợp lý, siêu âm rõ.",
+                    Comment = "Affordable obstetrics service fees, clear ultrasound results.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quận 1
 
-            // Seed Quận 1 Clinic User
+            // District 1 General Hospital
+
+            // Seed District 1 Clinic User
             var quan1ClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = quan1ClinicUserId,
-                UserName = "Bệnh viện Quận 1",
+                UserName = "District 1 General Hospital",
                 Email = "bvq1@bvq1.vn",
                 PhoneNumber = "(028) 3820 6746",
                 Password = HashPassword("clinic#14"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "Cơ sở 1: 338 Hai Bà Trưng, Phường Tân Định, Quận 1, TP. HCM; Cơ sở 2: 235-237 Trần Hưng Đạo, Phường Cô Giang, Quận 1, TP. HCM",
+                Address = "Branch 1: 338 Hai Ba Trung, Tan Dinh Ward, District 1, HCMC; Branch 2: 235-237 Tran Hung Dao, Co Giang Ward, District 1, HCMC",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận 1 Clinic
+            // Seed District 1 Clinic
             var quan1ClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = quan1ClinicId,
                 UserId = quan1ClinicUserId,
-                Address = "Cơ sở 1: 338 Hai Bà Trưng, Phường Tân Định, Quận 1, TP. HCM; Cơ sở 2: 235-237 Trần Hưng Đạo, Phường Cô Giang, Quận 1, TP. HCM",
-                Description = "Bệnh viện Đa khoa Quận 1 là cơ sở y tế đa khoa hạng quận, thuộc quản lý Sở Y tế TP. HCM. Bệnh viện gồm nhiều chuyên khoa, trong đó có Sản-Phụ khoa (khoa Phụ sản). Cơ sở 2 mới được đưa vào hoạt động khám sản phụ khoa và chăm sóc sức khỏe thai sản để phục vụ nhu cầu địa phương.",
+                Address = "Branch 1: 338 Hai Ba Trung, Tan Dinh Ward, District 1, HCMC; Branch 2: 235-237 Tran Hung Dao, Co Giang Ward, District 1, HCMC",
+                Description = "District 1 General Hospital is a district-level general medical facility under the management of Ho Chi Minh City Department of Health. The hospital has multiple specialties, including Obstetrics & Gynecology (OB-GYN Department). Branch 2 has recently been put into operation to provide obstetrics and maternity care services to meet local demand.",
                 IsInsuranceAccepted = true,
-                Specializations = "Sản-Phụ khoa / khám thai;Khám phụ khoa;Siêu âm thai;Xét nghiệm trước sinh / chẩn đoán hình ảnh sản phụ khoa;Khám sức khỏe sinh sản;Khám theo yêu cầu;Khám bệnh bảo hiểm y tế;Khám nội khoa;Khám ngoại;Khám cấp cứu",
+                Specializations = "Obstetrics & Gynecology / Antenatal check-ups;Gynecology examination;Pregnancy ultrasound;Prenatal testing / OB-GYN imaging;Reproductive health check;On-demand services;Health insurance examination;Internal medicine;Surgery;Emergency care",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận 1 Doctor Users
+            // Seed District 1 Doctor Users
             var quan1DoctorUser1Id = Guid.NewGuid();
             var quan1DoctorUser2Id = Guid.NewGuid();
 
@@ -2608,11 +2614,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan1DoctorUser1Id,
-                    UserName = "BS Lê Thị Hoa",
+                    UserName = "Dr. Le Thi Hoa",
                     Email = "le.thi.hoa@bvq1.vn",
                     PhoneNumber = "(028) 3820 6746",
                     Password = HashPassword("doctor#31"),
-                    Address = "Khoa Sản – Phụ khoa, Bệnh viện Quận 1 - Cơ sở 2",
+                    Address = "Obstetrics & Gynecology Department, District 1 Hospital - Branch 2",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2623,11 +2629,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan1DoctorUser2Id,
-                    UserName = "BS Trần Văn Đạt",
+                    UserName = "Dr. Tran Van Dat",
                     Email = "tran.van.dat@bvq1.vn",
                     PhoneNumber = "(028) 3820 6746",
                     Password = HashPassword("doctor#32"),
-                    Address = "Khoa Khám bệnh / Sản phụ khoa, Bệnh viện Quận 1",
+                    Address = "General Clinic / Obstetrics & Gynecology Department, District 1 Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2637,7 +2643,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận 1 Doctors
+            // Seed District 1 Doctors
             var quan1Doctor1Id = Guid.NewGuid();
             var quan1Doctor2Id = Guid.NewGuid();
 
@@ -2648,11 +2654,11 @@ namespace Server.Infrastructure.Data
                     UserId = quan1DoctorUser1Id,
                     ClinicId = quan1ClinicId,
                     Gender = "Female",
-                    Specialization = "Siêu âm thai / đỡ sinh",
-                    Certificate = "Bác sĩ chuyên khoa II",
+                    Specialization = "Pregnancy ultrasound / delivery",
+                    Certificate = "Specialist Doctor Level II",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ Sản phụ khoa",
-                    Description = "Thực hiện khám thai, siêu âm định kỳ và các dịch vụ sản phụ khoa dịch vụ tại BV Quận 1 cơ sở 2.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs antenatal check-ups, routine ultrasounds, and OB-GYN services at District 1 Hospital - Branch 2.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -2662,26 +2668,26 @@ namespace Server.Infrastructure.Data
                     UserId = quan1DoctorUser2Id,
                     ClinicId = quan1ClinicId,
                     Gender = "Male",
-                    Specialization = "Khám phụ khoa / tầm soát ung thư cổ tử cung",
-                    Certificate = "Bác sĩ CKI",
+                    Specialization = "Gynecology examination / cervical cancer screening",
+                    Certificate = "Specialist Doctor Level I",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ phụ khoa",
-                    Description = "Khám phụ khoa và chăm sóc sức khỏe sinh sản cho phụ nữ tại BV Quận 1.",
+                    WorkPosition = "Gynecologist",
+                    Description = "Provides gynecological check-ups and reproductive health care for women at District 1 Hospital.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Quận 1 Consultant User
+            // Seed District 1 Consultant User
             var quan1ConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = quan1ConsultantUserId,
-                UserName = "BS CKI Ngô Thị Anh Thư",
+                UserName = "Dr. Ngo Thi Anh Thu",
                 Email = "ngo.thi.anhthu@bvq1.vn",
                 PhoneNumber = "(028) 3820 6746",
                 Password = HashPassword("consultant#22"),
-                Address = "Khoa Phụ sản, Bệnh viện Quận 1 - Cơ sở 2",
+                Address = "Obstetrics Department, District 1 Hospital - Branch 2",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -2691,22 +2697,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận 1 Consultant
+            // Seed District 1 Consultant
             var quan1ConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = quan1ConsultantId,
                 UserId = quan1ConsultantUserId,
                 ClinicId = quan1ClinicId,
-                Specialization = "Sản phụ khoa / khám thai & tư vấn thai phụ",
-                Certificate = "Bác sĩ Chuyên khoa I",
+                Specialization = "Obstetrics & Gynecology / Antenatal care & pregnancy counseling",
+                Certificate = "Specialist Doctor Level I",
                 Gender = "Female",
                 ExperienceYears = 15,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận 1 Feedbacks
+            // Seed District 1 Feedbacks
             var quan1Feedback1Id = Guid.NewGuid();
             var quan1Feedback2Id = Guid.NewGuid();
 
@@ -2717,7 +2723,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = quan1ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai được, nhưng chưa có nhiều bác sĩ chuyên sâu, thời gian chờ đợi hơi lâu.",
+                    Comment = "Antenatal check-ups are acceptable, but not many specialized doctors yet, waiting time is a bit long.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -2726,60 +2732,61 @@ namespace Server.Infrastructure.Data
                     ClinicId = quan1ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Phòng sản phụ khoa mới của cơ sở 2 cải thiện tốt, sạch, tiện.",
+                    Comment = "The new OB-GYN department at Branch 2 is improved, clean, and convenient.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quận 3
 
-            // Seed Quận 3 Clinic User
-            var quan3ClinicUserId = Guid.NewGuid();
+            // District 3 Hospital
+
+            // Seed District 3 Clinic User
+            var district3ClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
-                Id = quan3ClinicUserId,
-                UserName = "Bệnh viện Quận 3",
+                Id = district3ClinicUserId,
+                UserName = "District 3 Hospital",
                 Email = "bv.q3@tphcm.gov.vn",
                 PhoneNumber = "0283 9310 400",
                 Password = HashPassword("clinic#15"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "114-116-118 Trần Quốc Thảo, Phường 7, Quận 3, TP. Hồ Chí Minh, Việt Nam",
+                Address = "114-116-118 Tran Quoc Thao, Ward 7, District 3, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận 3 Clinic
-            var quan3ClinicId = Guid.NewGuid();
+            // Seed District 3 Clinic
+            var district3ClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
-                Id = quan3ClinicId,
-                UserId = quan3ClinicUserId,
-                Address = "114-116-118 Trần Quốc Thảo, Phường 7, Quận 3, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Quận 3 là bệnh viện đa khoa hạng I trực thuộc Sở Y tế TP. HCM, cung cấp khám chữa bệnh nội trú & ngoại trú nhiều chuyên khoa trong đó có Sản-Phụ khoa / khám thai, phụ khoa. Bệnh viện được xây dựng từ năm 1992, với nhiều trang thiết bị chẩn đoán hình ảnh, siêu âm, xét nghiệm phụ khoa, phụ sản.",
+                Id = district3ClinicId,
+                UserId = district3ClinicUserId,
+                Address = "114-116-118 Tran Quoc Thao, Ward 7, District 3, Ho Chi Minh City, Vietnam",
+                Description = "District 3 Hospital is a Grade I general hospital under the Ho Chi Minh City Department of Health. It provides inpatient and outpatient services across multiple specialties, including Obstetrics and Gynecology (OB-GYN) and prenatal care. Established in 1992, the hospital is equipped with various diagnostic imaging machines, ultrasound, and laboratory testing facilities for OB-GYN services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ / Sản-Phụ khoa;Phụ khoa;Siêu âm sản / siêu âm thai;Xét nghiệm phụ sản / xét nghiệm trước sinh;Khám sản dịch vụ;Khám sức khỏe sinh sản;Khám theo yêu cầu;Khám bệnh BHYT;Khám nội & ngoại tổng hợp;Chẩn đoán hình ảnh;Chống độc & hồi sức cấp cứu",
+                Specializations = "Routine prenatal check-ups / OB-GYN;Gynecology;Obstetric & fetal ultrasound;Prenatal / OB-GYN laboratory tests;Private maternity services;Reproductive health checkups;On-demand services;Health insurance consultations;General internal & surgical care;Diagnostic imaging;Toxicology & emergency resuscitation",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận 3 Doctor Users
-            var quan3DoctorUser1Id = Guid.NewGuid();
-            var quan3DoctorUser2Id = Guid.NewGuid();
+            // Seed District 3 Doctor Users
+            var district3DoctorUser1Id = Guid.NewGuid();
+            var district3DoctorUser2Id = Guid.NewGuid();
 
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    Id = quan3DoctorUser1Id,
-                    UserName = "BS Nguyễn Thị Thảo",
+                    Id = district3DoctorUser1Id,
+                    UserName = "Dr. Nguyen Thi Thao",
                     Email = "nguyen.thi.thao@bvquan3.medinet.gov.vn",
                     PhoneNumber = "0283 9310 400",
                     Password = HashPassword("doctor#33"),
-                    Address = "Khoa Sản, Bệnh viện Quận 3",
+                    Address = "Obstetrics Department, District 3 Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2789,12 +2796,12 @@ namespace Server.Infrastructure.Data
                 },
                 new User
                 {
-                    Id = quan3DoctorUser2Id,
-                    UserName = "BS Lê Văn Hùng",
+                    Id = district3DoctorUser2Id,
+                    UserName = "Dr. Le Van Hung",
                     Email = "le.van.hung@bvquan3.medinet.gov.vn",
                     PhoneNumber = "0283 9310 400",
                     Password = HashPassword("doctor#34"),
-                    Address = "Khoa Sản, Bệnh viện Quận 3",
+                    Address = "Obstetrics Department, District 3 Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2804,51 +2811,51 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận 3 Doctors
-            var quan3Doctor1Id = Guid.NewGuid();
-            var quan3Doctor2Id = Guid.NewGuid();
+            // Seed District 3 Doctors
+            var district3Doctor1Id = Guid.NewGuid();
+            var district3Doctor2Id = Guid.NewGuid();
 
             modelBuilder.Entity<Doctor>().HasData(
                 new Doctor
                 {
-                    Id = quan3Doctor1Id,
-                    UserId = quan3DoctorUser1Id,
-                    ClinicId = quan3ClinicId,
+                    Id = district3Doctor1Id,
+                    UserId = district3DoctorUser1Id,
+                    ClinicId = district3ClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa / khám thai & đỡ đẻ",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "OB-GYN / Prenatal care & delivery",
+                    Certificate = "Specialist Level I Doctor",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện siêu âm thai, khám thai định kỳ, chăm sóc sản phụ và trẻ sơ sinh ngay sau sinh.",
+                    WorkPosition = "OB-GYN Doctor",
+                    Description = "Performs ultrasound, routine prenatal checkups, provides care for pregnant women and newborns after birth.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Doctor
                 {
-                    Id = quan3Doctor2Id,
-                    UserId = quan3DoctorUser2Id,
-                    ClinicId = quan3ClinicId,
+                    Id = district3Doctor2Id,
+                    UserId = district3DoctorUser2Id,
+                    ClinicId = district3ClinicId,
                     Gender = "Male",
-                    Specialization = "Siêu âm sản / theo dõi thai kỳ",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Obstetric ultrasound / Pregnancy monitoring",
+                    Certificate = "Specialist Level I Doctor",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ siêu âm sản phụ khoa",
-                    Description = "Chụp siêu âm thai dị tật, đánh giá tim thai, nhau, nước ối; khám thai định kỳ cho mẹ bầu.",
+                    WorkPosition = "OB-GYN Ultrasound Doctor",
+                    Description = "Performs fetal anomaly scans, evaluates fetal heart, placenta, and amniotic fluid; conducts routine prenatal checkups.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Quận 3 Consultant User
-            var quan3ConsultantUserId = Guid.NewGuid();
+            // Seed District 3 Consultant User
+            var district3ConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
-                Id = quan3ConsultantUserId,
-                UserName = "ThS. BS Hà Thị Liên Chi",
+                Id = district3ConsultantUserId,
+                UserName = "MSc. Dr. Ha Thi Lien Chi",
                 Email = "ha.thi.lienchi@bvquan3.medinet.gov.vn",
                 PhoneNumber = "0283 9310 400",
                 Password = HashPassword("consultant#23"),
-                Address = "Khoa Sản, Bệnh viện Quận 3",
+                Address = "Obstetrics Department, District 3 Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -2858,83 +2865,84 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận 3 Consultant
-            var quan3ConsultantId = Guid.NewGuid();
+            // Seed District 3 Consultant
+            var district3ConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
-                Id = quan3ConsultantId,
-                UserId = quan3ConsultantUserId,
-                ClinicId = quan3ClinicId,
-                Specialization = "Sản phụ khoa / khám thai",
-                Certificate = "Thạc sĩ, Bác sĩ chuyên khoa I",
+                Id = district3ConsultantId,
+                UserId = district3ConsultantUserId,
+                ClinicId = district3ClinicId,
+                Specialization = "OB-GYN / Prenatal consultations",
+                Certificate = "Master's Degree, Specialist Level I Doctor",
                 Gender = "Female",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận 3 Feedbacks
-            var quan3Feedback1Id = Guid.NewGuid();
-            var quan3Feedback2Id = Guid.NewGuid();
+            // Seed District 3 Feedbacks
+            var district3Feedback1Id = Guid.NewGuid();
+            var district3Feedback2Id = Guid.NewGuid();
 
             modelBuilder.Entity<Feedback>().HasData(
                 new Feedback
                 {
-                    Id = quan3Feedback1Id,
-                    ClinicId = quan3ClinicId,
+                    Id = district3Feedback1Id,
+                    ClinicId = district3ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám sản phụ khoa ổn, bác sĩ tận tâm; phòng chờ hơi chật, chờ lâu.",
+                    Comment = "OB-GYN checkup was good, doctors are attentive; however, the waiting area is small and wait time is long.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
                 {
-                    Id = quan3Feedback2Id,
-                    ClinicId = quan3ClinicId,
+                    Id = district3Feedback2Id,
+                    ClinicId = district3ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Siêu âm thai rõ nét, nhân viên phụ sản thân thiện, mình hài lòng dịch vụ khám thai dịch vụ.",
+                    Comment = "Clear ultrasound images, friendly obstetrics staff, I’m satisfied with the maternity service.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quận 7
 
-            // Seed Quận 7 Clinic User
+            // District 7 Hospital
+
+            // Seed District 7 Clinic User
             var quan7ClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = quan7ClinicUserId,
-                UserName = "Bệnh viện Quận 7",
+                UserName = "District 7 Hospital",
                 Email = "bv.q7@tphcm.gov.vn",
                 PhoneNumber = "0283 7730 777",
                 Password = HashPassword("clinic#16"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "101 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh, Việt Nam",
+                Address = "101 Nguyen Thi Thap, Tan Phu Ward, District 7, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận 7 Clinic
+            // Seed District 7 Clinic
             var quan7ClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = quan7ClinicId,
                 UserId = quan7ClinicUserId,
-                Address = "101 Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Quận 7 là bệnh viện đa khoa hạng II trực thuộc Sở Y tế TP.HCM. Bệnh viện cung cấp nhiều dịch vụ khám chữa bệnh, trong đó nổi bật là Sản - Phụ khoa với khám thai định kỳ, siêu âm thai, tư vấn tiền sản và chăm sóc sức khỏe sinh sản. Đây là nơi nhiều thai phụ tại khu vực Quận 7 và Nam Sài Gòn lựa chọn thăm khám do vị trí thuận lợi và chi phí hợp lý.",
+                Address = "101 Nguyen Thi Thap, Tan Phu Ward, District 7, Ho Chi Minh City, Vietnam",
+                Description = "District 7 Hospital is a grade II general hospital under the Department of Health of Ho Chi Minh City. The hospital provides a wide range of medical services, especially Obstetrics & Gynecology, including antenatal check-ups, pregnancy ultrasound, prenatal counseling, and reproductive healthcare. It is a popular choice for pregnant women in District 7 and South Saigon thanks to its convenient location and reasonable cost.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa;Khám phụ khoa;Khám sức khỏe sinh sản;Tư vấn tiền sản;Đỡ đẻ và chăm sóc sau sinh;Khám bệnh BHYT;Khám dịch vụ theo yêu cầu;Nhi khoa;Nội - Ngoại tổng quát",
+                Specializations = "Antenatal check-ups;Obstetric ultrasound;Gynecology examination;Reproductive healthcare;Prenatal counseling;Delivery & postpartum care;Health insurance services;Private medical services;Pediatrics;General internal & surgery",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận 7 Doctor Users
+            // Seed District 7 Doctor Users
             var quan7DoctorUser1Id = Guid.NewGuid();
             var quan7DoctorUser2Id = Guid.NewGuid();
             var quan7DoctorUser3Id = Guid.NewGuid();
@@ -2943,11 +2951,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan7DoctorUser1Id,
-                    UserName = "BS Trần Thanh Tùng",
+                    UserName = "Dr. Tran Thanh Tung",
                     Email = "thanh.tung@bvquan7.medinet.gov.vn",
                     PhoneNumber = "0283 7730 777",
                     Password = HashPassword("doctor#35"),
-                    Address = "Khoa Sản, Bệnh viện Quận 7",
+                    Address = "Obstetrics Department, District 7 Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2958,11 +2966,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan7DoctorUser2Id,
-                    UserName = "BS Lê Thị Minh Thư",
+                    UserName = "Dr. Le Thi Minh Thu",
                     Email = "minh.thu@bvquan7.medinet.gov.vn",
                     PhoneNumber = "0283 7730 777",
                     Password = HashPassword("doctor#36"),
-                    Address = "Khoa Sản, Bệnh viện Quận 7",
+                    Address = "Obstetrics Department, District 7 Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2973,11 +2981,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan7DoctorUser3Id,
-                    UserName = "BS Võ Văn Nhân",
+                    UserName = "Dr. Vo Van Nhan",
                     Email = "van.nhan@bvquan7.medinet.gov.vn",
                     PhoneNumber = "0283 7730 777",
                     Password = HashPassword("doctor#37"),
-                    Address = "Khoa Sản, Bệnh viện Quận 7",
+                    Address = "Obstetrics Department, District 7 Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -2987,7 +2995,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận 7 Doctors
+            // Seed District 7 Doctors
             var quan7Doctor1Id = Guid.NewGuid();
             var quan7Doctor2Id = Guid.NewGuid();
             var quan7Doctor3Id = Guid.NewGuid();
@@ -2999,11 +3007,11 @@ namespace Server.Infrastructure.Data
                     UserId = quan7DoctorUser1Id,
                     ClinicId = quan7ClinicId,
                     Gender = "Male",
-                    Specialization = "Đỡ đẻ, phẫu thuật sản phụ khoa",
-                    Certificate = "BSCKII Sản phụ khoa",
+                    Specialization = "Delivery, obstetric & gynecologic surgery",
+                    Certificate = "Specialist Level II in Obstetrics & Gynecology",
                     ExperienceYear = 20,
-                    WorkPosition = "Trưởng khoa Sản",
-                    Description = "Chuyên đỡ đẻ, mổ lấy thai, xử lý thai kỳ nguy cơ cao và khám thai định kỳ cho sản phụ.",
+                    WorkPosition = "Head of Obstetrics Department",
+                    Description = "Specialized in delivery, cesarean section, high-risk pregnancy management, and antenatal care.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3013,11 +3021,11 @@ namespace Server.Infrastructure.Data
                     UserId = quan7DoctorUser2Id,
                     ClinicId = quan7ClinicId,
                     Gender = "Female",
-                    Specialization = "Siêu âm thai, chẩn đoán trước sinh",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Pregnancy ultrasound & prenatal diagnosis",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ siêu âm sản",
-                    Description = "Siêu âm thai hình thái, tư vấn dị tật bẩm sinh, theo dõi sự phát triển của thai.",
+                    WorkPosition = "Obstetric Sonographer",
+                    Description = "Performs fetal morphology ultrasound, congenital anomaly counseling, and monitoring of fetal growth.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3027,17 +3035,17 @@ namespace Server.Infrastructure.Data
                     UserId = quan7DoctorUser3Id,
                     ClinicId = quan7ClinicId,
                     Gender = "Male",
-                    Specialization = "Khám phụ khoa & sức khỏe sinh sản",
-                    Certificate = "BSCKI Sản phụ khoa",
+                    Specialization = "Gynecology & reproductive health",
+                    Certificate = "Specialist Level I in Obstetrics & Gynecology",
                     ExperienceYear = 14,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Khám thai định kỳ, điều trị bệnh lý phụ khoa và tư vấn sức khỏe sinh sản.",
+                    WorkPosition = "Obstetrician-Gynecologist",
+                    Description = "Provides antenatal check-ups, treats gynecological diseases, and gives reproductive health counseling.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Quận 7 Consultant Users
+            // Seed District 7 Consultant Users
             var quan7ConsultantUser1Id = Guid.NewGuid();
             var quan7ConsultantUser2Id = Guid.NewGuid();
 
@@ -3045,11 +3053,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan7ConsultantUser1Id,
-                    UserName = "ThS.BS Nguyễn Thị Bích Vân",
+                    UserName = "MSc. Dr. Nguyen Thi Bich Van",
                     Email = "bich.van@bvquan7.medinet.gov.vn",
                     PhoneNumber = "0283 7730 777",
                     Password = HashPassword("consultant#24"),
-                    Address = "Khoa Sản, Bệnh viện Quận 7",
+                    Address = "Obstetrics Department, District 7 Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3061,11 +3069,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = quan7ConsultantUser2Id,
-                    UserName = "BSCKI Phan Thị Hồng Thắm",
+                    UserName = "Specialist I. Dr. Phan Thi Hong Tham",
                     Email = "hong.tham@bvquan7.medinet.gov.vn",
                     PhoneNumber = "0283 7730 777",
                     Password = HashPassword("consultant#25"),
-                    Address = "Khoa Sản, Bệnh viện Quận 7",
+                    Address = "Obstetrics Department, District 7 Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3076,7 +3084,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận 7 Consultants
+            // Seed District 7 Consultants
             var quan7Consultant1Id = Guid.NewGuid();
             var quan7Consultant2Id = Guid.NewGuid();
 
@@ -3086,8 +3094,8 @@ namespace Server.Infrastructure.Data
                     Id = quan7Consultant1Id,
                     UserId = quan7ConsultantUser1Id,
                     ClinicId = quan7ClinicId,
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Thạc sĩ Y học, CKI Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Master of Medicine, Specialist Level I in Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 18,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3098,8 +3106,8 @@ namespace Server.Infrastructure.Data
                     Id = quan7Consultant2Id,
                     UserId = quan7ConsultantUser2Id,
                     ClinicId = quan7ClinicId,
-                    Specialization = "Khám thai & tư vấn tiền sản",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Antenatal care & prenatal counseling",
+                    Certificate = "Specialist Level I",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3107,7 +3115,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận 7 Feedbacks
+            // Seed District 7 Feedbacks
             var quan7Feedback1Id = Guid.NewGuid();
             var quan7Feedback2Id = Guid.NewGuid();
             var quan7Feedback3Id = Guid.NewGuid();
@@ -3119,7 +3127,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = quan7ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bác sĩ sản rất tận tâm, mình đi khám thai định kỳ ở đây thấy yên tâm vì chi phí vừa phải, dịch vụ ổn.",
+                    Comment = "The obstetricians are very dedicated. I feel reassured having my antenatal check-ups here because the cost is reasonable and services are good.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3128,7 +3136,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = quan7ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Thái độ nhân viên phụ sản khá tốt, có bác sĩ nữ nên mình thoải mái hơn khi khám thai.",
+                    Comment = "The maternity staff have a good attitude. Having female doctors makes me feel more comfortable during pregnancy check-ups.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3137,48 +3145,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = quan7ClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Cơ sở vật chất không hiện đại như bệnh viện quốc tế nhưng dịch vụ sản phụ khoa đáng tin cậy.",
+                    Comment = "The facilities are not as modern as international hospitals, but the obstetrics & gynecology services are reliable.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quận Gò Vấp
 
-            // Seed Quận Gò Vấp Clinic User
+            // Go Vap District Hospital
+
+            // Seed Go Vap Clinic User
             var govapClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = govapClinicUserId,
-                UserName = "Bệnh viện Quận Gò Vấp",
+                UserName = "Go Vap District Hospital",
                 Email = "bv.govap@tphcm.gov.vn",
                 PhoneNumber = "0283 8944 160",
                 Password = HashPassword("clinic#17"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "212 Lê Đức Thọ, Phường 15, Quận Gò Vấp, TP. Hồ Chí Minh, Việt Nam",
+                Address = "212 Le Duc Tho, Ward 15, Go Vap District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận Gò Vấp Clinic
+            // Seed Go Vap Clinic
             var govapClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = govapClinicId,
                 UserId = govapClinicUserId,
-                Address = "212 Lê Đức Thọ, Phường 15, Quận Gò Vấp, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Quận Gò Vấp là bệnh viện đa khoa hạng II trực thuộc Sở Y tế TP.HCM. Bệnh viện có thế mạnh trong khám chữa bệnh đa khoa, đặc biệt là khoa Sản phụ khoa với dịch vụ khám thai định kỳ, siêu âm, tư vấn tiền sản và chăm sóc sức khỏe bà mẹ - trẻ em cho người dân khu vực Gò Vấp và vùng lân cận.",
+                Address = "212 Le Duc Tho, Ward 15, Go Vap District, Ho Chi Minh City, Vietnam",
+                Description = "Go Vap District Hospital is a Grade II general hospital under the HCMC Department of Health. The hospital is strong in multidisciplinary treatment, especially in Obstetrics & Gynecology with services such as prenatal check-ups, ultrasounds, antenatal counseling, and maternal & child healthcare for residents of Go Vap and nearby areas.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa;Khám phụ khoa;Khám sức khỏe sinh sản;Tư vấn tiền sản;Đỡ đẻ và chăm sóc sau sinh;Khám bệnh BHYT;Khám dịch vụ theo yêu cầu;Nhi khoa;Nội tổng quát",
+                Specializations = "Prenatal check-ups;Obstetric ultrasound;Gynecology check-ups;Reproductive health check-ups;Antenatal counseling;Delivery and postpartum care;Health insurance (BHYT) services;On-demand services;Pediatrics;General internal medicine",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận Gò Vấp Doctor Users
+            // Seed Go Vap Doctor Users
             var govapDoctorUser1Id = Guid.NewGuid();
             var govapDoctorUser2Id = Guid.NewGuid();
             var govapDoctorUser3Id = Guid.NewGuid();
@@ -3187,11 +3196,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = govapDoctorUser1Id,
-                    UserName = "BSCKII Lê Thị Mỹ Duyên",
+                    UserName = "Specialist II. Dr. Le Thi My Duyen",
                     Email = "my.duyen@bvquan-govap.medinet.gov.vn",
                     PhoneNumber = "0283 8944 160",
                     Password = HashPassword("doctor#38"),
-                    Address = "Khoa Sản, Bệnh viện Quận Gò Vấp",
+                    Address = "Obstetrics Department, Go Vap District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3202,11 +3211,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = govapDoctorUser2Id,
-                    UserName = "BS Hoàng Thị Kiều Oanh",
+                    UserName = "Dr. Hoang Thi Kieu Oanh",
                     Email = "kieu.oanh@bvquan-govap.medinet.gov.vn",
                     PhoneNumber = "0283 8944 160",
                     Password = HashPassword("doctor#39"),
-                    Address = "Khoa Sản, Bệnh viện Quận Gò Vấp",
+                    Address = "Obstetrics Department, Go Vap District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3217,11 +3226,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = govapDoctorUser3Id,
-                    UserName = "BS Đặng Văn Toàn",
+                    UserName = "Dr. Dang Van Toan",
                     Email = "van.toan@bvquan-govap.medinet.gov.vn",
                     PhoneNumber = "0283 8944 160",
                     Password = HashPassword("doctor#40"),
-                    Address = "Khoa Sản, Bệnh viện Quận Gò Vấp",
+                    Address = "Obstetrics Department, Go Vap District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3231,7 +3240,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Gò Vấp Doctors
+            // Seed Go Vap Doctors
             var govapDoctor1Id = Guid.NewGuid();
             var govapDoctor2Id = Guid.NewGuid();
             var govapDoctor3Id = Guid.NewGuid();
@@ -3243,11 +3252,11 @@ namespace Server.Infrastructure.Data
                     UserId = govapDoctorUser1Id,
                     ClinicId = govapClinicId,
                     Gender = "Female",
-                    Specialization = "Phẫu thuật sản khoa",
-                    Certificate = "BSCKII Sản phụ khoa",
+                    Specialization = "Obstetric surgery",
+                    Certificate = "Specialist II in Obstetrics & Gynecology",
                     ExperienceYear = 22,
-                    WorkPosition = "Trưởng khoa Sản",
-                    Description = "Chuyên phẫu thuật sản, mổ lấy thai, xử lý thai kỳ nguy cơ cao, điều trị bệnh lý phụ khoa.",
+                    WorkPosition = "Head of Obstetrics Department",
+                    Description = "Specialized in obstetric surgery, C-sections, managing high-risk pregnancies, and treating gynecological conditions.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3257,11 +3266,11 @@ namespace Server.Infrastructure.Data
                     UserId = govapDoctorUser2Id,
                     ClinicId = govapClinicId,
                     Gender = "Female",
-                    Specialization = "Siêu âm sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Obstetric ultrasound",
+                    Certificate = "Specialist I in Obstetrics & Gynecology",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ siêu âm",
-                    Description = "Thực hiện siêu âm thai định kỳ, chẩn đoán trước sinh và theo dõi thai kỳ.",
+                    WorkPosition = "Ultrasound Doctor",
+                    Description = "Performs routine prenatal ultrasounds, prenatal diagnosis, and pregnancy monitoring.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3271,17 +3280,17 @@ namespace Server.Infrastructure.Data
                     UserId = govapDoctorUser3Id,
                     ClinicId = govapClinicId,
                     Gender = "Male",
-                    Specialization = "Khám phụ khoa & kế hoạch hóa gia đình",
-                    Certificate = "BSCKI Sản phụ khoa",
+                    Specialization = "Gynecology & Family Planning",
+                    Certificate = "Specialist I in Obstetrics & Gynecology",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Khám phụ khoa, điều trị viêm nhiễm phụ khoa, tư vấn sức khỏe sinh sản và kế hoạch hóa gia đình.",
+                    WorkPosition = "Obstetrician-Gynecologist",
+                    Description = "Provides gynecological examinations, treatment of infections, reproductive health counseling, and family planning services.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Quận Gò Vấp Consultant Users
+            // Seed Go Vap Consultant Users
             var govapConsultantUser1Id = Guid.NewGuid();
             var govapConsultantUser2Id = Guid.NewGuid();
             var govapConsultantUser3Id = Guid.NewGuid();
@@ -3290,11 +3299,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = govapConsultantUser1Id,
-                    UserName = "ThS.BS Nguyễn Thị Hồng Nhung",
+                    UserName = "MSc. Dr. Nguyen Thi Hong Nhung",
                     Email = "hong.nhung@bvquan-govap.medinet.gov.vn",
                     PhoneNumber = "0283 8944 160",
                     Password = HashPassword("consultant#26"),
-                    Address = "Khoa Sản, Bệnh viện Quận Gò Vấp",
+                    Address = "Obstetrics Department, Go Vap District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3306,11 +3315,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = govapConsultantUser2Id,
-                    UserName = "BSCKI Trần Minh Thảo",
+                    UserName = "Specialist I. Dr. Tran Minh Thao",
                     Email = "minh.thao@bvquan-govap.medinet.gov.vn",
                     PhoneNumber = "0283 8944 160",
                     Password = HashPassword("consultant#27"),
-                    Address = "Khoa Sản, Bệnh viện Quận Gò Vấp",
+                    Address = "Obstetrics Department, Go Vap District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3322,11 +3331,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = govapConsultantUser3Id,
-                    UserName = "BS Phan Quốc Thái",
+                    UserName = "Dr. Phan Quoc Thai",
                     Email = "quoc.thai@bvquan-govap.medinet.gov.vn",
                     PhoneNumber = "0283 8944 160",
                     Password = HashPassword("consultant#28"),
-                    Address = "Khoa Sản, Bệnh viện Quận Gò Vấp",
+                    Address = "Obstetrics Department, Go Vap District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3337,7 +3346,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Gò Vấp Consultants
+            // Seed Go Vap Consultants
             var govapConsultant1Id = Guid.NewGuid();
             var govapConsultant2Id = Guid.NewGuid();
             var govapConsultant3Id = Guid.NewGuid();
@@ -3348,8 +3357,8 @@ namespace Server.Infrastructure.Data
                     Id = govapConsultant1Id,
                     UserId = govapConsultantUser1Id,
                     ClinicId = govapClinicId,
-                    Specialization = "Khám thai & tư vấn sản phụ khoa",
-                    Certificate = "Thạc sĩ Y học, CKI Sản phụ khoa",
+                    Specialization = "Prenatal check-ups & OB-GYN counseling",
+                    Certificate = "Master of Medicine, Specialist I in Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 17,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3360,8 +3369,8 @@ namespace Server.Infrastructure.Data
                     Id = govapConsultant2Id,
                     UserId = govapConsultantUser2Id,
                     ClinicId = govapClinicId,
-                    Specialization = "Tư vấn tiền sản",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Antenatal counseling",
+                    Certificate = "Specialist I in Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 12,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3372,8 +3381,8 @@ namespace Server.Infrastructure.Data
                     Id = govapConsultant3Id,
                     UserId = govapConsultantUser3Id,
                     ClinicId = govapClinicId,
-                    Specialization = "Khám sức khỏe sinh sản",
-                    Certificate = "Bác sĩ đa khoa, CKI sản phụ khoa",
+                    Specialization = "Reproductive health check-ups",
+                    Certificate = "General Practitioner, Specialist I in Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 13,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3381,7 +3390,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Gò Vấp Feedbacks
+            // Seed Go Vap Feedbacks
             var govapFeedback1Id = Guid.NewGuid();
             var govapFeedback2Id = Guid.NewGuid();
             var govapFeedback3Id = Guid.NewGuid();
@@ -3394,7 +3403,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = govapClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Mình đi khám thai ở đây, bác sĩ tư vấn kỹ, chi phí hợp lý, có BHYT hỗ trợ.",
+                    Comment = "I had prenatal check-ups here, the doctor gave thorough advice, costs were reasonable, and health insurance was accepted.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3403,7 +3412,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = govapClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Đội ngũ y tá và bác sĩ nữ nhiều, mình thấy thoải mái hơn khi khám phụ khoa.",
+                    Comment = "There are many female doctors and nurses, which made me feel more comfortable for gynecological exams.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3412,7 +3421,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = govapClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Bệnh viện khá đông, phải chờ nhưng bác sĩ nhiệt tình và chu đáo.",
+                    Comment = "The hospital was crowded, had to wait, but doctors were enthusiastic and attentive.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3421,48 +3430,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = govapClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Mình sinh bé ở đây, bác sĩ rất tận tâm, dịch vụ ổn, cảm giác an toàn.",
+                    Comment = "I gave birth here, doctors were very dedicated, services were good, and I felt safe.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quận Bình Thạnh
 
-            // Seed Quận Bình Thạnh Clinic User
+            // Binh Thanh District Hospital
+
+            // Seed Binh Thanh Clinic User
             var binhthanhClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = binhthanhClinicUserId,
-                UserName = "Bệnh viện Quận Bình Thạnh",
+                UserName = "Binh Thanh District Hospital",
                 Email = "bv.binhthanh@tphcm.gov.vn",
                 PhoneNumber = "0283 8411 283",
                 Password = HashPassword("clinic#18"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "112 Bùi Hữu Nghĩa, Phường 2, Quận Bình Thạnh, TP. Hồ Chí Minh, Việt Nam",
+                Address = "112 Bui Huu Nghia, Ward 2, Binh Thanh District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận Bình Thạnh Clinic
+            // Seed Binh Thanh Clinic
             var binhthanhClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = binhthanhClinicId,
                 UserId = binhthanhClinicUserId,
-                Address = "112 Bùi Hữu Nghĩa, Phường 2, Quận Bình Thạnh, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Quận Bình Thạnh là bệnh viện đa khoa hạng II trực thuộc Sở Y tế TP.HCM. Với quy mô hơn 300 giường bệnh, bệnh viện đáp ứng nhu cầu khám chữa bệnh đa khoa cho người dân. Khoa Sản phụ khoa là một trong những chuyên khoa mũi nhọn, cung cấp dịch vụ khám thai, siêu âm, tư vấn tiền sản và chăm sóc sức khỏe bà mẹ - trẻ em.",
+                Address = "112 Bui Huu Nghia, Ward 2, Binh Thanh District, Ho Chi Minh City, Vietnam",
+                Description = "Binh Thanh District Hospital is a grade II general hospital under the Ho Chi Minh City Department of Health. With more than 300 inpatient beds, the hospital meets the healthcare needs of local residents. The Obstetrics and Gynecology Department is one of its main specialties, providing antenatal check-ups, ultrasound, prenatal counseling, and maternal-child healthcare services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa;Khám phụ khoa;Tư vấn tiền sản;Chăm sóc sức khỏe sinh sản;Đỡ đẻ và chăm sóc sau sinh;Khám dịch vụ theo yêu cầu;Khám bệnh BHYT;Nhi khoa;Nội tổng quát",
+                Specializations = "Antenatal check-ups;Obstetric ultrasound;Gynecology consultation;Prenatal counseling;Reproductive health care;Delivery and postpartum care;On-demand medical services;Health insurance services;Pediatrics;General internal medicine",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận Bình Thạnh Doctor Users
+            // Seed Binh Thanh Doctor Users
             var binhthanhDoctorUser1Id = Guid.NewGuid();
             var binhthanhDoctorUser2Id = Guid.NewGuid();
             var binhthanhDoctorUser3Id = Guid.NewGuid();
@@ -3471,11 +3481,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhthanhDoctorUser1Id,
-                    UserName = "BSCKII Lê Thị Bích Hạnh",
+                    UserName = "Assoc. Prof. Dr. Le Thi Bich Hanh",
                     Email = "bich.hanh@bvbinhthanh.medinet.gov.vn",
                     PhoneNumber = "0283 8411 283",
                     Password = HashPassword("doctor#41"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Thạnh",
+                    Address = "Obstetrics Department, Binh Thanh District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3486,11 +3496,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhthanhDoctorUser2Id,
-                    UserName = "BS Nguyễn Minh Thư",
+                    UserName = "Dr. Nguyen Minh Thu",
                     Email = "minh.thu@bvbinhthanh.medinet.gov.vn",
                     PhoneNumber = "0283 8411 283",
                     Password = HashPassword("doctor#42"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Thạnh",
+                    Address = "Obstetrics Department, Binh Thanh District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3501,11 +3511,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhthanhDoctorUser3Id,
-                    UserName = "BS Trần Quốc Khánh",
+                    UserName = "Dr. Tran Quoc Khanh",
                     Email = "quoc.khanh@bvbinhthanh.medinet.gov.vn",
                     PhoneNumber = "0283 8411 283",
                     Password = HashPassword("doctor#43"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Thạnh",
+                    Address = "Obstetrics Department, Binh Thanh District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3515,7 +3525,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Bình Thạnh Doctors
+            // Seed Binh Thanh Doctors
             var binhthanhDoctor1Id = Guid.NewGuid();
             var binhthanhDoctor2Id = Guid.NewGuid();
             var binhthanhDoctor3Id = Guid.NewGuid();
@@ -3527,11 +3537,11 @@ namespace Server.Infrastructure.Data
                     UserId = binhthanhDoctorUser1Id,
                     ClinicId = binhthanhClinicId,
                     Gender = "Female",
-                    Specialization = "Phẫu thuật sản phụ khoa",
-                    Certificate = "BSCKII Sản phụ khoa",
+                    Specialization = "Obstetric and gynecologic surgery",
+                    Certificate = "Assoc. Prof. in Obstetrics & Gynecology",
                     ExperienceYear = 23,
-                    WorkPosition = "Trưởng khoa Sản",
-                    Description = "Chuyên mổ lấy thai, xử lý sản khoa nguy cơ cao, điều trị bệnh lý phụ khoa phức tạp.",
+                    WorkPosition = "Head of Obstetrics Department",
+                    Description = "Specializes in C-sections, high-risk obstetrics, and complex gynecologic treatments.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3541,11 +3551,11 @@ namespace Server.Infrastructure.Data
                     UserId = binhthanhDoctorUser2Id,
                     ClinicId = binhthanhClinicId,
                     Gender = "Female",
-                    Specialization = "Siêu âm thai & chẩn đoán trước sinh",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Prenatal ultrasound & diagnosis",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 11,
-                    WorkPosition = "Bác sĩ siêu âm",
-                    Description = "Siêu âm hình thái thai, tư vấn dị tật bẩm sinh, theo dõi phát triển thai nhi.",
+                    WorkPosition = "Ultrasound Doctor",
+                    Description = "Performs fetal morphology scans, congenital anomaly counseling, and fetal growth monitoring.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3555,17 +3565,17 @@ namespace Server.Infrastructure.Data
                     UserId = binhthanhDoctorUser3Id,
                     ClinicId = binhthanhClinicId,
                     Gender = "Male",
-                    Specialization = "Khám phụ khoa & điều trị viêm nhiễm",
-                    Certificate = "BSCKI Sản phụ khoa",
+                    Specialization = "Gynecology & infection treatment",
+                    Certificate = "Specialist Level I in Obstetrics & Gynecology",
                     ExperienceYear = 16,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Khám phụ khoa, điều trị viêm nhiễm, tư vấn kế hoạch hóa gia đình và sức khỏe sinh sản.",
+                    WorkPosition = "Obstetrician-Gynecologist",
+                    Description = "Provides gynecological examinations, infection treatments, family planning, and reproductive health counseling.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Quận Bình Thạnh Consultant Users
+            // Seed Binh Thanh Consultant Users
             var binhthanhConsultantUser1Id = Guid.NewGuid();
             var binhthanhConsultantUser2Id = Guid.NewGuid();
             var binhthanhConsultantUser3Id = Guid.NewGuid();
@@ -3574,11 +3584,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhthanhConsultantUser1Id,
-                    UserName = "ThS.BS Nguyễn Thị Kim Ánh",
+                    UserName = "MSc. Dr. Nguyen Thi Kim Anh",
                     Email = "kim.anh@bvbinhthanh.medinet.gov.vn",
                     PhoneNumber = "0283 8411 283",
                     Password = HashPassword("consultant#29"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Thạnh",
+                    Address = "Obstetrics Department, Binh Thanh District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3590,11 +3600,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhthanhConsultantUser2Id,
-                    UserName = "BSCKI Võ Thị Thu Trang",
+                    UserName = "Specialist I Dr. Vo Thi Thu Trang",
                     Email = "thu.trang@bvbinhthanh.medinet.gov.vn",
                     PhoneNumber = "0283 8411 283",
                     Password = HashPassword("consultant#30"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Thạnh",
+                    Address = "Obstetrics Department, Binh Thanh District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3606,11 +3616,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhthanhConsultantUser3Id,
-                    UserName = "BS Phan Minh Huy",
+                    UserName = "Dr. Phan Minh Huy",
                     Email = "minh.huy@bvbinhthanh.medinet.gov.vn",
                     PhoneNumber = "0283 8411 283",
                     Password = HashPassword("consultant#31"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Thạnh",
+                    Address = "Obstetrics Department, Binh Thanh District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3621,7 +3631,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Bình Thạnh Consultants
+            // Seed Binh Thanh Consultants
             var binhthanhConsultant1Id = Guid.NewGuid();
             var binhthanhConsultant2Id = Guid.NewGuid();
             var binhthanhConsultant3Id = Guid.NewGuid();
@@ -3632,8 +3642,8 @@ namespace Server.Infrastructure.Data
                     Id = binhthanhConsultant1Id,
                     UserId = binhthanhConsultantUser1Id,
                     ClinicId = binhthanhClinicId,
-                    Specialization = "Khám thai & tư vấn tiền sản",
-                    Certificate = "Thạc sĩ Y học, CKI Sản phụ khoa",
+                    Specialization = "Antenatal care & prenatal counseling",
+                    Certificate = "Master of Medicine, Specialist Level I in Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 18,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3644,8 +3654,8 @@ namespace Server.Infrastructure.Data
                     Id = binhthanhConsultant2Id,
                     UserId = binhthanhConsultantUser2Id,
                     ClinicId = binhthanhClinicId,
-                    Specialization = "Khám sức khỏe sinh sản",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Reproductive health consultation",
+                    Certificate = "Specialist Level I",
                     Gender = "Female",
                     ExperienceYears = 14,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3656,8 +3666,8 @@ namespace Server.Infrastructure.Data
                     Id = binhthanhConsultant3Id,
                     UserId = binhthanhConsultantUser3Id,
                     ClinicId = binhthanhClinicId,
-                    Specialization = "Tư vấn kế hoạch hóa gia đình",
-                    Certificate = "Bác sĩ đa khoa, CKI sản phụ khoa",
+                    Specialization = "Family planning counseling",
+                    Certificate = "General Practitioner, Specialist Level I in Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 12,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3665,7 +3675,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Bình Thạnh Feedbacks
+            // Seed Binh Thanh Feedbacks
             var binhthanhFeedback1Id = Guid.NewGuid();
             var binhthanhFeedback2Id = Guid.NewGuid();
             var binhthanhFeedback3Id = Guid.NewGuid();
@@ -3678,7 +3688,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bệnh viện sạch sẽ, bác sĩ sản tư vấn kỹ lưỡng, đặc biệt phù hợp với thai phụ ở Bình Thạnh.",
+                    Comment = "The hospital is clean, obstetricians provide thorough counseling, especially suitable for pregnant women in Binh Thanh.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3687,7 +3697,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Đi siêu âm thai ở đây bác sĩ nữ nhẹ nhàng, mình cảm thấy thoải mái và yên tâm.",
+                    Comment = "The female doctor doing the ultrasound was gentle, which made me feel comfortable and reassured.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3696,7 +3706,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Bệnh viện khá đông bệnh nhân, nhưng đội ngũ y tá và bác sĩ sản phụ khoa rất nhiệt tình.",
+                    Comment = "The hospital is quite crowded, but the nurses and obstetricians are very dedicated.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3705,48 +3715,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Mình sinh bé tại đây, bác sĩ giỏi, xử lý nhanh, chi phí hợp lý hơn so với bệnh viện tư nhân.",
+                    Comment = "I gave birth here, the doctors are skilled, quick handling, and the cost is more reasonable compared to private hospitals.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quận Bình Tân
 
-            // Seed Quận Bình Tân Clinic User
+            // Binh Tan District Hospital
+
+            // Seed Binh Tan District Clinic User
             var binhtanClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = binhtanClinicUserId,
-                UserName = "Bệnh viện Quận Bình Tân",
+                UserName = "Binh Tan District Hospital",
                 Email = "bvbinhtan@tphcm.gov.vn",
                 PhoneNumber = "0283 7520 427",
                 Password = HashPassword("clinic#19"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "638 Tên Lửa, Phường Bình Trị Đông B, Quận Bình Tân, TP. Hồ Chí Minh, Việt Nam",
+                Address = "638 Ten Lua Street, Binh Tri Dong B Ward, Binh Tan District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Quận Bình Tân Clinic
+            // Seed Binh Tan District Clinic
             var binhtanClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = binhtanClinicId,
                 UserId = binhtanClinicUserId,
-                Address = "638 Tên Lửa, Phường Bình Trị Đông B, Quận Bình Tân, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Quận Bình Tân là bệnh viện đa khoa hạng II với quy mô hơn 300 giường bệnh. Khoa Sản phụ khoa cung cấp các dịch vụ khám thai, siêu âm, tư vấn tiền sản, chăm sóc sức khỏe sinh sản và dịch vụ sinh an toàn, thân thiện cho thai phụ.",
+                Address = "638 Ten Lua Street, Binh Tri Dong B Ward, Binh Tan District, Ho Chi Minh City, Vietnam",
+                Description = "Binh Tan District Hospital is a grade II general hospital with more than 300 beds. The Obstetrics and Gynecology Department provides antenatal check-ups, ultrasounds, prenatal counseling, reproductive health care, and safe and friendly delivery services for pregnant women.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa;Khám phụ khoa;Tư vấn tiền sản;Chăm sóc sức khỏe sinh sản;Đỡ sinh thường, sinh mổ;Theo dõi sau sinh;Kế hoạch hóa gia đình;Khám BHYT;Khám dịch vụ",
+                Specializations = "Regular antenatal check-ups;Obstetric ultrasound;Gynecology examination;Prenatal counseling;Reproductive health care;Normal delivery and cesarean section;Postpartum follow-up;Family planning;Health insurance services;Private medical services",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Quận Bình Tân Doctor Users
+            // Seed Binh Tan District Doctor Users
             var binhtanDoctorUser1Id = Guid.NewGuid();
             var binhtanDoctorUser2Id = Guid.NewGuid();
             var binhtanDoctorUser3Id = Guid.NewGuid();
@@ -3755,11 +3766,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhtanDoctorUser1Id,
-                    UserName = "BSCKII Nguyễn Thị Thanh Tâm",
+                    UserName = "Assoc. Prof. Dr. Nguyen Thi Thanh Tam",
                     Email = "thanh.tam@bvbinhtan.medinet.gov.vn",
                     PhoneNumber = "0283 7520 427",
                     Password = HashPassword("doctor#44"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Tân",
+                    Address = "Obstetrics Department, Binh Tan District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3770,11 +3781,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhtanDoctorUser2Id,
-                    UserName = "BS Phan Hữu Lộc",
+                    UserName = "Dr. Phan Huu Loc",
                     Email = "huu.loc@bvbinhtan.medinet.gov.vn",
                     PhoneNumber = "0283 7520 427",
                     Password = HashPassword("doctor#45"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Tân",
+                    Address = "Obstetrics Department, Binh Tan District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3785,11 +3796,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhtanDoctorUser3Id,
-                    UserName = "BS Đặng Thị Thu Trang",
+                    UserName = "Dr. Dang Thi Thu Trang",
                     Email = "thu.trang@bvbinhtan.medinet.gov.vn",
                     PhoneNumber = "0283 7520 427",
                     Password = HashPassword("doctor#46"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Tân",
+                    Address = "Obstetrics Department, Binh Tan District Hospital",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -3799,7 +3810,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Bình Tân Doctors
+            // Seed Binh Tan District Doctors
             var binhtanDoctor1Id = Guid.NewGuid();
             var binhtanDoctor2Id = Guid.NewGuid();
             var binhtanDoctor3Id = Guid.NewGuid();
@@ -3811,11 +3822,11 @@ namespace Server.Infrastructure.Data
                     UserId = binhtanDoctorUser1Id,
                     ClinicId = binhtanClinicId,
                     Gender = "Female",
-                    Specialization = "Phẫu thuật sản phụ khoa",
-                    Certificate = "BSCKII Sản phụ khoa",
+                    Specialization = "Obstetric and gynecological surgery",
+                    Certificate = "Associate Professor, PhD in Obstetrics and Gynecology",
                     ExperienceYear = 22,
-                    WorkPosition = "Trưởng khoa Sản",
-                    Description = "Chuyên đỡ đẻ, mổ lấy thai, xử lý các ca sản phụ khoa phức tạp, theo dõi hậu sản.",
+                    WorkPosition = "Head of Obstetrics Department",
+                    Description = "Specializes in delivery, cesarean section, managing complex obstetric and gynecological cases, and postpartum care.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3825,11 +3836,11 @@ namespace Server.Infrastructure.Data
                     UserId = binhtanDoctorUser2Id,
                     ClinicId = binhtanClinicId,
                     Gender = "Male",
-                    Specialization = "Siêu âm & chẩn đoán hình ảnh thai",
-                    Certificate = "BSCKI Sản phụ khoa",
+                    Specialization = "Ultrasound & fetal imaging diagnosis",
+                    Certificate = "Specialist Level I in Obstetrics and Gynecology",
                     ExperienceYear = 14,
-                    WorkPosition = "Bác sĩ siêu âm",
-                    Description = "Chuyên siêu âm hình thái thai nhi, theo dõi thai kỳ nguy cơ cao.",
+                    WorkPosition = "Ultrasound doctor",
+                    Description = "Specializes in fetal morphology ultrasound and monitoring high-risk pregnancies.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -3839,17 +3850,17 @@ namespace Server.Infrastructure.Data
                     UserId = binhtanDoctorUser3Id,
                     ClinicId = binhtanClinicId,
                     Gender = "Female",
-                    Specialization = "Khám phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Gynecology examination",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 9,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Khám và điều trị các bệnh lý phụ khoa, viêm nhiễm, tư vấn sức khỏe sinh sản.",
+                    WorkPosition = "Obstetrician and Gynecologist",
+                    Description = "Examination and treatment of gynecological diseases, infections, and reproductive health counseling.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Seed Quận Bình Tân Consultant Users
+            // Seed Binh Tan District Consultant Users
             var binhtanConsultantUser1Id = Guid.NewGuid();
             var binhtanConsultantUser2Id = Guid.NewGuid();
             var binhtanConsultantUser3Id = Guid.NewGuid();
@@ -3858,11 +3869,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhtanConsultantUser1Id,
-                    UserName = "BSCKI Trần Thị Thu Hà",
+                    UserName = "Dr. Tran Thi Thu Ha",
                     Email = "thu.ha@bvbinhtan.medinet.gov.vn",
                     PhoneNumber = "0283 7520 427",
                     Password = HashPassword("consultant#32"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Tân",
+                    Address = "Obstetrics Department, Binh Tan District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3874,11 +3885,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhtanConsultantUser2Id,
-                    UserName = "BS Lê Minh Tuấn",
+                    UserName = "Dr. Le Minh Tuan",
                     Email = "minh.tuan@bvbinhtan.medinet.gov.vn",
                     PhoneNumber = "0283 7520 427",
                     Password = HashPassword("consultant#33"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Tân",
+                    Address = "Obstetrics Department, Binh Tan District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3890,11 +3901,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhtanConsultantUser3Id,
-                    UserName = "BS Ngô Thị Phương Linh",
+                    UserName = "Dr. Ngo Thi Phuong Linh",
                     Email = "phuong.linh@bvbinhtan.medinet.gov.vn",
                     PhoneNumber = "0283 7520 427",
                     Password = HashPassword("consultant#34"),
-                    Address = "Khoa Sản, Bệnh viện Quận Bình Tân",
+                    Address = "Obstetrics Department, Binh Tan District Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -3905,7 +3916,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Bình Tân Consultants
+            // Seed Binh Tan District Consultants
             var binhtanConsultant1Id = Guid.NewGuid();
             var binhtanConsultant2Id = Guid.NewGuid();
             var binhtanConsultant3Id = Guid.NewGuid();
@@ -3916,8 +3927,8 @@ namespace Server.Infrastructure.Data
                     Id = binhtanConsultant1Id,
                     UserId = binhtanConsultantUser1Id,
                     ClinicId = binhtanClinicId,
-                    Specialization = "Khám thai & tư vấn tiền sản",
-                    Certificate = "BSCKI Sản phụ khoa",
+                    Specialization = "Antenatal check-ups & prenatal counseling",
+                    Certificate = "Specialist Level I in Obstetrics and Gynecology",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3928,8 +3939,8 @@ namespace Server.Infrastructure.Data
                     Id = binhtanConsultant2Id,
                     UserId = binhtanConsultantUser2Id,
                     ClinicId = binhtanClinicId,
-                    Specialization = "Tư vấn chăm sóc thai kỳ nguy cơ cao",
-                    Certificate = "Bác sĩ đa khoa, CKI Sản phụ khoa",
+                    Specialization = "High-risk pregnancy counseling",
+                    Certificate = "General practitioner, Specialist Level I in Obstetrics and Gynecology",
                     Gender = "Male",
                     ExperienceYears = 13,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3940,8 +3951,8 @@ namespace Server.Infrastructure.Data
                     Id = binhtanConsultant3Id,
                     UserId = binhtanConsultantUser3Id,
                     ClinicId = binhtanClinicId,
-                    Specialization = "Tư vấn sức khỏe sinh sản & kế hoạch hóa gia đình",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Reproductive health & family planning counseling",
+                    Certificate = "Specialist Level I",
                     Gender = "Female",
                     ExperienceYears = 10,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -3949,7 +3960,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Quận Bình Tân Feedbacks
+            // Seed Binh Tan District Feedbacks
             var binhtanFeedback1Id = Guid.NewGuid();
             var binhtanFeedback2Id = Guid.NewGuid();
             var binhtanFeedback3Id = Guid.NewGuid();
@@ -3962,7 +3973,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhtanClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bác sĩ sản phụ khoa ở đây rất tận tình, tư vấn kỹ khi đi khám thai.",
+                    Comment = "The obstetricians and gynecologists here are very dedicated and provide thorough counseling during antenatal check-ups.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3971,7 +3982,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhtanClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Mình sinh bé tại bệnh viện, dịch vụ tốt, chi phí hợp lý.",
+                    Comment = "I gave birth at this hospital, the service was good and the cost was reasonable.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3980,7 +3991,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhtanClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Đi siêu âm ở đây khá yên tâm, bác sĩ giải thích rõ ràng cho mẹ bầu.",
+                    Comment = "I felt reassured having an ultrasound here, the doctor explained everything clearly for expectant mothers.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -3989,57 +4000,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhtanClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Đông bệnh nhân nhưng nhân viên hỗ trợ nhanh, không mất nhiều thời gian chờ đợi.",
+                    Comment = "Although the hospital is crowded, the staff provides quick support, so waiting time is not too long.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Đa khoa Vạn Hạnh
 
-            // Seed Vạn Hạnh Clinic User
+            // Van Hanh General Hospital
+
+            // Seed Van Hanh Clinic User
             var vanhanhClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = vanhanhClinicUserId,
-                UserName = "Bệnh viện Đa khoa Vạn Hạnh",
+                UserName = "Van Hanh General Hospital",
                 Email = "benhvienvanhanh@gmail.com",
                 PhoneNumber = "(+84) 028 3863 2553",
                 Password = HashPassword("clinic#20"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "781/B1-B3-B5 Lê Hồng Phong, Phường 12, Quận 10, TP. Hồ Chí Minh, Việt Nam",
+                Address = "781/B1-B3-B5 Le Hong Phong, Ward 12, District 10, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Vạn Hạnh Clinic
+            // Seed Van Hanh Clinic
             var vanhanhClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = vanhanhClinicId,
                 UserId = vanhanhClinicUserId,
-                Address = "781/B1-B3-B5 Lê Hồng Phong, Phường 12, Quận 10, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Đa khoa Vạn Hạnh là bệnh viện tư nhân uy tín tại Quận 10, TP.HCM, thành lập năm 2000, với quy mô giường bệnh và đội ngũ bác sĩ chuyên môn cao. Khoa Sản phụ khoa nổi bật với dịch vụ thai sản trọn gói, khám thai định kỳ, siêu âm 4D, tư vấn tiền sản, tầm soát dị tật thai nhi, chăm sóc sản phụ và trẻ sơ sinh. Trang thiết bị hiện đại, dịch vụ phụ sản & hiếm muộn được bệnh viện chú trọng.",
+                Address = "781/B1-B3-B5 Le Hong Phong, Ward 12, District 10, Ho Chi Minh City, Vietnam",
+                Description = "Van Hanh General Hospital is a reputable private hospital in District 10, Ho Chi Minh City, established in 2000, with a wide scale of hospital beds and highly specialized medical staff. The Obstetrics and Gynecology Department is well-known for comprehensive maternity packages, prenatal check-ups, 4D ultrasound, antenatal counseling, fetal malformation screening, maternal and newborn care. The hospital focuses strongly on modern equipment and infertility treatment services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa (2D, 3D, 4D);Khám phụ khoa;Tư vấn tiền sản;Tầm soát dị tật thai nhi;Sinh con trọn gói;Hiếm muộn / hỗ trợ sinh sản;Chăm sóc sản phụ & hậu sản;Khám dịch vụ sản phụ khoa;Khám ngoại trú & nội trú sản;Khám theo yêu cầu;Khám bệnh bảo hiểm y tế",
+                Specializations = "Routine prenatal check-ups;Obstetric ultrasound (2D, 3D, 4D);Gynecological examination;Prenatal counseling;Fetal malformation screening;Comprehensive delivery package;Infertility / assisted reproduction;Maternal & postpartum care;Obstetrics & gynecology service examination;Outpatient & inpatient obstetrics;On-demand medical services;Health insurance examination",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Vạn Hạnh Doctor User
+            // Seed Van Hanh Doctor User
             var vanhanhDoctorUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = vanhanhDoctorUser1Id,
-                UserName = "BS Vương Thị Ngọc Lan",
+                UserName = "Dr. Vuong Thi Ngoc Lan",
                 Email = "doctorVanHanh@gmail.com",
                 PhoneNumber = "(+84) 028 3863 2553",
                 Password = HashPassword("doctor#47"),
-                Address = "Khoa Hiếm muộn / Sản phụ khoa, Bệnh viện Đa khoa Vạn Hạnh",
+                Address = "Infertility / Obstetrics & Gynecology Department, Van Hanh General Hospital",
                 CreationDate = new DateTime(2025, 09, 05),
                 RoleId = 7,
                 Avatar = null,
@@ -4048,7 +4060,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Vạn Hạnh Doctor
+            // Seed Van Hanh Doctor
             var vanhanhDoctor1Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -4056,25 +4068,25 @@ namespace Server.Infrastructure.Data
                 UserId = vanhanhDoctorUser1Id,
                 ClinicId = vanhanhClinicId,
                 Gender = "Female",
-                Specialization = "Hiếm muộn, khám thai định kỳ",
-                Certificate = "Bác sĩ chuyên khoa Sản phụ khoa",
+                Specialization = "Infertility, routine prenatal check-ups",
+                Certificate = "Specialist in Obstetrics and Gynecology",
                 ExperienceYear = 20,
-                WorkPosition = "Bác sĩ / chuyên viên hiếm muộn",
-                Description = "Một bác sĩ đặc biệt nổi bật trong lĩnh vực hiếm muộn tại Vạn Hạnh; cũng tiếp nhận khám thai bình thường và phụ khoa.",
+                WorkPosition = "Doctor / Infertility Specialist",
+                Description = "A highly recognized doctor in the infertility field at Van Hanh; also provides routine prenatal and gynecological consultations.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 05)
             });
 
-            // Seed Vạn Hạnh Consultant User
+            // Seed Van Hanh Consultant User
             var vanhanhConsultantUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = vanhanhConsultantUser1Id,
-                UserName = "BS Phùng Huy Tuân",
+                UserName = "Dr. Phung Huy Tuan",
                 Email = "consultantVanHanh@gmail.com",
                 PhoneNumber = "(+84) 028 3863 2553",
                 Password = HashPassword("consultant#35"),
-                Address = "Lầu 3-4, Bệnh viện Đa khoa Vạn Hạnh, 700 Sư Vạn Hạnh nối dài, P.12, Q.10, TP.HCM",
+                Address = "3rd-4th Floor, Van Hanh General Hospital, 700 Su Van Hanh Extension, Ward 12, District 10, Ho Chi Minh City",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -4084,22 +4096,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Vạn Hạnh Consultant
+            // Seed Van Hanh Consultant
             var vanhanhConsultant1Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = vanhanhConsultant1Id,
                 UserId = vanhanhConsultantUser1Id,
                 ClinicId = vanhanhClinicId,
-                Specialization = "Hiếm muộn / IVF",
-                Certificate = "Bác sĩ chuyên khoa Sản phụ khoa",
+                Specialization = "Infertility / IVF",
+                Certificate = "Specialist in Obstetrics and Gynecology",
                 Gender = "Male",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Vạn Hạnh Feedbacks
+            // Seed Van Hanh Feedbacks
             var vanhanhFeedback1Id = Guid.NewGuid();
             var vanhanhFeedback2Id = Guid.NewGuid();
             var vanhanhFeedback3Id = Guid.NewGuid();
@@ -4111,7 +4123,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vanhanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai dịch vụ tốt, bác sĩ tận tình. Chi phí sinh trọn gói ở Vạn Hạnh hợp lý hơn nhiều bệnh viện quốc tế.",
+                    Comment = "Good maternity service, attentive doctors. Comprehensive delivery package cost at Van Hanh is more affordable compared to many international hospitals.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -4120,7 +4132,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vanhanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Phòng sanh và nội trú sản phụ chất lượng cao, nhân viên thân thiện.",
+                    Comment = "High-quality delivery and inpatient maternity rooms, friendly staff.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -4129,57 +4141,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = vanhanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ hiếm muộn ở Vạn Hạnh được đánh giá tốt; quy trình đặt lịch và thủ tục hơi nhiều bước.",
+                    Comment = "Infertility service at Van Hanh is well rated; however, the scheduling and paperwork process involves quite a few steps.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Phụ sản Mê Kông
 
-            // Seed Phụ sản MêKông Clinic User
+            // Mekong Obstetrics and Gynecology Hospital
+
+            // Seed Mekong Clinic User
             var mekongClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = mekongClinicUserId,
-                UserName = "Bệnh viện Phụ sản MêKông",
+                UserName = "Mekong Obstetrics and Gynecology Hospital",
                 Email = "info@mekonghospital.vn",
                 PhoneNumber = "(84-28) 3844 2986 / 3844 2988",
                 Password = HashPassword("clinic#21"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "243-243A-243B Hoàng Văn Thụ, Phường 1, Quận Tân Bình, TP. Hồ Chí Minh, Việt Nam",
+                Address = "243-243A-243B Hoang Van Thu Street, Ward 1, Tan Binh District, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Phụ sản MêKông Clinic
+            // Seed Mekong Clinic
             var mekongClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = mekongClinicId,
                 UserId = mekongClinicUserId,
-                Address = "243-243A-243B Hoàng Văn Thụ, Phường 1, Quận Tân Bình, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Bệnh viện Phụ sản MêKông là bệnh viện chuyên sâu Sản-Phụ khoa và Nhi sơ sinh, được thành lập năm 2002, kế thừa từ Khoa Phụ sản – Đại học Y Dược TP.HCM (Cơ sở 4). Bệnh viện có quy mô khoảng 110 giường bệnh và 50 nôi, cung cấp các dịch vụ khám thai định kỳ, siêu âm, hỗ trợ sinh sản / hiếm muộn, tầm soát dị tật thai nhi, sinh con dịch vụ & sản phụ khoa chất lượng cao.",
+                Address = "243-243A-243B Hoang Van Thu Street, Ward 1, Tan Binh District, Ho Chi Minh City, Vietnam",
+                Description = "Mekong Obstetrics and Gynecology Hospital is a specialized hospital in Obstetrics - Gynecology and Neonatology, established in 2002, inherited from the Department of Obstetrics – University of Medicine and Pharmacy at Ho Chi Minh City (Campus 4). The hospital has a scale of about 110 beds and 50 cribs, providing services such as antenatal check-ups, ultrasound, infertility/assisted reproduction, fetal malformation screening, maternity services & high-quality obstetrics and gynecology.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa (2D, 3D, 4D);Khám phụ khoa;Tư vấn tiền sản;Hỗ trợ sinh sản / hiếm muộn;Tầm soát dị tật thai nhi;Sinh thường / Phẫu thuật lấy thai;Sơ sinh;Khám bệnh phụ nữ dịch vụ;Khám BHYT sản phụ khoa;Xét nghiệm trước sinh;Chẩn đoán hình ảnh sản phụ khoa;Gây mê hồi sức;Cấp cứu sản khoa",
+                Specializations = "Antenatal check-ups;Obstetric ultrasound (2D, 3D, 4D);Gynecology examination;Prenatal counseling;Infertility / assisted reproduction;Fetal malformation screening;Normal delivery / Cesarean section;Neonatology;Women’s health check-up services;Obstetrics and gynecology covered by health insurance;Prenatal testing;Obstetric and gynecological imaging diagnostics;Anesthesiology and resuscitation;Obstetric emergency",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Phụ sản MêKông Doctor User
+            // Seed Mekong Doctor User
             var mekongDoctorUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = mekongDoctorUser1Id,
-                UserName = "BS Phạm Thanh Hoàng",
+                UserName = "Dr. Pham Thanh Hoang",
                 Email = "doctorMeKong@gmail.com",
                 PhoneNumber = "(84-28) 3844 2986",
                 Password = HashPassword("doctor#48"),
-                Address = "Ban Giám đốc / Khoa Sản, Bệnh viện Phụ sản MêKông",
+                Address = "Board of Directors / Obstetrics Department, Mekong Obstetrics and Gynecology Hospital",
                 CreationDate = new DateTime(2025, 09, 05),
                 RoleId = 7,
                 Avatar = null,
@@ -4188,7 +4201,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Phụ sản MêKông Doctor
+            // Seed Mekong Doctor
             var mekongDoctor1Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -4196,25 +4209,25 @@ namespace Server.Infrastructure.Data
                 UserId = mekongDoctorUser1Id,
                 ClinicId = mekongClinicId,
                 Gender = "Male",
-                Specialization = "Sản phụ khoa / quản lý bệnh viện",
-                Certificate = "BSCKI / Thạc sĩ",
+                Specialization = "Obstetrics and Gynecology / Hospital management",
+                Certificate = "Specialist Doctor Level I / Master",
                 ExperienceYear = 20,
-                WorkPosition = "Phó Giám đốc",
-                Description = "Một bác sĩ đầu ngành tại MêKông, thường được nhắc đến trong các bài viết về bác sĩ đỡ đẻ giỏi tại MêKông.",
+                WorkPosition = "Deputy Director",
+                Description = "A leading doctor at Mekong, often mentioned in articles about excellent obstetricians at Mekong.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 05)
             });
 
-            // Seed Phụ sản MêKông Consultant User
+            // Seed Mekong Consultant User
             var mekongConsultantUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = mekongConsultantUser1Id,
-                UserName = "BS Nguyễn Thị Ngọc Lan",
+                UserName = "Dr. Nguyen Thi Ngoc Lan",
                 Email = "consultantMeKong@gmail.com",
                 PhoneNumber = "(84-28) 3844 2986",
                 Password = HashPassword("consultant#36"),
-                Address = "Khoa Sản, Bệnh viện Phụ sản MêKông",
+                Address = "Obstetrics Department, Mekong Obstetrics and Gynecology Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -4224,22 +4237,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Phụ sản MêKông Consultant
+            // Seed Mekong Consultant
             var mekongConsultant1Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = mekongConsultant1Id,
                 UserId = mekongConsultantUser1Id,
                 ClinicId = mekongClinicId,
-                Specialization = "Sản phụ khoa / khám thai định kỳ / siêu âm / tầm soát dị tật thai",
-                Certificate = "Bác sĩ Chuyên khoa Sản phụ khoa",
+                Specialization = "Obstetrics and Gynecology / Antenatal check-ups / Ultrasound / Fetal malformation screening",
+                Certificate = "Specialist Doctor in Obstetrics and Gynecology",
                 Gender = "Female",
                 ExperienceYears = 30,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
             });
 
-            // Seed Phụ sản MêKông Feedbacks
+            // Seed Mekong Feedbacks
             var mekongFeedback1Id = Guid.NewGuid();
             var mekongFeedback2Id = Guid.NewGuid();
             var mekongFeedback3Id = Guid.NewGuid();
@@ -4251,7 +4264,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = mekongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám sản phụ khoa tốt, siêu âm thai rõ, bác sĩ tận tình; chi phí dịch vụ cao hơn bệnh viện công nhưng xứng đáng.",
+                    Comment = "Good obstetrics and gynecology examination, clear fetal ultrasound, dedicated doctors; service cost is higher than public hospitals but worth it.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -4260,7 +4273,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = mekongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Sinh thường tại đây; phòng sinh đẹp, sạch sẽ; nhưng chờ làm thủ tục hơi lâu.",
+                    Comment = "Had a normal delivery here; delivery room is nice and clean; however, the admission procedure took quite a long time.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -4269,26 +4282,27 @@ namespace Server.Infrastructure.Data
                     ClinicId = mekongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Dịch vụ hiếm muộn hỗ trợ tốt, nhân viên thân thiện.",
+                    Comment = "Good infertility support service, friendly staff.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Quốc tế Phụ sản Sài Gòn (SIHospital)
+
+            // Saigon International Maternity Hospital (SIHospital)
 
             // Seed SIHospital Clinic User
             var sihospitalClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = sihospitalClinicUserId,
-                UserName = "Bệnh viện Phụ sản Quốc tế Sài Gòn (SIHospital)",
+                UserName = "Saigon International Maternity Hospital (SIHospital)",
                 Email = "info@sihospital.com.vn",
                 PhoneNumber = "0899-909-269",
                 Password = HashPassword("clinic#22"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 05),
-                Address = "63 Bùi Thị Xuân, Phường Phạm Ngũ Lão, Quận 1, TP. Hồ Chí Minh, Việt Nam",
+                Address = "63 Bui Thi Xuan Street, Pham Ngu Lao Ward, District 1, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -4301,10 +4315,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = sihospitalClinicId,
                 UserId = sihospitalClinicUserId,
-                Address = "63 Bùi Thị Xuân, Phường Phạm Ngũ Lão, Quận 1, TP. Hồ Chí Minh, Việt Nam",
-                Description = "SIHospital là bệnh viện chuyên sâu sản phụ khoa, nhi sơ sinh và hỗ trợ sinh sản (IVF) với hơn 24 năm kinh nghiệm. Được biết đến với các dịch vụ khám thai định kỳ, siêu âm, khám phụ khoa, hỗ trợ sinh sản, tư vấn tiền sản, chăm sóc bà mẹ & trẻ em chất lượng cao tại trung tâm TP.HCM.",
+                Address = "63 Bui Thi Xuan Street, Pham Ngu Lao Ward, District 1, Ho Chi Minh City, Vietnam",
+                Description = "SIHospital is a specialized hospital in obstetrics, gynecology, neonatology, and assisted reproduction (IVF) with over 24 years of experience. It is known for services such as antenatal check-ups, ultrasound, gynecological examinations, infertility treatment, prenatal counseling, and high-quality maternal & child care in the center of Ho Chi Minh City.",
                 IsInsuranceAccepted = true,
-                Specializations = "Sản-Phụ khoa / khám thai định kỳ;Siêu âm thai (2D, 3D, 4D);Khám & điều trị phụ khoa;Hỗ trợ sinh sản / IVF / hiếm muộn;Tư vấn tiền sản;Tầm soát dị tật thai nhi;Sinh thường / sinh mổ;Sơ sinh;Khám dịch vụ sản phụ khoa;Khám bệnh theo yêu cầu;Xét nghiệm sản phụ khoa;Khám bệnh bảo hiểm y tế",
+                Specializations = "Obstetrics & Gynecology / Antenatal check-ups;Fetal ultrasound (2D, 3D, 4D);Gynecological examination & treatment;Infertility / IVF / Assisted reproduction;Prenatal counseling;Fetal malformation screening;Normal delivery / Cesarean section;Neonatology;Private gynecology & obstetrics services;On-demand medical examination;Obstetrics & gynecology laboratory tests;Health insurance covered services",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 05),
                 IsDeleted = false
@@ -4318,11 +4332,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = sihospitalDoctorUser1Id,
-                    UserName = "BS.CKI Lê Nguyễn Quang Huy",
+                    UserName = "MD Specialist I Le Nguyen Quang Huy",
                     Email = "lenguyenquanghuy@gmail.com",
                     PhoneNumber = "0899-909-269",
                     Password = HashPassword("doctor#49"),
-                    Address = "SIHospital, Quận 1, TP. HCM",
+                    Address = "SIHospital, District 1, Ho Chi Minh City",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -4333,11 +4347,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = sihospitalDoctorUser2Id,
-                    UserName = "BS.CKI Dương Thị Kim Cúc",
+                    UserName = "MD Specialist I Duong Thi Kim Cuc",
                     Email = "duongthikimcuc@gmail.com",
                     PhoneNumber = "0899-909-269",
                     Password = HashPassword("doctor#50"),
-                    Address = "SIHospital, Quận 1, TP. HCM",
+                    Address = "SIHospital, District 1, Ho Chi Minh City",
                     CreationDate = new DateTime(2025, 09, 05),
                     RoleId = 7,
                     Avatar = null,
@@ -4358,11 +4372,11 @@ namespace Server.Infrastructure.Data
                     UserId = sihospitalDoctorUser1Id,
                     ClinicId = sihospitalClinicId,
                     Gender = "Male",
-                    Specialization = "Phụ khoa / khám phụ khoa",
-                    Certificate = "Chuyên khoa I",
+                    Specialization = "Gynecology / Gynecological examination",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 15,
-                    WorkPosition = "Bác sĩ phụ khoa",
-                    Description = "Một trong các bác sĩ thuộc đội ngũ SIHospital, thực hiện khám phụ khoa & hỗ trợ sản phụ khoa.",
+                    WorkPosition = "Gynecologist",
+                    Description = "One of the doctors at SIHospital, specializing in gynecological examinations and obstetrics & gynecology support.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 },
@@ -4372,11 +4386,11 @@ namespace Server.Infrastructure.Data
                     UserId = sihospitalDoctorUser2Id,
                     ClinicId = sihospitalClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Chuyên khoa I",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Tham gia khám thai / đỡ đẻ tại SIHospital.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Participates in antenatal check-ups and deliveries at SIHospital.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 05)
                 }
@@ -4391,11 +4405,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = sihospitalConsultantUser1Id,
-                    UserName = "ThS.BS.CKII Trần Anh Tuấn",
+                    UserName = "MSc, MD Specialist II Tran Anh Tuan",
                     Email = "trananhtuan@gmail.com",
                     PhoneNumber = "0899-909-269",
                     Password = HashPassword("consultant#37"),
-                    Address = "SIHospital, Quận 1, TP. HCM",
+                    Address = "SIHospital, District 1, Ho Chi Minh City",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -4407,11 +4421,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = sihospitalConsultantUser2Id,
-                    UserName = "ThS.BS.CKII Đặng Thị Hiện",
+                    UserName = "MSc, MD Specialist II Dang Thi Hien",
                     Email = "dangthihien@gmail.com",
                     PhoneNumber = "0899-909-269",
                     Password = HashPassword("consultant#38"),
-                    Address = "SIHospital, Quận 1, TP. HCM",
+                    Address = "SIHospital, District 1, Ho Chi Minh City",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -4423,11 +4437,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = sihospitalConsultantUser3Id,
-                    UserName = "BS Nguyễn Thị Thu Hồng",
+                    UserName = "MD Nguyen Thi Thu Hong",
                     Email = "nguyenthithuhong@gmail.com",
                     PhoneNumber = "0899-909-269",
                     Password = HashPassword("consultant#39"),
-                    Address = "SIHospital, Quận 1, TP. HCM",
+                    Address = "SIHospital, District 1, Ho Chi Minh City",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -4449,8 +4463,8 @@ namespace Server.Infrastructure.Data
                     Id = sihospitalConsultant1Id,
                     UserId = sihospitalConsultantUser1Id,
                     ClinicId = sihospitalClinicId,
-                    Specialization = "Phó Giám đốc Y khoa / Sản phụ khoa",
-                    Certificate = "Thạc sĩ, Chuyên khoa II",
+                    Specialization = "Deputy Medical Director / Obstetrics & Gynecology",
+                    Certificate = "Master, Specialist Level II",
                     Gender = "Male",
                     ExperienceYears = 28,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -4461,8 +4475,8 @@ namespace Server.Infrastructure.Data
                     Id = sihospitalConsultant2Id,
                     UserId = sihospitalConsultantUser2Id,
                     ClinicId = sihospitalClinicId,
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Thạc sĩ, CKII",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Master, Specialist Level II",
                     Gender = "Female",
                     ExperienceYears = 31,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -4473,8 +4487,8 @@ namespace Server.Infrastructure.Data
                     Id = sihospitalConsultant3Id,
                     UserId = sihospitalConsultantUser3Id,
                     ClinicId = sihospitalClinicId,
-                    Specialization = "Trưởng khoa Phòng sinh / Sản phụ khoa",
-                    Certificate = "BSCKII",
+                    Specialization = "Head of Delivery Department / Obstetrics & Gynecology",
+                    Certificate = "Specialist Level II",
                     Gender = "Female",
                     ExperienceYears = 26,
                     CreationDate = new DateTime(2025, 09, 05),
@@ -4494,7 +4508,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = sihospitalClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Dịch vụ sản phụ khoa tốt, khám thai rõ, bác sĩ tận tâm.",
+                    Comment = "Good obstetrics and gynecology services, clear antenatal check-ups, dedicated doctors.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -4503,7 +4517,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = sihospitalClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Siêu âm hình thái thai nhi đẹp, phòng sạch, chi phí cao nhưng đáng giá.",
+                    Comment = "Detailed fetal ultrasound, clean rooms, high cost but worth it.",
                     CreationDate = new DateTime(2025, 09, 05)
                 },
                 new Feedback
@@ -4512,12 +4526,13 @@ namespace Server.Infrastructure.Data
                     ClinicId = sihospitalClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Quy trình đặt khám thuận tiện, hỗ trợ tư vấn khi có nguy cơ cao.",
+                    Comment = "Convenient booking process, good counseling support for high-risk cases.",
                     CreationDate = new DateTime(2025, 09, 05)
                 }
             );
 
-            // Bệnh viện Đa khoa Quốc tế Sài Gòn (Saigon Healthcare)
+
+            // Saigon International General Clinic (Saigon Healthcare)
 
             // Seed Saigon Healthcare Clinic User
             var saigonHealthcareClinicUserId = Guid.NewGuid();
@@ -4531,7 +4546,7 @@ namespace Server.Infrastructure.Data
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "45 Thành Thái, Phường Diên Hồng, Quận 10, TP. Hồ Chí Minh, Việt Nam",
+                Address = "45 Thanh Thai Street, Dien Hong Ward, District 10, Ho Chi Minh City, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
@@ -4544,10 +4559,10 @@ namespace Server.Infrastructure.Data
             {
                 Id = saigonHealthcareClinicId,
                 UserId = saigonHealthcareClinicUserId,
-                Address = "45 Thành Thái, Phường Diên Hồng, Quận 10, TP. Hồ Chí Minh, Việt Nam",
-                Description = "Saigon Healthcare Clinic là phòng khám đa khoa tư nhân có nhiều chuyên khoa, trong đó có sản phụ khoa / khám thai. Cung cấp dịch vụ khám thai định kỳ, siêu âm sản khoa, khám phụ khoa, tư vấn sức khỏe sinh sản. Khung giờ khám linh hoạt, dịch vụ chăm sóc toàn diện cho mẹ bầu.",
+                Address = "45 Thanh Thai Street, Dien Hong Ward, District 10, Ho Chi Minh City, Vietnam",
+                Description = "Saigon Healthcare Clinic is a private multi-specialty clinic with various departments, including obstetrics and gynecology / prenatal care. It provides periodic prenatal check-ups, obstetric ultrasounds, gynecological examinations, and reproductive health counseling. Flexible consultation hours and comprehensive maternal care services.",
                 IsInsuranceAccepted = false,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa;Khám phụ khoa;Tư vấn sức khỏe sinh sản;Khám dịch vụ phụ nữ;Khám bệnh theo yêu cầu",
+                Specializations = "Periodic prenatal check-ups;Obstetric ultrasound;Gynecological examination;Reproductive health counseling;Women's healthcare services;On-demand medical consultation",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
@@ -4558,11 +4573,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = saigonHealthcareDoctorUser1Id,
-                UserName = "BS Nguyễn Thị Minh Trúc",
+                UserName = "Dr. Nguyen Thi Minh Truc",
                 Email = "nguyenthiminhtrucSgHealthcare@gmail.com",
                 PhoneNumber = "098 226 45 45",
                 Password = HashPassword("doctor#51"),
-                Address = "Khoa Sản phụ khoa, Saigon Healthcare Clinic, Quận 10, TP.HCM",
+                Address = "Department of Obstetrics & Gynecology, Saigon Healthcare Clinic, District 10, HCMC",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -4579,11 +4594,11 @@ namespace Server.Infrastructure.Data
                 UserId = saigonHealthcareDoctorUser1Id,
                 ClinicId = saigonHealthcareClinicId,
                 Gender = "Female",
-                Specialization = "Khám thai & siêu âm sản khoa",
-                Certificate = "Bác sĩ Chuyên khoa I",
+                Specialization = "Prenatal care & obstetric ultrasound",
+                Certificate = "Specialist Doctor Level I",
                 ExperienceYear = 12,
-                WorkPosition = "Bác sĩ sản phụ khoa",
-                Description = "Khám thai định kỳ, theo dõi thai kỳ bình thường, siêu âm sản khoa tại clinic này.",
+                WorkPosition = "Obstetrician-Gynecologist",
+                Description = "Provides regular prenatal check-ups, monitors normal pregnancy, and performs obstetric ultrasounds at this clinic.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
@@ -4593,11 +4608,11 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = saigonHealthcareConsultantUser1Id,
-                UserName = "BSCKI Phạm Thị Hồng Mai",
+                UserName = "Dr. Pham Thi Hong Mai",
                 Email = "phamthihongmai@gmail.com",
                 PhoneNumber = "098 226 45 45",
                 Password = HashPassword("consultant#40"),
-                Address = "Saigon Healthcare Clinic, Quận 10, TP.HCM",
+                Address = "Saigon Healthcare Clinic, District 10, HCMC",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -4614,8 +4629,8 @@ namespace Server.Infrastructure.Data
                 Id = saigonHealthcareConsultant1Id,
                 UserId = saigonHealthcareConsultantUser1Id,
                 ClinicId = saigonHealthcareClinicId,
-                Specialization = "Sản phụ khoa",
-                Certificate = "Bác sĩ Chuyên khoa I",
+                Specialization = "Obstetrics & Gynecology",
+                Certificate = "Specialist Doctor Level I",
                 Gender = "Female",
                 ExperienceYears = 25,
                 CreationDate = new DateTime(2025, 09, 17),
@@ -4634,7 +4649,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = saigonHealthcareClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám sản phụ khoa nhanh, bác sĩ nhiệt tình; phòng khám sạch sẽ.",
+                    Comment = "Quick obstetrics & gynecology consultation, attentive doctors; clean clinic.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -4643,7 +4658,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = saigonHealthcareClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Chi phí hơi cao, nhưng mình thấy dịch vụ tương xứng.",
+                    Comment = "The cost is a bit high, but the service is worth it.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -4652,57 +4667,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = saigonHealthcareClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Siêu âm thai tốt, có bác sĩ nữ nên mẹ bầu cảm giác thoải mái.",
+                    Comment = "Good prenatal ultrasound, having a female doctor makes expectant mothers feel comfortable.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Đa khoa tỉnh Bình Dương
 
-            // Seed Bình Dương Clinic User
+            // Binh Duong General Hospital
+
+            // Seed Binh Duong Clinic User
             var binhduongClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = binhduongClinicUserId,
-                UserName = "Bệnh viện Đa khoa Bình Dương",
+                UserName = "Binh Duong General Hospital",
                 Email = "benhvienbinhduong.bdgh@gmail.com",
                 PhoneNumber = "02743 822920",
                 Password = HashPassword("clinic#24"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Số 05, đường Phạm Ngọc Thạch, Phường Phú Lợi, Thành phố Thủ Dầu Một, tỉnh Bình Dương, Việt Nam",
+                Address = "No. 05, Pham Ngoc Thach Street, Phu Loi Ward, Thu Dau Mot City, Binh Duong Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bình Dương Clinic
+            // Seed Binh Duong Clinic
             var binhduongClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = binhduongClinicId,
                 UserId = binhduongClinicUserId,
-                Address = "Số 05, đường Phạm Ngọc Thạch, Phường Phú Lợi, Thành phố Thủ Dầu Một, tỉnh Bình Dương, Việt Nam",
-                Description = "Bệnh viện Đa khoa tỉnh Bình Dương là bệnh viện đa khoa hạng I, thành lập năm 1890 (từ Nhà thương Phú Cường), có chức năng khám chữa bệnh đa khoa lớn cho người dân địa phương. Khoa Phụ sản hoạt động với quy mô lớn để cung cấp dịch vụ khám thai, đỡ đẻ, tư vấn sản phụ khoa. Bệnh viện đang trong quá trình đổi tên và mở rộng cơ sở, có dự án mới 1.500 giường bệnh.",
+                Address = "No. 05, Pham Ngoc Thach Street, Phu Loi Ward, Thu Dau Mot City, Binh Duong Province, Vietnam",
+                Description = "Binh Duong General Hospital is a Grade I general hospital, established in 1890 (originating from Phu Cuong Hospital), serving as a major healthcare facility for local residents. The Obstetrics & Gynecology Department operates on a large scale, providing prenatal care, delivery, and gynecology consultation. The hospital is undergoing renaming and expansion, with a new 1,500-bed project in development.",
                 IsInsuranceAccepted = true,
-                Specializations = "Đa khoa tổng hợp;Sản phụ khoa;Khám thai định kỳ;Siêu âm sản khoa;Phụ khoa;Đỡ đẻ / sinh thường và sinh mổ;Tư vấn tiền sản;Chăm sóc sau sinh;Nhi khoa;Chẩn đoán hình ảnh;Xét nghiệm;Y học cổ truyền;Nội tiết;Vật lý trị liệu",
+                Specializations = "General medicine;Obstetrics & gynecology;Periodic prenatal check-ups;Obstetric ultrasound;Gynecology;Delivery / vaginal birth and C-section;Prenatal counseling;Postnatal care;Pediatrics;Imaging diagnostics;Laboratory testing;Traditional medicine;Endocrinology;Physiotherapy",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Bình Dương Doctor User
+            // Seed Binh Duong Doctor User
             var binhduongDoctorUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = binhduongDoctorUser1Id,
-                UserName = "BS Trần Văn Minh",
+                UserName = "Dr. Tran Van Minh",
                 Email = "doctorvanminh@gmail.com",
                 PhoneNumber = null,
                 Password = HashPassword("doctor#52"),
-                Address = "Khoa Phụ sản, Bệnh viện Đa khoa Bình Dương",
+                Address = "Obstetrics & Gynecology Department, Binh Duong General Hospital",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -4711,7 +4727,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bình Dương Doctor
+            // Seed Binh Duong Doctor
             var binhduongDoctor1Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -4719,27 +4735,27 @@ namespace Server.Infrastructure.Data
                 UserId = binhduongDoctorUser1Id,
                 ClinicId = binhduongClinicId,
                 Gender = "Male",
-                Specialization = "Siêu âm sản khoa",
-                Certificate = "Chuyên khoa I",
+                Specialization = "Obstetric ultrasound",
+                Certificate = "Specialist Level I",
                 ExperienceYear = 15,
-                WorkPosition = "Bác sĩ sản phụ khoa",
-                Description = "Thực hiện siêu âm thai định kỳ, theo dõi phát triển thai nhi.",
+                WorkPosition = "Obstetrician-Gynecologist",
+                Description = "Performs routine prenatal ultrasounds and monitors fetal development.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Bình Dương Consultant Users
+            // Seed Binh Duong Consultant Users
             var binhduongConsultantUser1Id = Guid.NewGuid();
             var binhduongConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = binhduongConsultantUser1Id,
-                    UserName = "BS.CKII Nguyễn Thị Kim Huê",
+                    UserName = "Dr. Nguyen Thi Kim Hue",
                     Email = "kimhue@gmail.com",
                     PhoneNumber = null,
                     Password = HashPassword("consultant#41"),
-                    Address = "Khoa Phụ sản, Bệnh viện Đa khoa Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Binh Duong General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -4751,11 +4767,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = binhduongConsultantUser2Id,
-                    UserName = "ThS. BS Hồ Thị Hoàng Anh",
+                    UserName = "MSc. Dr. Ho Thi Hoang Anh",
                     Email = "hoanganh@gmail.com",
                     PhoneNumber = null,
                     Password = HashPassword("consultant#42"),
-                    Address = "Khoa Phụ sản, Bệnh viện Đa khoa Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Binh Duong General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -4766,7 +4782,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bình Dương Consultants
+            // Seed Binh Duong Consultants
             var binhduongConsultant1Id = Guid.NewGuid();
             var binhduongConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -4775,8 +4791,8 @@ namespace Server.Infrastructure.Data
                     Id = binhduongConsultant1Id,
                     UserId = binhduongConsultantUser1Id,
                     ClinicId = binhduongClinicId,
-                    Specialization = "Sản phụ khoa / khám thai & tư vấn sản phụ khoa",
-                    Certificate = "Chuyên khoa II",
+                    Specialization = "Obstetrics & Gynecology / Prenatal care & consultation",
+                    Certificate = "Specialist Level II",
                     Gender = "Female",
                     ExperienceYears = 30,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -4787,8 +4803,8 @@ namespace Server.Infrastructure.Data
                     Id = binhduongConsultant2Id,
                     UserId = binhduongConsultantUser2Id,
                     ClinicId = binhduongClinicId,
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Thạc sĩ, Chuyên khoa I/II",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Master’s Degree, Specialist Level I/II",
                     Gender = "Female",
                     ExperienceYears = 25,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -4796,7 +4812,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bình Dương Feedbacks
+            // Seed Binh Duong Feedbacks
             var binhduongFeedback1Id = Guid.NewGuid();
             var binhduongFeedback2Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(
@@ -4806,7 +4822,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai tại BV Bình Dương ổn, bác sĩ tận tâm, phòng khám phụ sản khá đông nên chờ lâu.",
+                    Comment = "Prenatal care at Binh Duong General Hospital is good, dedicated doctors, but the obstetrics department is quite crowded so waiting time is long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -4815,59 +4831,60 @@ namespace Server.Infrastructure.Data
                     ClinicId = binhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Dịch vụ sản phụ khoa được cải thiện; cơ sở vật chất tốt hơn nhưng cần tăng số lượng bác sĩ sản.",
+                    Comment = "Obstetrics & gynecology services have improved; facilities are better but the number of obstetricians should be increased.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Hoàn Mỹ Bình Dương
 
-            // Seed Hoàn Mỹ Bình Dương Clinic User
+            // Hoan My Binh Duong Hospital
+
+            // Seed Hoan My Binh Duong Clinic User
             var hoanmyBinhduongClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hoanmyBinhduongClinicUserId,
-                UserName = "Bệnh viện Hoàn Mỹ Bình Dương",
+                UserName = "Hoan My Binh Duong Hospital",
                 Email = "info@hoanmy.com",
                 PhoneNumber = "0274 3777 999",
                 Password = HashPassword("clinic#25"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "45 Hồ Văn Cống, Phường Tương Bình Hiệp, TP. Thủ Dầu Một, Bình Dương, Việt Nam",
+                Address = "45 Ho Van Cong, Tuong Binh Hiep Ward, Thu Dau Mot City, Binh Duong, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Hoàn Mỹ Bình Dương Clinic
+            // Seed Hoan My Binh Duong Clinic
             var hoanmyBinhduongClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = hoanmyBinhduongClinicId,
                 UserId = hoanmyBinhduongClinicUserId,
-                Address = "45 Hồ Văn Cống, Phường Tương Bình Hiệp, TP. Thủ Dầu Một, Bình Dương, Việt Nam",
-                Description = "Bệnh viện Hoàn Mỹ Bình Dương là bệnh viện tư nhân cao cấp trong hệ thống Hoàn Mỹ, cung cấp đa dạng dịch vụ y tế, bao gồm Sản-Phụ khoa với gói sanh trọn gói, khám thai định kỳ, dịch vụ đỡ đẻ, sinh thường & mổ, hỗ trợ sản phụ và chăm sóc sau sinh. Bệnh viện có các cơ sở vật chất hiện đại và phòng gia đình dành cho nhu cầu thai sản.",
+                Address = "45 Ho Van Cong, Tuong Binh Hiep Ward, Thu Dau Mot City, Binh Duong, Vietnam",
+                Description = "Hoan My Binh Duong Hospital is a high-quality private hospital under the Hoan My system, providing a wide range of healthcare services. Its Obstetrics & Gynecology Department offers maternity packages, prenatal check-ups, natural delivery & C-section services, maternal support, and postpartum care. The hospital is equipped with modern facilities and family rooms tailored for maternity needs.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Sản phụ khoa;Sinh thường;Sinh mổ;Gói sanh trọn gói;Siêu âm sản khoa;Khám phụ khoa;Chăm sóc bà mẹ & trẻ sơ sinh;Khám dịch vụ sản phụ khoa;Cấp cứu sản khoa;Phòng gia đình sinh;Dịch vụ đưa rước sản phụ",
+                Specializations = "Prenatal check-ups;Obstetrics & Gynecology;Natural birth;Cesarean birth;Maternity package;Obstetric ultrasound;Gynecology check-up;Mother & newborn care;Obstetrics & gynecology services;Emergency obstetrics;Family birthing room;Maternity pick-up service",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Hoàn Mỹ Bình Dương Doctor Users
+            // Seed Hoan My Binh Duong Doctor Users
             var hoanmyBinhduongDoctorUser1Id = Guid.NewGuid();
             var hoanmyBinhduongDoctorUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = hoanmyBinhduongDoctorUser1Id,
-                    UserName = "BS Nguyễn Thị Minh Thảo",
+                    UserName = "Dr. Nguyen Thi Minh Thao",
                     Email = "minhhao@gmail.com",
                     PhoneNumber = "0274 3777 999",
                     Password = HashPassword("doctor#53"),
-                    Address = "Hoàn Mỹ Bình Dương, Khoa Sản phụ khoa",
+                    Address = "Hoan My Binh Duong, Obstetrics & Gynecology Department",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -4878,11 +4895,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = hoanmyBinhduongDoctorUser2Id,
-                    UserName = "BS Trần Văn Hoàng",
+                    UserName = "Dr. Tran Van Hoang",
                     Email = "tranvanhoang@gmail.com",
                     PhoneNumber = "0274 3777 999",
                     Password = HashPassword("doctor#54"),
-                    Address = "Hoàn Mỹ Bình Dương, Khoa Sản phụ khoa",
+                    Address = "Hoan My Binh Duong, Obstetrics & Gynecology Department",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -4892,7 +4909,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Hoàn Mỹ Bình Dương Doctors
+            // Seed Hoan My Binh Duong Doctors
             var hoanmyBinhduongDoctor1Id = Guid.NewGuid();
             var hoanmyBinhduongDoctor2Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(
@@ -4902,11 +4919,11 @@ namespace Server.Infrastructure.Data
                     UserId = hoanmyBinhduongDoctorUser1Id,
                     ClinicId = hoanmyBinhduongClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa / sinh thường",
-                    Certificate = "Chuyên khoa I",
+                    Specialization = "Obstetrics & Gynecology / Natural birth",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 13,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện sinh thường, theo dõi thai kỳ tại Hoàn Mỹ Bình Dương",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs natural deliveries and provides prenatal care at Hoan My Binh Duong.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -4916,26 +4933,26 @@ namespace Server.Infrastructure.Data
                     UserId = hoanmyBinhduongDoctorUser2Id,
                     ClinicId = hoanmyBinhduongClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa / sinh mổ",
-                    Certificate = "Chuyên khoa II",
+                    Specialization = "Obstetrics & Gynecology / Cesarean birth",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 18,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện mổ lấy thai, chăm sóc sản phụ có nguy cơ cao",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs C-sections and provides care for high-risk pregnancies.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Hoàn Mỹ Bình Dương Consultant User
+            // Seed Hoan My Binh Duong Consultant User
             var hoanmyBinhduongConsultantUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hoanmyBinhduongConsultantUser1Id,
-                UserName = "BS chuyên sản Hoàn Mỹ Bình Dương",
+                UserName = "OB/GYN Consultant - Hoan My Binh Duong",
                 Email = "hoanmyConsultant@gmail.com",
                 PhoneNumber = "0274 3777 999",
                 Password = HashPassword("consultant#43"),
-                Address = "Hoàn Mỹ Bình Dương, Khoa Sản phụ khoa",
+                Address = "Hoan My Binh Duong, Obstetrics & Gynecology Department",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -4945,22 +4962,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Hoàn Mỹ Bình Dương Consultant
+            // Seed Hoan My Binh Duong Consultant
             var hoanmyBinhduongConsultant1Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = hoanmyBinhduongConsultant1Id,
                 UserId = hoanmyBinhduongConsultantUser1Id,
                 ClinicId = hoanmyBinhduongClinicId,
-                Specialization = "Sản phụ khoa / khám thai",
-                Certificate = "Bác sĩ chuyên khoa I/II",
+                Specialization = "Obstetrics & Gynecology / Prenatal check-ups",
+                Certificate = "Specialist Doctor Level I/II",
                 Gender = "Female",
                 ExperienceYears = 15,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Hoàn Mỹ Bình Dương Feedbacks
+            // Seed Hoan My Binh Duong Feedbacks
             var hoanmyBinhduongFeedback1Id = Guid.NewGuid();
             var hoanmyBinhduongFeedback2Id = Guid.NewGuid();
             var hoanmyBinhduongFeedback3Id = Guid.NewGuid();
@@ -4971,7 +4988,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = hoanmyBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Dịch vụ sanh trọn gói tốt, bác sĩ tận tâm, phòng sinh gia đình đẹp.",
+                    Comment = "Good maternity package service, dedicated doctors, and beautiful family birthing rooms.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -4980,7 +4997,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = hoanmyBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Chi phí hợp lý so với các bệnh viện tư, siêu âm thai rõ nét.",
+                    Comment = "Reasonable cost compared to other private hospitals, clear ultrasound imaging.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -4989,48 +5006,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = hoanmyBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Thủ tục nhanh, dịch vụ hỗ trợ sau sinh tốt, tuy nhiên chờ khám ban ngày hơi đông.",
+                    Comment = "Fast procedures, good postpartum support service, but daytime check-up queues are a bit long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Đa khoa Medic Bình Dương
 
-            // Seed Medic Bình Dương Clinic User
+            // Medic Binh Duong General Hospital
+
+            // Seed Medic Binh Duong Clinic User
             var medicBinhduongClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = medicBinhduongClinicUserId,
-                UserName = "Bệnh viện Đa khoa Medic Bình Dương",
+                UserName = "Medic Binh Duong General Hospital",
                 Email = "info@medicbinhduong.vn",
                 PhoneNumber = "0274 3846 997",
                 Password = HashPassword("clinic#26"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "123 Đại lộ Bình Dương, Phường Phú Thọ, TP. Thủ Dầu Một, Bình Dương, Việt Nam",
+                Address = "123 Binh Duong Boulevard, Phu Tho Ward, Thu Dau Mot City, Binh Duong, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Medic Bình Dương Clinic
+            // Seed Medic Binh Duong Clinic
             var medicBinhduongClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = medicBinhduongClinicId,
                 UserId = medicBinhduongClinicUserId,
-                Address = "123 Đại lộ Bình Dương, Phường Phú Thọ, TP. Thủ Dầu Một, Bình Dương, Việt Nam",
-                Description = "Bệnh viện Đa khoa Medic Bình Dương là một trong những cơ sở y tế tư nhân trực thuộc hệ thống MEDIC, cung cấp dịch vụ y tế chất lượng cao với thế mạnh về chẩn đoán hình ảnh, xét nghiệm và chuyên khoa Sản phụ khoa. Bệnh viện cung cấp các gói khám thai định kỳ, siêu âm thai 2D/3D/4D, dịch vụ sinh thường, sinh mổ và chăm sóc sau sinh cho thai phụ.",
+                Address = "123 Binh Duong Boulevard, Phu Tho Ward, Thu Dau Mot City, Binh Duong, Vietnam",
+                Description = "Medic Binh Duong General Hospital is one of the private healthcare facilities under the MEDIC system, providing high-quality medical services with strengths in diagnostic imaging, laboratory testing, and obstetrics & gynecology. The hospital offers prenatal check-up packages, 2D/3D/4D ultrasound, normal delivery, C-section services, and postpartum care for mothers.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm thai 2D/3D/4D;Sản phụ khoa;Sinh thường;Sinh mổ;Khám phụ khoa;Chăm sóc trước và sau sinh;Xét nghiệm sàng lọc trước sinh;Tư vấn dinh dưỡng thai kỳ",
+                Specializations = "Prenatal check-up;2D/3D/4D ultrasound;Obstetrics & Gynecology;Normal delivery;Cesarean section;Gynecological examination;Pre- and postnatal care;Prenatal screening tests;Pregnancy nutrition counseling",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Medic Bình Dương Doctor Users
+            // Seed Medic Binh Duong Doctor Users
             var medicBinhduongDoctorUser1Id = Guid.NewGuid();
             var medicBinhduongDoctorUser2Id = Guid.NewGuid();
             var medicBinhduongDoctorUser3Id = Guid.NewGuid();
@@ -5038,11 +5056,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = medicBinhduongDoctorUser1Id,
-                    UserName = "BSCKII Nguyễn Thị Mai Anh",
+                    UserName = "Assoc. Prof. Dr. Nguyen Thi Mai Anh",
                     Email = "maianh@medicbinhduong.vn",
                     PhoneNumber = "0274 3846 997",
                     Password = HashPassword("doctor#55"),
-                    Address = "Khoa Sản phụ khoa, Medic Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Medic Binh Duong",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5053,11 +5071,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = medicBinhduongDoctorUser2Id,
-                    UserName = "BS Lê Thanh Bình",
+                    UserName = "Dr. Le Thanh Binh",
                     Email = "thanhbinh@medicbinhduong.vn",
                     PhoneNumber = "0274 3846 997",
                     Password = HashPassword("doctor#56"),
-                    Address = "Khoa Sản phụ khoa, Medic Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Medic Binh Duong",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5068,11 +5086,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = medicBinhduongDoctorUser3Id,
-                    UserName = "BS Nguyễn Thị Ngọc Hương",
+                    UserName = "Dr. Nguyen Thi Ngoc Huong",
                     Email = "ngochuong@medicbinhduong.vn",
                     PhoneNumber = "0274 3846 997",
                     Password = HashPassword("doctor#57"),
-                    Address = "Khoa Sản phụ khoa, Medic Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Medic Binh Duong",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5082,7 +5100,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Medic Bình Dương Doctors
+            // Seed Medic Binh Duong Doctors
             var medicBinhduongDoctor1Id = Guid.NewGuid();
             var medicBinhduongDoctor2Id = Guid.NewGuid();
             var medicBinhduongDoctor3Id = Guid.NewGuid();
@@ -5093,11 +5111,11 @@ namespace Server.Infrastructure.Data
                     UserId = medicBinhduongDoctorUser1Id,
                     ClinicId = medicBinhduongClinicId,
                     Gender = "Female",
-                    Specialization = "Sinh thường, sinh mổ",
-                    Certificate = "Bác sĩ chuyên khoa II Sản phụ khoa",
+                    Specialization = "Normal delivery, cesarean section",
+                    Certificate = "Specialist Level II in Obstetrics & Gynecology",
                     ExperienceYear = 20,
-                    WorkPosition = "Trưởng khoa Sản phụ khoa",
-                    Description = "Có kinh nghiệm hơn 20 năm trong điều trị sản phụ khoa, trực tiếp theo dõi và đỡ sinh tại bệnh viện.",
+                    WorkPosition = "Head of Obstetrics & Gynecology Department",
+                    Description = "Over 20 years of experience in obstetrics and gynecology, directly monitoring and assisting deliveries at the hospital.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -5107,11 +5125,11 @@ namespace Server.Infrastructure.Data
                     UserId = medicBinhduongDoctorUser2Id,
                     ClinicId = medicBinhduongClinicId,
                     Gender = "Male",
-                    Specialization = "Siêu âm và chẩn đoán trước sinh",
-                    Certificate = "Bác sĩ chuyên khoa I",
+                    Specialization = "Ultrasound and prenatal diagnosis",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ siêu âm sản khoa",
-                    Description = "Chuyên về siêu âm thai, chẩn đoán các bất thường và tư vấn chăm sóc mẹ bầu.",
+                    WorkPosition = "Obstetric ultrasound doctor",
+                    Description = "Specialized in fetal ultrasound, diagnosing abnormalities, and counseling mothers-to-be.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -5121,28 +5139,28 @@ namespace Server.Infrastructure.Data
                     UserId = medicBinhduongDoctorUser3Id,
                     ClinicId = medicBinhduongClinicId,
                     Gender = "Female",
-                    Specialization = "Khám phụ khoa và chăm sóc sau sinh",
-                    Certificate = "Bác sĩ đa khoa, định hướng Sản phụ khoa",
+                    Specialization = "Gynecological examination and postpartum care",
+                    Certificate = "General practitioner with orientation in Obstetrics & Gynecology",
                     ExperienceYear = 8,
-                    WorkPosition = "Bác sĩ Sản phụ khoa",
-                    Description = "Theo dõi sức khỏe mẹ và bé sau sinh, hỗ trợ tư vấn kế hoạch hóa gia đình.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Monitoring the health of mothers and babies after birth, providing family planning counseling.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Medic Bình Dương Consultant Users
+            // Seed Medic Binh Duong Consultant Users
             var medicBinhduongConsultantUser1Id = Guid.NewGuid();
             var medicBinhduongConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = medicBinhduongConsultantUser1Id,
-                    UserName = "ThS.BS Nguyễn Thị Hồng Vân",
+                    UserName = "MSc. Dr. Nguyen Thi Hong Van",
                     Email = "hongvan@medicbinhduong.vn",
                     PhoneNumber = "0274 3846 997",
                     Password = HashPassword("consultant#44"),
-                    Address = "Khoa Sản phụ khoa, Medic Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Medic Binh Duong",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -5154,11 +5172,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = medicBinhduongConsultantUser2Id,
-                    UserName = "BSCKI Trần Minh Quân",
+                    UserName = "Specialist I. Dr. Tran Minh Quan",
                     Email = "minhquan@medicbinhduong.vn",
                     PhoneNumber = "0274 3846 997",
                     Password = HashPassword("consultant#45"),
-                    Address = "Khoa Sản phụ khoa, Medic Bình Dương",
+                    Address = "Obstetrics & Gynecology Department, Medic Binh Duong",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -5169,7 +5187,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Medic Bình Dương Consultants
+            // Seed Medic Binh Duong Consultants
             var medicBinhduongConsultant1Id = Guid.NewGuid();
             var medicBinhduongConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -5178,8 +5196,8 @@ namespace Server.Infrastructure.Data
                     Id = medicBinhduongConsultant1Id,
                     UserId = medicBinhduongConsultantUser1Id,
                     ClinicId = medicBinhduongClinicId,
-                    Specialization = "Tư vấn thai kỳ, siêu âm thai",
-                    Certificate = "Thạc sĩ, Bác sĩ chuyên khoa I Sản phụ khoa",
+                    Specialization = "Pregnancy counseling, fetal ultrasound",
+                    Certificate = "Master’s Degree, Specialist Level I in Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 14,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -5190,8 +5208,8 @@ namespace Server.Infrastructure.Data
                     Id = medicBinhduongConsultant2Id,
                     UserId = medicBinhduongConsultantUser2Id,
                     ClinicId = medicBinhduongClinicId,
-                    Specialization = "Tư vấn sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology counseling",
+                    Certificate = "Specialist Level I in Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 12,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -5199,7 +5217,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Medic Bình Dương Feedbacks
+            // Seed Medic Binh Duong Feedbacks
             var medicBinhduongFeedback1Id = Guid.NewGuid();
             var medicBinhduongFeedback2Id = Guid.NewGuid();
             var medicBinhduongFeedback3Id = Guid.NewGuid();
@@ -5211,7 +5229,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = medicBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Dịch vụ siêu âm 4D rõ nét, bác sĩ tư vấn kỹ lưỡng cho mẹ bầu.",
+                    Comment = "4D ultrasound images are clear, and the doctor gives thorough advice to expectant mothers.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5220,7 +5238,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = medicBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Đội ngũ bác sĩ sản khoa tận tâm, sinh mổ an toàn, chăm sóc hậu phẫu chu đáo.",
+                    Comment = "Dedicated obstetric team, safe C-section, and attentive postoperative care.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5229,7 +5247,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = medicBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Thủ tục khá nhanh, nhưng vào giờ cao điểm thì chờ hơi lâu.",
+                    Comment = "Procedures are quite fast, but waiting time is a bit long during peak hours.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5238,59 +5256,60 @@ namespace Server.Infrastructure.Data
                     ClinicId = medicBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Có dịch vụ khám thai trọn gói, rất tiện lợi và chi phí hợp lý.",
+                    Comment = "The hospital provides comprehensive prenatal care packages, very convenient and reasonably priced.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Sài Gòn Bình Dương
 
-            // Seed Sài Gòn Bình Dương Clinic User
+            // Saigon Binh Duong General Hospital
+
+            // Seed Saigon Binh Duong Clinic User
             var saigonBinhduongClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = saigonBinhduongClinicUserId,
-                UserName = "Bệnh viện Đa khoa Sài Gòn Bình Dương",
+                UserName = "Saigon Binh Duong General Hospital",
                 Email = "info@bvsaigonbinhduong.vn",
                 PhoneNumber = "(0274) 366 8989",
                 Password = HashPassword("clinic#27"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "39 Hồ Văn Cống, Khu phố 4, Phường Tương Bình Hiệp, Thủ Dầu Một, Bình Dương, Việt Nam",
+                Address = "39 Ho Van Cong, Quarter 4, Tuong Binh Hiep Ward, Thu Dau Mot City, Binh Duong, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Sài Gòn Bình Dương Clinic
+            // Seed Saigon Binh Duong Clinic
             var saigonBinhduongClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = saigonBinhduongClinicId,
                 UserId = saigonBinhduongClinicUserId,
-                Address = "39 Hồ Văn Cống, Khu phố 4, Phường Tương Bình Hiệp, Thủ Dầu Một, Bình Dương, Việt Nam",
-                Description = "Bệnh viện Đa khoa Sài Gòn Bình Dương là bệnh viện đa khoa tư nhân, thành lập năm 2009, có đội ngũ bác sĩ chuyên sâu và trang thiết bị hiện đại. Khoa Sản phụ khoa là một trong các khoa chủ chốt, thực hiện khám thai, theo dõi thai nhi định kỳ, sinh thường và sinh mổ, kế hoạch hóa sinh sản.",
+                Address = "39 Ho Van Cong, Quarter 4, Tuong Binh Hiep Ward, Thu Dau Mot City, Binh Duong, Vietnam",
+                Description = "Saigon Binh Duong General Hospital is a private general hospital established in 2009, with a team of specialized doctors and modern equipment. The Obstetrics & Gynecology Department is one of the key departments, providing prenatal check-ups, periodic fetal monitoring, natural delivery, C-section, and family planning services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Sản phụ khoa;Sinh thường / Sinh mổ;Kế hoạch hóa sinh sản;Siêu âm tổng quát / siêu âm thai;Khám phụ khoa;Phẫu thuật phụ khoa;Cận lâm sàng (xét nghiệm, chẩn đoán hình ảnh);Ngoại - Sản - Gây mê hồi sức;Khám bệnh & cấp cứu",
+                Specializations = "Prenatal check-ups;Obstetrics & Gynecology;Natural birth / C-section;Family planning;General ultrasound / Fetal ultrasound;Gynecology check-ups;Gynecological surgery;Paraclinical services (lab tests, diagnostic imaging);Obstetrics - Surgery - Anesthesiology;Emergency & general check-ups",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Sài Gòn Bình Dương Doctor Users
+            // Seed Saigon Binh Duong Doctor Users
             var saigonBinhduongDoctorUser1Id = Guid.NewGuid();
             var saigonBinhduongDoctorUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = saigonBinhduongDoctorUser1Id,
-                    UserName = "BS Phụ khoa / Sản phụ khoa",
+                    UserName = "OB-GYN / Gynecologist",
                     Email = "BsSaiGonBinhDuong@gmail.com",
                     PhoneNumber = "(0274) 366 8989",
                     Password = HashPassword("doctor#58"),
-                    Address = "Khoa Sản, Bệnh viện Đa khoa Sài Gòn Bình Dương",
+                    Address = "Obstetrics Department, Saigon Binh Duong General Hospital",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5301,11 +5320,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = saigonBinhduongDoctorUser2Id,
-                    UserName = "BS Sinh mổ / sản phụ khoa",
+                    UserName = "OB-GYN / C-section Specialist",
                     Email = "doctorSaiGon@gmail.com",
                     PhoneNumber = "(0274) 366 8989",
                     Password = HashPassword("doctor#59"),
-                    Address = "Khoa Sản, Bệnh viện Đa khoa Sài Gòn Bình Dương",
+                    Address = "Obstetrics Department, Saigon Binh Duong General Hospital",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5315,7 +5334,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Sài Gòn Bình Dương Doctors
+            // Seed Saigon Binh Duong Doctors
             var saigonBinhduongDoctor1Id = Guid.NewGuid();
             var saigonBinhduongDoctor2Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(
@@ -5325,11 +5344,11 @@ namespace Server.Infrastructure.Data
                     UserId = saigonBinhduongDoctorUser1Id,
                     ClinicId = saigonBinhduongClinicId,
                     Gender = "Female",
-                    Specialization = "Siêu âm thai / theo dõi thai thường",
-                    Certificate = "Chuyên khoa I",
+                    Specialization = "Fetal ultrasound / Prenatal care",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện khám thai định kỳ, siêu âm tổng quát và theo dõi thai nhi.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs routine prenatal check-ups, general ultrasound, and fetal monitoring.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -5339,26 +5358,26 @@ namespace Server.Infrastructure.Data
                     UserId = saigonBinhduongDoctorUser2Id,
                     ClinicId = saigonBinhduongClinicId,
                     Gender = "Female",
-                    Specialization = "Sinh mổ, sản phụ khoa nguy cơ",
-                    Certificate = "Chuyên khoa II",
+                    Specialization = "C-section, high-risk pregnancy",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 18,
-                    WorkPosition = "Bác sĩ sản mổ",
-                    Description = "Thực hiện sinh mổ & xử lý các sản phụ có nguy cơ cao.",
+                    WorkPosition = "Obstetric Surgeon",
+                    Description = "Performs C-sections and handles high-risk pregnancies.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Sài Gòn Bình Dương Consultant User
+            // Seed Saigon Binh Duong Consultant User
             var saigonBinhduongConsultantUser1Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = saigonBinhduongConsultantUser1Id,
-                UserName = "BS CK I Lê Chí Thiện",
+                UserName = "Dr. Le Chi Thien",
                 Email = "lechithien@gmail.com",
                 PhoneNumber = "(0274) 366 8989",
                 Password = HashPassword("consultant#46"),
-                Address = "Khoa Sản, Bệnh viện Đa khoa Sài Gòn Bình Dương",
+                Address = "Obstetrics Department, Saigon Binh Duong General Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -5368,22 +5387,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Sài Gòn Bình Dương Consultant
+            // Seed Saigon Binh Duong Consultant
             var saigonBinhduongConsultant1Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = saigonBinhduongConsultant1Id,
                 UserId = saigonBinhduongConsultantUser1Id,
                 ClinicId = saigonBinhduongClinicId,
-                Specialization = "Sản phụ khoa / trưởng khoa Sản",
-                Certificate = "Bác sĩ Chuyên khoa I",
+                Specialization = "Obstetrics & Gynecology / Head of Obstetrics Dept.",
+                Certificate = "Specialist Level I",
                 Gender = "Male",
                 ExperienceYears = 20,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Sài Gòn Bình Dương Feedbacks
+            // Seed Saigon Binh Duong Feedbacks
             var saigonBinhduongFeedback1Id = Guid.NewGuid();
             var saigonBinhduongFeedback2Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(
@@ -5393,7 +5412,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = saigonBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám thai ổn, bác sĩ kiêm khám phụ khoa rất tận tâm, máy móc hiện đại.",
+                    Comment = "Good prenatal check-ups, the OB-GYN is very dedicated, modern equipment available.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5402,59 +5421,60 @@ namespace Server.Infrastructure.Data
                     ClinicId = saigonBinhduongClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Chi phí hơi cao so với bệnh viện công, chờ khám dịch vụ cần sắp lịch trước.",
+                    Comment = "Costs are higher compared to public hospitals, and appointments for service check-ups need to be scheduled in advance.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Vạn Phúc (chuỗi bệnh viện Vạn Phúc, có khoa sản)
 
-            // Seed Vạn Phúc City Clinic User
+            // Van Phuc General Hospital System (Van Phuc Chain)
+
+            // Seed Van Phuc City Clinic User
             var vanphucClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = vanphucClinicUserId,
-                UserName = "Bệnh viện Đa khoa Vạn Phúc City",
+                UserName = "Van Phuc City General Hospital",
                 Email = "vanphuccity@gmail.com",
                 PhoneNumber = "1900 966 979",
                 Password = HashPassword("clinic#28"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Số 1, Đường 10, Khu nhà ở Vạn Phúc 1, P. Hiệp Bình, TP. Thủ Đức, TP. Hồ Chí Minh, Việt Nam; Có hai cơ sở chính tại TP. Thủ Dầu Một (Vạn Phúc 1) và TP. Dĩ An (Vạn Phúc 2), tỉnh Bình Dương.",
+                Address = "No. 1, Street 10, Van Phuc Residential Area 1, Hiep Binh Ward, Thu Duc City, Ho Chi Minh City, Vietnam; Two main branches located in Thu Dau Mot City (Van Phuc 1) and Di An City (Van Phuc 2), Binh Duong Province.",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Vạn Phúc City Clinic
+            // Seed Van Phuc City Clinic
             var vanphucClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = vanphucClinicId,
                 UserId = vanphucClinicUserId,
-                Address = "Số 1, Đường 10, Khu nhà ở Vạn Phúc 1, P. Hiệp Bình, TP. Thủ Đức, TP. Hồ Chí Minh, Việt Nam; Có hai cơ sở chính tại TP. Thủ Dầu Một (Vạn Phúc 1) và TP. Dĩ An (Vạn Phúc 2), tỉnh Bình Dương.",
-                Description = "Hệ thống Bệnh viện Đa khoa Vạn Phúc City là bệnh viện tư nhân với hai cơ sở lớn tại Bình Dương, cung cấp đa khoa, có khoa Sản phụ khoa mạnh. Cung cấp dịch vụ khám thai, khám sản trọn gói, sanh thường, sanh mổ, chăm sóc hậu sản và chăm sóc sản phụ & trẻ sơ sinh với trang thiết bị y tế hiện đại.",
+                Address = "No. 1, Street 10, Van Phuc Residential Area 1, Hiep Binh Ward, Thu Duc City, Ho Chi Minh City, Vietnam; Two main branches located in Thu Dau Mot City (Van Phuc 1) and Di An City (Van Phuc 2), Binh Duong Province.",
+                Description = "Van Phuc City General Hospital System is a private hospital chain with two large branches in Binh Duong, offering multi-specialty services with a strong Obstetrics & Gynecology Department. Provides prenatal check-ups, maternity packages, natural delivery, C-sections, postpartum care, and mother & newborn care with modern medical equipment.",
                 IsInsuranceAccepted = true,
-                Specializations = "Sản phụ khoa;Khám thai định kỳ;Sanh thường & sanh mổ;Khám phụ khoa;Chăm sóc hậu sản;Khám dịch vụ theo yêu cầu;Siêu âm sản khoa;Tầm soát ung thư phụ khoa;Khám sức khỏe sinh sản;Khám bảo hiểm y tế",
+                Specializations = "Obstetrics & Gynecology;Prenatal check-ups;Natural birth & C-sections;Gynecology check-ups;Postpartum care;On-demand medical services;Obstetric ultrasound;Gynecologic cancer screening;Reproductive health check-ups;Health insurance check-ups",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Vạn Phúc City Doctor Users
+            // Seed Van Phuc City Doctor Users
             var vanphucDoctorUser1Id = Guid.NewGuid();
             var vanphucDoctorUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = vanphucDoctorUser1Id,
-                    UserName = "BS sản phụ khoa Vạn Phúc 1",
+                    UserName = "OB-GYN Doctor (Van Phuc 1)",
                     Email = "vanphuccitydoctor@gmail.com",
                     PhoneNumber = null,
                     Password = HashPassword("doctor#60"),
-                    Address = "Cơ sở Vạn Phúc 1, Bình Dương",
+                    Address = "Van Phuc 1 Branch, Binh Duong",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5465,11 +5485,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vanphucDoctorUser2Id,
-                    UserName = "BS sản phụ khoa Vạn Phúc 2",
+                    UserName = "OB-GYN Doctor (Van Phuc 2)",
                     Email = "vanphucDoctor@gmail.com",
                     PhoneNumber = null,
                     Password = HashPassword("doctor#61"),
-                    Address = "Cơ sở Vạn Phúc 2, Bình Dương",
+                    Address = "Van Phuc 2 Branch, Binh Duong",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -5479,7 +5499,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Vạn Phúc City Doctors
+            // Seed Van Phuc City Doctors
             var vanphucDoctor1Id = Guid.NewGuid();
             var vanphucDoctor2Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(
@@ -5489,11 +5509,11 @@ namespace Server.Infrastructure.Data
                     UserId = vanphucDoctorUser1Id,
                     ClinicId = vanphucClinicId,
                     Gender = "Female",
-                    Specialization = "Khám thai & chăm sóc sau sinh",
-                    Certificate = "Bác sĩ Chuyên khoa I",
+                    Specialization = "Prenatal check-ups & Postpartum care",
+                    Certificate = "Specialist Level I",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện khám thai định kỳ, đỡ đẻ, chăm sóc sản phụ bình thường.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs routine prenatal check-ups, deliveries, and postpartum care for normal cases.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -5503,28 +5523,28 @@ namespace Server.Infrastructure.Data
                     UserId = vanphucDoctorUser2Id,
                     ClinicId = vanphucClinicId,
                     Gender = "Male",
-                    Specialization = "Sinh mổ / sản phụ khoa nguy cơ cao",
-                    Certificate = "Bác sĩ Chuyên khoa II",
+                    Specialization = "C-sections / High-risk pregnancies",
+                    Certificate = "Specialist Level II",
                     ExperienceYear = 18,
-                    WorkPosition = "Bác sĩ sản phụ khoa",
-                    Description = "Thực hiện sinh mổ, xử lý sản phụ có nguy cơ cao.",
+                    WorkPosition = "Obstetrician & Gynecologist",
+                    Description = "Performs C-sections and manages high-risk pregnancies.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Vạn Phúc City Consultant Users
+            // Seed Van Phuc City Consultant Users
             var vanphucConsultantUser1Id = Guid.NewGuid();
             var vanphucConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = vanphucConsultantUser1Id,
-                    UserName = "BS Lâm Thị Kim Ngân",
+                    UserName = "Dr. Lam Thi Kim Ngan",
                     Email = "kimngan@gmail.com",
                     PhoneNumber = null,
                     Password = HashPassword("consultant#47"),
-                    Address = "Khoa Sản phụ khoa, Vạn Phúc City",
+                    Address = "OB-GYN Dept., Van Phuc City",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -5536,11 +5556,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vanphucConsultantUser2Id,
-                    UserName = "BS Hoàng Thị Minh Hiếu",
+                    UserName = "Dr. Hoang Thi Minh Hieu",
                     Email = "minhhieu@gmail.com",
                     PhoneNumber = null,
                     Password = HashPassword("consultant#48"),
-                    Address = "Khoa Sản phụ khoa, Vạn Phúc City",
+                    Address = "OB-GYN Dept., Van Phuc City",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -5551,7 +5571,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Vạn Phúc City Consultants
+            // Seed Van Phuc City Consultants
             var vanphucConsultant1Id = Guid.NewGuid();
             var vanphucConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -5560,8 +5580,8 @@ namespace Server.Infrastructure.Data
                     Id = vanphucConsultant1Id,
                     UserId = vanphucConsultantUser1Id,
                     ClinicId = vanphucClinicId,
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ Chuyên khoa I",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -5572,8 +5592,8 @@ namespace Server.Infrastructure.Data
                     Id = vanphucConsultant2Id,
                     UserId = vanphucConsultantUser2Id,
                     ClinicId = vanphucClinicId,
-                    Specialization = "Sản phụ khoa / khám bệnh sản",
-                    Certificate = "Bác sĩ Chuyên khoa I / CKII",
+                    Specialization = "Obstetrics & Gynecology / Maternity care",
+                    Certificate = "Specialist Level I / II",
                     Gender = "Female",
                     ExperienceYears = 18,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -5581,7 +5601,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Vạn Phúc City Feedbacks
+            // Seed Van Phuc City Feedbacks
             var vanphucFeedback1Id = Guid.NewGuid();
             var vanphucFeedback2Id = Guid.NewGuid();
             var vanphucFeedback3Id = Guid.NewGuid();
@@ -5592,7 +5612,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vanphucClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám sản phụ khoa tốt, phòng khám sạch, chi phí hợp lý.",
+                    Comment = "Good OB-GYN services, clean facilities, reasonable costs.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5601,7 +5621,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vanphucClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Sanh thường tại Vạn Phúc 1 ổn, điều dưỡng và bác sĩ tận tâm.",
+                    Comment = "Normal delivery at Van Phuc 1 was good, nurses and doctors were very caring.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5610,57 +5630,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = vanphucClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Siêu âm thai rõ ràng, được tư vấn kỹ, cảm thấy an tâm.",
+                    Comment = "Clear fetal ultrasound results, thorough consultation, felt reassured.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Đa khoa Mỹ Phước
 
-            // Seed Mỹ Phước Clinic User
+            // My Phuoc General Hospital
+
+            // Seed My Phuoc Clinic User
             var myphuocClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = myphuocClinicUserId,
-                UserName = "Bệnh viện Đa khoa Mỹ Phước",
+                UserName = "My Phuoc General Hospital",
                 Email = "customerservice.mph@gmail.com",
                 PhoneNumber = "0274 3535 777",
                 Password = HashPassword("clinic#29"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Đường TC3, Tổ 6, Khu phố 3, Phường Mỹ Phước, Thành phố Bến Cát, tỉnh Bình Dương, Việt Nam",
+                Address = "TC3 Street, Group 6, Quarter 3, My Phuoc Ward, Ben Cat City, Binh Duong Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Mỹ Phước Clinic
+            // Seed My Phuoc Clinic
             var myphuocClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = myphuocClinicId,
                 UserId = myphuocClinicUserId,
-                Address = "Đường TC3, Tổ 6, Khu phố 3, Phường Mỹ Phước, Thành phố Bến Cát, tỉnh Bình Dương, Việt Nam",
-                Description = "Bệnh viện Đa khoa Mỹ Phước (MPH) là bệnh viện tư nhân thuộc Tổng Công ty Becamex IDC, phục vụ cho người dân Bình Dương và vùng lân cận. Bệnh viện có quy mô lớn (giai đoạn II: 489 giường; 16 chuyên khoa, 8 phòng chức năng) với nhiều trang thiết bị hiện đại. Khoa Sản thực hiện các dịch vụ khám thai, sinh thường / sinh mổ, tầm soát dị tật thai nhi, xét nghiệm trước sinh, và chăm sóc sản phụ & trẻ sơ sinh.",
+                Address = "TC3 Street, Group 6, Quarter 3, My Phuoc Ward, Ben Cat City, Binh Duong Province, Vietnam",
+                Description = "My Phuoc General Hospital (MPH) is a private hospital under Becamex IDC Corporation, serving people in Binh Duong and neighboring areas. The hospital has a large scale (Phase II: 489 beds; 16 specialties, 8 functional rooms) with many modern medical equipment. The Obstetrics Department provides antenatal check-ups, normal delivery/cesarean section, fetal malformation screening, prenatal testing, and maternal & neonatal care.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm sản khoa;Khám phụ khoa;Sinh thường & sinh mổ;Tư vấn tiền sản;Tầm soát dị tật thai nhi;Xét nghiệm trước sinh;Đặt vòng / cấy que tránh thai;Chăm sóc sản phụ & hậu sản;Các dịch vụ dành cho Mẹ & Bé;Khám bệnh BHYT;Cấp cứu sản khoa",
+                Specializations = "Antenatal care;Obstetric ultrasound;Gynecology examination;Normal delivery & Cesarean section;Prenatal counseling;Fetal anomaly screening;Prenatal testing;IUD/Implant contraception;Maternal & postpartum care;Mother & Baby services;Health insurance check-up;Obstetric emergency",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Mỹ Phước Doctor User
+            // Seed My Phuoc Doctor User
             var myphuocDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = myphuocDoctorUserId,
-                UserName = "BS sản phụ khoa Mỹ Phước",
+                UserName = "My Phuoc OB-GYN Doctor",
                 Email = "myphuocdoctor@gmail.com",
                 PhoneNumber = "0274 3535 777",
                 Password = HashPassword("doctor#62"),
-                Address = "Khoa Phụ sản, Bệnh viện Đa khoa Mỹ Phước",
+                Address = "Obstetrics Department, My Phuoc General Hospital",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -5669,7 +5690,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Mỹ Phước Doctor
+            // Seed My Phuoc Doctor
             var myphuocDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -5677,25 +5698,25 @@ namespace Server.Infrastructure.Data
                 UserId = myphuocDoctorUserId,
                 ClinicId = myphuocClinicId,
                 Gender = "Female",
-                Specialization = "Khám thai & dịch vụ Sản phụ khoa",
-                Certificate = "Bác sĩ chuyên khoa I",
+                Specialization = "Antenatal check-up & OB-GYN services",
+                Certificate = "Specialist Doctor Level I",
                 ExperienceYear = 10,
-                WorkPosition = "Bác sĩ sản phụ khoa",
-                Description = "Thực hiện quy trình sinh con tại MPH, khám sản phụ khoa thông thường & dịch vụ mẹ - bé.",
+                WorkPosition = "OB-GYN Doctor",
+                Description = "Performs childbirth procedures at MPH, general gynecology examination & mother-baby services.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Mỹ Phước Consultant User
+            // Seed My Phuoc Consultant User
             var myphuocConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = myphuocConsultantUserId,
-                UserName = "BS tư vấn sản phụ khoa Mỹ Phước",
+                UserName = "My Phuoc OB-GYN Consultant",
                 Email = "tuvanmyphuoc@gmail.com",
                 PhoneNumber = "0274 3535 777",
                 Password = HashPassword("consultant#49"),
-                Address = "Khoa Phụ sản, Bệnh viện Đa khoa Mỹ Phước",
+                Address = "Obstetrics Department, My Phuoc General Hospital",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -5705,22 +5726,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Mỹ Phước Consultant
+            // Seed My Phuoc Consultant
             var myphuocConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = myphuocConsultantId,
                 UserId = myphuocConsultantUserId,
                 ClinicId = myphuocClinicId,
-                Specialization = "Sản phụ khoa / khám thai & siêu âm",
-                Certificate = "Bác sĩ chuyên khoa I",
+                Specialization = "OB-GYN / antenatal care & ultrasound",
+                Certificate = "Specialist Doctor Level I",
                 Gender = "Female",
                 ExperienceYears = 10,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Mỹ Phước Feedback
+            // Seed My Phuoc Feedback
             var myphuocFeedback1Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(new Feedback
             {
@@ -5728,58 +5749,57 @@ namespace Server.Infrastructure.Data
                 ClinicId = myphuocClinicId,
                 UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                 Rating = 9,
-                Comment = "Em cảm thấy mình rất may mắn và hết sức hài lòng khi chọn bệnh viện Mỹ Phước là nơi đồng hành cùng em trong suốt quá trình mang thai và vượt cạn … ”",
+                Comment = "I feel very lucky and extremely satisfied when choosing My Phuoc Hospital as my companion throughout pregnancy and childbirth...",
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Trung tâm Y tế Bến Cát
 
-            // Add after the last existing seed block in SeedData(ModelBuilder modelBuilder)
+            // Ben Cat Medical Center
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Clinic User
+            // Seed Ben Cat Medical Center Clinic User
             var bencatClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = bencatClinicUserId,
-                UserName = "Trung tâm Y tế Thị xã Bến Cát",
+                UserName = "Ben Cat Medical Center",
                 Email = "hotro@ttytebencat.com",
                 PhoneNumber = "0274 3564 247",
                 Password = HashPassword("clinic#30"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Khu phố 5, Phường Mỹ Phước, Thị xã Bến Cát, Tỉnh Bình Dương, Việt Nam",
+                Address = "Quarter 5, My Phuoc Ward, Ben Cat Town, Binh Duong Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Clinic
+            // Seed Ben Cat Medical Center Clinic
             var bencatClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = bencatClinicId,
                 UserId = bencatClinicUserId,
-                Address = "Khu phố 5, Phường Mỹ Phước, Thị xã Bến Cát, Tỉnh Bình Dương, Việt Nam",
-                Description = "Trung tâm Y tế thị xã Bến Cát là cơ sở khám chữa bệnh tuyến huyện (hạng III) trực thuộc Sở Y tế Bình Dương. Địa phương có khoa Sản, cung cấp các dịch vụ phụ sản, khám phụ khoa, chăm sóc sức khỏe sinh sản cho người dân địa phương. Cơ sở vật chất đang được cải thiện, có giai đoạn 2 mở rộng. Hoạt động 24/7 cho cấp cứu. ([cskh.org.vn](https://cskh.org.vn/trung-tam-y-te-thi-xa-ben-cat/))",
+                Address = "Quarter 5, My Phuoc Ward, Ben Cat Town, Binh Duong Province, Vietnam",
+                Description = "Ben Cat Medical Center is a district-level healthcare facility (Class III) under the Department of Health of Binh Duong. The center has an Obstetrics Department, providing obstetrics, gynecology, and reproductive healthcare services for local people. Facilities are being improved, with Phase 2 expansion ongoing. 24/7 emergency services available. ([cskh.org.vn](https://cskh.org.vn/trung-tam-y-te-thi-xa-ben-cat/))",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ / Sản phụ khoa;Khám phụ khoa;Chăm sóc sức khỏe sinh sản;Đỡ đẻ / Sinh thường;Siêu âm sản khoa;Xét nghiệm phụ sản;Cấp cứu sản khoa;Khám bệnh bảo hiểm y tế;Khám nội tổng quát;Nhi khoa;Chẩn đoán hình ảnh",
+                Specializations = "Antenatal care / OB-GYN;Gynecology examination;Reproductive healthcare;Delivery / Natural birth;Obstetric ultrasound;OB-GYN laboratory tests;Obstetric emergency;Health insurance examination;General internal medicine;Pediatrics;Medical imaging",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Doctor User (simulated)
+            // Seed Ben Cat Medical Center Doctor User (simulated)
             var bencatDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = bencatDoctorUserId,
-                UserName = "Bác sĩ trung tâm y tế Bến Cát",
+                UserName = "Ben Cat Medical Center Doctor",
                 Email = "bacsytrungtambencat@gmail.com",
                 PhoneNumber = "0274 3564 247",
                 Password = HashPassword("doctor#63"),
-                Address = "Khoa Sản, Trung tâm Y tế Thị xã Bến Cát",
+                Address = "Obstetrics Department, Ben Cat Medical Center",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -5788,7 +5808,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Doctor (simulated)
+            // Seed Ben Cat Medical Center Doctor (simulated)
             var bencatDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -5796,25 +5816,25 @@ namespace Server.Infrastructure.Data
                 UserId = bencatDoctorUserId,
                 ClinicId = bencatClinicId,
                 Gender = "Female",
-                Specialization = "Sản phụ khoa / đỡ đẻ",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "OB-GYN / Delivery",
+                Certificate = "Specialist Doctor Level I – OB-GYN",
                 ExperienceYear = 20,
-                WorkPosition = "Bác sĩ",
-                Description = "Thực hiện sinh thường, khám sản phụ khoa tại trung tâm địa phương.",
+                WorkPosition = "Doctor",
+                Description = "Performs natural delivery, OB-GYN examination at the local medical center.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Consultant User (simulated)
+            // Seed Ben Cat Medical Center Consultant User (simulated)
             var bencatConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = bencatConsultantUserId,
-                UserName = "Tư vấn viên cơ sở y tế Bến Cát",
+                UserName = "Ben Cat Medical Center Consultant",
                 Email = "tuvanytebencat@gmail.com",
                 PhoneNumber = "0274 3564 247",
                 Password = HashPassword("consultant#50"),
-                Address = "Khoa Sản, Trung tâm Y tế Thị xã Bến Cát",
+                Address = "Obstetrics Department, Ben Cat Medical Center",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -5824,22 +5844,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Consultant (simulated)
+            // Seed Ben Cat Medical Center Consultant (simulated)
             var bencatConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = bencatConsultantId,
                 UserId = bencatConsultantUserId,
                 ClinicId = bencatClinicId,
-                Specialization = "Sản phụ khoa / khám thai",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "OB-GYN / Antenatal care",
+                Certificate = "Specialist Doctor Level I – OB-GYN",
                 Gender = "Male",
                 ExperienceYears = 13,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thị xã Bến Cát Feedback
+            // Seed Ben Cat Medical Center Feedback
             var bencatFeedback1Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(new Feedback
             {
@@ -5847,58 +5867,57 @@ namespace Server.Infrastructure.Data
                 ClinicId = bencatClinicId,
                 UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                 Rating = 4,
-                Comment = "Người dân phản hồi dịch vụ sản phụ khoa có cải thiện; bác sĩ thân thiện nhưng lúc đông phải chờ lâu.",
+                Comment = "People reported that OB-GYN services have improved; doctors are friendly but waiting time can be long during peak hours.",
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Trung tâm Y tế Tân Uyên
 
-            // Add after the last existing seed block in SeedData(ModelBuilder modelBuilder)
+            // Tan Uyen Medical Center
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Clinic User
+            // Seed Tan Uyen Medical Center Clinic User
             var tanuyenClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = tanuyenClinicUserId,
-                UserName = "Trung tâm Y tế Thành phố Tân Uyên",
+                UserName = "Tan Uyen City Medical Center",
                 Email = "ttytetanuyen@gmail.com",
                 PhoneNumber = "(0274) 3656 340",
                 Password = HashPassword("clinic#31"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Đường ĐT 747, Khu phố 7, Phường Uyên Hưng, Thành phố Tân Uyên, Tỉnh Bình Dương, Việt Nam",
+                Address = "DT 747 Road, Quarter 7, Uyen Hung Ward, Tan Uyen City, Binh Duong Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Clinic
+            // Seed Tan Uyen Medical Center Clinic
             var tanuyenClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = tanuyenClinicId,
                 UserId = tanuyenClinicUserId,
-                Address = "Đường ĐT 747, Khu phố 7, Phường Uyên Hưng, Thành phố Tân Uyên, Tỉnh Bình Dương, Việt Nam",
-                Description = "Trung tâm Y tế Thành phố Tân Uyên là cơ sở y tế công lập tuyến thành phố, cung cấp dịch vụ khám chữa bệnh đa khoa, có chuyên khoa sản phụ khoa. Các dịch vụ sản phụ khoa bao gồm khám phụ khoa, khám thai, dịch vụ cấp cứu sản khoa, chăm sóc thai phụ địa phương. Dịch vụ BHYT được chấp nhận.",
+                Address = "DT 747 Road, Quarter 7, Uyen Hung Ward, Tan Uyen City, Binh Duong Province, Vietnam",
+                Description = "Tan Uyen City Medical Center is a public healthcare facility at the city level, providing general medical services with an obstetrics and gynecology department. Services include gynecological examinations, prenatal checkups, obstetric emergency care, and maternal care for local patients. Health insurance is accepted.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Sản phụ khoa;Khám phụ khoa;Siêu âm sản khoa;Chăm sóc sức khỏe sinh sản;Cấp cứu sản khoa;Khám bệnh đa khoa;Nhi khoa;Chẩn đoán hình ảnh;Xét nghiệm",
+                Specializations = "Prenatal checkups;Obstetrics & Gynecology;Gynecological exams;Obstetric ultrasound;Reproductive health care;Obstetric emergency;General medicine;Pediatrics;Imaging diagnostics;Laboratory testing",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Doctor User (simulated)
+            // Seed Tan Uyen Medical Center Doctor User (simulated)
             var tanuyenDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = tanuyenDoctorUserId,
-                UserName = "Bác sĩ trung tâm y tế Tân Uyên",
+                UserName = "Doctor at Tan Uyen Medical Center",
                 Email = "bacsitanuyen@gmail.com",
                 PhoneNumber = "(0274) 3656 340",
                 Password = HashPassword("doctor#64"),
-                Address = "Khoa Sản, Trung tâm Y tế Thành phố Tân Uyên",
+                Address = "Obstetrics Department, Tan Uyen City Medical Center",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -5907,7 +5926,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Doctor (simulated)
+            // Seed Tan Uyen Medical Center Doctor (simulated)
             var tanuyenDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -5915,25 +5934,25 @@ namespace Server.Infrastructure.Data
                 UserId = tanuyenDoctorUserId,
                 ClinicId = tanuyenClinicId,
                 Gender = "Male",
-                Specialization = "Đỡ đẻ / sinh thường",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "Natural birth / vaginal delivery",
+                Certificate = "Specialist Doctor Level I – Obstetrics and Gynecology",
                 ExperienceYear = 18,
-                WorkPosition = "Bác sĩ",
-                Description = "Thực hiện sinh thường, chăm sóc sản phụ địa phương và khám thai định kỳ.",
+                WorkPosition = "Doctor",
+                Description = "Performs vaginal deliveries, provides maternal care for local patients, and conducts routine prenatal checkups.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Consultant User (simulated)
+            // Seed Tan Uyen Medical Center Consultant User (simulated)
             var tanuyenConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = tanuyenConsultantUserId,
-                UserName = "Tư vấn viên trung tâm y tế thành phố Tân Uyên",
+                UserName = "Consultant at Tan Uyen Medical Center",
                 Email = "tuvantanuyen@gmail.com",
                 PhoneNumber = "(0274) 3656 340",
                 Password = HashPassword("consultant#51"),
-                Address = "Khoa Sản, Trung tâm Y tế Thành phố Tân Uyên",
+                Address = "Obstetrics Department, Tan Uyen City Medical Center",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -5943,22 +5962,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Consultant (simulated)
+            // Seed Tan Uyen Medical Center Consultant (simulated)
             var tanuyenConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = tanuyenConsultantId,
                 UserId = tanuyenConsultantUserId,
                 ClinicId = tanuyenClinicId,
-                Specialization = "Sản phụ khoa / khám thai & tư vấn sản phụ khoa",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "Obstetrics & Gynecology / prenatal checkups & gynecological consultation",
+                Certificate = "Specialist Doctor Level I – Obstetrics and Gynecology",
                 Gender = "Male",
                 ExperienceYears = 14,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thành phố Tân Uyên Feedbacks
+            // Seed Tan Uyen Medical Center Feedbacks
             var tanuyenFeedback1Id = Guid.NewGuid();
             var tanuyenFeedback2Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(
@@ -5968,7 +5987,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = tanuyenClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 4,
-                    Comment = "Dịch vụ sản phụ khoa ổn; bác sĩ địa phương thân thiện; nhưng bệnh nhân nhiều nên phải chờ.",
+                    Comment = "OB-GYN service is fine; local doctors are friendly; but the number of patients is high so waiting time is long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -5977,57 +5996,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = tanuyenClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 4,
-                    Comment = "Khám thai bình thường tại trung tâm gần nhà, tiện lợi; trang thiết bị chưa hiện đại lắm.",
+                    Comment = "Routine prenatal checkup at a nearby medical center, convenient; equipment is not very modern.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Trung tâm Y tế Thuận An
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Clinic User
+            // Thuan An Medical Center
+
+            // Seed Thuan An City Medical Center Clinic User
             var thuananClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thuananClinicUserId,
-                UserName = "Trung tâm Y tế Thành phố Thuận An",
+                UserName = "Thuan An City Medical Center",
                 Email = "bvthuanan@binhduong.gov.vn",
                 PhoneNumber = "0274 3755 434",
                 Password = HashPassword("clinic#32"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Đường Nguyễn Văn Tiết, Khu phố Đông Tư, Phường Lái Thiêu, Thành phố Thuận An, tỉnh Bình Dương, Việt Nam",
+                Address = "Nguyen Van Tiet Street, Dong Tu Quarter, Lai Thieu Ward, Thuan An City, Binh Duong Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Clinic
+            // Seed Thuan An City Medical Center Clinic
             var thuananClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = thuananClinicId,
                 UserId = thuananClinicUserId,
-                Address = "Đường Nguyễn Văn Tiết, Khu phố Đông Tư, Phường Lái Thiêu, Thành phố Thuận An, tỉnh Bình Dương, Việt Nam",
-                Description = "Trung tâm Y tế TP. Thuận An là bệnh viện hạng II công lập, phục vụ khám chữa bệnh đa khoa cho địa bàn Thuận An. Có khoa Sản – Phụ khoa cung cấp dịch vụ khám thai, mổ lấy thai, phụ sản, khám phụ khoa, phẫu thuật nội soi thai ngoài tử cung. Quy mô khoảng 250 giường bệnh. Được hình thành bằng việc hợp nhất các cơ sở y tế địa phương, Trung tâm Y tế – Bệnh viện – Dân số kế hoạch hóa gia đình.",
+                Address = "Nguyen Van Tiet Street, Dong Tu Quarter, Lai Thieu Ward, Thuan An City, Binh Duong Province, Vietnam",
+                Description = "Thuan An City Medical Center is a public Grade II hospital providing general healthcare services for Thuan An area. The Obstetrics & Gynecology Department offers prenatal checkups, cesarean sections, obstetric services, gynecological examinations, and laparoscopic surgery for ectopic pregnancy. It has a capacity of about 250 beds. The center was formed by merging local healthcare facilities, including the Medical Center – Hospital – Family Planning & Population services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Sản phụ khoa / khám phụ khoa;Mổ lấy thai / Phẫu thuật sản phụ khoa;Siêu âm sản khoa;Khám dịch vụ sản phụ khoa;Phẫu thuật nội soi thai ngoài tử cung;Khám sức khỏe sinh sản;Cấp cứu sản khoa;Khám bệnh BHYT;Khám đa khoa / nội, ngoại, nhi;Chẩn đoán hình ảnh & xét nghiệm",
+                Specializations = "Prenatal checkups;Obstetrics & Gynecology / gynecological exams;Cesarean section / obstetric surgery;Obstetric ultrasound;OB-GYN service examinations;Laparoscopic surgery for ectopic pregnancy;Reproductive health checkups;Obstetric emergency;Health insurance examinations;General medicine / internal, surgery, pediatrics;Imaging diagnostics & laboratory tests",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Doctor User (simulated)
+            // Seed Thuan An City Medical Center Doctor User (simulated)
             var thuananDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thuananDoctorUserId,
-                UserName = "Bác sĩ Trung Tâm Y tế TP.Thuận An",
+                UserName = "Doctor at Thuan An Medical Center",
                 Email = "doctortpthuanan@gmail.com",
                 PhoneNumber = "0274 3755 434",
                 Password = HashPassword("doctor#65"),
-                Address = "Khoa Sản, Trung tâm Y tế TP. Thuận An",
+                Address = "Obstetrics Department, Thuan An City Medical Center",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -6036,7 +6056,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Doctor (simulated)
+            // Seed Thuan An City Medical Center Doctor (simulated)
             var thuananDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -6044,25 +6064,25 @@ namespace Server.Infrastructure.Data
                 UserId = thuananDoctorUserId,
                 ClinicId = thuananClinicId,
                 Gender = "Female",
-                Specialization = "Khám thai / đỡ đẻ",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "Prenatal checkups / delivery",
+                Certificate = "Specialist Doctor Level I – Obstetrics and Gynecology",
                 ExperienceYear = 21,
-                WorkPosition = "Bác sĩ",
-                Description = "Thực hiện dịch vụ khám thai định kỳ, đỡ đẻ, mổ lấy thai tại Trung tâm Y tế TP. Thuận An.",
+                WorkPosition = "Doctor",
+                Description = "Provides routine prenatal checkups, delivery, and cesarean sections at Thuan An City Medical Center.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Consultant User (simulated)
+            // Seed Thuan An City Medical Center Consultant User (simulated)
             var thuananConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thuananConsultantUserId,
-                UserName = "Tư vấn viên Trung Tâm y tế TP. Thuận An",
+                UserName = "Consultant at Thuan An Medical Center",
                 Email = "tuvanvientpthuanan@gmail.com",
                 PhoneNumber = "0274 3755 434",
                 Password = HashPassword("consultant#52"),
-                Address = "Khoa Sản, Trung tâm Y tế TP. Thuận An",
+                Address = "Obstetrics Department, Thuan An City Medical Center",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -6072,22 +6092,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Consultant (simulated)
+            // Seed Thuan An City Medical Center Consultant (simulated)
             var thuananConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = thuananConsultantId,
                 UserId = thuananConsultantUserId,
                 ClinicId = thuananClinicId,
-                Specialization = "Sản phụ khoa / khám thai",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "Obstetrics & Gynecology / prenatal consultation",
+                Certificate = "Specialist Doctor Level I – Obstetrics and Gynecology",
                 Gender = "Female",
                 ExperienceYears = 12,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thành phố Thuận An Feedbacks
+            // Seed Thuan An City Medical Center Feedbacks
             var thuananFeedback1Id = Guid.NewGuid();
             var thuananFeedback2Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(
@@ -6097,7 +6117,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = thuananClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 4,
-                    Comment = "Khám sản tại Trung tâm Thuận An tương đối tốt, bác sĩ gần gũi, chi phí hợp lý.",
+                    Comment = "OB-GYN service at Thuan An Medical Center is quite good, doctors are approachable, and costs are reasonable.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6106,57 +6126,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = thuananClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 4,
-                    Comment = "Dịch vụ khám thai ổn, nhưng buổi sáng thường rất đông, chờ lâu.",
+                    Comment = "Prenatal checkup service is fine, but mornings are usually very crowded and waiting time is long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Trung tâm Y tế TP. Thủ Dầu Một
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Clinic User
+            // Thu Dau Mot City Medical Center
+
+            // Seed Thu Dau Mot City Medical Center Clinic User
             var thudaumotClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thudaumotClinicUserId,
-                UserName = "Trung tâm Y tế Thành phố Thủ Dầu Một",
+                UserName = "Thu Dau Mot City Medical Center",
                 Email = "ttytethudaumot@gmail.com",
                 PhoneNumber = "0274 3822 054",
                 Password = HashPassword("clinic#33"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "03 Văn Công Khai, Phú Cường, Thành phố Thủ Dầu Một, tỉnh Bình Dương, Việt Nam",
+                Address = "03 Van Cong Khai, Phu Cuong, Thu Dau Mot City, Binh Duong Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Clinic
+            // Seed Thu Dau Mot City Medical Center Clinic
             var thudaumotClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = thudaumotClinicId,
                 UserId = thudaumotClinicUserId,
-                Address = "03 Văn Công Khai, Phú Cường, Thành phố Thủ Dầu Một, tỉnh Bình Dương, Việt Nam",
-                Description = "Trung tâm Y tế Thành phố Thủ Dầu Một là cơ sở y tế công lập tuyến thành phố, cung cấp khám chữa bệnh đa khoa với các chuyên khoa, trong đó có Sản phụ khoa / Khám thai định kỳ. Trung tâm phục vụ dân cư địa phương và vùng lân cận, chấp nhận BHYT. Các dịch vụ sản phụ khoa có lúc bị đông bệnh nhân do nhu cầu lớn.",
+                Address = "03 Van Cong Khai, Phu Cuong, Thu Dau Mot City, Binh Duong Province, Vietnam",
+                Description = "Thu Dau Mot City Medical Center is a public-level city medical facility providing general healthcare services with multiple specialties, including Obstetrics and Gynecology / Antenatal care. The center serves local residents and neighboring areas, accepts health insurance (BHYT). OB-GYN services can sometimes be crowded due to high demand.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám sản phụ khoa;Khám thai định kỳ;Khám phụ khoa;Siêu âm sản khoa;Chăm sóc sức khỏe sinh sản;Đỡ đẻ / Sinh thường;Phẫu thuật sản phụ khoa cơ bản;Xét nghiệm phụ sản;Khám BHYT;Khám đa khoa nội ngoại",
+                Specializations = "Obstetrics & Gynecology;Antenatal care;Gynecology;Obstetric ultrasound;Reproductive health care;Normal delivery;Basic OB-GYN surgery;Maternity lab tests;Insurance-based medical care;General internal & surgical examinations",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Doctor User (simulated)
+            // Seed Thu Dau Mot City Medical Center Doctor User (simulated)
             var thudaumotDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thudaumotDoctorUserId,
-                UserName = "Bác si Thủ Dầu Một",
+                UserName = "Doctor Thu Dau Mot",
                 Email = "bacsithudaumot@gmail.com",
                 PhoneNumber = "0274 3822 054",
                 Password = HashPassword("doctor#66"),
-                Address = "Khoa Sản, Trung tâm Y tế TP. Thủ Dầu Một",
+                Address = "OB-GYN Department, Thu Dau Mot Medical Center",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -6165,7 +6186,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Doctor (simulated)
+            // Seed Thu Dau Mot City Medical Center Doctor (simulated)
             var thudaumotDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -6173,25 +6194,25 @@ namespace Server.Infrastructure.Data
                 UserId = thudaumotDoctorUserId,
                 ClinicId = thudaumotClinicId,
                 Gender = "Female",
-                Specialization = "Sinh thường",
-                Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                Specialization = "Normal delivery",
+                Certificate = "Specialist Level I – Obstetrics & Gynecology",
                 ExperienceYear = 12,
-                WorkPosition = "Bác sĩ",
-                Description = "Thực hiện sinh thường, khám thai định kỳ, chăm sóc mẹ và bé.",
+                WorkPosition = "Doctor",
+                Description = "Performs normal deliveries, antenatal check-ups, and mother & baby care.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Consultant User (simulated)
+            // Seed Thu Dau Mot City Medical Center Consultant User (simulated)
             var thudaumotConsultantUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thudaumotConsultantUserId,
-                UserName = "Tư vấn viên TDM",
+                UserName = "Consultant TDM",
                 Email = "tuvanthudaumot@gmail.com",
                 PhoneNumber = "0274 3822 054",
                 Password = HashPassword("consultant#53"),
-                Address = "Khoa Sản, Trung tâm Y tế TP. Thủ Dầu Một",
+                Address = "OB-GYN Department, Thu Dau Mot Medical Center",
                 RoleId = 6,
                 Avatar = null,
                 IsDeleted = false,
@@ -6201,22 +6222,22 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Consultant (simulated)
+            // Seed Thu Dau Mot City Medical Center Consultant (simulated)
             var thudaumotConsultantId = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(new Consultant
             {
                 Id = thudaumotConsultantId,
                 UserId = thudaumotConsultantUserId,
                 ClinicId = thudaumotClinicId,
-                Specialization = "Khám thai & tư vấn sản phụ khoa",
-                Certificate = "Sản phụ khoa",
+                Specialization = "Antenatal consultation & OB-GYN",
+                Certificate = "Obstetrics & Gynecology",
                 Gender = "Male",
                 ExperienceYears = 10,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Thành phố Thủ Dầu Một Feedback
+            // Seed Thu Dau Mot City Medical Center Feedback
             var thudaumotFeedback1Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(new Feedback
             {
@@ -6224,56 +6245,56 @@ namespace Server.Infrastructure.Data
                 ClinicId = thudaumotClinicId,
                 UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                 Rating = 4,
-                Comment = "Trung tâm khám sản phụ khoa gần nhà, tiện lợi; tuy nhiên có lúc chờ lâu.",
+                Comment = "The OB-GYN clinic is nearby and convenient; however, sometimes the waiting time is long.",
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Bệnh viện Đa khoa Đồng Nai
+            // Dong Nai General Hospital
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Clinic User
+            // Seed Dong Nai General Hospital Clinic User
             var dongnaiClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = dongnaiClinicUserId,
-                UserName = "Bệnh viện Đa khoa Đồng Nai",
+                UserName = "Dong Nai General Hospital",
                 Email = "info@benhviendongnai.com.vn",
                 PhoneNumber = "0251 896 9966",
                 Password = HashPassword("clinic#34"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Số 2 Đồng Khởi, Phường Tam Hiệp, TP. Biên Hòa, tỉnh Đồng Nai, Việt Nam",
+                Address = "No. 2 Dong Khoi, Tam Hiep Ward, Bien Hoa City, Dong Nai Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Clinic
+            // Seed Dong Nai General Hospital Clinic
             var dongnaiClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = dongnaiClinicId,
                 UserId = dongnaiClinicUserId,
-                Address = "Số 2 Đồng Khởi, Phường Tam Hiệp, TP. Biên Hòa, tỉnh Đồng Nai, Việt Nam",
-                Description = "Bệnh viện Đa khoa Đồng Nai là bệnh viện đa khoa tuyến tỉnh, với quy mô lớn (~1100 giường bệnh), cung cấp đa dạng các chuyên khoa trong đó có chuyên khoa Phụ sản mạnh, thực hiện khám thai, siêu âm, đỡ sinh, chăm sóc sức khỏe sinh sản cho phụ nữ địa phương. Địa chỉ, khoa Phụ sản, lịch khám & dịch vụ phụ sản đều được công khai từ trang của bệnh viện.",
+                Address = "No. 2 Dong Khoi, Tam Hiep Ward, Bien Hoa City, Dong Nai Province, Vietnam",
+                Description = "Dong Nai General Hospital is a provincial-level general hospital with a large capacity (~1100 beds), offering a wide range of specialties including a strong Obstetrics & Gynecology department. It provides antenatal check-ups, ultrasounds, deliveries, and reproductive healthcare for local women. The hospital publishes official addresses, OB-GYN departments, schedules, and maternity services on its website.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Phụ sản / sản phụ khoa;Khám phụ khoa;Siêu âm sản khoa;Đỡ sinh / sinh thường & sinh mổ;Tư vấn tiền sản;Tầm soát dị tật thai nhi;Phòng kế hoạch hóa gia đình;Khám phụ nữ dịch vụ;Khám bệnh tổng quát & các chuyên khoa phụ trợ",
+                Specializations = "Antenatal care;Obstetrics & Gynecology;Gynecology;Obstetric ultrasound;Normal & C-section delivery;Prenatal counseling;Fetal anomaly screening;Family planning;Private women’s clinic;General health check-ups & supporting specialties",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Doctor User (simulated)
+            // Seed Dong Nai General Hospital Doctor User (simulated)
             var dongnaiDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = dongnaiDoctorUserId,
-                UserName = "BSCKI Sản phụ khoa Đồng Nai",
+                UserName = "OB-GYN Specialist Dong Nai",
                 Email = "khoasanbvdkdn@gmail.com",
                 PhoneNumber = "0877.39.38.37",
                 Password = HashPassword("doctor#67"),
-                Address = "Khoa Phụ sản, BV Đa khoa Đồng Nai",
+                Address = "OB-GYN Department, Dong Nai General Hospital",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -6282,7 +6303,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Doctor (simulated)
+            // Seed Dong Nai General Hospital Doctor (simulated)
             var dongnaiDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -6290,27 +6311,27 @@ namespace Server.Infrastructure.Data
                 UserId = dongnaiDoctorUserId,
                 ClinicId = dongnaiClinicId,
                 Gender = "Female",
-                Specialization = "Siêu âm sản khoa / khám thai",
-                Certificate = "BSCKI",
+                Specialization = "Obstetric ultrasound / Antenatal care",
+                Certificate = "Specialist Level I",
                 ExperienceYear = 10,
-                WorkPosition = "Bác sĩ sản phụ khoa",
-                Description = "Thực hiện siêu âm thai, khám định kỳ và theo dõi thai kỳ nguy cơ cao tại khoa Phụ sản BVĐK Đồng Nai.",
+                WorkPosition = "OB-GYN Doctor",
+                Description = "Performs fetal ultrasound, routine check-ups, and monitors high-risk pregnancies at the OB-GYN department of Dong Nai General Hospital.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Consultant Users
+            // Seed Dong Nai General Hospital Consultant Users
             var dongnaiConsultantUser1Id = Guid.NewGuid();
             var dongnaiConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = dongnaiConsultantUser1Id,
-                    UserName = "Thầy thuốc Ưu tú Ths. BS Nguyễn Mạnh Hoan",
+                    UserName = "Meritorious Physician MSc. Dr. Nguyen Manh Hoan",
                     Email = "khoasanbvdkdn@gmail.com",
                     PhoneNumber = "0877.39.38.37",
                     Password = HashPassword("consultant#54"),
-                    Address = "Khoa Phụ sản – BV Đa khoa Đồng Nai, số 2 Đồng Khởi, P. Tam Hòa, Biên Hòa, Đồng Nai",
+                    Address = "OB-GYN Department – Dong Nai General Hospital, 2 Dong Khoi, Tam Hoa, Bien Hoa, Dong Nai",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6322,11 +6343,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = dongnaiConsultantUser2Id,
-                    UserName = "BSCKII Hoàng Lê Minh Tuấn",
+                    UserName = "Specialist Level II Dr. Hoang Le Minh Tuan",
                     Email = "khoasanbvdkdn@gmail.com",
                     PhoneNumber = "0877.39.38.37",
                     Password = HashPassword("consultant#55"),
-                    Address = "Khoa Phụ sản – BV Đa khoa Đồng Nai",
+                    Address = "OB-GYN Department – Dong Nai General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6337,7 +6358,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Consultants
+            // Seed Dong Nai General Hospital Consultants
             var dongnaiConsultant1Id = Guid.NewGuid();
             var dongnaiConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -6346,8 +6367,8 @@ namespace Server.Infrastructure.Data
                     Id = dongnaiConsultant1Id,
                     UserId = dongnaiConsultantUser1Id,
                     ClinicId = dongnaiClinicId,
-                    Specialization = "Sản phụ khoa / trưởng khoa phụ sản",
-                    Certificate = "Ths., Bác sĩ chuyên khoa cao cấp",
+                    Specialization = "OB-GYN / Head of OB-GYN Department",
+                    Certificate = "MSc., Senior Specialist Doctor",
                     Gender = "Male",
                     ExperienceYears = 20,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6358,8 +6379,8 @@ namespace Server.Infrastructure.Data
                     Id = dongnaiConsultant2Id,
                     UserId = dongnaiConsultantUser2Id,
                     ClinicId = dongnaiClinicId,
-                    Specialization = "Sản phụ khoa / phó khoa phụ sản",
-                    Certificate = "Bác sĩ chuyên khoa II",
+                    Specialization = "OB-GYN / Deputy Head of OB-GYN Department",
+                    Certificate = "Specialist Level II",
                     Gender = "Male",
                     ExperienceYears = 18,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6367,7 +6388,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa Đồng Nai Feedbacks
+            // Seed Dong Nai General Hospital Feedbacks
             var dongnaiFeedback1Id = Guid.NewGuid();
             var dongnaiFeedback2Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(
@@ -6377,7 +6398,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = dongnaiClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khoa phụ sản ở Đồng Nai rất mạnh, bác sĩ giàu kinh nghiệm, thiết bị hiện đại; nhưng buổi sáng bệnh nhân đông nên phải chờ lâu.",
+                    Comment = "The OB-GYN department in Dong Nai is very strong, with highly experienced doctors and modern equipment; however, mornings are crowded, so waiting is long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6386,57 +6407,58 @@ namespace Server.Infrastructure.Data
                     ClinicId = dongnaiClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ sinh tại đây tốt, phòng sanh tương đối trang bị tốt; nhưng thủ tục hành chính cần cải thiện.",
+                    Comment = "Delivery services here are good, and delivery rooms are relatively well-equipped; however, administrative procedures need improvement.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Đa khoa Thống Nhất
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Clinic User
+            // Thong Nhat General Hospital (Dong Nai)
+
+            // Seed Thong Nhat General Hospital (Dong Nai) Clinic User
             var thongnhatDNClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thongnhatDNClinicUserId,
-                UserName = "Bệnh viện Đa khoa Thống Nhất (Đồng Nai)",
+                UserName = "Thong Nhat General Hospital (Dong Nai)",
                 Email = "contact@bvthongnhatdn.vn",
                 PhoneNumber = "0251 3883 660",
                 Password = HashPassword("clinic#35"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "234 Quốc lộ 1A, Phường Tân Biên, Thành phố Biên Hòa, Tỉnh Đồng Nai, Việt Nam",
+                Address = "234 National Highway 1A, Tan Bien Ward, Bien Hoa City, Dong Nai Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Clinic
+            // Seed Thong Nhat General Hospital (Dong Nai) Clinic
             var thongnhatDNClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = thongnhatDNClinicId,
                 UserId = thongnhatDNClinicUserId,
-                Address = "234 Quốc lộ 1A, Phường Tân Biên, Thành phố Biên Hòa, Tỉnh Đồng Nai, Việt Nam",
-                Description = "Bệnh viện Đa khoa Thống Nhất là bệnh viện hạng I tuyến tỉnh, với hơn 1.000 giường bệnh, cung cấp đầy đủ các chuyên khoa đa dạng. Khoa Sản có quy mô lớn, thực hiện khám thai, đỡ sinh, sinh thường & sinh mổ, chăm sóc sau sinh, siêu âm sản khoa, hỗ trợ thai phụ và chăm sóc mẹ & bé. Bệnh viện cũng cung cấp dịch vụ khám phụ sản theo yêu cầu.",
+                Address = "234 National Highway 1A, Tan Bien Ward, Bien Hoa City, Dong Nai Province, Vietnam",
+                Description = "Thong Nhat General Hospital is a provincial-level Grade I hospital with more than 1,000 beds, providing comprehensive multi-specialty services. The Obstetrics Department is large-scale, offering antenatal care, delivery (natural birth & C-section), postnatal care, obstetric ultrasound, maternal support, and mother & baby care. The hospital also provides on-demand obstetrics and gynecology services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Sản phụ khoa;Khám phụ khoa;Sinh thường & Sinh mổ;Siêu âm sản khoa;Tư vấn tiền sản;Chăm sóc sản phụ & trẻ sơ sinh;Khám phụ sản dịch vụ;Khám BHYT;Khám bệnh đa khoa",
+                Specializations = "Antenatal check-up;Obstetrics & Gynecology;Gynecology;Natural birth & C-section;Obstetric ultrasound;Prenatal counseling;Maternal & neonatal care;On-demand obstetrics & gynecology;Health insurance services;General medical services",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Doctor User (simulated)
+            // Seed Thong Nhat General Hospital (Dong Nai) Doctor User (simulated)
             var thongnhatDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = thongnhatDoctorUserId,
-                UserName = "BS sản phụ khoa Thống Nhất",
+                UserName = "Obstetrician Thong Nhat",
                 Email = "sbsanphukhoathongnhat@gmail.com",
                 PhoneNumber = "0251 3886 099",
                 Password = HashPassword("doctor#68"),
-                Address = "Khoa Sản, Bệnh viện Đa khoa Thống Nhất, Đồng Nai",
+                Address = "Obstetrics Department, Thong Nhat General Hospital, Dong Nai",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -6445,7 +6467,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Doctor (simulated)
+            // Seed Thong Nhat General Hospital (Dong Nai) Doctor (simulated)
             var thongnhatDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -6453,27 +6475,27 @@ namespace Server.Infrastructure.Data
                 UserId = thongnhatDoctorUserId,
                 ClinicId = thongnhatDNClinicId,
                 Gender = "Female",
-                Specialization = "Khám thai định kỳ / đỡ sinh",
-                Certificate = "Bác sĩ Đa khoa hướng chuyên sản phụ khoa",
+                Specialization = "Antenatal care / delivery",
+                Certificate = "General Practitioner specialized in Obstetrics & Gynecology",
                 ExperienceYear = 10,
-                WorkPosition = "Bác sĩ sản phụ khoa",
-                Description = "Thực hiện khám thai, siêu âm sản, đỡ đẻ bình thường và sinh thường cho thai phụ tại phòng Khoa Sản.",
+                WorkPosition = "Obstetrician",
+                Description = "Provides antenatal check-ups, obstetric ultrasound, normal deliveries, and childbirth at the Obstetrics Department.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Consultant Users
+            // Seed Thong Nhat General Hospital (Dong Nai) Consultant Users
             var thongnhatConsultantUser1Id = Guid.NewGuid();
             var thongnhatConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = thongnhatConsultantUser1Id,
-                    UserName = "BSCKI Lý Thị Xuân Lan",
+                    UserName = "Specialist I. Ly Thi Xuan Lan",
                     Email = "xuanlan@gmail.com",
                     PhoneNumber = "0251 3886 098",
                     Password = HashPassword("consultant#56"),
-                    Address = "Khoa Sản, Bệnh viện Đa khoa Thống Nhất, Đồng Nai",
+                    Address = "Obstetrics Department, Thong Nhat General Hospital, Dong Nai",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6485,11 +6507,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = thongnhatConsultantUser2Id,
-                    UserName = "BSCKI Phạm Thanh Dương",
+                    UserName = "Specialist I. Pham Thanh Duong",
                     Email = "phamthanhduong@gmail.com",
                     PhoneNumber = "0251 3886 098",
                     Password = HashPassword("consultant#57"),
-                    Address = "Khoa Sản, Bệnh viện Đa khoa Thống Nhất, Đồng Nai",
+                    Address = "Obstetrics Department, Thong Nhat General Hospital, Dong Nai",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6500,7 +6522,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Consultants
+            // Seed Thong Nhat General Hospital (Dong Nai) Consultants
             var thongnhatConsultant1Id = Guid.NewGuid();
             var thongnhatConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -6509,8 +6531,8 @@ namespace Server.Infrastructure.Data
                     Id = thongnhatConsultant1Id,
                     UserId = thongnhatConsultantUser1Id,
                     ClinicId = thongnhatDNClinicId,
-                    Specialization = "Phó khoa Sản / Phụ sản theo yêu cầu",
-                    Certificate = "Bác sĩ Chuyên khoa I",
+                    Specialization = "Deputy Head of Obstetrics / On-demand obstetrics",
+                    Certificate = "Specialist Level I",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6521,8 +6543,8 @@ namespace Server.Infrastructure.Data
                     Id = thongnhatConsultant2Id,
                     UserId = thongnhatConsultantUser2Id,
                     ClinicId = thongnhatDNClinicId,
-                    Specialization = "Phó Khoa Sản",
-                    Certificate = "Bác sĩ Chuyên khoa I",
+                    Specialization = "Deputy Head of Obstetrics",
+                    Certificate = "Specialist Level I",
                     Gender = "Male",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6530,7 +6552,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa Thống Nhất (Đồng Nai) Feedbacks
+            // Seed Thong Nhat General Hospital (Dong Nai) Feedbacks
             var thongnhatDNFeedback1Id = Guid.NewGuid();
             var thongnhatDNFeedback2Id = Guid.NewGuid();
             modelBuilder.Entity<Feedback>().HasData(
@@ -6540,7 +6562,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = thongnhatDNClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khoa Sản rất đông, bác sĩ giỏi, dịch vụ khá tốt. Nhưng thời gian chờ đợi khám có thể lâu nếu không đặt trước.",
+                    Comment = "The Obstetrics Department is crowded, doctors are skilled, and the service is good. However, waiting times can be long if you don’t book in advance.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6549,57 +6571,57 @@ namespace Server.Infrastructure.Data
                     ClinicId = thongnhatDNClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Sinh mổ tại đây ổn, phòng sinh sạch, phí hợp lý so với các bệnh viện tư.",
+                    Comment = "C-section was fine here, clean delivery rooms, reasonable costs compared to private hospitals.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Hoàn Mỹ Đồng Nai
+            // Hoan My Dong Nai Hospital
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Clinic User
+            // Seed Hoan My Dong Nai Hospital Clinic User
             var hoanmyDongnaiClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hoanmyDongnaiClinicUserId,
-                UserName = "Bệnh viện Hoàn Mỹ Đồng Nai",
+                UserName = "Hoan My Dong Nai Hospital",
                 Email = "contactus.dongnai@hoanmy.com",
                 PhoneNumber = "0251 3955 955",
                 Password = HashPassword("clinic#36"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "1048A Phạm Văn Thuận, Phường Tam Hiệp, Thành phố Biên Hòa, Tỉnh Đồng Nai, Việt Nam",
+                Address = "1048A Pham Van Thuan Street, Tam Hiep Ward, Bien Hoa City, Dong Nai Province, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Clinic
+            // Seed Hoan My Dong Nai Hospital Clinic
             var hoanmyDongnaiClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = hoanmyDongnaiClinicId,
                 UserId = hoanmyDongnaiClinicUserId,
-                Address = "1048A Phạm Văn Thuận, Phường Tam Hiệp, Thành phố Biên Hòa, Tỉnh Đồng Nai, Việt Nam",
-                Description = "Bệnh viện Hoàn Mỹ Đồng Nai là một bệnh viện đa khoa quốc tế, có chuyên khoa Sản-Phụ khoa được nhiều thai phụ tin tưởng lựa chọn. Với diện tích ~35.000 m2, trang thiết bị hiện đại, dịch vụ khám sản định kỳ, hỗ trợ sinh mổ & sinh thường, tư vấn thai phụ, chăm sóc mẹ & bé. Đội ngũ bác sĩ chuyên môn cao, đáp ứng cả nhu cầu khám theo BHYT & dịch vụ cao cấp.",
+                Address = "1048A Pham Van Thuan Street, Tam Hiep Ward, Bien Hoa City, Dong Nai Province, Vietnam",
+                Description = "Hoan My Dong Nai Hospital is an international general hospital, with an Obstetrics & Gynecology department trusted by many expectant mothers. Covering an area of ~35,000 m2, equipped with modern facilities, it offers antenatal care, C-section & natural delivery, pregnancy counseling, and mother & baby care. With a highly qualified medical team, it provides both health insurance and premium services.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Sản phụ khoa / khám phụ sản;Khám phụ khoa;Siêu âm sản khoa;Sinh thường & Sinh mổ;Tư vấn tiền sản;Chăm sóc sản phụ & hậu sản;Khám dịch vụ sản phụ khoa;Chẩn đoán hình ảnh;Xét nghiệm phụ sản;Dịch vụ y tế quốc tế",
+                Specializations = "Antenatal check-up;Obstetrics & Gynecology;Gynecology;Obstetric ultrasound;Natural birth & C-section;Prenatal counseling;Maternal & postnatal care;On-demand obstetrics & gynecology;Imaging diagnostics;Obstetric laboratory tests;International healthcare services",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Doctor User (simulated)
+            // Seed Hoan My Dong Nai Hospital Doctor User (simulated)
             var hoanmyDongnaiDoctorUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = hoanmyDongnaiDoctorUserId,
-                UserName = "BS sản phụ khoa Hoàn Mỹ Đồng Nai",
+                UserName = "Obstetrician Hoan My Dong Nai",
                 Email = "bssanphukhoahoanmydn@gmail.com",
                 PhoneNumber = "0251 3955 955",
                 Password = HashPassword("doctor#69"),
-                Address = "Khoa Sản, Bệnh viện Hoàn Mỹ Đồng Nai",
+                Address = "Obstetrics Department, Hoan My Dong Nai Hospital",
                 CreationDate = new DateTime(2025, 09, 17),
                 RoleId = 7,
                 Avatar = null,
@@ -6608,7 +6630,7 @@ namespace Server.Infrastructure.Data
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Doctor (simulated)
+            // Seed Hoan My Dong Nai Hospital Doctor (simulated)
             var hoanmyDongnaiDoctorId = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
@@ -6616,27 +6638,27 @@ namespace Server.Infrastructure.Data
                 UserId = hoanmyDongnaiDoctorUserId,
                 ClinicId = hoanmyDongnaiClinicId,
                 Gender = "Female",
-                Specialization = "Siêu âm sản khoa / khám thai định kỳ",
-                Certificate = "Chuyên khoa I",
+                Specialization = "Obstetric ultrasound / antenatal care",
+                Certificate = "Specialist Level I",
                 ExperienceYear = 10,
-                WorkPosition = "Bác sĩ sản phụ khoa",
-                Description = "Thực hiện siêu âm thai, khám thai định kỳ cho sản phụ, theo dõi sức khỏe mẹ & bé.",
+                WorkPosition = "Obstetrician",
+                Description = "Performs pregnancy ultrasound, regular antenatal check-ups, and monitoring mother & baby health.",
                 IsDeleted = false,
                 CreationDate = new DateTime(2025, 09, 17)
             });
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Consultant Users
+            // Seed Hoan My Dong Nai Hospital Consultant Users
             var hoanmyDongnaiConsultantUser1Id = Guid.NewGuid();
             var hoanmyDongnaiConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = hoanmyDongnaiConsultantUser1Id,
-                    UserName = "BS.CKI Nguyễn Thị Kim Nga",
+                    UserName = "Specialist I. Nguyen Thi Kim Nga",
                     Email = "nguyenthikimnga@gmail.com",
                     PhoneNumber = "0251 3955 955",
                     Password = HashPassword("consultant#58"),
-                    Address = "Khoa Sản, Bệnh viện Hoàn Mỹ Đồng Nai",
+                    Address = "Obstetrics Department, Hoan My Dong Nai Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6648,11 +6670,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = hoanmyDongnaiConsultantUser2Id,
-                    UserName = "BS Nguyễn Thị Tình",
+                    UserName = "Doctor Nguyen Thi Tinh",
                     Email = "nguyenthitinh@gmail.com",
                     PhoneNumber = "0251 3955 955",
                     Password = HashPassword("consultant#59"),
-                    Address = "Khoa Sản, Bệnh viện Hoàn Mỹ Đồng Nai",
+                    Address = "Obstetrics Department, Hoan My Dong Nai Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6663,7 +6685,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Consultants
+            // Seed Hoan My Dong Nai Hospital Consultants
             var hoanmyDongnaiConsultant1Id = Guid.NewGuid();
             var hoanmyDongnaiConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -6672,8 +6694,8 @@ namespace Server.Infrastructure.Data
                     Id = hoanmyDongnaiConsultant1Id,
                     UserId = hoanmyDongnaiConsultantUser1Id,
                     ClinicId = hoanmyDongnaiClinicId,
-                    Specialization = "Sản phụ khoa / Trưởng khoa Sản phụ",
-                    Certificate = "Chuyên khoa I",
+                    Specialization = "Obstetrics & Gynecology / Head of Obstetrics Department",
+                    Certificate = "Specialist Level I",
                     Gender = "Female",
                     ExperienceYears = 20,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6684,8 +6706,8 @@ namespace Server.Infrastructure.Data
                     Id = hoanmyDongnaiConsultant2Id,
                     UserId = hoanmyDongnaiConsultantUser2Id,
                     ClinicId = hoanmyDongnaiClinicId,
-                    Specialization = "Sản phụ khoa / khám thai & phụ khoa",
-                    Certificate = "Thạc sĩ, BS nội trú Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology / antenatal & gynecology",
+                    Certificate = "Master, Resident Doctor in Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 16,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6693,7 +6715,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Hoàn Mỹ Đồng Nai Feedbacks
+            // Seed Hoan My Dong Nai Hospital Feedbacks
             var hoanmyDongnaiFeedback1Id = Guid.NewGuid();
             var hoanmyDongnaiFeedback2Id = Guid.NewGuid();
             var hoanmyDongnaiFeedback3Id = Guid.NewGuid();
@@ -6704,7 +6726,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = hoanmyDongnaiClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Khám sản rất chuyên nghiệp, BS Kim Nga nhẹ nhàng, dịch vụ sạch sẽ.",
+                    Comment = "Very professional obstetric services, Dr. Kim Nga is gentle, facilities are clean.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6713,7 +6735,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = hoanmyDongnaiClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Chi phí dịch vụ cao hơn bệnh viện công, nhưng tiện nghi & phục vụ rất tốt.",
+                    Comment = "Service cost is higher than public hospitals, but the amenities & care are excellent.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6722,59 +6744,60 @@ namespace Server.Infrastructure.Data
                     ClinicId = hoanmyDongnaiClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Sinh mổ tại đây, cảm giác yên tâm vì phòng mổ hiện đại và nhân viên chu đáo.",
+                    Comment = "Had a C-section here, felt safe with modern operating rooms and attentive staff.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Đa khoa khu vực Long Khánh
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Clinic User
+            // Long Khanh Regional General Hospital
+
+            // Seed Long Khanh Regional General Hospital Clinic User
             var longkhanhClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = longkhanhClinicUserId,
-                UserName = "Bệnh viện Đa khoa khu vực Long Khánh",
+                UserName = "Long Khanh Regional General Hospital",
                 Email = "contact@bvlongkhanh.vn",
                 PhoneNumber = "0251 3781 385",
                 Password = HashPassword("clinic#37"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Số 25, đường Hùng Vương, Phường Xuân Trung, TP. Long Khánh, Đồng Nai, Việt Nam",
+                Address = "No. 25, Hung Vuong Street, Xuan Trung Ward, Long Khanh City, Dong Nai, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Clinic
+            // Seed Long Khanh Regional General Hospital Clinic
             var longkhanhClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = longkhanhClinicId,
                 UserId = longkhanhClinicUserId,
-                Address = "Số 25, đường Hùng Vương, Phường Xuân Trung, TP. Long Khánh, Đồng Nai, Việt Nam",
-                Description = "Bệnh viện Đa khoa khu vực Long Khánh là bệnh viện hạng II trực thuộc Sở Y tế Đồng Nai, phục vụ chăm sóc sức khỏe cho người dân TP. Long Khánh và khu vực lân cận. Trong đó, khoa Sản phụ khoa là một trong những khoa trọng điểm, cung cấp các dịch vụ khám thai, quản lý thai kỳ, sinh thường, sinh mổ, chăm sóc sau sinh và xử trí các bệnh lý phụ khoa.",
+                Address = "No. 25, Hung Vuong Street, Xuan Trung Ward, Long Khanh City, Dong Nai, Vietnam",
+                Description = "Long Khanh Regional General Hospital is a Grade II hospital under the Dong Nai Department of Health, providing healthcare services for the residents of Long Khanh City and surrounding areas. The Department of Obstetrics and Gynecology is one of its key specialties, offering prenatal check-ups, pregnancy management, normal delivery, cesarean sections, postpartum care, and gynecological treatment.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Quản lý thai kỳ nguy cơ cao;Siêu âm thai;Sinh thường & Sinh mổ;Khám phụ khoa;Điều trị bệnh lý phụ khoa;Kế hoạch hóa gia đình;Chăm sóc sơ sinh",
+                Specializations = "Prenatal check-ups;High-risk pregnancy management;Fetal ultrasound;Normal delivery & C-section;Gynecological examination;Gynecological disease treatment;Family planning;Newborn care",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Doctor Users
+            // Seed Long Khanh Regional General Hospital Doctor Users
             var longkhanhDoctorUser1Id = Guid.NewGuid();
             var longkhanhDoctorUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = longkhanhDoctorUser1Id,
-                    UserName = "BSCKII Phạm Thị Hồng",
+                    UserName = "Doctor Pham Thi Hong",
                     Email = "phamthihong@gmail.com",
                     PhoneNumber = "0251 3781 385",
                     Password = HashPassword("doctor#70"),
-                    Address = "Khoa Sản – BV ĐKKV Long Khánh",
+                    Address = "Obstetrics Department – Long Khanh Regional General Hospital",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -6785,11 +6808,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longkhanhDoctorUser2Id,
-                    UserName = "BSCKI Nguyễn Văn Bình",
+                    UserName = "Doctor Nguyen Van Binh",
                     Email = "nguyenvanbinh@gmail.com",
                     PhoneNumber = "0251 3781 385",
                     Password = HashPassword("doctor#71"),
-                    Address = "Khoa Sản – BV ĐKKV Long Khánh",
+                    Address = "Obstetrics Department – Long Khanh Regional General Hospital",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -6799,7 +6822,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Doctors
+            // Seed Long Khanh Regional General Hospital Doctors
             var longkhanhDoctor1Id = Guid.NewGuid();
             var longkhanhDoctor2Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(
@@ -6809,11 +6832,11 @@ namespace Server.Infrastructure.Data
                     UserId = longkhanhDoctorUser1Id,
                     ClinicId = longkhanhClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa II – Sản",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level II – Obstetrics",
                     ExperienceYear = 20,
-                    WorkPosition = "Trưởng khoa Sản phụ khoa",
-                    Description = "Chuyên về theo dõi thai kỳ, đỡ sinh thường và sinh mổ, xử trí sản phụ nguy cơ cao.",
+                    WorkPosition = "Head of Obstetrics & Gynecology Department",
+                    Description = "Expert in pregnancy monitoring, normal deliveries, cesarean sections, and managing high-risk pregnancies.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -6823,28 +6846,28 @@ namespace Server.Infrastructure.Data
                     UserId = longkhanhDoctorUser2Id,
                     ClinicId = longkhanhClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám thai định kỳ, siêu âm, chẩn đoán và điều trị bệnh lý phụ khoa.",
+                    WorkPosition = "Attending Physician",
+                    Description = "Performs prenatal check-ups, ultrasound, diagnosis, and treatment of gynecological diseases.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Consultant Users
+            // Seed Long Khanh Regional General Hospital Consultant Users
             var longkhanhConsultantUser1Id = Guid.NewGuid();
             var longkhanhConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = longkhanhConsultantUser1Id,
-                    UserName = "BSCKI Nguyễn Thị Lan",
+                    UserName = "Doctor Nguyen Thi Lan",
                     Email = "nguyenthilan@gmail.com",
                     PhoneNumber = "0251 3781 385",
                     Password = HashPassword("consultant#60"),
-                    Address = "Khoa Sản phụ khoa – BV ĐKKV Long Khánh",
+                    Address = "Obstetrics & Gynecology Department – Long Khanh Regional General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6856,11 +6879,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longkhanhConsultantUser2Id,
-                    UserName = "ThS.BS Trần Văn Hùng",
+                    UserName = "MSc. Doctor Tran Van Hung",
                     Email = "tranvanhung@gmail.com",
                     PhoneNumber = "0251 3781 385",
                     Password = HashPassword("consultant#61"),
-                    Address = "Khoa Sản phụ khoa – BV ĐKKV Long Khánh",
+                    Address = "Obstetrics & Gynecology Department – Long Khanh Regional General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -6871,7 +6894,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Consultants
+            // Seed Long Khanh Regional General Hospital Consultants
             var longkhanhConsultant1Id = Guid.NewGuid();
             var longkhanhConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -6880,8 +6903,8 @@ namespace Server.Infrastructure.Data
                     Id = longkhanhConsultant1Id,
                     UserId = longkhanhConsultantUser1Id,
                     ClinicId = longkhanhClinicId,
-                    Specialization = "Tư vấn thai kỳ & sức khỏe sinh sản",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Pregnancy & Reproductive Health Counseling",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6892,8 +6915,8 @@ namespace Server.Infrastructure.Data
                     Id = longkhanhConsultant2Id,
                     UserId = longkhanhConsultantUser2Id,
                     ClinicId = longkhanhClinicId,
-                    Specialization = "Tư vấn thai sản & bệnh lý sản khoa",
-                    Certificate = "Thạc sĩ Y học – Sản phụ khoa",
+                    Specialization = "Pregnancy & Obstetric Disorders Counseling",
+                    Certificate = "Master of Medicine – Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 12,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -6901,7 +6924,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Long Khánh Feedbacks
+            // Seed Long Khanh Regional General Hospital Feedbacks
             var longkhanhFeedback1Id = Guid.NewGuid();
             var longkhanhFeedback2Id = Guid.NewGuid();
             var longkhanhFeedback3Id = Guid.NewGuid();
@@ -6912,7 +6935,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = longkhanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Bác sĩ sản khoa ở đây khá tận tâm, nhưng đôi khi phải chờ đợi lâu do bệnh nhân đông.",
+                    Comment = "The obstetricians here are quite dedicated, but sometimes the waiting time is long due to many patients.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6921,7 +6944,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = longkhanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Khám thai chu đáo, có hướng dẫn chi tiết cho sản phụ, đặc biệt đối với thai kỳ nguy cơ cao.",
+                    Comment = "Thorough prenatal care with detailed guidance for mothers, especially for high-risk pregnancies.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -6930,59 +6953,60 @@ namespace Server.Infrastructure.Data
                     ClinicId = longkhanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Cơ sở vật chất tương đối ổn, nhưng phòng chờ đôi khi đông đúc.",
+                    Comment = "The facilities are relatively good, but the waiting area is sometimes crowded.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Bệnh viện Đa khoa khu vực Trảng Bom
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Clinic User
+            // Trang Bom Regional General Hospital
+
+            // Seed Trang Bom Regional General Hospital Clinic User
             var trangbomClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = trangbomClinicUserId,
-                UserName = "Bệnh viện Đa khoa khu vực Trảng Bom",
+                UserName = "Trang Bom Regional General Hospital",
                 Email = "contact@bvtrangbom.vn",
                 PhoneNumber = "0251 3867 115",
                 Password = HashPassword("clinic#38"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Đường 3/2, Khu phố 3, Thị trấn Trảng Bom, Huyện Trảng Bom, Đồng Nai, Việt Nam",
+                Address = "3/2 Street, Quarter 3, Trang Bom Town, Trang Bom District, Dong Nai, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Clinic
+            // Seed Trang Bom Regional General Hospital Clinic
             var trangbomClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = trangbomClinicId,
                 UserId = trangbomClinicUserId,
-                Address = "Đường 3/2, Khu phố 3, Thị trấn Trảng Bom, Huyện Trảng Bom, Đồng Nai, Việt Nam",
-                Description = "Bệnh viện Đa khoa khu vực Trảng Bom là bệnh viện hạng II trực thuộc Sở Y tế Đồng Nai, cung cấp dịch vụ khám chữa bệnh cho người dân huyện Trảng Bom và vùng phụ cận. Trong đó, khoa Sản phụ khoa đảm nhiệm công tác chăm sóc thai sản, quản lý thai kỳ, sinh thường, sinh mổ, chăm sóc sau sinh và xử trí các bệnh lý sản phụ khoa.",
+                Address = "3/2 Street, Quarter 3, Trang Bom Town, Trang Bom District, Dong Nai, Vietnam",
+                Description = "Trang Bom Regional General Hospital is a Grade II hospital under the Dong Nai Department of Health, providing healthcare services for residents of Trang Bom District and nearby areas. The Obstetrics and Gynecology Department specializes in maternity care, pregnancy management, normal delivery, cesarean section, postpartum care, and gynecological treatment.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm thai;Theo dõi thai kỳ nguy cơ cao;Sinh thường & Sinh mổ;Khám và điều trị bệnh phụ khoa;Kế hoạch hóa gia đình;Chăm sóc sơ sinh",
+                Specializations = "Prenatal check-ups;Fetal ultrasound;High-risk pregnancy monitoring;Normal delivery & C-section;Gynecological examination & treatment;Family planning;Newborn care",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Doctor Users
+            // Seed Trang Bom Regional General Hospital Doctor Users
             var trangbomDoctorUser1Id = Guid.NewGuid();
             var trangbomDoctorUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = trangbomDoctorUser1Id,
-                    UserName = "BSCKII Phạm Thị Mai",
+                    UserName = "Doctor Pham Thi Mai",
                     Email = "phamthimai@gmail.com",
                     PhoneNumber = "0251 3867 115",
                     Password = HashPassword("doctor#72"),
-                    Address = "Khoa Sản – BV ĐKKV Trảng Bom",
+                    Address = "Obstetrics Department – Trang Bom Regional General Hospital",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -6993,11 +7017,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = trangbomDoctorUser2Id,
-                    UserName = "BSCKI Nguyễn Văn Hòa",
+                    UserName = "Doctor Nguyen Van Hoa",
                     Email = "nguyenvanhoa@gmail.com",
                     PhoneNumber = "0251 3867 115",
                     Password = HashPassword("doctor#73"),
-                    Address = "Khoa Sản – BV ĐKKV Trảng Bom",
+                    Address = "Obstetrics Department – Trang Bom Regional General Hospital",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7007,7 +7031,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Doctors
+            // Seed Trang Bom Regional General Hospital Doctors
             var trangbomDoctor1Id = Guid.NewGuid();
             var trangbomDoctor2Id = Guid.NewGuid();
             modelBuilder.Entity<Doctor>().HasData(
@@ -7017,11 +7041,11 @@ namespace Server.Infrastructure.Data
                     UserId = trangbomDoctorUser1Id,
                     ClinicId = trangbomClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa II – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level II – Obstetrics & Gynecology",
                     ExperienceYear = 18,
-                    WorkPosition = "Trưởng khoa Sản phụ khoa",
-                    Description = "Chuyên sâu về quản lý thai kỳ nguy cơ cao, đỡ sinh và phẫu thuật sản khoa.",
+                    WorkPosition = "Head of Obstetrics & Gynecology Department",
+                    Description = "Specialized in high-risk pregnancy management, delivery, and obstetric surgery.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7031,28 +7055,28 @@ namespace Server.Infrastructure.Data
                     UserId = trangbomDoctorUser2Id,
                     ClinicId = trangbomClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     ExperienceYear = 9,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám thai định kỳ, siêu âm, tư vấn và điều trị các bệnh lý phụ khoa thông thường.",
+                    WorkPosition = "Attending Physician",
+                    Description = "Performs prenatal check-ups, ultrasound, counseling, and treatment of common gynecological conditions.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Consultant Users
+            // Seed Trang Bom Regional General Hospital Consultant Users
             var trangbomConsultantUser1Id = Guid.NewGuid();
             var trangbomConsultantUser2Id = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
                     Id = trangbomConsultantUser1Id,
-                    UserName = "BSCKI Lê Thị Thu",
+                    UserName = "Doctor Le Thi Thu",
                     Email = "lethithu@gmail.com",
                     PhoneNumber = "0251 3867 115",
                     Password = HashPassword("consultant#62"),
-                    Address = "Khoa Sản phụ khoa – BV ĐKKV Trảng Bom",
+                    Address = "Obstetrics & Gynecology Department – Trang Bom Regional General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7064,11 +7088,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = trangbomConsultantUser2Id,
-                    UserName = "ThS.BS Nguyễn Văn An",
+                    UserName = "MSc. Doctor Nguyen Van An",
                     Email = "nguyenvanan@gmail.com",
                     PhoneNumber = "0251 3867 115",
                     Password = HashPassword("consultant#63"),
-                    Address = "Khoa Sản phụ khoa – BV ĐKKV Trảng Bom",
+                    Address = "Obstetrics & Gynecology Department – Trang Bom Regional General Hospital",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7079,7 +7103,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Consultants
+            // Seed Trang Bom Regional General Hospital Consultants
             var trangbomConsultant1Id = Guid.NewGuid();
             var trangbomConsultant2Id = Guid.NewGuid();
             modelBuilder.Entity<Consultant>().HasData(
@@ -7088,8 +7112,8 @@ namespace Server.Infrastructure.Data
                     Id = trangbomConsultant1Id,
                     UserId = trangbomConsultantUser1Id,
                     ClinicId = trangbomClinicId,
-                    Specialization = "Tư vấn thai kỳ & kế hoạch hóa gia đình",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Pregnancy & Family Planning Counseling",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 14,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7100,8 +7124,8 @@ namespace Server.Infrastructure.Data
                     Id = trangbomConsultant2Id,
                     UserId = trangbomConsultantUser2Id,
                     ClinicId = trangbomClinicId,
-                    Specialization = "Tư vấn thai sản, bệnh lý phụ khoa",
-                    Certificate = "Thạc sĩ Y học – Sản phụ khoa",
+                    Specialization = "Pregnancy & Gynecological Disorders Counseling",
+                    Certificate = "Master of Medicine – Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 11,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7109,7 +7133,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Bệnh viện Đa khoa khu vực Trảng Bom Feedbacks
+            // Seed Trang Bom Regional General Hospital Feedbacks
             var trangbomFeedback1Id = Guid.NewGuid();
             var trangbomFeedback2Id = Guid.NewGuid();
             var trangbomFeedback3Id = Guid.NewGuid();
@@ -7120,7 +7144,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = trangbomClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Bác sĩ sản khoa tận tâm, hướng dẫn chu đáo cho sản phụ lần đầu mang thai.",
+                    Comment = "The obstetricians are dedicated and provide thoughtful guidance for first-time mothers.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7129,7 +7153,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = trangbomClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Dịch vụ khám thai khá tốt, có siêu âm 4D, tuy nhiên phải chờ hơi lâu.",
+                    Comment = "Good prenatal services with 4D ultrasound, but the waiting time can be a bit long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7138,48 +7162,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = trangbomClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Cơ sở vật chất tạm ổn, phù hợp với tuyến huyện, bác sĩ dễ gần.",
+                    Comment = "Facilities are acceptable for a district-level hospital, and the doctors are approachable.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Trung tâm Y tế Huyện Nhơn Trạch
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Clinic User
+            // Nhon Trach District Medical Center
+
+            // Seed Nhon Trach District Medical Center Clinic User
             var nhontrachClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = nhontrachClinicUserId,
-                UserName = "Trung tâm Y tế Huyện Nhơn Trạch",
+                UserName = "Nhon Trach District Medical Center",
                 Email = "contact@ttyt-nhontrach.vn",
                 PhoneNumber = "0251 3561 115",
                 Password = HashPassword("clinic#39"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Thị trấn Hiệp Phước, Huyện Nhơn Trạch, Đồng Nai, Việt Nam",
+                Address = "Hiep Phuoc Town, Nhon Trach District, Dong Nai, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Clinic
+            // Seed Nhon Trach District Medical Center Clinic
             var nhontrachClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = nhontrachClinicId,
                 UserId = nhontrachClinicUserId,
-                Address = "Thị trấn Hiệp Phước, Huyện Nhơn Trạch, Đồng Nai, Việt Nam",
-                Description = "Trung tâm Y tế Huyện Nhơn Trạch là cơ sở y tế hạng II trực thuộc Sở Y tế Đồng Nai, chịu trách nhiệm khám chữa bệnh đa khoa cho người dân địa phương. Trong đó, khoa Sản phụ khoa cung cấp dịch vụ quản lý thai kỳ, siêu âm, khám và điều trị bệnh lý phụ khoa, đỡ sinh, phẫu thuật sản khoa và tư vấn kế hoạch hóa gia đình.",
+                Address = "Hiep Phuoc Town, Nhon Trach District, Dong Nai, Vietnam",
+                Description = "Nhon Trach District Medical Center is a Grade II healthcare facility under Dong Nai Department of Health, responsible for providing general medical services to local residents. The Obstetrics and Gynecology Department offers prenatal care, ultrasound, diagnosis and treatment of gynecological diseases, childbirth assistance, obstetric surgery, and family planning counseling.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm 2D/4D;Theo dõi thai kỳ nguy cơ cao;Khám & điều trị bệnh phụ khoa;Đỡ sinh thường;Sinh mổ;Tư vấn kế hoạch hóa gia đình;Chăm sóc sơ sinh",
+                Specializations = "Prenatal check-ups;2D/4D Ultrasound;High-risk pregnancy monitoring;Gynecological diagnosis & treatment;Normal delivery;C-section;Family planning counseling;Neonatal care",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Doctor Users
+            // Seed Nhon Trach District Medical Center Doctor Users
             var nhontrachDoctorUser1Id = Guid.NewGuid();
             var nhontrachDoctorUser2Id = Guid.NewGuid();
             var nhontrachDoctorUser3Id = Guid.NewGuid();
@@ -7187,11 +7212,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhontrachDoctorUser1Id,
-                    UserName = "BSCKII Phạm Thị Ngọc",
+                    UserName = "Doctor Pham Thi Ngoc",
                     Email = "phamthingoc@gmail.com",
                     PhoneNumber = "0251 3561 115",
                     Password = HashPassword("doctor#74"),
-                    Address = "Khoa Sản – TTYT Nhơn Trạch",
+                    Address = "Obstetrics Department – Nhon Trach Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7202,11 +7227,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhontrachDoctorUser2Id,
-                    UserName = "BSCKI Lê Văn Minh",
+                    UserName = "Le Van Minh",
                     Email = "levanminh@gmail.com",
                     PhoneNumber = "0251 3561 115",
                     Password = HashPassword("doctor#75"),
-                    Address = "Khoa Sản – TTYT Nhơn Trạch",
+                    Address = "Obstetrics Department – Nhon Trach Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7217,11 +7242,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhontrachDoctorUser3Id,
-                    UserName = "BSCKI Nguyễn Thị Mai",
+                    UserName = "Nguyen Thi Mai",
                     Email = "nguyenthimai@gmail.com",
                     PhoneNumber = "0251 3561 115",
                     Password = HashPassword("doctor#76"),
-                    Address = "Khoa Sản – TTYT Nhơn Trạch",
+                    Address = "Obstetrics Department – Nhon Trach Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7231,7 +7256,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Doctors
+            // Seed Nhon Trach District Medical Center Doctors
             var nhontrachDoctor1Id = Guid.NewGuid();
             var nhontrachDoctor2Id = Guid.NewGuid();
             var nhontrachDoctor3Id = Guid.NewGuid();
@@ -7242,11 +7267,11 @@ namespace Server.Infrastructure.Data
                     UserId = nhontrachDoctorUser1Id,
                     ClinicId = nhontrachClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa II – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level II – Obstetrics & Gynecology",
                     ExperienceYear = 20,
-                    WorkPosition = "Trưởng khoa Sản phụ khoa",
-                    Description = "Chuyên về quản lý thai kỳ nguy cơ cao, xử trí các ca sinh khó, phẫu thuật sản phụ khoa.",
+                    WorkPosition = "Head of Obstetrics & Gynecology Department",
+                    Description = "Specialized in managing high-risk pregnancies, handling difficult deliveries, and obstetric surgeries.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7256,11 +7281,11 @@ namespace Server.Infrastructure.Data
                     UserId = nhontrachDoctorUser2Id,
                     ClinicId = nhontrachClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám thai định kỳ, siêu âm thai, tư vấn sinh thường và sinh mổ.",
+                    WorkPosition = "Attending Doctor",
+                    Description = "Conducts prenatal check-ups, ultrasound, counseling for natural birth and C-sections.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7270,17 +7295,17 @@ namespace Server.Infrastructure.Data
                     UserId = nhontrachDoctorUser3Id,
                     ClinicId = nhontrachClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     ExperienceYear = 9,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám phụ khoa, tư vấn tiền sản, theo dõi sau sinh.",
+                    WorkPosition = "Attending Doctor",
+                    Description = "Provides gynecological check-ups, prenatal counseling, and postpartum monitoring.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Consultant Users
+            // Seed Nhon Trach District Medical Center Consultant Users
             var nhontrachConsultantUser1Id = Guid.NewGuid();
             var nhontrachConsultantUser2Id = Guid.NewGuid();
             var nhontrachConsultantUser3Id = Guid.NewGuid();
@@ -7288,11 +7313,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhontrachConsultantUser1Id,
-                    UserName = "BSCKI Trần Thị Hồng",
+                    UserName = "Tran Thi Hong",
                     Email = "tranthihong@gmail.com",
                     PhoneNumber = "0251 3561 115",
                     Password = HashPassword("consultant#64"),
-                    Address = "Khoa Sản – TTYT Nhơn Trạch",
+                    Address = "Obstetrics Department – Nhon Trach Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7304,11 +7329,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhontrachConsultantUser2Id,
-                    UserName = "ThS.BS Nguyễn Văn Dũng",
+                    UserName = "MSc. Dr. Nguyen Van Dung",
                     Email = "nguyenvandung@gmail.com",
                     PhoneNumber = "0251 3561 115",
                     Password = HashPassword("consultant#65"),
-                    Address = "Khoa Sản – TTYT Nhơn Trạch",
+                    Address = "Obstetrics Department – Nhon Trach Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7320,11 +7345,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = nhontrachConsultantUser3Id,
-                    UserName = "CNHS Lê Thị Lan",
+                    UserName = "Midwife Bachelor Le Thi Lan",
                     Email = "lethilan@gmail.com",
                     PhoneNumber = "0251 3561 115",
                     Password = HashPassword("consultant#66"),
-                    Address = "Phòng tư vấn – TTYT Nhơn Trạch",
+                    Address = "Consulting Room – Nhon Trach Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7335,7 +7360,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Consultants
+            // Seed Nhon Trach District Medical Center Consultants
             var nhontrachConsultant1Id = Guid.NewGuid();
             var nhontrachConsultant2Id = Guid.NewGuid();
             var nhontrachConsultant3Id = Guid.NewGuid();
@@ -7345,8 +7370,8 @@ namespace Server.Infrastructure.Data
                     Id = nhontrachConsultant1Id,
                     UserId = nhontrachConsultantUser1Id,
                     ClinicId = nhontrachClinicId,
-                    Specialization = "Tư vấn thai kỳ & chăm sóc trước sinh",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Pregnancy counseling & prenatal care",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 13,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7357,8 +7382,8 @@ namespace Server.Infrastructure.Data
                     Id = nhontrachConsultant2Id,
                     UserId = nhontrachConsultantUser2Id,
                     ClinicId = nhontrachClinicId,
-                    Specialization = "Tư vấn bệnh lý phụ khoa, kế hoạch hóa",
-                    Certificate = "Thạc sĩ Y học – Sản phụ khoa",
+                    Specialization = "Gynecological counseling & family planning",
+                    Certificate = "Master of Medicine – Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 10,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7369,8 +7394,8 @@ namespace Server.Infrastructure.Data
                     Id = nhontrachConsultant3Id,
                     UserId = nhontrachConsultantUser3Id,
                     ClinicId = nhontrachClinicId,
-                    Specialization = "Điều dưỡng hộ sinh, tư vấn thai sản",
-                    Certificate = "Cử nhân Hộ sinh",
+                    Specialization = "Midwifery care & maternity counseling",
+                    Certificate = "Bachelor of Midwifery",
                     Gender = "Female",
                     ExperienceYears = 8,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7378,7 +7403,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Nhơn Trạch Feedbacks
+            // Seed Nhon Trach District Medical Center Feedbacks
             var nhontrachFeedback1Id = Guid.NewGuid();
             var nhontrachFeedback2Id = Guid.NewGuid();
             var nhontrachFeedback3Id = Guid.NewGuid();
@@ -7390,7 +7415,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhontrachClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Bác sĩ tư vấn kỹ càng, giải thích rõ ràng cho sản phụ.",
+                    Comment = "Doctors provide thorough consultations and clear explanations for expectant mothers.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7399,7 +7424,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhontrachClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai nhanh chóng, nhưng cơ sở vật chất cần nâng cấp thêm.",
+                    Comment = "Prenatal check-ups are quick, but facilities need some upgrades.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7408,7 +7433,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhontrachClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Điều dưỡng hộ sinh rất nhiệt tình, hướng dẫn chi tiết cách chăm sóc mẹ và bé.",
+                    Comment = "Midwives are very dedicated, providing detailed guidance on mother and newborn care.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7417,48 +7442,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = nhontrachClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Có hỗ trợ BHYT đầy đủ, nhưng đôi lúc đông bệnh nhân phải chờ khá lâu.",
+                    Comment = "Full insurance support available, but sometimes long waiting times due to crowding.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Trung tâm Y tế Huyện Vĩnh Cửu
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Clinic User
+            // Vinh Cuu District Medical Center
+
+            // Seed Vinh Cuu District Medical Center Clinic User
             var vinhcuuClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = vinhcuuClinicUserId,
-                UserName = "Trung tâm Y tế Huyện Vĩnh Cửu",
+                UserName = "Vinh Cuu District Medical Center",
                 Email = "contact@ttyt-vinhcuu.vn",
                 PhoneNumber = "0251 3860 234",
                 Password = HashPassword("clinic#40"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Thị trấn Vĩnh An, Huyện Vĩnh Cửu, Đồng Nai, Việt Nam",
+                Address = "Vinh An Town, Vinh Cuu District, Dong Nai, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Clinic
+            // Seed Vinh Cuu District Medical Center Clinic
             var vinhcuuClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = vinhcuuClinicId,
                 UserId = vinhcuuClinicUserId,
-                Address = "Thị trấn Vĩnh An, Huyện Vĩnh Cửu, Đồng Nai, Việt Nam",
-                Description = "Trung tâm Y tế Huyện Vĩnh Cửu là cơ sở y tế tuyến huyện trực thuộc Sở Y tế Đồng Nai, đảm nhiệm công tác khám chữa bệnh đa khoa và chăm sóc sức khỏe sinh sản. Khoa Sản phụ khoa cung cấp dịch vụ khám thai định kỳ, siêu âm, quản lý thai kỳ nguy cơ cao, khám phụ khoa, tư vấn kế hoạch hóa gia đình và chăm sóc sơ sinh.",
+                Address = "Vinh An Town, Vinh Cuu District, Dong Nai, Vietnam",
+                Description = "Vinh Cuu District Medical Center is a district-level healthcare facility under the Dong Nai Department of Health, responsible for general medical services and reproductive health care. The Obstetrics and Gynecology Department provides prenatal checkups, ultrasound, high-risk pregnancy management, gynecological examinations, family planning counseling, and newborn care.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm thai 2D/4D;Theo dõi và quản lý thai kỳ nguy cơ cao;Khám & điều trị bệnh lý phụ khoa;Đỡ sinh thường;Sinh mổ;Khám sau sinh;Tư vấn kế hoạch hóa gia đình;Chăm sóc sơ sinh",
+                Specializations = "Routine prenatal checkups;2D/4D ultrasound;High-risk pregnancy monitoring and management;Gynecological examination & treatment;Natural delivery;Cesarean section;Postnatal checkups;Family planning counseling;Newborn care",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Doctor Users
+            // Seed Vinh Cuu District Medical Center Doctor Users
             var vinhcuuDoctorUser1Id = Guid.NewGuid();
             var vinhcuuDoctorUser2Id = Guid.NewGuid();
             var vinhcuuDoctorUser3Id = Guid.NewGuid();
@@ -7466,11 +7492,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vinhcuuDoctorUser1Id,
-                    UserName = "BSCKII Phạm Thị Lan",
+                    UserName = "Pham Thi Lan",
                     Email = "phamthilan@gmail.com",
                     PhoneNumber = "0251 3860 234",
                     Password = HashPassword("doctor#77"),
-                    Address = "Khoa Sản – TTYT Vĩnh Cửu",
+                    Address = "Obstetrics Department – Vinh Cuu Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7481,11 +7507,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vinhcuuDoctorUser2Id,
-                    UserName = "BSCKI Nguyễn Văn Hùng",
+                    UserName = "Nguyen Van Hung",
                     Email = "nguyenvanhung@gmail.com",
                     PhoneNumber = "0251 3860 234",
                     Password = HashPassword("doctor#78"),
-                    Address = "Khoa Sản – TTYT Vĩnh Cửu",
+                    Address = "Obstetrics Department – Vinh Cuu Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7496,11 +7522,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vinhcuuDoctorUser3Id,
-                    UserName = "BSCKI Trần Thị Kim Oanh",
+                    UserName = "Tran Thi Kim Oanh",
                     Email = "kimoanh@gmail.com",
                     PhoneNumber = "0251 3860 234",
                     Password = HashPassword("doctor#79"),
-                    Address = "Khoa Sản – TTYT Vĩnh Cửu",
+                    Address = "Obstetrics Department – Vinh Cuu Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7510,7 +7536,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Doctors
+            // Seed Vinh Cuu District Medical Center Doctors
             var vinhcuuDoctor1Id = Guid.NewGuid();
             var vinhcuuDoctor2Id = Guid.NewGuid();
             var vinhcuuDoctor3Id = Guid.NewGuid();
@@ -7521,11 +7547,11 @@ namespace Server.Infrastructure.Data
                     UserId = vinhcuuDoctorUser1Id,
                     ClinicId = vinhcuuClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa II – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level II – Obstetrics & Gynecology",
                     ExperienceYear = 18,
-                    WorkPosition = "Trưởng khoa Sản phụ khoa",
-                    Description = "Quản lý thai kỳ nguy cơ cao, phẫu thuật sản khoa, xử trí các ca sinh khó.",
+                    WorkPosition = "Head of Obstetrics & Gynecology Department",
+                    Description = "Specialized in managing high-risk pregnancies, obstetric surgery, and handling difficult deliveries.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7535,11 +7561,11 @@ namespace Server.Infrastructure.Data
                     UserId = vinhcuuDoctorUser2Id,
                     ClinicId = vinhcuuClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám thai định kỳ, siêu âm, tư vấn sinh thường và sinh mổ.",
+                    WorkPosition = "Attending Doctor",
+                    Description = "Performs prenatal checkups, ultrasound, and provides counseling on natural delivery and cesarean section.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7549,17 +7575,17 @@ namespace Server.Infrastructure.Data
                     UserId = vinhcuuDoctorUser3Id,
                     ClinicId = vinhcuuClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     ExperienceYear = 8,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám phụ khoa, tư vấn tiền sản, chăm sóc mẹ và bé sau sinh.",
+                    WorkPosition = "Attending Doctor",
+                    Description = "Provides gynecological examinations, prenatal counseling, and postnatal mother & baby care.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Consultant Users
+            // Seed Vinh Cuu District Medical Center Consultant Users
             var vinhcuuConsultantUser1Id = Guid.NewGuid();
             var vinhcuuConsultantUser2Id = Guid.NewGuid();
             var vinhcuuConsultantUser3Id = Guid.NewGuid();
@@ -7567,11 +7593,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vinhcuuConsultantUser1Id,
-                    UserName = "BSCKI Nguyễn Thị Hạnh",
+                    UserName = "Nguyen Thi Hanh",
                     Email = "nguyenthihanh@gmail.com",
                     PhoneNumber = "0251 3860 234",
                     Password = HashPassword("consultant#67"),
-                    Address = "Khoa Sản – TTYT Vĩnh Cửu",
+                    Address = "Obstetrics Department – Vinh Cuu Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7583,11 +7609,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vinhcuuConsultantUser2Id,
-                    UserName = "BSCKI Lê Minh Quang",
+                    UserName = "Le Minh Quang",
                     Email = "leminhquang@gmail.com",
                     PhoneNumber = "0251 3860 234",
                     Password = HashPassword("consultant#68"),
-                    Address = "Khoa Sản – TTYT Vĩnh Cửu",
+                    Address = "Obstetrics Department – Vinh Cuu Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7599,11 +7625,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = vinhcuuConsultantUser3Id,
-                    UserName = "CNHS Trần Thu Thảo",
+                    UserName = "Midwife Tran Thu Thao",
                     Email = "tranthuthao@gmail.com",
                     PhoneNumber = "0251 3860 234",
                     Password = HashPassword("consultant#69"),
-                    Address = "Phòng tư vấn – TTYT Vĩnh Cửu",
+                    Address = "Consultation Room – Vinh Cuu Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7614,7 +7640,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Consultants
+            // Seed Vinh Cuu District Medical Center Consultants
             var vinhcuuConsultant1Id = Guid.NewGuid();
             var vinhcuuConsultant2Id = Guid.NewGuid();
             var vinhcuuConsultant3Id = Guid.NewGuid();
@@ -7624,8 +7650,8 @@ namespace Server.Infrastructure.Data
                     Id = vinhcuuConsultant1Id,
                     UserId = vinhcuuConsultantUser1Id,
                     ClinicId = vinhcuuClinicId,
-                    Specialization = "Tư vấn thai kỳ & chăm sóc trước sinh",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Prenatal counseling & antenatal care",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 14,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7636,8 +7662,8 @@ namespace Server.Infrastructure.Data
                     Id = vinhcuuConsultant2Id,
                     UserId = vinhcuuConsultantUser2Id,
                     ClinicId = vinhcuuClinicId,
-                    Specialization = "Tư vấn bệnh phụ khoa, kế hoạch hóa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Gynecological counseling, family planning",
+                    Certificate = "Specialist Level I – Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 11,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7648,8 +7674,8 @@ namespace Server.Infrastructure.Data
                     Id = vinhcuuConsultant3Id,
                     UserId = vinhcuuConsultantUser3Id,
                     ClinicId = vinhcuuClinicId,
-                    Specialization = "Điều dưỡng hộ sinh",
-                    Certificate = "Cử nhân Hộ sinh",
+                    Specialization = "Midwifery care",
+                    Certificate = "Bachelor of Midwifery",
                     Gender = "Female",
                     ExperienceYears = 9,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7657,7 +7683,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Vĩnh Cửu Feedbacks
+            // Seed Vinh Cuu District Medical Center Feedbacks
             var vinhcuuFeedback1Id = Guid.NewGuid();
             var vinhcuuFeedback2Id = Guid.NewGuid();
             var vinhcuuFeedback3Id = Guid.NewGuid();
@@ -7669,7 +7695,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vinhcuuClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bác sĩ tận tình, tư vấn kỹ lưỡng cho sản phụ.",
+                    Comment = "Doctors are dedicated and provide thorough consultations for pregnant women.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7678,7 +7704,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vinhcuuClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Khám thai nhanh, có bảo hiểm y tế hỗ trợ đầy đủ.",
+                    Comment = "Fast prenatal checkups, with full health insurance support.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7687,7 +7713,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = vinhcuuClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Điều dưỡng và hộ sinh rất chu đáo, hướng dẫn chăm sóc sau sinh chi tiết.",
+                    Comment = "Nurses and midwives are very attentive, providing detailed postnatal care guidance.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7696,48 +7722,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = vinhcuuClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Đôi lúc bệnh nhân đông phải chờ lâu, nhưng chất lượng khám ổn định.",
+                    Comment = "Sometimes it gets crowded and patients have to wait long, but the quality of care is consistent.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Trung tâm Y tế Huyện Long Thành
 
-            // Seed Trung tâm Y tế Huyện Long Thành Clinic User
+            // Long Thanh District Medical Center
+
+            // Seed Long Thanh District Medical Center Clinic User
             var longthanhClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = longthanhClinicUserId,
-                UserName = "Trung tâm Y tế Huyện Long Thành",
+                UserName = "Long Thanh District Medical Center",
                 Email = "contact@ttyt-longthanh.vn",
                 PhoneNumber = "0251 3843 567",
                 Password = HashPassword("clinic#41"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Thị trấn Long Thành, Huyện Long Thành, Đồng Nai, Việt Nam",
+                Address = "Long Thanh Town, Long Thanh District, Dong Nai, Vietnam",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Huyện Long Thành Clinic
+            // Seed Long Thanh District Medical Center Clinic
             var longthanhClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = longthanhClinicId,
                 UserId = longthanhClinicUserId,
-                Address = "Thị trấn Long Thành, Huyện Long Thành, Đồng Nai, Việt Nam",
-                Description = "Trung tâm Y tế Huyện Long Thành là đơn vị y tế tuyến huyện trực thuộc Sở Y tế Đồng Nai, có nhiệm vụ chăm sóc sức khỏe toàn diện cho người dân. Khoa Sản phụ khoa cung cấp dịch vụ khám thai định kỳ, siêu âm, quản lý thai kỳ, khám phụ khoa, tư vấn kế hoạch hóa gia đình và chăm sóc mẹ - bé sau sinh.",
+                Address = "Long Thanh Town, Long Thanh District, Dong Nai, Vietnam",
+                Description = "Long Thanh District Medical Center is a district-level healthcare facility under the Dong Nai Department of Health, responsible for comprehensive healthcare services for local residents. The Department of Obstetrics and Gynecology provides prenatal check-ups, ultrasound, pregnancy management, gynecological care, family planning counseling, and postpartum mother-baby care.",
                 IsInsuranceAccepted = true,
-                Specializations = "Khám thai định kỳ;Siêu âm thai 2D/4D;Quản lý thai kỳ nguy cơ cao;Khám và điều trị bệnh lý phụ khoa;Đỡ sinh thường;Sinh mổ;Khám sau sinh;Tư vấn tiền sản và hậu sản;Kế hoạch hóa gia đình",
+                Specializations = "Prenatal check-ups;2D/4D Ultrasound;High-risk pregnancy management;Gynecological diagnosis and treatment;Natural delivery;Cesarean section;Postpartum check-ups;Pre- and postnatal counseling;Family planning",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Huyện Long Thành Doctor Users
+            // Seed Long Thanh District Medical Center Doctor Users
             var longthanhDoctorUser1Id = Guid.NewGuid();
             var longthanhDoctorUser2Id = Guid.NewGuid();
             var longthanhDoctorUser3Id = Guid.NewGuid();
@@ -7745,11 +7772,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longthanhDoctorUser1Id,
-                    UserName = "BSCKII Lê Thị Mai",
+                    UserName = "Le Thi Mai",
                     Email = "lethimai@gmail.com",
                     PhoneNumber = "0251 3843 567",
                     Password = HashPassword("doctor#80"),
-                    Address = "Khoa Sản – TTYT Long Thành",
+                    Address = "Obstetrics Department – Long Thanh Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7760,11 +7787,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longthanhDoctorUser2Id,
-                    UserName = "BSCKI Nguyễn Văn Toàn",
+                    UserName = "Nguyen Van Toan",
                     Email = "nguyenvantoan@gmail.com",
                     PhoneNumber = "0251 3843 567",
                     Password = HashPassword("doctor#81"),
-                    Address = "Khoa Sản – TTYT Long Thành",
+                    Address = "Obstetrics Department – Long Thanh Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7775,11 +7802,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longthanhDoctorUser3Id,
-                    UserName = "BSCKI Võ Thị Hồng",
+                    UserName = "Vo Thi Hong",
                     Email = "vothihong@gmail.com",
                     PhoneNumber = "0251 3843 567",
                     Password = HashPassword("doctor#82"),
-                    Address = "Khoa Sản – TTYT Long Thành",
+                    Address = "Obstetrics Department – Long Thanh Medical Center",
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
                     Avatar = null,
@@ -7789,7 +7816,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Long Thành Doctors
+            // Seed Long Thanh District Medical Center Doctors
             var longthanhDoctor1Id = Guid.NewGuid();
             var longthanhDoctor2Id = Guid.NewGuid();
             var longthanhDoctor3Id = Guid.NewGuid();
@@ -7800,11 +7827,11 @@ namespace Server.Infrastructure.Data
                     UserId = longthanhDoctorUser1Id,
                     ClinicId = longthanhClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa II – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Doctor II – Obstetrics & Gynecology",
                     ExperienceYear = 20,
-                    WorkPosition = "Trưởng khoa Sản phụ khoa",
-                    Description = "Quản lý thai kỳ nguy cơ cao, phẫu thuật sản khoa, đào tạo và hướng dẫn chuyên môn.",
+                    WorkPosition = "Head of Obstetrics & Gynecology Department",
+                    Description = "Specialized in high-risk pregnancy management, obstetric surgery, and professional training.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7814,11 +7841,11 @@ namespace Server.Infrastructure.Data
                     UserId = longthanhDoctorUser2Id,
                     ClinicId = longthanhClinicId,
                     Gender = "Male",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Doctor I – Obstetrics & Gynecology",
                     ExperienceYear = 10,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám thai định kỳ, siêu âm, tư vấn sinh thường và sinh mổ.",
+                    WorkPosition = "Attending Physician",
+                    Description = "Performs prenatal check-ups, ultrasound, and provides consultation for natural and cesarean deliveries.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -7828,17 +7855,17 @@ namespace Server.Infrastructure.Data
                     UserId = longthanhDoctorUser3Id,
                     ClinicId = longthanhClinicId,
                     Gender = "Female",
-                    Specialization = "Sản phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Obstetrics & Gynecology",
+                    Certificate = "Specialist Doctor I – Obstetrics & Gynecology",
                     ExperienceYear = 8,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Khám phụ khoa, tư vấn tiền sản, chăm sóc mẹ và bé sau sinh.",
+                    WorkPosition = "Attending Physician",
+                    Description = "Provides gynecological care, prenatal counseling, and postpartum mother-baby care.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Long Thành Consultant Users
+            // Seed Long Thanh District Medical Center Consultant Users
             var longthanhConsultantUser1Id = Guid.NewGuid();
             var longthanhConsultantUser2Id = Guid.NewGuid();
             var longthanhConsultantUser3Id = Guid.NewGuid();
@@ -7846,11 +7873,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longthanhConsultantUser1Id,
-                    UserName = "BSCKI Nguyễn Thị Hòa",
+                    UserName = "Nguyen Thi Hoa",
                     Email = "nguyenthihoa@gmail.com",
                     PhoneNumber = "0251 3843 567",
                     Password = HashPassword("consultant#70"),
-                    Address = "Khoa Sản – TTYT Long Thành",
+                    Address = "Obstetrics Department – Long Thanh Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7862,11 +7889,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longthanhConsultantUser2Id,
-                    UserName = "BSCKI Trần Minh Khôi",
+                    UserName = "Tran Minh Khoi",
                     Email = "tranminhkhoi@gmail.com",
                     PhoneNumber = "0251 3843 567",
                     Password = HashPassword("consultant#71"),
-                    Address = "Khoa Sản – TTYT Long Thành",
+                    Address = "Obstetrics Department – Long Thanh Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7878,11 +7905,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = longthanhConsultantUser3Id,
-                    UserName = "CNHS Phạm Thị Thu",
+                    UserName = "Midwife BSc Pham Thi Thu",
                     Email = "phamthithu@gmailLt.com",
                     PhoneNumber = "0251 3843 567",
                     Password = HashPassword("consultant#72"),
-                    Address = "Phòng tư vấn – TTYT Long Thành",
+                    Address = "Consulting Room – Long Thanh Medical Center",
                     RoleId = 6,
                     Avatar = null,
                     IsDeleted = false,
@@ -7893,7 +7920,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Long Thành Consultants
+            // Seed Long Thanh District Medical Center Consultants
             var longthanhConsultant1Id = Guid.NewGuid();
             var longthanhConsultant2Id = Guid.NewGuid();
             var longthanhConsultant3Id = Guid.NewGuid();
@@ -7903,8 +7930,8 @@ namespace Server.Infrastructure.Data
                     Id = longthanhConsultant1Id,
                     UserId = longthanhConsultantUser1Id,
                     ClinicId = longthanhClinicId,
-                    Specialization = "Khám thai & quản lý sản phụ",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Prenatal check-ups & pregnancy management",
+                    Certificate = "Specialist Doctor I – Obstetrics & Gynecology",
                     Gender = "Female",
                     ExperienceYears = 15,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7915,8 +7942,8 @@ namespace Server.Infrastructure.Data
                     Id = longthanhConsultant2Id,
                     UserId = longthanhConsultantUser2Id,
                     ClinicId = longthanhClinicId,
-                    Specialization = "Khám phụ khoa & kế hoạch hóa",
-                    Certificate = "Bác sĩ chuyên khoa I – Sản phụ khoa",
+                    Specialization = "Gynecological care & family planning",
+                    Certificate = "Specialist Doctor I – Obstetrics & Gynecology",
                     Gender = "Male",
                     ExperienceYears = 12,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7927,8 +7954,8 @@ namespace Server.Infrastructure.Data
                     Id = longthanhConsultant3Id,
                     UserId = longthanhConsultantUser3Id,
                     ClinicId = longthanhClinicId,
-                    Specialization = "Hộ sinh – tư vấn tiền sản",
-                    Certificate = "Cử nhân Hộ sinh",
+                    Specialization = "Midwifery – Prenatal counseling",
+                    Certificate = "Bachelor of Midwifery",
                     Gender = "Female",
                     ExperienceYears = 9,
                     CreationDate = new DateTime(2025, 09, 17),
@@ -7936,7 +7963,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Long Thành Feedbacks
+            // Seed Long Thanh District Medical Center Feedbacks
             var longthanhFeedback1Id = Guid.NewGuid();
             var longthanhFeedback2Id = Guid.NewGuid();
             var longthanhFeedback3Id = Guid.NewGuid();
@@ -7948,7 +7975,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = longthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Bác sĩ và điều dưỡng tận tâm, tư vấn kỹ lưỡng cho sản phụ.",
+                    Comment = "Doctors and nurses are dedicated, providing thorough counseling for pregnant women.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7957,7 +7984,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = longthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Có bảo hiểm y tế, thủ tục tương đối nhanh chóng.",
+                    Comment = "Health insurance accepted, procedures are relatively quick.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7966,7 +7993,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = longthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 9,
-                    Comment = "Chăm sóc mẹ và bé sau sinh chu đáo, hộ sinh rất nhiệt tình.",
+                    Comment = "Attentive postpartum mother and baby care, very dedicated midwives.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -7975,48 +8002,49 @@ namespace Server.Infrastructure.Data
                     ClinicId = longthanhClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Lúc cao điểm hơi đông bệnh nhân, nhưng dịch vụ vẫn đảm bảo.",
+                    Comment = "Quite crowded during peak hours, but service quality is still maintained.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Trung tâm Y tế Huyện Xuân Lộc
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Clinic User
+            // Xuan Loc District Medical Center
+
+            // Seed Xuan Loc District Medical Center Clinic User
             var xuanlocClinicUserId = Guid.NewGuid();
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = xuanlocClinicUserId,
-                UserName = "Trung tâm Y tế Huyện Xuân Lộc",
+                UserName = "Xuan Loc District Medical Center",
                 Email = "contact@ttytxuanloc.vn",
                 PhoneNumber = "0251 3874 567",
                 Password = HashPassword("clinic#42"),
                 Balance = 0,
                 RoleId = 5,
                 CreationDate = new DateTime(2025, 09, 17),
-                Address = "Số 45, đường Nguyễn Huệ, thị trấn Gia Ray, huyện Xuân Lộc, tỉnh Đồng Nai",
+                Address = "No. 45, Nguyen Hue Street, Gia Ray Town, Xuan Loc District, Dong Nai Province",
                 Avatar = null,
                 IsDeleted = false,
                 IsVerified = true,
                 Status = Domain.Enums.StatusEnums.Active
             });
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Clinic
+            // Seed Xuan Loc District Medical Center Clinic
             var xuanlocClinicId = Guid.NewGuid();
             modelBuilder.Entity<Clinic>().HasData(new Clinic
             {
                 Id = xuanlocClinicId,
                 UserId = xuanlocClinicUserId,
-                Address = "Số 45, đường Nguyễn Huệ, thị trấn Gia Ray, huyện Xuân Lộc, tỉnh Đồng Nai",
-                Description = "Trung tâm Y tế Huyện Xuân Lộc là đơn vị y tế công lập tuyến huyện, cung cấp dịch vụ khám chữa bệnh đa khoa, sản phụ khoa và nhi khoa. Trung tâm đặc biệt chú trọng đến công tác chăm sóc sức khỏe bà mẹ và trẻ em với đội ngũ y bác sĩ giàu kinh nghiệm.",
+                Address = "No. 45, Nguyen Hue Street, Gia Ray Town, Xuan Loc District, Dong Nai Province",
+                Description = "Xuan Loc District Medical Center is a public district-level healthcare unit, providing general medical services, obstetrics & gynecology, and pediatrics. The center especially focuses on maternal and child healthcare with a team of experienced doctors.",
                 IsInsuranceAccepted = true,
-                Specializations = "Sản khoa;Nhi khoa;Khám thai định kỳ;Siêu âm thai;Tư vấn dinh dưỡng thai kỳ;Khám phụ khoa",
+                Specializations = "Obstetrics;Pediatrics;Prenatal check-ups;Ultrasound;Pregnancy nutrition counseling;Gynecology",
                 IsActive = true,
                 CreationDate = new DateTime(2025, 09, 17),
                 IsDeleted = false
             });
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Doctor Users
+            // Seed Xuan Loc District Medical Center Doctor Users
             var xuanlocDoctorUser1Id = Guid.NewGuid();
             var xuanlocDoctorUser2Id = Guid.NewGuid();
             var xuanlocDoctorUser3Id = Guid.NewGuid();
@@ -8024,11 +8052,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = xuanlocDoctorUser1Id,
-                    UserName = "Nguyễn Hương Giang",
+                    UserName = "Nguyen Huong Giang",
                     Email = "huonggiang.doctor@ttytxuanloc.vn",
                     PhoneNumber = "0909123456",
                     Password = HashPassword("doctor#83"),
-                    Address = "Gia Ray, Xuân Lộc, Đồng Nai",
+                    Address = "Gia Ray, Xuan Loc, Dong Nai",
                     Avatar = null,
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
@@ -8039,11 +8067,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = xuanlocDoctorUser2Id,
-                    UserName = "Trần Minh Tâm",
+                    UserName = "Tran Minh Tam",
                     Email = "minhtam.doctor@ttytxuanloc.vn",
                     PhoneNumber = "0978123456",
                     Password = HashPassword("doctor#84"),
-                    Address = "Xuân Bắc, Xuân Lộc, Đồng Nai",
+                    Address = "Xuan Bac, Xuan Loc, Dong Nai",
                     Avatar = null,
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
@@ -8054,11 +8082,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = xuanlocDoctorUser3Id,
-                    UserName = "Phạm Liên Anh",
+                    UserName = "Pham Lien Anh",
                     Email = "lienanh.doctor@ttytxuanloc.vn",
                     PhoneNumber = "0967543210",
                     Password = HashPassword("doctor#85"),
-                    Address = "Xuân Thọ, Xuân Lộc, Đồng Nai",
+                    Address = "Xuan Tho, Xuan Loc, Dong Nai",
                     Avatar = null,
                     CreationDate = new DateTime(2025, 09, 17),
                     RoleId = 7,
@@ -8068,7 +8096,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Doctors
+            // Seed Xuan Loc District Medical Center Doctors
             var xuanlocDoctor1Id = Guid.NewGuid();
             var xuanlocDoctor2Id = Guid.NewGuid();
             var xuanlocDoctor3Id = Guid.NewGuid();
@@ -8078,12 +8106,12 @@ namespace Server.Infrastructure.Data
                     Id = xuanlocDoctor1Id,
                     UserId = xuanlocDoctorUser1Id,
                     ClinicId = xuanlocClinicId,
-                    Gender = "Nữ",
-                    Specialization = "Sản khoa",
-                    Certificate = "Bác sĩ CKI Sản phụ khoa",
+                    Gender = "Female",
+                    Specialization = "Obstetrics",
+                    Certificate = "Specialist Level I in Obstetrics & Gynecology",
                     ExperienceYear = 18,
-                    WorkPosition = "Trưởng khoa Sản",
-                    Description = "Bác sĩ chuyên sâu về khám thai định kỳ, siêu âm thai và xử lý các ca sản khoa phức tạp.",
+                    WorkPosition = "Head of Obstetrics Department",
+                    Description = "Specializes in prenatal check-ups, ultrasound, and handling complicated obstetric cases.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -8092,12 +8120,12 @@ namespace Server.Infrastructure.Data
                     Id = xuanlocDoctor2Id,
                     UserId = xuanlocDoctorUser2Id,
                     ClinicId = xuanlocClinicId,
-                    Gender = "Nam",
-                    Specialization = "Nhi khoa",
-                    Certificate = "Bác sĩ CKI Nhi khoa",
+                    Gender = "Male",
+                    Specialization = "Pediatrics",
+                    Certificate = "Specialist Level I in Pediatrics",
                     ExperienceYear = 12,
-                    WorkPosition = "Bác sĩ điều trị Nhi",
-                    Description = "Chuyên theo dõi và chăm sóc sức khỏe trẻ sơ sinh, đặc biệt là con của các thai phụ sau sinh.",
+                    WorkPosition = "Pediatric Doctor",
+                    Description = "Focuses on monitoring and caring for newborns, especially babies of postpartum mothers.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 },
@@ -8106,18 +8134,18 @@ namespace Server.Infrastructure.Data
                     Id = xuanlocDoctor3Id,
                     UserId = xuanlocDoctorUser3Id,
                     ClinicId = xuanlocClinicId,
-                    Gender = "Nữ",
-                    Specialization = "Phụ khoa",
-                    Certificate = "Bác sĩ chuyên khoa Phụ sản",
+                    Gender = "Female",
+                    Specialization = "Gynecology",
+                    Certificate = "Specialist in Gynecology",
                     ExperienceYear = 11,
-                    WorkPosition = "Bác sĩ điều trị",
-                    Description = "Tập trung vào các vấn đề phụ khoa, tư vấn sức khỏe sinh sản và kế hoạch hóa gia đình.",
+                    WorkPosition = "Attending Doctor",
+                    Description = "Focuses on gynecological issues, reproductive health counseling, and family planning.",
                     IsDeleted = false,
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Consultant Users
+            // Seed Xuan Loc District Medical Center Consultant Users
             var xuanlocConsultantUser1Id = Guid.NewGuid();
             var xuanlocConsultantUser2Id = Guid.NewGuid();
             var xuanlocConsultantUser3Id = Guid.NewGuid();
@@ -8125,11 +8153,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = xuanlocConsultantUser1Id,
-                    UserName = "Nguyễn Thị Minh Hòa",
+                    UserName = "Nguyen Thi Minh Hoa",
                     Email = "minhhoa.consultant@ttytxuanloc.vn",
                     PhoneNumber = "0912345678",
                     Password = HashPassword("consultant#73"),
-                    Address = "Xuân Hiệp, Xuân Lộc, Đồng Nai",
+                    Address = "Xuan Hiep, Xuan Loc, Dong Nai",
                     Avatar = null,
                     RoleId = 6,
                     IsDeleted = false,
@@ -8141,11 +8169,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = xuanlocConsultantUser2Id,
-                    UserName = "Phan Văn Quang",
+                    UserName = "Phan Van Quang",
                     Email = "quangphan.consultant@ttytxuanloc.vn",
                     PhoneNumber = "0912987654",
                     Password = HashPassword("consultant#74"),
-                    Address = "Gia Ray, Xuân Lộc, Đồng Nai",
+                    Address = "Gia Ray, Xuan Loc, Dong Nai",
                     Avatar = null,
                     RoleId = 6,
                     IsDeleted = false,
@@ -8157,11 +8185,11 @@ namespace Server.Infrastructure.Data
                 new User
                 {
                     Id = xuanlocConsultantUser3Id,
-                    UserName = "Lê Kim Ngân",
+                    UserName = "Le Kim Ngan",
                     Email = "nganle.consultant@ttytxuanloc.vn",
                     PhoneNumber = "0933456789",
                     Password = HashPassword("consultant#75"),
-                    Address = "Xuân Hòa, Xuân Lộc, Đồng Nai",
+                    Address = "Xuan Hoa, Xuan Loc, Dong Nai",
                     Avatar = null,
                     RoleId = 6,
                     IsDeleted = false,
@@ -8172,7 +8200,7 @@ namespace Server.Infrastructure.Data
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Consultants
+            // Seed Xuan Loc District Medical Center Consultants
             var xuanlocConsultant1Id = Guid.NewGuid();
             var xuanlocConsultant2Id = Guid.NewGuid();
             var xuanlocConsultant3Id = Guid.NewGuid();
@@ -8182,9 +8210,9 @@ namespace Server.Infrastructure.Data
                     Id = xuanlocConsultant1Id,
                     UserId = xuanlocConsultantUser1Id,
                     ClinicId = xuanlocClinicId,
-                    Specialization = "Tư vấn chăm sóc thai kỳ",
-                    Certificate = "Chứng chỉ tư vấn sức khỏe sinh sản",
-                    Gender = "Nữ",
+                    Specialization = "Prenatal care counseling",
+                    Certificate = "Certificate in Reproductive Health Counseling",
+                    Gender = "Female",
                     ExperienceYears = 9,
                     CreationDate = new DateTime(2025, 09, 17),
                     IsDeleted = false
@@ -8194,9 +8222,9 @@ namespace Server.Infrastructure.Data
                     Id = xuanlocConsultant2Id,
                     UserId = xuanlocConsultantUser2Id,
                     ClinicId = xuanlocClinicId,
-                    Specialization = "Tư vấn dinh dưỡng thai phụ",
-                    Certificate = "Chứng chỉ dinh dưỡng lâm sàng",
-                    Gender = "Nam",
+                    Specialization = "Maternal nutrition counseling",
+                    Certificate = "Clinical Nutrition Certificate",
+                    Gender = "Male",
                     ExperienceYears = 8,
                     CreationDate = new DateTime(2025, 09, 17),
                     IsDeleted = false
@@ -8206,16 +8234,16 @@ namespace Server.Infrastructure.Data
                     Id = xuanlocConsultant3Id,
                     UserId = xuanlocConsultantUser3Id,
                     ClinicId = xuanlocClinicId,
-                    Specialization = "Tư vấn tâm lý thai kỳ",
-                    Certificate = "Chứng chỉ tâm lý lâm sàng",
-                    Gender = "Nữ",
+                    Specialization = "Prenatal psychology counseling",
+                    Certificate = "Clinical Psychology Certificate",
+                    Gender = "Female",
                     ExperienceYears = 6,
                     CreationDate = new DateTime(2025, 09, 17),
                     IsDeleted = false
                 }
             );
 
-            // Seed Trung tâm Y tế Huyện Xuân Lộc Feedbacks
+            // Seed Xuan Loc District Medical Center Feedbacks
             var xuanlocFeedback1Id = Guid.NewGuid();
             var xuanlocFeedback2Id = Guid.NewGuid();
             var xuanlocFeedback3Id = Guid.NewGuid();
@@ -8227,7 +8255,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = xuanlocClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Bác sĩ Giang rất tận tâm, theo dõi thai kỳ của tôi chu đáo từng tuần.",
+                    Comment = "Dr. Giang is very dedicated, carefully monitoring my pregnancy week by week.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -8236,7 +8264,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = xuanlocClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 8,
-                    Comment = "Dịch vụ khám thai khá tốt, nhưng đôi lúc phải chờ hơi lâu.",
+                    Comment = "Prenatal check-up services are quite good, but sometimes the waiting time is a bit long.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -8245,7 +8273,7 @@ namespace Server.Infrastructure.Data
                     ClinicId = xuanlocClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Tư vấn dinh dưỡng hữu ích, giúp tôi kiểm soát cân nặng hợp lý trong thai kỳ.",
+                    Comment = "Nutrition counseling is very helpful, helping me control weight properly during pregnancy.",
                     CreationDate = new DateTime(2025, 09, 17)
                 },
                 new Feedback
@@ -8254,10 +8282,11 @@ namespace Server.Infrastructure.Data
                     ClinicId = xuanlocClinicId,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                     Rating = 10,
-                    Comment = "Đội ngũ tư vấn tâm lý rất nhiệt tình, giúp tôi giảm lo lắng trong thời gian mang thai.",
+                    Comment = "The psychology counseling team is very enthusiastic, helping me reduce anxiety during pregnancy.",
                     CreationDate = new DateTime(2025, 09, 17)
                 }
             );
+
 
         }
 

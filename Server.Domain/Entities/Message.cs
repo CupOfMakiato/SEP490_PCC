@@ -10,7 +10,7 @@ namespace Server.Domain.Entities
     {
         public Guid ChatThreadId { get; set; }
         public Guid SenderId { get; set; }
-        public string MessageText { get; set; }
+        public string? MessageText { get; set; }
         public string MessageType { get; set; } = "text";
         public bool IsRead { get; set; }
         public DateTime SentAt { get; set; } = DateTime.UtcNow;

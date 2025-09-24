@@ -57,21 +57,16 @@ namespace Server.Application.Services
             return await _userRepository.GetUserByEmail(email);
         }
 
-        public async Task<UserDTO> GetUserById(Guid id)
+        public async Task<Result<GetUserDTO>> ViewUserById(Guid id)
         {
-            var user = await _userRepository.GetUserById(id);
-            if (user == null)
+            var user = await _unitOfWork.UserRepository.GetUserById(id);
+            var result = _mapper.Map<GetUserDTO>(user);
+            return new Result<GetUserDTO>
             {
-                throw new Exception("User is not exist!");
-            }
-
-            UserDTO userDto = new()
-            {
-                UserName = user.UserName,
-                Email = user.Email,
+                Error = 0,
+                Message = "View user by id successfully",
+                Data = result
             };
-
-            return userDto;
         }
 
         public async Task UpdateUserAsync(User user)

@@ -20,6 +20,15 @@ namespace Server.WebAPI.Controllers
             _userService = userService;
         }
 
+        [HttpGet("view-user-by-id")]
+        [ProducesResponseType(200, Type = typeof(Result<GetUserDTO>))]
+        [ProducesResponseType(400, Type = typeof(Result<object>))] 
+        public async Task<IActionResult> ViewUserById(Guid id)
+        {
+            var result = await _userService.ViewUserById(id);
+            return Ok(result);
+        }
+
         [HttpGet("get-current-user")]
         [Authorize]
         public async Task<IActionResult> GetCurrentUserById()
