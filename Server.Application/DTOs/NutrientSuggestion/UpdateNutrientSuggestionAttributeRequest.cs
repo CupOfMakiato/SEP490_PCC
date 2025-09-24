@@ -1,9 +1,8 @@
 ﻿namespace Server.Application.DTOs.NutrientSuggestion
 {
-    public class AddNutrientSuggestionAttributeRequest
+    public class UpdateNutrientSuggestionAttributeRequest
     {
-        public Guid NutrientSuggetionId { get; set; }
-        public Guid? AgeGroupId { get; set; }
+        public Guid AttributeId { get; set; }
         public int Trimester { get; set; }
         public float? MaxEnergyPercentage { get; set; }
         public float? MinEnergyPercentage { get; set; }
@@ -14,7 +13,7 @@
         public string Unit { get; set; }
         public double Amount { get; set; }
         public float? MinAnimalProteinPercentageRequire { get; set; }
-        public Guid NutrientId  { get; set; }
+        public Guid NutrientId { get; set; }
         public int Type { get; set; }
     }
 }

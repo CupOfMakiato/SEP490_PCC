@@ -130,28 +130,50 @@ namespace Server.Infrastructure.Repositories
     List<Guid>? allergyIds,
     List<Guid>? diseaseIds)
         {
-            var query = _dbSet.AsQueryable().AsNoTracking().AsSplitQuery();
+            var query = _dbSet.AsQueryable()
+                .AsNoTracking()
+                .AsSplitQuery();
 
-            if (allergyIds is not null && allergyIds.Any())
+            var hasAllergies = allergyIds is { Count: > 0 };
+            var hasDiseases = diseaseIds is { Count: > 0 };
+
+            // Apply predicate based on available IDs
+            if (hasAllergies && hasDiseases)
+            {
+                query = query.Where(f =>
+                    f.FoodAllergies.Any(a => allergyIds.Contains(a.AllergyId)) ||
+                    f.FoodDiseases.Any(d => diseaseIds.Contains(d.DiseaseId) &&
+                                            d.Status == FoodDiseaseStatus.Warning));
+            }
+            else if (hasAllergies)
             {
                 query = query.Where(f =>
                     f.FoodAllergies.Any(a => allergyIds.Contains(a.AllergyId)));
             }
-
-            if (diseaseIds is not null && diseaseIds.Any())
+            else if (hasDiseases)
             {
                 query = query.Where(f =>
-                    f.FoodDiseases.Any(dw => diseaseIds.Contains(dw.DiseaseId) && dw.Status == FoodDiseaseStatus.Warning));
+                    f.FoodDiseases.Any(d => diseaseIds.Contains(d.DiseaseId) &&
+                                            d.Status == FoodDiseaseStatus.Warning));
+            }
+            else
+            {
+                query = query.Where(f => f.FoodAllergies.Any() || f.FoodDiseases.Any());
             }
 
-            return await query
-                .Include(f => f.FoodAllergies)
+            // Includes with filters
+            query = query
+                .Include(f => f.FoodAllergies
+                    .Where(a => !hasAllergies || allergyIds.Contains(a.AllergyId)))
                     .ThenInclude(fa => fa.Allergy)
-                .Include(f => f.FoodDiseases)
+                .Include(f => f.FoodDiseases
+                    .Where(d => !hasDiseases || diseaseIds.Contains(d.DiseaseId)))
                     .ThenInclude(fd => fd.Disease)
                 .Include(f => f.FoodNutrients)
-                    .ThenInclude(fn => fn.Nutrient)
-                .ToListAsync();
+                    .ThenInclude(fn => fn.Nutrient);
+
+            return await query.ToListAsync();
         }
+
     }
 }

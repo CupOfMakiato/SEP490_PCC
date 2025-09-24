@@ -9,10 +9,12 @@ namespace Server.Application.Interfaces
     {
         public Task<Result<bool>> SoftDeleteNutrientSuggestion(Guid Id);
         public Task<Result<bool>> DeleteNutrientSuggestion(Guid Id);
+        public Task<Result<bool>> DeleteAttribute(Guid nutrientSuggestionId, Guid attributeId);
         public Task<Result<NutrientSuggestion>> CreateNutrientSuggestion(CreateNutrientSuggestionRequest request);
         public Task<Result<NutrientSuggestion>> UpdateNutrientSuggestion(UpdateNutrientSuggestionRequest request);
         public Task<Result<object>> GetEssentialNutritionalNeedsInOneDay(GetEssentialNutritionalNeedsInOneDayRequest request);
         public Task<Result<NSAttribute>> AddNutrientSuggestionAttribute(AddNutrientSuggestionAttributeRequest request);
+        public Task<Result<NSAttribute>> UpdateNutrientSuggestionAttribute(UpdateNutrientSuggestionAttributeRequest request);
         public Task<Result<List<NutrientSuggestionDTO>>> ViewNutrientSuggestions();
         public Task<Result<NutrientSuggestionDTO>> ViewNutrientSuggestionById(Guid id);
     }

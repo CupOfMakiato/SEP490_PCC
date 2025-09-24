@@ -23,12 +23,27 @@ namespace Server.Infrastructure.ThirdPartyServices
                 contents = new[]
                 {
                 new {
+                    role = "user",
                     parts = new[]
                     {
-                        new { text = message }
+                        new { text = "You are a healthcare consultant working in a major hospital. " +
+                           "Your specialty is maternal health and pregnancy nutrition. " +
+                           "Provide evidence-based, professional guidance to pregnant mothers. " +
+                           "You can suggest safe foods, nutrients, lifestyle practices, and " +
+                           "general actions to support health during pregnancy. " +
+                           "If asked about illnesses or symptoms, explain what they can do " +
+                           "to relieve discomfort safely and when to seek medical attention. " +
+                           "Do not provide diagnosis or prescriptions." }
                     }
+                },
+                new {
+                    role = "user",
+                        parts = new[]
+                        {
+                            new { text = message }
+                        }
+                    }        
                 }
-            }
             };
 
             // Gọi API Gemini

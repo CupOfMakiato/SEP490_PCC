@@ -454,7 +454,7 @@ namespace Server.Infrastructure.Data
                 .HasKey(nsa => nsa.NutrientSuggestionAttributeId);
 
             modelBuilder.Entity<NutrientSuggestionAttribute>()
-                .HasIndex(nsa => new { nsa.NutrientSuggestionId, nsa.AttributeId, nsa.AgeGroudId })
+                .HasIndex(nsa => new { nsa.NutrientSuggestionId, nsa.AttributeId, nsa.AgeGroupId })
                 .IsUnique();
 
             //test
@@ -894,10 +894,6 @@ namespace Server.Infrastructure.Data
             .WithMany(u => u.UserSubscriptions)
             .HasForeignKey(us => us.UserId)
             .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<UserSubscription>()
-            //    .Property(s => s.PaymentMethod)
-            //    .HasConversion(v => v.ToString(), v => (PaymentMethod)Enum.Parse(typeof(PaymentMethod), v));
 
             modelBuilder.Entity<SubscriptionPlan>()
                 .Property(s => s.SubscriptionType)

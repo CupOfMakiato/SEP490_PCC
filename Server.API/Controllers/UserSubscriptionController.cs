@@ -38,7 +38,7 @@ namespace Server.API.Controllers
         }
 
         [HttpGet("view-user-subscription-by-user-id/{userId}")]
-        public async Task<IActionResult> GetActiveSubscriptionByUserId(Guid userId)
+        public async Task<IActionResult> GetAllSubscriptionsByUserId(Guid userId)
         {
             if (userId == Guid.Empty)
                 return BadRequest(new { Message = "Invalid userId" });
