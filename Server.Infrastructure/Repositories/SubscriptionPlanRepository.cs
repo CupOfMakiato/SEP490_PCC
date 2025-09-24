@@ -2,6 +2,7 @@
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 
 namespace Server.Infrastructure.Repositories
@@ -25,6 +26,13 @@ namespace Server.Infrastructure.Repositories
         public async Task<SubscriptionPlan> GetSubscriptionPlanById(Guid id)
         {
             return await _dbSet.Include(sp => sp.UserSubscriptions).FirstOrDefaultAsync(sp => sp.Id.Equals(id));
+        }
+        public async Task<SubscriptionPlan?> GetSubscriptionPlanByName(SubscriptionName subscriptionName)
+        {
+            return await _dbSet
+                .FirstOrDefaultAsync(sp => sp.SubscriptionName == subscriptionName &&
+                                          sp.IsActive &&
+                                          !sp.IsDeleted);
         }
     }
 }

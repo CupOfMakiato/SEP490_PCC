@@ -60,15 +60,17 @@ namespace Server.Infrastructure.Services
                 };
             var expiresAt = DateTime.UtcNow.AddMinutes(15);
             var amount = (int)subscription.Price * subscriptionMonths;
-            ItemData item = new ItemData(subscription.SubscriptionName.ToString(), subscriptionMonths, (int)subscription.Price);
+            ItemData item = new ItemData(subscription.SubscriptionName.ToString(), (int)subscriptionMonths, (int)subscription.Price);
             List<ItemData> items = new List<ItemData> { item };
             PaymentData paymentData = new PaymentData(
                     orderCode,
-                    amount,
+                    (int)amount,
                     "Thanh toán gói " + subscription.SubscriptionName.ToString(),
                     items,
-                    "https://example.com/cancel",
-                    "https://example.com/success",
+                    //"https://example.com/cancel",
+                    //"https://example.com/success",
+                    "http://localhost:5173/payment-cancel",
+                    "http://localhost:5173/payment-success",
                     expiredAt: new DateTimeOffset(expiresAt)
                 .ToUnixTimeSeconds()
                 );
@@ -85,8 +87,8 @@ namespace Server.Infrastructure.Services
             {
                 UserSubscriptionId = request.UserSubscriptionId,
                 Description = "Payment for subscription plan: " + subscription.SubscriptionName,
-                InvoicedPrice = amount,
-                Amount = amount,
+                InvoicedPrice = (decimal)amount,
+                Amount = (decimal)amount,
                 Currency = "VND",
                 CheckoutUrl = result.checkoutUrl,
                 UserSubscription = userSubscription,
