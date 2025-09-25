@@ -89,18 +89,20 @@ namespace Server.WebAPI.Controllers
 
             try
             {
-                var token = await _googleService.AuthenticateGoogleUser(request);
-                if (token.Code == 1)
+                var result = await _googleService.AuthenticateGoogleUser(request);
+                if (result.Code == 1)
                 {
-                    return BadRequest(token.Error);
+                    return BadRequest(result.Error);
                 }
-                Response.Cookies.Append("refreshToken", token.RefreshToken, new CookieOptions
+
+                Response.Cookies.Append("refreshToken", result.RefreshToken, new CookieOptions
                 {
                     HttpOnly = true,
                     Secure = true,
                     Path = "/",
                     SameSite = SameSiteMode.Strict,
                 });
+
                 return Ok(new Result<object>
                 {
                     Error = 0,
@@ -108,7 +110,8 @@ namespace Server.WebAPI.Controllers
                     Data = new
                     {
                         TokenType = "Bearer",
-                        token.AccessToken,
+                        AccessToken = result.AccessToken,
+                        UserId = result.UserId,
                     }
                 });
             }

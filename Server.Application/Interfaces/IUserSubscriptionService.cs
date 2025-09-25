@@ -15,7 +15,6 @@ namespace Server.Application.Interfaces
         public Task<Result<UserSubscription>> GetUserSubscriptionById(Guid userSubscriptionId);
         public Task<Result<List<UserSubscription>>> GetAllUserSubscriptions();
 
-        //test
-        Task<Result<UserSubscription>> CreateUserSubscriptionFreePlan();
+        Task<Result<UserSubscription>> CreateUserSubscriptionFreePlan(Guid userId);
     }
 }
