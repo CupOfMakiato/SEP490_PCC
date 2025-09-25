@@ -30,7 +30,7 @@ namespace Server.Application.HangfireService
             var now = _currentTime.GetCurrentTime().Date;
 
             var expiredGrowthDataList = await _unitOfWork.GrowthDataRepository
-                .FindAsync(gd => gd.EstimatedDueDate < now.AddDays(-28) && gd.Status == GrowthDataStatus.Active); // 3 weeks
+                .FindAsync(gd => gd.EstimatedDueDate < now.AddDays(-21) && gd.Status == GrowthDataStatus.Active); // 3 weeks
 
             foreach (var growthData in expiredGrowthDataList)
             {
