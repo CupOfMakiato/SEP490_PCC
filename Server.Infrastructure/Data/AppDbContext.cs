@@ -400,7 +400,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = testUserSubs,
                     UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
-                    SubscriptionPlanId = FreePlan,
+                    SubscriptionPlanId = ProPlan,
                     Status = UserSubscriptionStatus.Active,
                     CreationDate = DateTime.UtcNow,
                     ExpiresAt = DateTime.MaxValue,
