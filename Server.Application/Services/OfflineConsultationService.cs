@@ -607,7 +607,7 @@ namespace Server.Application.Services
             var form = offlineConsulattion.ConsultationType.ToString();
             var location = clinic.Address ?? "Clinic";
             var contact = clinic.User.Email ?? "our support email";
-            var detailLink = "update later"; // Replace with actual link if available
+            var detailLink = $"http://localhost:5173/offline-consultation/{offlineConsultationId}"; // Local
             var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
             var emailUserBody = $@"
@@ -618,6 +618,8 @@ namespace Server.Application.Services
                             Form: {form}<br/>
                             Location: {location}<br/><br/>
                             Please prepare in advance the questions or issues you want to discuss to make the consultation most effective.<br/><br/>
+                            You can view the consultation details at the following link:<br/>
+                            <a href=""{detailLink}"">View consultation details</a><br/><br/>
                             We will send a reminder before the consultation takes place.<br/><br/>
                             If you have any questions, do not hesitate to contact us via {contact}.<br/><br/>
                             Thank you for trusting and choosing our service!<br/><br/>
@@ -633,7 +635,7 @@ namespace Server.Application.Services
                             Location: {location}<br/><br/>
                             Please check your schedule to ensure you can attend on time.<br/><br/>
                             You can view the consultation details at the following link:<br/>
-                            <a href=""{detailLink}"">{detailLink}</a><br/><br/>
+                            <a href=""{detailLink}"">View consultation details</a><br/><br/>
                             Best regards,<br/>
                             {systemSignature}";
 

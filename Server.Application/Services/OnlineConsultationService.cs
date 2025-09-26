@@ -259,7 +259,7 @@ namespace Server.Application.Services
             var consultantName = consultant.User?.UserName ?? "Consultant";
             var consultationDateTime = onlineConsultation.Date.ToString("dd/MM/yyyy HH:mm");
             var username = user.UserName ?? "User";
-            var viewLink = $"update later"; // Replace with actual link to view consultation details
+            var viewLink = $"http://localhost:5173/online-consultation/{onlineConsultationId}"; // local
             var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
             var emailBody = $@"
