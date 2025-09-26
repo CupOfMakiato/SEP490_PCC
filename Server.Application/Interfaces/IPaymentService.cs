@@ -7,5 +7,6 @@ namespace Server.Application.Interfaces
     public interface IPaymentService
     {
         public Task<Result<Payment>> CreateCheckoutSession(CreateCheckoutSessionRequest request);
+        public Task<Result<bool>> ActiveSubscription(Guid userSubscriptionId);
     }
 }
