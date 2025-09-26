@@ -129,8 +129,8 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("view-warning-foods")]
-        public async Task<IActionResult> ViewWarningFoods([FromBody] ViewWarningFoodsRequest request)
+        [HttpPost("view-warning-foods-by-disease-ids")]
+        public async Task<IActionResult> ViewWarningFoodsByDiseaseIds([FromBody] ViewWarningFoodsRequest request)
         {
             if ((request.AllergyIds == null || request.AllergyIds.Count == 0) &&
                 (request.DiseaseIds == null || request.DiseaseIds.Count == 0))
@@ -142,6 +142,25 @@ namespace Server.API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("view-warning-foods-by-allergiy-ids")]
+        public async Task<IActionResult> ViewWarningFoodsByAllergyIds([FromBody] List<Guid> diseaseIds)
+        {
+            if (diseaseIds == null || diseaseIds.Count == 0)
+                return BadRequest("At least one disease ID is required.");
+
+            var result = await _foodService.GetWarningFoodsByDiseases(diseaseIds);
+            return Ok(result);
+        }
+
+        [HttpPost("view-warning-foods")]
+        public async Task<IActionResult> ViewWarningFoods([FromBody] List<Guid> allergyIds)
+        {
+            if (allergyIds == null || allergyIds.Count == 0)
+                return BadRequest("At least one allergy ID is required.");
+
+            var result = await _foodService.GetWarningFoodsByAllergies(allergyIds);
+            return Ok(result);
+        }
 
         [HttpGet("view-food-by-id")]
         public async Task<IActionResult> GetById([FromQuery] Guid foodId)

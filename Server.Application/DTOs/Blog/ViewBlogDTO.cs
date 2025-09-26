@@ -17,6 +17,7 @@ namespace Server.Application.DTOs.Blog
         public string Title { get; set; }
         public string Body { get; set; }
         public string CategoryName { get; set; } 
+        public Guid CategoryId { get; set; }
         public BlogStatus Status { get; set; }
         public List<string> Tags { get; set; } // fix later
         public List<MediaDTO> Images { get; set; }

@@ -3599,7 +3599,7 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugProtein,
                     AttributeId = attrProtein,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
                 new NutrientSuggestionAttribute
@@ -3607,7 +3607,7 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugLipid,
                     AttributeId = attrLipid,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
                 new NutrientSuggestionAttribute
@@ -3615,7 +3615,7 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugGlucid,
                     AttributeId = attrGlucid,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
 
@@ -3625,7 +3625,7 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugMinerals,
                     AttributeId = attrCalcium,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
                 new NutrientSuggestionAttribute
@@ -3633,7 +3633,7 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugMinerals,
                     AttributeId = attrIron,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
                 new NutrientSuggestionAttribute
@@ -3641,7 +3641,7 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugMinerals,
                     AttributeId = attrZinc,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
                 new NutrientSuggestionAttribute
@@ -3649,26 +3649,26 @@ namespace Server.Infrastructure.Data
                     NutrientSuggestionAttributeId = Guid.NewGuid(),
                     NutrientSuggestionId = sugMinerals,
                     AttributeId = attrIodine,
-                    AgeGroudId = age20To29,
+                    AgeGroupId = age20To29,
                     Trimester = 1,
                 },
 
                 // Vitamins
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminA, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminD, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminE, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminK, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB1, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB2, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB6, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrFolate, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB12, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminC, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrCholine, AgeGroudId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminA, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminD, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminE, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminK, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB1, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB2, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB6, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrFolate, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB12, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminC, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrCholine, AgeGroupId = age20To29, Trimester = 1 },
 
                 // Other
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrFiber, AgeGroudId = age20To29, Trimester = 1 },
-                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrSalt, AgeGroudId = age20To29, Trimester = 1 }
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrFiber, AgeGroupId = age20To29, Trimester = 1 },
+                new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrSalt, AgeGroupId = age20To29, Trimester = 1 }
             );
 
             // ---------------------------------------------------

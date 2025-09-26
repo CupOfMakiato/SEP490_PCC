@@ -127,6 +127,44 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<UserSubscription>> CreateUserSubscriptionFreePlan(Guid userId)
+        {
+            var freePlan = await _unitOfWork.SubscriptionPlanRepository
+                .GetSubscriptionPlanByName(SubscriptionName.Free);
+
+            if (freePlan == null)
+                return new Result<UserSubscription> { Data = null, Error = 1, Message = "Free subscription plan not found" };
+
+            var existingSubscription = await _unitOfWork.UserSubscriptionRepository
+                .GetActiveSubscriptionByUserIdAsync(userId);
+
+            if (existingSubscription != null)
+                return new Result<UserSubscription> { Data = existingSubscription, Error = 0, Message = "User already has an active subscription" };
+
+            var expirationDate = freePlan.DurationInDays.HasValue
+                ? DateTime.UtcNow.AddDays(freePlan.DurationInDays.Value)
+                : DateTime.MaxValue;
+
+            var userSubscription = new UserSubscription
+            {
+                UserId = userId,
+                SubscriptionPlanId = freePlan.Id,
+                Status = UserSubscriptionStatus.Active,
+                ExpiresAt = expirationDate,
+                NextBillingDate = null,
+                IsAutoRenew = false,
+                SubscriptionPlan = freePlan
+            };
+
+            await _unitOfWork.UserSubscriptionRepository.AddAsync(userSubscription);
+
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+                return new Result<UserSubscription> { Data = userSubscription, Error = 0, Message = "Free subscription assigned successfully" };
+
+            return new Result<UserSubscription> { Data = null, Error = 1, Message = "Failed to assign free subscription" };
+        }
+
+
         public async Task<Result<bool>> ExpireSubscription(Guid userSubscriptionId)
         {
             var userSubscription = await _unitOfWork.UserSubscriptionRepository.GetUserSubscriptionByIdAsync(userSubscriptionId);
@@ -275,13 +313,6 @@ namespace Server.Application.Services
                     Data = null,
                     Error = 1,
                     Message = "No paid payment found for the subscription"
-                };
-            if (lastSuccessPayment.ExpiresAt != ExpiresAt)
-                return new Result<UserSubscription>()
-                {
-                    Data = null,
-                    Error = 1,
-                    Message = "ExpiresAt is invalid"
                 };
             userSubscription.Status = UserSubscriptionStatus.Active;
             userSubscription.ExpiresAt = ExpiresAt;

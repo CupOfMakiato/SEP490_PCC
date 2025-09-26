@@ -7,6 +7,7 @@ using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Domain.Enums;
+using Server.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,12 +23,18 @@ namespace Server.Application.Services
         private readonly IConfiguration _configuration;
         private readonly IUserRepository _userRepository;
         private readonly IAuthRepository _authRepository;
+        private readonly IUserSubscriptionService _userSubscriptionService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GoogleService(IConfiguration configuration, IUserRepository userRepository, IAuthRepository authRepository)
+        public GoogleService(IConfiguration configuration, IUserRepository userRepository,
+            IAuthRepository authRepository, IUserSubscriptionService userSubscriptionService,
+            IUnitOfWork unitOfWork)
         {
             _configuration = configuration;
             _userRepository = userRepository;
             _authRepository = authRepository;
+            _userSubscriptionService = userSubscriptionService;
+            _unitOfWork = unitOfWork;
         }
         public async Task<string> GoogleCallback(string code)
         {
@@ -82,10 +89,16 @@ namespace Server.Application.Services
                         Code = 1,
                         Error = "Account not exist please register new account",
                         AccessToken = null,
-                        RefreshToken = null
+                        RefreshToken = null,
+                        UserId = null,
                     };
                 }
-                var token = await GenerateJwtToken((User)getAccount.Data);
+                var user = (User)getAccount.Data;
+                var token = await GenerateJwtToken(user);
+
+                // Add the userId to the response
+                token.UserId = user.Id;
+
                 return token;
             }
             catch (InvalidJwtException ex)
@@ -134,6 +147,9 @@ namespace Server.Application.Services
                     OtpExpiryTime = null
                 };
                 await _userRepository.AddAsync(user);
+                await _unitOfWork.SaveChangeAsync();
+
+                await _userSubscriptionService.CreateUserSubscriptionFreePlan(user.Id);
             }
 
             return new Result<object>

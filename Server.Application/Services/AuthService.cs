@@ -31,11 +31,13 @@ namespace Server.Application.Services
         private readonly IConfiguration _configuration;
         private readonly IOtpService _otpService;
         private readonly IRedisService _redisService;
+        private readonly IUserSubscriptionService _userSubscriptionService;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AuthService(IAuthRepository authRepository, TokenGenerators tokenGenerators,
             IUserRepository userRepository, IHttpContextAccessor httpContextAccessor,
             IEmailService emailService, IConfiguration configuration, IOtpService otpService,
-            IMapper mapper, IRedisService redisService)
+            IMapper mapper, IRedisService redisService, IUserSubscriptionService userSubscriptionService, IUnitOfWork unitOfWork)
         {
             _authRepository = authRepository;
             _tokenGenerators = tokenGenerators;
@@ -46,6 +48,8 @@ namespace Server.Application.Services
             _otpService = otpService;
             _mapper = mapper;
             _redisService = redisService;
+            _userSubscriptionService = userSubscriptionService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<Authenticator> LoginAsync(LoginDTO loginDTO)
@@ -128,6 +132,10 @@ namespace Server.Application.Services
 
                 await _userRepository.AddAsync(user);
                 await _emailService.SendOtpEmailAsync(user.Email, otp);
+
+                await _unitOfWork.SaveChangeAsync();
+
+                await _userSubscriptionService.CreateUserSubscriptionFreePlan(user.Id);
             }
             catch (ArgumentNullException ex)
             {

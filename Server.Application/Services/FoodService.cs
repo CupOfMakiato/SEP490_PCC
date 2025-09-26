@@ -312,6 +312,18 @@ namespace Server.Application.Services
             return _mapper.Map<List<ViewWarningFoodsResponse>>(await _unitOfWork.FoodRepository.GetFoodWarningsByAllergiesAndDiseases(request.AllergyIds, request.DiseaseIds));
         }
 
+        public async Task<List<ViewWarningFoodsResponse>> GetWarningFoodsByDiseases(List<Guid> diseaseIds)
+        {
+            var foods = await _unitOfWork.FoodRepository.GetFoodWarningsByAllergiesAndDiseases(null, diseaseIds);
+            return _mapper.Map<List<ViewWarningFoodsResponse>>(foods);
+        }
+
+        public async Task<List<ViewWarningFoodsResponse>> GetWarningFoodsByAllergies(List<Guid> allergyIds)
+        {
+            var foods = await _unitOfWork.FoodRepository.GetFoodWarningsByAllergiesAndDiseases(allergyIds, null);
+            return _mapper.Map<List<ViewWarningFoodsResponse>>(foods);
+        }
+
         public async Task<Result<bool>> RemoveFoodNutrient(RemoveFoodNutrientRequest request)
         {
             if (request is null)
