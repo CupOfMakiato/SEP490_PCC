@@ -20,6 +20,7 @@ namespace Server.Infrastructure
         private readonly ISubscriptionPlanRepository _subscriptionPlanRepository;
         private readonly IAuthRepository _authRepository;
         private readonly IBlogRepository _blogRepository;
+        private readonly ISystemConfigurationRepository _systemConfigurationRepository;
         private readonly ITagRepository _tagRepository;
         private readonly IMediaRepository _mediaRepository;
         private readonly IBookmarkRepository _bookmarkRepository;
@@ -82,6 +83,7 @@ namespace Server.Infrastructure
             IJournalRepository journalRepository,
             IFoodRecommendationHistoryRepository foodRecommendationHistoryRepository,
             INutrientCategoryRepository nutrientCategoryRepository,
+            ISystemConfigurationRepository systemConfigurationRepository,
             IBasicBioMetricRepository basicBioMetricRepository,
             IMediaRepository mediaRepository,
             IMealRepository mealRepository,
@@ -118,6 +120,7 @@ namespace Server.Infrastructure
             _subscriptionPlanRepository = subscriptionPlanRepository;
             _authRepository = authRepository;
             _blogRepository = blogRepository;
+            _systemConfigurationRepository = systemConfigurationRepository;
             _tagRepository = tagRepository;
             _bookmarkRepository = bookmarkRepository;
             _likeRepository = likeRepository;
@@ -166,6 +169,7 @@ namespace Server.Infrastructure
         public IBlogRepository BlogRepository => _blogRepository;
         public ITagRepository TagRepository => _tagRepository;
         public IBookmarkRepository BookmarkRepository => _bookmarkRepository;
+        public ISystemConfigurationRepository SystemConfigurationRepository => _systemConfigurationRepository;
         public ISubscriptionPlanRepository SubscriptionPlanRepository => _subscriptionPlanRepository;
         public ILikeRepository LikeRepository => _likeRepository;
         public IPaymentRepository PaymentRepository => _paymentRepository;

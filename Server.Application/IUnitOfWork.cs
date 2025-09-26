@@ -49,6 +49,7 @@ namespace Server.Application
         public IAllergyRepository AllergyRepository { get; }
         public IPaymentRepository PaymentRepository { get; }
         public INotificationRepository NotificationRepository { get; }
+        public ISystemConfigurationRepository SystemConfigurationRepository { get; }
         public Task<int> SaveChangeAsync();
     }
 }
