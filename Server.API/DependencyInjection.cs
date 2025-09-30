@@ -66,6 +66,7 @@ namespace Server.WebAPI
             services.AddEndpointsApiExplorer();
 
             services.AddHealthChecks();
+            services.AddSingleton<SystemConfigurationMiddleware>();
             services.AddSingleton<GlobalExceptionMiddleware>();
             services.AddSingleton<PerformanceMiddleware>();
             services.AddSingleton<RateLimitMiddleware>();

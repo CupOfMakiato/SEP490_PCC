@@ -8,7 +8,7 @@ namespace Server.Application.DTOs.NutrientSuggestion
         public Guid NutrientSuggetionId { get; set; }
         public Guid AttributeId { get; set; }
         public NSAttributeDTO Attribute { get; set; }
-        public Guid? AgeGroudId { get; set; }
+        public Guid? AgeGroupId { get; set; }
         public int Trimester { get; set; }
     }
 }
