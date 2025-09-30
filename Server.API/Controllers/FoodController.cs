@@ -130,7 +130,29 @@ namespace Server.API.Controllers
         }
 
         [HttpPost("view-warning-foods-by-disease-ids")]
-        public async Task<IActionResult> ViewWarningFoodsByDiseaseIds([FromBody] ViewWarningFoodsRequest request)
+        public async Task<IActionResult> ViewWarningFoodsByDiseaseIds([FromBody] List<Guid> diseaseIds)
+        {
+            if (diseaseIds == null || diseaseIds.Count == 0)
+            {
+                return BadRequest("At least one disease ID is required.");
+            }
+
+            var result = await _foodService.GetWarningFoodsByDiseases(diseaseIds);
+            return Ok(result);
+        }
+
+        [HttpPost("view-warning-foods-by-allergiy-ids")]
+        public async Task<IActionResult> ViewWarningFoodsByAllergyIds([FromBody] List<Guid> allergyIds)
+        {
+            if (allergyIds == null || allergyIds.Count == 0)
+                return BadRequest("At least one disease ID is required.");
+
+            var result = await _foodService.GetWarningFoodsByAllergies(allergyIds);
+            return Ok(result);
+        }
+
+        [HttpPost("view-warning-foods")]
+        public async Task<IActionResult> ViewWarningFoods([FromBody] ViewWarningFoodsRequest request)
         {
             if ((request.AllergyIds == null || request.AllergyIds.Count == 0) &&
                 (request.DiseaseIds == null || request.DiseaseIds.Count == 0))
@@ -139,26 +161,6 @@ namespace Server.API.Controllers
             }
 
             var result = await _foodService.GetWarningFoods(request);
-            return Ok(result);
-        }
-
-        [HttpPost("view-warning-foods-by-allergiy-ids")]
-        public async Task<IActionResult> ViewWarningFoodsByAllergyIds([FromBody] List<Guid> diseaseIds)
-        {
-            if (diseaseIds == null || diseaseIds.Count == 0)
-                return BadRequest("At least one disease ID is required.");
-
-            var result = await _foodService.GetWarningFoodsByDiseases(diseaseIds);
-            return Ok(result);
-        }
-
-        [HttpPost("view-warning-foods")]
-        public async Task<IActionResult> ViewWarningFoods([FromBody] List<Guid> allergyIds)
-        {
-            if (allergyIds == null || allergyIds.Count == 0)
-                return BadRequest("At least one allergy ID is required.");
-
-            var result = await _foodService.GetWarningFoodsByAllergies(allergyIds);
             return Ok(result);
         }
 
