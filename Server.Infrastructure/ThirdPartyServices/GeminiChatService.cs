@@ -9,6 +9,16 @@ namespace Server.Infrastructure.ThirdPartyServices
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
+        private const string BaseUrl = "https://generativelanguage.googleapis.com/v1beta";
+        private const string Model = "models/gemini-flash-latest";
+
+        // system prompt tách riêng
+        private const string SystemPrompt =
+            "You are a healthcare consultant working in a major hospital. " +
+            "Specialize in maternal health and pregnancy nutrition. " +
+            "Provide evidence-based, professional guidance to pregnant mothers. " +
+            "Answer concisely by default; expand only if the user explicitly asks for more detail. " +
+            "Do not provide diagnosis or prescriptions.";
 
         public GeminiChatService(HttpClient httpClient, IConfiguration config)
         {
@@ -20,37 +30,26 @@ namespace Server.Infrastructure.ThirdPartyServices
         {
             var request = new
             {
+                systemInstruction = new
+                {
+                    parts = new[] { new { text = SystemPrompt } }
+                },
                 contents = new[]
                 {
-                new {
-                    role = "user",
-                    parts = new[]
-                    {
-                        new { text = "You are a healthcare consultant working in a major hospital. " +
-                           "Your specialty is maternal health and pregnancy nutrition. " +
-                           "Provide evidence-based, professional guidance to pregnant mothers. " +
-                           "You can suggest safe foods, nutrients, lifestyle practices, and " +
-                           "general actions to support health during pregnancy. " +
-                           "If asked about illnesses or symptoms, explain what they can do " +
-                           "to relieve discomfort safely and when to seek medical attention. " +
-                           "Do not provide diagnosis or prescriptions." }
+                    new {
+                        role = "user",
+                        parts = new[] { new { text = message } }
                     }
                 },
-                new {
-                    role = "user",
-                        parts = new[]
-                        {
-                            new { text = message }
-                        }
-                    }        
+                generationConfig = new
+                {
+                    maxOutputTokens = 200,
+                    temperature = 0.7
                 }
             };
 
-            // Gọi API Gemini
-            var response = await _httpClient.PostAsJsonAsync(
-                $"v1beta/models/gemini-1.5-flash:generateContent?key={_apiKey}",
-                request
-            );
+            var url = $"{BaseUrl}/{Model}:generateContent?key={_apiKey}";
+            var response = await _httpClient.PostAsJsonAsync(url, request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -60,7 +59,6 @@ namespace Server.Infrastructure.ThirdPartyServices
 
             var json = await response.Content.ReadFromJsonAsync<JsonElement>();
 
-            // Trích xuất text trả về
             return json
                 .GetProperty("candidates")[0]
                 .GetProperty("content")

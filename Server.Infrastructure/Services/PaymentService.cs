@@ -6,6 +6,7 @@ using Server.Application.DTOs.Payment;
 using Server.Application.Interfaces;
 using Server.Application.Services;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 
 namespace Server.Infrastructure.Services
 {
@@ -20,6 +21,85 @@ namespace Server.Infrastructure.Services
             _userService = userService;
             _unitOfWork = unitOfWork;
             _payOS = payOS;
+        }
+
+        public async Task<Result<bool>> ActiveSubscription(Guid userSubscriptionId)
+        {
+            var userSubscription = await _unitOfWork.UserSubscriptionRepository.GetUserSubscriptionByIdAsync(userSubscriptionId);
+            if (userSubscription == null)
+            {
+                return new Result<bool>()
+                {
+                    Data = false,
+                    Error = 1,
+                    Message = "User subscription not found"
+                };
+            }
+            var payment = userSubscription.Payments?.LastOrDefault();
+            if (payment == null)
+                return new Result<bool>()
+                {
+                    Data = false,
+                    Error = 1,
+                    Message = "No payment found for the subscription"
+                };
+            long.TryParse(payment.GatewayTransactionId, out var gatewayTransactionId);
+            if (gatewayTransactionId == 0)
+                return new Result<bool>()
+                {
+                    Data = false,
+                    Error = 1,
+                    Message = "Invalid GatewayTransactionId"
+                };
+            var paymentStatus = await _payOS.getPaymentLinkInformation(gatewayTransactionId);
+            if (paymentStatus == null || paymentStatus.status != "PAID")   
+            {
+                return new Result<bool>()
+                {
+                    Data = false,
+                    Error = 1,
+                    Message = "Payment not completed"
+                };
+            }
+            if (payment.CompletedAt != null)
+            {
+                return new Result<bool>()
+                {
+                    Data = false,
+                    Error = 1,
+                    Message = "This payment session is activated"
+                };
+            }
+            if (payment.DurationInDays is null || payment.DurationInDays <= 0)
+            {
+                return new Result<bool>()
+                {
+                    Data = false,
+                    Error = 1,
+                    Message = "Invalid payment duration"
+                };
+            }
+            userSubscription.Status = UserSubscriptionStatus.Active;
+            userSubscription.ExpiresAt = DateTime.UtcNow.AddDays((double)payment.DurationInDays);
+            payment.Status = PaymentStatus.Success;            
+            payment.CompletedAt = DateTime.UtcNow;
+            _unitOfWork.UserSubscriptionRepository.Update(userSubscription);
+            _unitOfWork.PaymentRepository.Update(payment);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<bool>()
+                {
+                    Data = true,
+                    Error = 0,
+                    Message = "Subscription activated successfully"
+                };
+            }
+            return new Result<bool>()
+            {
+                Data = false,
+                Error = 1,
+                Message = "Failed to activate subscription"
+            };
         }
         public async Task<Result<Payment>> CreateCheckoutSession(CreateCheckoutSessionRequest request)
         {
@@ -84,8 +164,10 @@ namespace Server.Infrastructure.Services
                     Message = "Failed to create payment link"
                 };
             }
+            var paymentId = new Guid();
             var payment = new Payment()
             {
+                Id = paymentId,
                 UserSubscriptionId = request.UserSubscriptionId,
                 Description = "Payment for subscription plan: " + subscription.SubscriptionName,
                 InvoicedPrice = (decimal)amount,
@@ -96,9 +178,11 @@ namespace Server.Infrastructure.Services
                 GatewayTransactionId = result.orderCode.ToString(),
                 Provider = "PayOS",
                 PaymentMethod = request.PaymentMethod,
-                Status = Domain.Enums.PaymentStatus.Pending,
+                Status = PaymentStatus.Pending,
                 ExpiresAt = expiresAt,
-                RawResponse = System.Text.Json.JsonSerializer.Serialize(result)
+                RawResponse = System.Text.Json.JsonSerializer.Serialize(result),
+                DurationInDays = subscription.DurationInDays,
+                SubscriptionType = subscription.SubscriptionType,
             };
             await _unitOfWork.PaymentRepository.AddAsync(payment);
             if (await _unitOfWork.SaveChangeAsync() > 0)

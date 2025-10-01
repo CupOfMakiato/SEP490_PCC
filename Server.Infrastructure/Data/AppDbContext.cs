@@ -96,6 +96,7 @@ namespace Server.Infrastructure.Data
 
         // Notification
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<SystemConfiguration> SystemConfigurations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

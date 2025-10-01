@@ -169,6 +169,8 @@ app.UseHttpsRedirection();
 
 app.UseHangfireDashboard("/hangfire");
 
+//app.UseMiddleware<SystemConfigurationMiddleware>();
+
 app.MapHealthChecks("/healthchecks"); 
 
 app.MapControllers();
