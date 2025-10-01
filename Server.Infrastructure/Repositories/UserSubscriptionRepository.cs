@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Server.Application.DTOs.Payment;
 using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
+using Server.Domain.Enums;
 using Server.Infrastructure.Data;
 
 namespace Server.Infrastructure.Repositories
@@ -83,6 +85,61 @@ namespace Server.Infrastructure.Repositories
                 .Include(us => us.User)
                 .Include(us => us.SubscriptionPlan)
                 .FirstOrDefaultAsync(us => us.User.Id == userId && us.SubscriptionPlanId == subscriptionId);
+        }
+
+        public async Task<List<UserSubscriptionStatisticsRaw>> GetUserStatisticsByMonthAsync(int year)
+        {
+            return await _dbSet
+                .Where(us => us.CreationDate.Year == year)
+                .GroupBy(us => new { us.CreationDate.Year, us.CreationDate.Month })
+                .Select(g => new UserSubscriptionStatisticsRaw
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    ActiveCount = g.Count(x => x.Status == UserSubscriptionStatus.Active),
+                    ExpiredCount = g.Count(x => x.Status == UserSubscriptionStatus.Expired),
+                    CanceledCount = g.Count(x => x.Status == UserSubscriptionStatus.Canceled),
+                    PendingCount = g.Count(x => x.Status == UserSubscriptionStatus.Pending),
+                    TotalUsers = g.Count(),
+                    TotalMonthsUsed = g.Sum(x => EF.Functions.DateDiffMonth(x.CreationDate, x.ExpiresAt))
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<UserSubscriptionStatisticsRaw>> GetUserStatisticsByQuarterAsync(int year)
+        {
+            return await _dbSet
+                .Where(us => us.CreationDate.Year == year)
+                .GroupBy(us => new { us.CreationDate.Year, Quarter = ((us.CreationDate.Month - 1) / 3) + 1 })
+                .Select(g => new UserSubscriptionStatisticsRaw
+                {
+                    Year = g.Key.Year,
+                    Quarter = g.Key.Quarter,
+                    ActiveCount = g.Count(x => x.Status == UserSubscriptionStatus.Active),
+                    ExpiredCount = g.Count(x => x.Status == UserSubscriptionStatus.Expired),
+                    CanceledCount = g.Count(x => x.Status == UserSubscriptionStatus.Canceled),
+                    PendingCount = g.Count(x => x.Status == UserSubscriptionStatus.Pending),
+                    TotalUsers = g.Count(),
+                    TotalMonthsUsed = g.Sum(x => EF.Functions.DateDiffMonth(x.CreationDate, x.ExpiresAt))
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<UserSubscriptionStatisticsRaw>> GetUserStatisticsByYearAsync()
+        {
+            return await _dbSet
+                .GroupBy(us => us.CreationDate.Year)
+                .Select(g => new UserSubscriptionStatisticsRaw
+                {
+                    Year = g.Key,
+                    ActiveCount = g.Count(x => x.Status == UserSubscriptionStatus.Active),
+                    ExpiredCount = g.Count(x => x.Status == UserSubscriptionStatus.Expired),
+                    CanceledCount = g.Count(x => x.Status == UserSubscriptionStatus.Canceled),
+                    PendingCount = g.Count(x => x.Status == UserSubscriptionStatus.Pending),
+                    TotalUsers = g.Count(),
+                    TotalMonthsUsed = g.Sum(x => EF.Functions.DateDiffMonth(x.CreationDate, x.ExpiresAt))
+                })
+                .ToListAsync();
         }
     }
 }
