@@ -53,7 +53,7 @@ namespace Server.Infrastructure.Services
                     Message = "Invalid GatewayTransactionId"
                 };
             var paymentStatus = await _payOS.getPaymentLinkInformation(gatewayTransactionId);
-            if (paymentStatus == null || paymentStatus.status != "success")   
+            if (paymentStatus == null || paymentStatus.status != "PAID")   
             {
                 return new Result<bool>()
                 {
