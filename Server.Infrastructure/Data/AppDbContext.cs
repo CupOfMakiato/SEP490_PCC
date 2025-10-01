@@ -374,7 +374,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = PlusPlan,
                     SubscriptionName = SubscriptionName.Plus,
-                    Description = "Everything in Free;Consultation Chat;Offline Consultation Booking;Custom Meal Planner;Specialist Advice",
+                    Description = "Everything in Free;Consultation Chat;Custom Meal Planner;Specialist Advice",
                     Price = 39000,
                     DurationInDays = 30,
                     SubscriptionType = SubscriptionType.Monthly,
