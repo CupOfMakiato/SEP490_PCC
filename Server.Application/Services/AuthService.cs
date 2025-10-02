@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using AutoMapper;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
@@ -105,13 +106,26 @@ namespace Server.Application.Services
         //Register User Account
         public async Task RegisterUserAsync(UserRegistrationDTO userRegistrationDto)
         {
+            // Input validation
+            ValidateRegistrationInput(userRegistrationDto);
+
+            // Check for duplicate email
+            if (await _userRepository.ExistsAsync(u => u.Email == userRegistrationDto.Email))
+            {
+                throw new InvalidOperationException($"An account with the email '{userRegistrationDto.Email}' already exists. Please use a different email or try logging in.");
+            }
+
+            // Check for duplicate phone number if provided
+            //if (!string.IsNullOrEmpty(userRegistrationDto.PhoneNo))
+            //{
+            //    if (await _userRepository.ExistsAsync(u => u.PhoneNumber == userRegistrationDto.PhoneNo))
+            //    {
+            //        throw new InvalidOperationException($"An account with the phone number '{userRegistrationDto.PhoneNo}' already exists. Please use a different phone number.");
+            //    }
+            //}
+
             try
             {
-                if (await _userRepository.ExistsAsync(u => u.Email == userRegistrationDto.Email))
-                {
-                    throw new Exception("User with this email or phone number already exists.");
-                }
-
                 var otp = GenerateOtp();
                 var user = new User
                 {
@@ -119,40 +133,107 @@ namespace Server.Application.Services
                     Email = userRegistrationDto.Email,
                     Password = HashPassword(userRegistrationDto.PasswordHash),
                     Balance = 0,
-                    PhoneNumber = userRegistrationDto.PhoneNo ?? userRegistrationDto.PhoneNo,
-                    //Address = null,
+                    PhoneNumber = userRegistrationDto.PhoneNo,
                     Status = StatusEnums.Pending,
                     Otp = otp,
                     IsStaff = false,
-                    RoleId = 2, 
+                    RoleId = 2,
                     CreationDate = DateTime.Now,
                     OtpExpiryTime = DateTime.UtcNow.AddMinutes(10)
-
                 };
 
                 await _userRepository.AddAsync(user);
-                await _emailService.SendOtpEmailAsync(user.Email, otp);
+                
+                try
+                {
+                    await _emailService.SendOtpEmailAsync(user.Email, otp);
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"User account created but failed to send OTP email to '{user.Email}'. Please contact support or try resending the verification email.", ex);
+                }
 
                 await _unitOfWork.SaveChangeAsync();
 
-                await _userSubscriptionService.CreateUserSubscriptionFreePlan(user.Id);
+                // Create free subscription plan
+                try
+                {
+                    await _userSubscriptionService.CreateUserSubscriptionFreePlan(user.Id);
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException($"User account created successfully but failed to initialize subscription plan for user '{user.UserName}'. Please contact support.", ex);
+                }
             }
-            catch (ArgumentNullException ex)
+            catch (InvalidOperationException)
             {
-                // Handle cases where required information is missing
-                throw new ApplicationException("Missing required registration information.", ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                // Handle cases where an operation is invalid, such as duplicate user registration
-                throw new ApplicationException("Invalid operation during user registration.", ex);
-            }
-            catch (Exception ex)
-            {
-                // General exception handling
-                throw new ApplicationException("An error occurred while registering the user.", ex);
+                throw;
             }
         }
+
+        private void ValidateRegistrationInput(UserRegistrationDTO userRegistrationDto)
+        {
+            var errors = new List<string>();
+
+            // Username validation
+            if (string.IsNullOrWhiteSpace(userRegistrationDto.UserName))
+            {
+                errors.Add("Username is required and cannot be empty or whitespace.");
+            }
+            else if (userRegistrationDto.UserName.Length < 3)
+            {
+                errors.Add("Username must be at least 3 characters long.");
+            }
+            else if (userRegistrationDto.UserName.Length > 50)
+            {
+                errors.Add("Username cannot exceed 50 characters.");
+            }
+            else if (!Regex.IsMatch(userRegistrationDto.UserName, @"^[a-zA-Z0-9_.-]+$"))
+            {
+                errors.Add("Username can only contain letters, numbers, underscores, hyphens, and periods.");
+            }
+
+            // Email validation (additional to DataAnnotations)
+            if (string.IsNullOrWhiteSpace(userRegistrationDto.Email))
+            {
+                errors.Add("Email address is required.");
+            }
+            else if (!Regex.IsMatch(userRegistrationDto.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                errors.Add("Email address format is invalid. Please enter a valid email (e.g., user@example.com).");
+            }
+            else if (userRegistrationDto.Email.Length > 255)
+            {
+                errors.Add("Email address cannot exceed 255 characters.");
+            }
+
+            // Phone number validation (if provided)
+            if (!string.IsNullOrEmpty(userRegistrationDto.PhoneNo))
+            {
+                var cleanedPhone = Regex.Replace(userRegistrationDto.PhoneNo, @"[\s\-\(\)]", "");
+
+                if (cleanedPhone.Length < 10 || cleanedPhone.Length > 15)
+                {
+                    errors.Add("Phone number must be between 10 and 15 digits.");
+                }
+                else if (!Regex.IsMatch(cleanedPhone, @"^[\+]?[0-9]+$"))
+                {
+                    errors.Add("Phone number can only contain digits, spaces, hyphens, parentheses, and an optional leading '+' sign.");
+                }
+            }
+
+            // Password validation (additional to custom attribute)
+            if (string.IsNullOrWhiteSpace(userRegistrationDto.PasswordHash))
+            {
+                errors.Add("Password is required.");
+            }
+
+            if (errors.Any())
+            {
+                throw new ArgumentException($"Registration validation failed:\n- {string.Join("\n- ", errors)}");
+            }
+        }
+
 
 
         public async Task<User> GetByVerificationToken(string token)
