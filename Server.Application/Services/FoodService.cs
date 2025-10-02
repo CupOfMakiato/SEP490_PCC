@@ -141,7 +141,7 @@ namespace Server.Application.Services
                         Message = "Food is already in warning list"
                     };
                 }
-                bool alreadyExists = disease.FoodDiseases.All(fd => fd.FoodId == recommendFoodDto.FoodId);
+                bool alreadyExists = disease.FoodDiseases.Any(fd => fd.FoodId == recommendFoodDto.FoodId);
                 if (!alreadyExists)
                 {
                     var food = await _unitOfWork.FoodRepository.GetByIdAsync(recommendFoodDto.FoodId);
@@ -191,7 +191,7 @@ namespace Server.Application.Services
 
             foreach (var warningFoodDto in request.warningFoodDtos)
             {
-                bool alreadyExists = allergy.FoodAllergy.All(fd => fd.FoodId == warningFoodDto.FoodId);
+                bool alreadyExists = allergy.FoodAllergy.Any(fd => fd.FoodId == warningFoodDto.FoodId);
                 if (!alreadyExists)
                 {
                     var food = await _unitOfWork.FoodRepository.GetByIdAsync(warningFoodDto.FoodId);
@@ -248,7 +248,7 @@ namespace Server.Application.Services
                         Message = "Food is already in recommend list"
                     };
                 }
-                bool alreadyExists = disease.FoodDiseases.All(fd => fd.FoodId == warningFoodDto.FoodId);
+                bool alreadyExists = disease.FoodDiseases.Any(fd => fd.FoodId == warningFoodDto.FoodId);
                 if (!alreadyExists)
                 {
                     var food = await _unitOfWork.FoodRepository.GetByIdAsync(warningFoodDto.FoodId);

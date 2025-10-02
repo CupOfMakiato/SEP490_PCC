@@ -1,4 +1,5 @@
-﻿using Server.Domain.Entities;
+﻿using Server.Application.DTOs.Payment;
+using Server.Domain.Entities;
 
 namespace Server.Application.Repositories
 {
@@ -11,5 +12,8 @@ namespace Server.Application.Repositories
         public Task<UserSubscription> GetUserSubscriptionByIdAsync(Guid userSubscriptionId);
         public Task<List<UserSubscription>> GetAllUserSubscriptionsAsync();
         public Task<UserSubscription> IsUserSubscriptionCreated(Guid subscriptionId, Guid userId);
+        Task<List<UserSubscriptionStatisticsRaw>> GetUserStatisticsByMonthAsync(int year);
+        Task<List<UserSubscriptionStatisticsRaw>> GetUserStatisticsByQuarterAsync(int year);
+        Task<List<UserSubscriptionStatisticsRaw>> GetUserStatisticsByYearAsync();
     }
 }

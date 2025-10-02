@@ -2,7 +2,7 @@
 {
     public class RateLimitMiddleware : IMiddleware
     {
-        private const int MaxRequests = 20; 
+        private const int MaxRequests = 40; 
         private static int _requestCounter;
         private static DateTime _startTime = DateTime.UtcNow;
         private static readonly object _lock = new();
