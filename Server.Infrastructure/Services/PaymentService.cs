@@ -2,6 +2,7 @@
 using Net.payOS.Types;
 using Server.Application;
 using Server.Application.Abstractions.Shared;
+using Server.Application.Commons;
 using Server.Application.DTOs.Payment;
 using Server.Application.Interfaces;
 using Server.Application.Services;
@@ -196,6 +197,152 @@ namespace Server.Infrastructure.Services
             {
                 Error = 1,
                 Message = "Failed to save payment"
+            };
+        }
+
+        public async Task<List<RevenueStatisticsDetailDto>> GetRevenueByMonthAsync(int year)
+        {
+            var payments = (await _unitOfWork.PaymentRepository.GetSuccessfulPaymentsAsync())
+                .Where(p => p.CreatedAt.Year == year && p.UserSubscription != null && p.UserSubscription.SubscriptionPlan != null);
+
+            var mapped = payments
+                .GroupBy(p => new
+                {
+                    p.CreatedAt.Year,
+                    Month = p.CreatedAt.Month,
+                    PlanId = p.UserSubscription.SubscriptionPlanId,
+                    PlanName = p.UserSubscription.SubscriptionPlan.SubscriptionName
+                })
+                .Select(g => new RevenueStatisticsDetailDto
+                {
+                    Period = new PeriodDto { Type = "Month", Value = g.Key.Month, Year = g.Key.Year },
+                    SubscriptionPlanId = g.Key.PlanId,
+                    SubscriptionName = g.Key.PlanName.ToString(),
+                    Count = g.Count(),
+                    TotalRevenue = g.Sum(x => x.Amount)
+                })
+                .ToList();
+
+            return StatisticsHelper.CalculateGrowthPerSeries(
+                mapped,
+                r => r.SubscriptionPlanId,
+                r => r.TotalRevenue,
+                r => r.Period,
+                (r, g) => r.GrowthRate = g
+            );
+        }
+
+        public async Task<List<RevenueStatisticsDetailDto>> GetRevenueByQuarterAsync(int year)
+        {
+            var payments = (await _unitOfWork.PaymentRepository.GetSuccessfulPaymentsAsync())
+                .Where(p => p.CreatedAt.Year == year && p.UserSubscription != null && p.UserSubscription.SubscriptionPlan != null);
+
+            var mapped = payments
+                .GroupBy(p => new
+                {
+                    p.CreatedAt.Year,
+                    Quarter = ((p.CreatedAt.Month - 1) / 3) + 1,
+                    PlanId = p.UserSubscription.SubscriptionPlanId,
+                    PlanName = p.UserSubscription.SubscriptionPlan.SubscriptionName
+                })
+                .Select(g => new RevenueStatisticsDetailDto
+                {
+                    Period = new PeriodDto { Type = "Quarter", Value = g.Key.Quarter, Year = g.Key.Year },
+                    SubscriptionPlanId = g.Key.PlanId,
+                    SubscriptionName = g.Key.PlanName.ToString(),
+                    Count = g.Count(),
+                    TotalRevenue = g.Sum(x => x.Amount)
+                })
+                .ToList();
+
+            return StatisticsHelper.CalculateGrowthPerSeries(
+                mapped,
+                r => r.SubscriptionPlanId,
+                r => r.TotalRevenue,
+                r => r.Period,
+                (r, g) => r.GrowthRate = g
+            );
+        }
+
+        public async Task<List<RevenueStatisticsDetailDto>> GetRevenueByYearAsync()
+        {
+            var payments = (await _unitOfWork.PaymentRepository.GetSuccessfulPaymentsAsync())
+                .Where(p => p.UserSubscription != null && p.UserSubscription.SubscriptionPlan != null);
+
+            var mapped = payments
+                .GroupBy(p => new
+                {
+                    Year = p.CreatedAt.Year,
+                    PlanId = p.UserSubscription.SubscriptionPlanId,
+                    PlanName = p.UserSubscription.SubscriptionPlan.SubscriptionName
+                })
+                .Select(g => new RevenueStatisticsDetailDto
+                {
+                    Period = new PeriodDto { Type = "Year", Value = g.Key.Year, Year = g.Key.Year },
+                    SubscriptionPlanId = g.Key.PlanId,
+                    SubscriptionName = g.Key.PlanName.ToString(),
+                    Count = g.Count(),
+                    TotalRevenue = g.Sum(x => x.Amount)
+                })
+                .ToList();
+
+            return StatisticsHelper.CalculateGrowthPerSeries(
+                mapped,
+                r => r.SubscriptionPlanId,
+                r => r.TotalRevenue,
+                r => r.Period,
+                (r, g) => r.GrowthRate = g
+            );
+        }
+
+        public async Task<List<PaymentHistoryDto>> GetPaymentHistoryAsync(DateTime? fromDate, DateTime? toDate, Guid? userId, PaymentStatus? status)
+        {
+            var payments = await _unitOfWork.PaymentRepository.GetPaymentsAsync(fromDate, toDate, userId, status);
+
+            return payments.Select(p => new PaymentHistoryDto
+            {
+                PaymentId = p.Id,
+                UserId = p.UserSubscription?.UserId ?? Guid.Empty,
+                UserEmail = p.UserSubscription?.User?.Email ?? string.Empty,
+                SubscriptionPlan = p.UserSubscription?.SubscriptionPlan?.SubscriptionName.ToString() ?? string.Empty,
+                Amount = p.Amount,
+                Status = p.Status.ToString(),
+                CreatedAt = p.CreatedAt
+            }).ToList();
+        }
+
+        public Task<List<PaymentHistoryDto>> GetPaymentHistoryByUserAsync(Guid userId)
+            => GetPaymentHistoryAsync(null, null, userId, null);
+
+        public async Task<DashboardStatisticsDto> GetDashboardStatisticsAsync(int year)
+        {
+            var revenueRaw = await _unitOfWork.PaymentRepository.GetRevenueByMonthAsync(year);
+            var userRaw = await _unitOfWork.UserSubscriptionRepository.GetUserStatisticsByMonthAsync(year);
+
+            var revenueStats = revenueRaw.Select(r => new RevenueStatisticsDetailDto
+            {
+                Period = r.ToPeriodDto(),
+                SubscriptionPlanId = r.SubscriptionPlanId,
+                SubscriptionName = r.SubscriptionName,
+                Count = r.Count,
+                TotalRevenue = r.TotalRevenue
+            }).ToList();
+
+            var userStats = userRaw.Select(u => new UserSubscriptionStatisticsDetailDto
+            {
+                Period = u.ToPeriodDto(),
+                ActiveCount = u.ActiveCount,
+                ExpiredCount = u.ExpiredCount,
+                CanceledCount = u.CanceledCount,
+                PendingCount = u.PendingCount,
+                TotalUsers = u.TotalUsers,
+                TotalMonthsUsed = u.TotalMonthsUsed
+            }).ToList();
+
+            return new DashboardStatisticsDto
+            {
+                RevenueStatistics = revenueStats,
+                UserSubscriptionStatistics = userStats
             };
         }
     }
