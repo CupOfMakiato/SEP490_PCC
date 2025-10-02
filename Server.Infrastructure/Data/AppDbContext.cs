@@ -134,8 +134,8 @@ namespace Server.Infrastructure.Data
                    Id = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e6"),
                    //Height = 160,
                    PreWeight = 60,
-                   FirstDayOfLastMenstrualPeriod = new DateTime(2025, 3, 01),
-                   EstimatedDueDate = new DateTime(2025, 12, 06),
+                   FirstDayOfLastMenstrualPeriod = new DateTime(2025, 3, 19),
+                   EstimatedDueDate = new DateTime(2025, 12, 24),
                    CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
                    Status = GrowthDataStatus.Active,
                    CreationDate = DateTime.UtcNow,
@@ -374,7 +374,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = PlusPlan,
                     SubscriptionName = SubscriptionName.Plus,
-                    Description = "Everything in Free;Consultation Chat;Offline Consultation Booking;Custom Meal Planner;Specialist Advice",
+                    Description = "Everything in Free;Consultation Chat;Custom Meal Planner;Specialist Advice",
                     Price = 39000,
                     DurationInDays = 30,
                     SubscriptionType = SubscriptionType.Monthly,
@@ -411,6 +411,72 @@ namespace Server.Infrastructure.Data
                 }
             );
 
+            var plusUserSubs = Guid.NewGuid();
+            modelBuilder.Entity<UserSubscription>().HasData(
+                new UserSubscription
+                {
+                    Id = plusUserSubs,
+                    UserId = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
+                    SubscriptionPlanId = PlusPlan,
+                    Status = UserSubscriptionStatus.Active,
+                    CreationDate = DateTime.UtcNow,
+                    ExpiresAt = DateTime.MaxValue,
+                    NextBillingDate = null,
+                    IsDeleted = false,
+                    IsAutoRenew = false
+                }
+            );
+
+            var plusPayments = Enumerable.Range(1, 20).Select(i => new Payment
+            {
+                Id = Guid.NewGuid(),
+                UserSubscriptionId = plusUserSubs,
+                Description = $"Plus Payment #{i}",
+                DurationInDays = 30,
+                SubscriptionType = SubscriptionType.Monthly,
+                InvoicedPrice = 39000,
+                Amount = 39000,
+                Currency = "VND",
+                CheckoutUrl = "https://payos.test/plus",
+                GatewayTransactionId = $"PLU_TX_{i}",
+                Provider = "PayOS",
+                PaymentMethod = PaymentMethod.QRCode,
+                Status = PaymentStatus.Success,
+                CreatedAt = DateTime.UtcNow.AddDays(-i * 30),
+                CompletedAt = DateTime.UtcNow.AddDays(-i * 30),
+                ExpiresAt = DateTime.UtcNow.AddDays(-i * 30).AddDays(29),
+                RawResponse = "{ \"transaction\": \"success with discount\" }",
+                IsDeleted = false,
+                CreationDate = DateTime.UtcNow,
+                CreatedBy = null
+            }).ToArray();
+
+            var proPayments = Enumerable.Range(1, 10).Select(i => new Payment
+            {
+                Id = Guid.NewGuid(),
+                UserSubscriptionId = plusUserSubs,
+                Description = $"Pro Payment #{i}",
+                DurationInDays = 365,
+                SubscriptionType = SubscriptionType.Annually,
+                InvoicedPrice = 4390000,
+                Amount = 4390000,
+                Currency = "VND",
+                CheckoutUrl = "https://payos.test/pro",
+                GatewayTransactionId = $"PRO_TX_{i}",
+                Provider = "PayOS",
+                PaymentMethod = PaymentMethod.QRCode,
+                Status = PaymentStatus.Success,
+                CreatedAt = DateTime.UtcNow.AddDays(-i * 365),
+                CompletedAt = DateTime.UtcNow.AddDays(-i * 365),
+                ExpiresAt = DateTime.UtcNow.AddDays(-i * 365).AddDays(364),
+                RawResponse = "{ \"transaction\": \"success\" }",
+                IsDeleted = false,
+                CreationDate = DateTime.UtcNow,
+                CreatedBy = null
+            }).ToArray();
+
+            modelBuilder.Entity<Payment>().HasData(plusPayments);
+            modelBuilder.Entity<Payment>().HasData(proPayments);
 
 
 

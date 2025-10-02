@@ -75,7 +75,8 @@ namespace Server.Application.Services
                     : null,
                 Symptoms = allSymptoms.Select(s => new SymptomDTO
                 {
-                    SymptomName = s.SymptomName
+                    SymptomName = s.SymptomName,
+                    IsTemplate = s.IsTemplate
                 }).ToList()
             };
         }
@@ -114,7 +115,8 @@ namespace Server.Application.Services
                     .Where(js => js.RecordedSymptom.IsActive && !js.RecordedSymptom.IsDeleted)
                     .Select(js => new SymptomDTO
                     {
-                        SymptomName = js.RecordedSymptom.SymptomName
+                        SymptomName = js.RecordedSymptom.SymptomName,
+                        IsTemplate = js.RecordedSymptom.IsTemplate
                     })
                     .ToList(),
                 RelatedImages = relatedImages,
