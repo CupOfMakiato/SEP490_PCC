@@ -8,5 +8,6 @@
         public long? DescriptionMaxLength { get; set; }
         public long? TrimesterMinValue { get; set; }
         public long? TrimesterMaxValue { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }
