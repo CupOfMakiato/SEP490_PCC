@@ -4,6 +4,7 @@ using Server.Application;
 using Server.Application.Abstractions.Shared;
 using Server.Application.Commons;
 using Server.Application.DTOs.Payment;
+using Server.Application.DTOs.User;
 using Server.Application.Interfaces;
 using Server.Application.Services;
 using Server.Domain.Entities;
@@ -88,7 +89,28 @@ namespace Server.Infrastructure.Services
             _unitOfWork.PaymentRepository.Update(payment);
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
-                return new Result<bool>()
+                var emailDto = new EmailDTO
+                {
+                    To = userSubscription.User.Email, // adjust to your navigation property
+                    Subject = "Your Subscription Invoice",
+                    Body = $@"
+            <html>
+            <body style='font-family:Arial,sans-serif;'>
+                <h2>Payment Invoice</h2>
+                <p><strong>Subscription:</strong> {payment.SubscriptionType}</p>
+                <p><strong>Description:</strong> {payment.Description}</p>
+                <p><strong>Amount:</strong> {payment.Amount} {payment.Currency}</p>
+                <p><strong>Paid At:</strong> {payment.CompletedAt}</p>
+                <p><strong>Expires At:</strong> {userSubscription.ExpiresAt}</p>
+                <hr/>
+                <p>Thank you for your payment.</p>
+            </body>
+            </html>"
+                };
+
+                await EmailQueue.Channel.Writer.WriteAsync(emailDto);
+
+                return new Result<bool>
                 {
                     Data = true,
                     Error = 0,
