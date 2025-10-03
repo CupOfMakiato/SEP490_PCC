@@ -188,10 +188,10 @@ namespace Server.Application.Services
             {
                 errors.Add("Username cannot exceed 50 characters.");
             }
-            else if (!Regex.IsMatch(userRegistrationDto.UserName, @"^[a-zA-Z0-9_.-]+$"))
-            {
-                errors.Add("Username can only contain letters, numbers, underscores, hyphens, and periods.");
-            }
+            //else if (!Regex.IsMatch(userRegistrationDto.UserName, @"^[a-zA-Z0-9_.-]+$"))
+            //{
+            //    errors.Add("Username can only contain letters, numbers, underscores, hyphens, and periods.");
+            //}
 
             // Email validation (additional to DataAnnotations)
             if (string.IsNullOrWhiteSpace(userRegistrationDto.Email))
