@@ -152,6 +152,7 @@ namespace Server.Infrastructure
 
             // Background Services
             services.AddHostedService<ConsultationReminderBackgroundService>();
+            services.AddHostedService<EmailBackgroundService>();
 
             services.AddScoped<IMessageNotifier, MessageNotifier>();
             services.AddScoped<INotificationSender, NotificationSender>();
