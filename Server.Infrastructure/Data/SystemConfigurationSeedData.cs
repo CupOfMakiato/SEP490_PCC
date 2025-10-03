@@ -14,10 +14,10 @@ namespace Server.Infrastructure.Data
         {
             var systemUser = Guid.Parse("44046f02-055d-4259-b3b9-234cc96f4a0f");
 
-            // RecommendedCheckup seeding (giữ nguyên như code của bạn)
-            modelBuilder.Entity<RecommendedCheckup>().HasData(
-            // ... danh sách checkup bạn đã seed
-            );
+            //// RecommendedCheckup seeding (giữ nguyên như code của bạn)
+            //modelBuilder.Entity<RecommendedCheckup>().HasData(
+            //// ... danh sách checkup bạn đã seed
+            //);
 
             // SystemConfiguration seeding
             modelBuilder.Entity<SystemConfiguration>().HasData(
