@@ -231,5 +231,328 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<UserDiseasesAndUserAllergiesDTO>> GetAllergyAndDiseaseByUserId(Guid userId)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<UserDiseasesAndUserAllergiesDTO>
+                {
+                    Error = 1,
+                    Message = "User not found",
+                    Data = null
+                };
+            }
+            var result = new UserDiseasesAndUserAllergiesDTO
+            {
+                Diseases = user.UserDiseases.Select(ud => new UserDiseasesDTO
+                {
+                    DiseaseId = ud.DiseaseId,
+                    DiagnosedAt = ud.DiagnosedAt,
+                    IsBeforePregnancy = ud.IsBeforePregnancy,
+                    ExpectedCuredAt = ud.ExpectedCuredAt,
+                    ActualCuredAt = ud.ActualCuredAt,
+                    DiseaseType = ud.DiseaseType,
+                    IsCured = ud.IsCured
+                }).ToList(),
+                Allergies = user.UserAllergy.Select(ua => new UserAllergiesDTO
+                {
+                    AllergyId = ua.AllergyId,
+                    Severity = ua.Severity,
+                    Notes = ua.Notes,
+                    DiagnosedAt = ua.DiagnosedAt,
+                    IsActive = ua.IsActive
+                }).ToList()
+            };
+            return new Result<UserDiseasesAndUserAllergiesDTO>
+            {
+                Error = 0,
+                Message = "Get allergies and diseases successfully",
+                Data = result
+            };
+        }
+
+        public async Task<Result<object>> AddDiseaseToUser(Guid userId, UserDiseasesDTO diseasesDTO)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User not found"
+                };
+            }
+            var existingDisease = user.UserDiseases.FirstOrDefault(ud => ud.DiseaseId == diseasesDTO.DiseaseId);
+            if (existingDisease != null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Disease already exists for this user"
+                };
+            }
+            var disease = await _unitOfWork.DiseaseRepository.GetByIdAsync(diseasesDTO.DiseaseId);
+            if (disease == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Disease not found"
+                };
+            }
+            var newUserDisease = new UserDisease
+            {
+                UserId = userId,
+                DiseaseId = diseasesDTO.DiseaseId,
+                DiagnosedAt = diseasesDTO.DiagnosedAt,
+                IsBeforePregnancy = diseasesDTO.IsBeforePregnancy,
+                ExpectedCuredAt = diseasesDTO.ExpectedCuredAt,
+                ActualCuredAt = diseasesDTO.ActualCuredAt,
+                DiseaseType = diseasesDTO.DiseaseType,
+                IsCured = diseasesDTO.IsCured,
+                CreateAt = DateTime.UtcNow,
+                Disease = disease
+            };
+            user.UserDiseases.Add(newUserDisease);
+            _userRepository.Update(user);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Disease added to user successfully",
+                    Data = newUserDisease
+                };
+            }
+            return new Result<object>
+            {
+                Error = 1,
+                Message = "Failed to add disease to user"
+            };
+        }
+
+        public async Task<Result<object>> AddAlleryToUser(Guid userId, UserAllergiesDTO allergiesDTO)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User not found"
+                };
+            }
+            var existingAllergy = user.UserAllergy.FirstOrDefault(ua => ua.AllergyId == allergiesDTO.AllergyId);
+            if (existingAllergy != null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Allergy already exists for this user"
+                };
+            }
+            var allergy = await _unitOfWork.AllergyRepository.GetByIdAsync(allergiesDTO.AllergyId);
+            if (allergy == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Allergy not found"
+                };
+            }
+            var newUserAllergy = new UserAllergy
+            {
+                UserId = userId,
+                AllergyId = allergiesDTO.AllergyId,
+                Severity = allergiesDTO.Severity,
+                Notes = allergiesDTO.Notes,
+                DiagnosedAt = allergiesDTO.DiagnosedAt,
+                IsActive = allergiesDTO.IsActive,
+                Allergy = allergy
+            };
+            user.UserAllergy.Add(newUserAllergy);
+            _userRepository.Update(user);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Allergy added to user successfully",
+                    Data = newUserAllergy
+                };
+            }
+            return new Result<object>
+            {
+                Error = 1,
+                Message = "Failed to add allergy to user"
+            };
+        }
+
+        public async Task<Result<bool>> RemoveDiseaseFromUser(Guid userId, Guid diseaseId)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "User not found",
+                    Data = false
+                };
+            }
+            var userDisease = user.UserDiseases.FirstOrDefault(ud => ud.DiseaseId == diseaseId);
+            if (userDisease == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Disease not found for this user",
+                    Data = false
+                };
+            }
+            user.UserDiseases.Remove(userDisease);
+            _userRepository.Update(user);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<bool>
+                {
+                    Error = 0,
+                    Message = "Disease removed from user successfully",
+                    Data = true
+                };
+            }
+            return new Result<bool>
+            {
+                Error = 1,
+                Message = "Failed to remove disease from user",
+                Data = false
+            };
+        }
+
+        public async Task<Result<bool>> RemoveAllergyFromUser(Guid userId, Guid allergyId)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "User not found",
+                    Data = false
+                };
+            }
+            var userAllergy = user.UserAllergy.FirstOrDefault(ua => ua.AllergyId == allergyId);
+            if (userAllergy == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Allergy not found for this user",
+                    Data = false
+                };
+            }
+            user.UserAllergy.Remove(userAllergy);
+            _userRepository.Update(user);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<bool>
+                {
+                    Error = 0,
+                    Message = "Allergy removed from user successfully",
+                    Data = true
+                };
+            }
+            return new Result<bool>
+            {
+                Error = 1,
+                Message = "Failed to remove allergy from user",
+                Data = false
+            };
+        }
+
+        public async Task<Result<object>> UpdateDiseaseToUser(Guid userId, UserDiseasesDTO diseasesDTO)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User not found"
+                };
+            }
+            var userDisease = user.UserDiseases.FirstOrDefault(ud => ud.DiseaseId == diseasesDTO.DiseaseId);
+            if (userDisease == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Disease not found for this user"
+                };
+            }
+            userDisease.DiagnosedAt = diseasesDTO.DiagnosedAt ?? userDisease.DiagnosedAt;
+            userDisease.IsBeforePregnancy = diseasesDTO.IsBeforePregnancy;
+            userDisease.ExpectedCuredAt = diseasesDTO.ExpectedCuredAt ??userDisease.ExpectedCuredAt;
+            userDisease.ActualCuredAt = diseasesDTO.ActualCuredAt ?? userDisease.ActualCuredAt;
+            userDisease.DiseaseType = diseasesDTO.DiseaseType;
+            userDisease.IsCured = diseasesDTO.IsCured ?? userDisease.IsCured;
+            _userRepository.Update(user);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Disease updated successfully",
+                    Data = userDisease
+                };
+            }
+            return new Result<object>
+            {
+                Error = 1,
+                Message = "Failed to update disease",
+            };
+        }
+
+        public async Task<Result<object>> UpdateAlleryToUser(Guid userId, UserAllergiesDTO allergiesDTO)
+        {
+            var user = await _userRepository.GetUserWithAllergyAndDisease(userId);
+            if (user == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "User not found"
+                };
+            }
+            var userAllergy = user.UserAllergy.FirstOrDefault(ua => ua.AllergyId == allergiesDTO.AllergyId);
+            if (userAllergy == null)
+            {
+                return new Result<object>
+                {
+                    Error = 1,
+                    Message = "Allergy not found for this user"
+                };
+            }
+            userAllergy.Severity = allergiesDTO.Severity ?? userAllergy.Severity;
+            userAllergy.Notes = allergiesDTO.Notes ?? userAllergy.Notes;
+            userAllergy.DiagnosedAt = allergiesDTO.DiagnosedAt;
+            userAllergy.IsActive = allergiesDTO.IsActive;
+            _userRepository.Update(user);
+            if (await _unitOfWork.SaveChangeAsync() > 0)
+            {
+                return new Result<object>
+                {
+                    Error = 0,
+                    Message = "Allergy updated successfully",
+                    Data = userAllergy
+                };
+            }
+            return new Result<object>
+            {
+                Error = 1,
+                Message = "Failed to update allergy",
+            };
+        }
     }
 }

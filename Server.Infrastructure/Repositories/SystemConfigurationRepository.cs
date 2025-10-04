@@ -3,18 +3,32 @@ using Server.Application.Interfaces;
 using Server.Application.Repositories;
 using Server.Domain.Entities;
 using Server.Infrastructure.Data;
+using System.Threading.Tasks;
 
 namespace Server.Infrastructure.Repositories
 {
-    public class SystemConfigurationRepository : GenericRepository<SystemConfiguration>, ISystemConfigurationRepository
+    public class SystemConfigurationRepository : ISystemConfigurationRepository
     {
-        public SystemConfigurationRepository(AppDbContext context, ICurrentTime timeService, IClaimsService claimsService) : base(context, timeService, claimsService)
+        private readonly AppDbContext _context;
+
+        public SystemConfigurationRepository(AppDbContext context)
         {
+            _context = context;
+        }
+
+        public async Task CreateSystemConfigurationAsync(SystemConfiguration systemConfiguration)
+        {
+           await _context.SystemConfigurations.AddAsync(systemConfiguration);
         }
 
         public async Task<SystemConfiguration> GetSystemConfigurationAsync()
         {
-            return await _dbSet.FirstOrDefaultAsync();
+            return await _context.SystemConfigurations.FirstOrDefaultAsync();
+        }
+
+        public void UpdateSystemConfiguration(SystemConfiguration systemConfiguration)
+        {
+            _context.SystemConfigurations.Update(systemConfiguration);
         }
     }
 }

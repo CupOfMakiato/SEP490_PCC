@@ -1,6 +1,8 @@
 ﻿using Server.Application.DTOs.NutrientCategory;
+using Server.Application.DTOs.NutrientSuggestion;
 using Server.Application.Interfaces;
 using System.Text;
+using System.Text.Json;
 
 namespace Server.API.Middlewares
 {
@@ -58,104 +60,96 @@ namespace Server.API.Middlewares
                 var systemConfiguration = await scopeService.GetSystemConfigurationAsync();
                 if (systemConfiguration == null)
                 {
-                    context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                    context.Response.ContentType = "application/json";
-                    await context.Response.WriteAsync(
-                        "{\"error\":\"Can't call system configuration\"}");
-                    return;
+                    await next(context);
                 }
                 
                 if (path.StartsWith("/api/nutrientcategory"))
                 {
                     switch (path)
                     {
-                        case "/api/nutrientcategory/getbyid":
-                            var id = context.Request.Query["categoryId"].FirstOrDefault();
-                            if (id is null)
+                        case "/api/nutrientsuggestionattribute/create":
                             {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json"; // or "text/plain"
+                                var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
+                                context.Request.Body = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(body));
 
-                                await context.Response.WriteAsync(
-                                    "{\"error\":\"NutrientCategory's Id is null or empty\"}");
-                                return;
-                            }                                
-                            break;
-                        case "/api/nutrientcategory/create":
-                            var body = await GetBody(context);
-                            var createDto = System.Text.Json.JsonSerializer.Deserialize<CreateNutrientCategoryRequest>(body, jsonOptions);
-                            
-                            if (createDto.Name is null)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync("{\"error\":\"Name is null\"}");
-                                return;
-                            }
+                                var request = JsonSerializer.Deserialize<AddNutrientSuggestionAttributeRequest>(body);
 
-                            if (createDto.Description is null)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync("{\"error\":\"Description is null\"}");
-                                return;
-                            }
+                                if (request == null)
+                                {
+                                    await BadRequest(context, "Request body is invalid");
+                                    return;
+                                }
 
-                            if (createDto.Name.Length > systemConfiguration.NameMaxLength ||
-                                createDto.Name.Length < systemConfiguration.NameMinLength)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync($"{{\"error\":\"Name length must be from {systemConfiguration.NameMinLength} to {systemConfiguration.NameMaxLength}\"}}");
-                                return;
-                            }
+                                if (request.NutrientSuggetionId == Guid.Empty)
+                                {
+                                    await BadRequest(context, "NutrientSuggetionId is required");
+                                    return;
+                                }
 
-                            if (createDto.Description.Length > systemConfiguration.DescriptionMaxLength ||
-                                createDto.Description.Length < systemConfiguration.DescriptionMinLength && createDto.Description != null)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync($"{{\"error\":\"Description length must be from {systemConfiguration.DescriptionMinLength} to {systemConfiguration.DescriptionMaxLength}\"}}");
-                                return;
-                            }
-                            break;
-                        case "/api/nutrientcategory/update":
-                            context.Request.EnableBuffering();
-                             body = await GetBody(context);
-                            var updateDto = System.Text.Json.JsonSerializer.Deserialize<UpdateNutrientCategoryRequest>(body, jsonOptions);
+                                if (string.IsNullOrWhiteSpace(request.Unit))
+                                {
+                                    await BadRequest(context, "Unit is required");
+                                    return;
+                                }
 
-                            if (updateDto.Name is null)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync("{\"error\":\"Name is null\"}");
-                                return;
-                            }
+                                if (request.Amount < 0)
+                                {
+                                    await BadRequest(context, "Amount must be non-negative");
+                                    return;
+                                }
 
-                            if (updateDto.Description is null)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync("{\"error\":\"Description is null\"}");
-                                return;
-                            }
+                                if (request.NutrientId == Guid.Empty)
+                                {
+                                    await BadRequest(context, "NutrientId is required");
+                                    return;
+                                }
 
-                            if (updateDto.Name.Length > systemConfiguration.NameMaxLength ||
-                                updateDto.Name.Length < systemConfiguration.NameMinLength)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync($"{{\"error\":\"Name length must be from {systemConfiguration.NameMinLength} to {systemConfiguration.NameMaxLength}\"}}");
-                                return;
-                            }
+                                if (request.Type < 0)
+                                {
+                                    await BadRequest(context, "Type must be non-negative");
+                                    return;
+                                }
 
-                            if (updateDto.Description.Length > systemConfiguration.DescriptionMaxLength ||
-                                updateDto.Description.Length < systemConfiguration.DescriptionMinLength)
-                            {
-                                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                                context.Response.ContentType = "application/json";
-                                await context.Response.WriteAsync($"{{\"error\":\"Description length must be from {systemConfiguration.DescriptionMinLength} to {systemConfiguration.DescriptionMaxLength}\"}}");
-                                return;
+                                if (request.Trimester < 0 || request.Trimester > 3)
+                                {
+                                    await BadRequest(context, "Trimester must be between 0 and 3");
+                                    return;
+                                }
+
+                                if (request.MinEnergyPercentage.HasValue &&
+                                    (request.MinEnergyPercentage < 0 || request.MinEnergyPercentage > 100))
+                                {
+                                    await BadRequest(context, "MinEnergyPercentage must be between 0 and 100");
+                                    return;
+                                }
+
+                                if (request.MaxEnergyPercentage.HasValue &&
+                                    (request.MaxEnergyPercentage < 0 || request.MaxEnergyPercentage > 100))
+                                {
+                                    await BadRequest(context, "MaxEnergyPercentage must be between 0 and 100");
+                                    return;
+                                }
+
+                                if (request.MinEnergyPercentage.HasValue && request.MaxEnergyPercentage.HasValue &&
+                                    request.MinEnergyPercentage > request.MaxEnergyPercentage)
+                                {
+                                    await BadRequest(context, "MinEnergyPercentage cannot be greater than MaxEnergyPercentage");
+                                    return;
+                                }
+
+                                if (request.MinValuePerDay.HasValue && request.MaxValuePerDay.HasValue &&
+                                    request.MinValuePerDay > request.MaxValuePerDay)
+                                {
+                                    await BadRequest(context, $"MinValuePerDay cannot be greater than MaxValuePerDay");
+                                    return;
+                                }
+
+                                if (request.MinAnimalProteinPercentageRequire.HasValue &&
+                                    (request.MinAnimalProteinPercentageRequire < 0 || request.MinAnimalProteinPercentageRequire > 100))
+                                {
+                                    await BadRequest(context, "MinAnimalProteinPercentageRequire must be between 0 and 100");
+                                    return;
+                                }
                             }
                             break;
                     }
@@ -163,6 +157,13 @@ namespace Server.API.Middlewares
             }
 
             await next(context);
+        }
+
+        private static async Task BadRequest(HttpContext context, string errorMessage)
+        {
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new { error = errorMessage }));
         }
     }
 }

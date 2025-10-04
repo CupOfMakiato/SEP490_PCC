@@ -74,12 +74,14 @@ namespace Server.WebAPI.Controllers
         [HttpPut("edit-user-profile")]
         [ProducesResponseType(200, Type = typeof(Result<EditUserDTO>))]
         [ProducesResponseType(400, Type = typeof(Result<object>))]
-        public async Task<IActionResult> EditUserProfile([FromForm] EditUserDTO editUserDTO)
+        public async Task<IActionResult> EditUserProfile([FromBody] EditUserDTO editUserDTO)
         {
             var result = await _userService.EditUserProfile(editUserDTO);
             if (result.Error == 1)
                 return BadRequest(result);
             return Ok(result);
         }
+
+
     }
 }
