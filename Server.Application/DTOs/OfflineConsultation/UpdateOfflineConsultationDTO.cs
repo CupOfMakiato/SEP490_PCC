@@ -1,4 +1,5 @@
-﻿using Server.Application.DTOs.Schedule;
+﻿using Microsoft.AspNetCore.Http;
+using Server.Application.DTOs.Schedule;
 
 namespace Server.Application.DTOs.OfflineConsultation
 {
@@ -14,6 +15,7 @@ namespace Server.Application.DTOs.OfflineConsultation
         //for Periodic consultation
         public DateTime? FromMonth { get; set; }
         public DateTime? ToMonth { get; set; }
+        public List<IFormFile>? Attachments { get; set; }
         public List<AddDoctorScheduleDTO>? Schedule { get; set; }
     }
 }
