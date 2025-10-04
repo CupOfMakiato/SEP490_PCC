@@ -132,5 +132,15 @@ namespace Server.Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
         }
 
+        public async Task<User> GetUserWithAllergyAndDisease(Guid userId)
+        {
+            return await _dbContext.User
+                .AsSplitQuery()
+                .Include(u => u.UserAllergy)
+                .ThenInclude(ua => ua.Allergy)
+                .Include(u => u.UserDiseases)
+                .ThenInclude(ud => ud.Disease)
+                .FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted);
+        }
     }
 }
