@@ -218,10 +218,20 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<OfflineConsultation?> GetOfflineConsultationByOfflineConsultationIdAsync(Guid offlineConsultationId)
         {
-            return await _context.OfflineConsultation
+            var consultation = await _context.OfflineConsultation
                 .Include(oc => oc.Schedules)
                     .ThenInclude(s => s.Slot)
+                .Include(oc => oc.Attachments)
                 .FirstOrDefaultAsync(oc => oc.Id == offlineConsultationId && !oc.IsDeleted);
+
+            if (consultation != null && consultation.Attachments != null)
+            {
+                consultation.Attachments = consultation.Attachments
+                    .Where(a => a != null && !a.IsDeleted)
+                    .ToList();
+            }
+
+            return consultation;
         }
 
         public async Task<List<OfflineConsultation>> GetOfflineConsultationsByCreatedByAsync(Guid userId)

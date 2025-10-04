@@ -161,15 +161,19 @@ namespace Server.Application.Services
                 };
 
                 await _offlineConsultationRepository.AddAsync(offlineConsultationEntity);
-                await _unitOfWork.SaveChangeAsync();
 
                 var scheduleEntities = new List<Schedule>();
                 foreach (var scheduleDto in offlineConsultation.Schedule)
                 {
                     var slotDto = scheduleDto.Slot;
-                    if (slotDto == null) continue;
-                    if (slotDto.StartTime < offlineConsultation.FromMonth.Value || slotDto.StartTime > offlineConsultation.ToMonth.Value)
+                    if (slotDto == null)
+                    {
                         continue;
+                    }
+                    if (slotDto.StartTime < offlineConsultation.FromMonth.Value || slotDto.EndTime > offlineConsultation.ToMonth.Value)
+                    {
+                        continue;
+                    }
 
                     var hasOverlap = await _unitOfWork.DoctorRepository.HasOverlappingScheduleAsync(
                         offlineConsultation.DoctorId,
@@ -607,7 +611,8 @@ namespace Server.Application.Services
             var form = offlineConsulattion.ConsultationType.ToString();
             var location = clinic.Address ?? "Clinic";
             var contact = clinic.User.Email ?? "our support email";
-            var detailLink = $"http://localhost:5173/offline-consultation/{offlineConsultationId}"; // Local
+            //var detailLink = $"http://localhost:5173/offline-consultation/{offlineConsultationId}"; // Local
+            var detailLink = $"https://nestlycare.live/offline-consultation/{offlineConsultationId}"; // Local
             var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
 
             var emailUserBody = $@"

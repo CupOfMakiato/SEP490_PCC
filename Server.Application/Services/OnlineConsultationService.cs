@@ -446,67 +446,66 @@ namespace Server.Application.Services
             onlineConsultationObj.Recommendations = onlineConsultation.Recommendations;
 
             // --- Attachment synchronization logic ---
-            var existingAttachments = onlineConsultationObj.Attachments?.Where(m => !m.IsDeleted).ToList() ?? new List<Media>();
+            var existingAttachments = onlineConsultationObj.Attachments ?? new List<Media>();
+            var incomingAttachments = onlineConsultation.Attachments ?? new List<IFormFile>();
 
-            // Build set of incoming file names
+            if (incomingAttachments.Count > 4)
+            {
+                return new Result<ViewOnlineConsultationDTO>
+                {
+                    Error = 1,
+                    Message = "You can upload a maximum of 4 attachments per consultation.",
+                    Data = null
+                };
+            }
+
             var incomingFileNames = new HashSet<string>(
-                (onlineConsultation.Attachments ?? new List<IFormFile>()).Select(f => f.FileName),
+                incomingAttachments.Select(f => f.FileName),
                 StringComparer.OrdinalIgnoreCase
             );
 
-            // Remove attachments not present in the incoming list
-            var toRemove = existingAttachments
-                .Where(m => !incomingFileNames.Contains(m.FileName))
-                .ToList();
+            var existingFileNames = new HashSet<string>(
+                existingAttachments.Select(m => m.FileName),
+                StringComparer.OrdinalIgnoreCase
+            );
 
-            foreach (var media in toRemove)
+            // Delete attachments that are not in the incoming list
+            foreach (var existingMedia in existingAttachments.ToList())
             {
-                // Delete from Cloudinary
-                if (!string.IsNullOrEmpty(media.FilePublicId))
+                if (!incomingFileNames.Contains(existingMedia.FileName))
                 {
-                    var deleteResult = await _cloudinaryService.DeleteFileAsync(media.FilePublicId);
-
-                    if (deleteResult == null || deleteResult.Result != "ok")
+                    if (!string.IsNullOrEmpty(existingMedia.FilePublicId))
                     {
-                        return new Result<ViewOnlineConsultationDTO>
-                        {
-                            Error = 1,
-                            Message = "Failed to delete old attachment from Cloudinary."
-                        };
+                        await _cloudinaryService.DeleteFileAsync(existingMedia.FilePublicId);
                     }
+                    onlineConsultationObj.Attachments.Remove(existingMedia);
                 }
-                media.IsDeleted = true;
-                _unitOfWork.MediaRepository.Update(media);
-                onlineConsultationObj.Attachments.Remove(media);
+                // If filename is present in both, keep it (do nothing)
             }
-            await _unitOfWork.SaveChangeAsync();
 
-            // Add new files not already present
-            var existingFileNames = existingAttachments.Select(m => m.FileName).ToHashSet(StringComparer.OrdinalIgnoreCase);
-            foreach (var file in onlineConsultation.Attachments ?? new List<IFormFile>())
+            // Add new attachments that are not already present
+            foreach (var attachment in incomingAttachments)
             {
-                if (!existingFileNames.Contains(file.FileName))
+                if (!existingFileNames.Contains(attachment.FileName))
                 {
                     var response = await _cloudinaryService.UploadOnlineConsultationAttachment(
-                        file.FileName, file, onlineConsultationObj);
+                        attachment.FileName, attachment, onlineConsultationObj);
 
                     if (response != null)
                     {
-                        var media = new Media
+                        onlineConsultationObj.Attachments.Add(new Media
                         {
                             OnlineConsultationId = onlineConsultationObj.Id,
-                            FileName = file.FileName,
+                            FileName = attachment.FileName,
                             FileUrl = response.FileUrl,
                             FilePublicId = response.PublicFileId,
-                            FileType = file.ContentType
-                        };
-                        await _unitOfWork.MediaRepository.AddAsync(media);
-                        if (await _unitOfWork.SaveChangeAsync() > 0)
-                            onlineConsultationObj.Attachments.Add(media);
+                            FileType = attachment.ContentType
+                        });
                     }
                 }
+                // If filename is present in both, keep it (do nothing)
             }
-            // --- End attachment logic ---
+            // --- End attachment synchronization logic ---
 
             _onlineConsultationRepository.Update(onlineConsultationObj);
 
