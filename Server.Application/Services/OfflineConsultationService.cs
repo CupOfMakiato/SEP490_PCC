@@ -421,7 +421,8 @@ namespace Server.Application.Services
 
                 var doctorName = doctor?.User.UserName ?? "Doctor";
                 var username = user.UserName ?? "User";
-                var date = consultation.StartDate?.ToString("dd/MM/yyyy");
+                var startDate = consultation.StartDate?.ToString("dd/MM/yyyy");
+                var endDate = consultation.EndDate?.ToString("dd/MM/yyyy");
                 var startTime = consultation.StartDate?.ToString("HH:mm");
                 var endTime = consultation.EndDate?.ToString("HH:mm");
                 var form = consultation.ConsultationType.ToString();
@@ -434,12 +435,11 @@ namespace Server.Application.Services
                                 Hi {username},<br/><br/>
                                 This is an email reminder that you have a consultation scheduled. Here are the details:<br/><br/>
                                 Doctor: {doctorName}<br/>
-                                Time: {date} – {startTime} to {endTime}<br/>
+                                Time: {startDate} to {endDate} – {startTime} to {endTime}<br/>
                                 Form: {form}<br/>
                                 Location: {location}<br/><br/>
                                 👉 Please arrive at least 5 minutes before your appointment time to ensure that your forum consultation is on time and effective.<br/><br/>
                                 You can view or manage your consultation schedule at:<br/>
-                                <a href=""{detailLink}"">{detailLink}</a><br/><br/>
                                 If you need further assistance, please contact us via {supportContact}.<br/><br/>
                                 Congratulations on a successful consultation!<br/><br/>
                                 Best regards,<br/>
@@ -449,11 +449,10 @@ namespace Server.Application.Services
                                 Hi Doctor {doctorName},<br/><br/>
                                 The system would like to remind you that you have an upcoming consultation. The details are as follows:<br/><br/>
                                 User: {username}<br/>
-                                Time: {date} – {startTime} to {endTime}<br/>
+                                Time: {startDate} to {endDate} – {startTime} to {endTime}<br/>
                                 Form: {form}<br/>
                                 Location: {location}<br/>
                                 You can view details or manage your consultation schedule at the following link:<br/>
-                                <a href=""{detailLink}"">{detailLink}</a><br/><br/>
                                 Best regards,<br/>
                                 {systemSignature}";
 
@@ -603,7 +602,8 @@ namespace Server.Application.Services
             var doctorName = doctor.User.UserName ?? "Doctor";
             var startTime = offlineConsulattion.StartDate?.ToString("HH:mm");
             var endTime = offlineConsulattion.EndDate?.ToString("HH:mm");
-            var date = offlineConsulattion.StartDate?.ToString("dd/MM/yyyy");
+            var startDate = offlineConsulattion.StartDate?.ToString("dd/MM/yyyy");
+            var endDate = offlineConsulattion.EndDate?.ToString("dd/MM/yyyy");
             var form = offlineConsulattion.ConsultationType.ToString();
             var location = clinic.Address ?? "Clinic";
             var contact = clinic.User.Email ?? "our support email";
@@ -614,7 +614,7 @@ namespace Server.Application.Services
                             Hi {username},<br/><br/>
                             We would like to inform you that your consultation has been successfully booked with the following information:<br/><br/>
                             Doctor: {doctorName}<br/>
-                            Time: {date} - {startTime} to {endTime}<br/>
+                            Time: {startDate} to {endDate} - {startTime} to {endTime}<br/>
                             Form: {form}<br/>
                             Location: {location}<br/><br/>
                             Please prepare in advance the questions or issues you want to discuss to make the consultation most effective.<br/><br/>
@@ -630,7 +630,7 @@ namespace Server.Application.Services
                             Hi Doctor {doctorName},<br/><br/>
                             You have just been assigned to a new consultation with a user. Here are the details:<br/><br/>
                             User: {username}<br/>
-                            Time: {date} - {startTime} to {endTime}<br/>
+                            Time: {startDate} to {endDate} - {startTime} to {endTime}<br/>
                             Form: {form}<br/>
                             Location: {location}<br/><br/>
                             Please check your schedule to ensure you can attend on time.<br/><br/>
@@ -668,7 +668,7 @@ namespace Server.Application.Services
             var notification = new Notification
             {
                 Id = Guid.NewGuid(),
-                Message = $"You have booked a new offline consultation on {date} with the doctor {doctorName} at {location}",
+                Message = $"You have booked a new offline consultation on {startDate} with the doctor {doctorName} at {location}",
                 CreatedBy = user.Id,
                 IsSent = true,
                 IsRead = false,
@@ -798,10 +798,8 @@ namespace Server.Application.Services
                 if (offlineConsultation.ToMonth != null)
                     offlineConsultationObj.ToMonth = offlineConsultation.ToMonth;
 
-                // If Schedules are provided in DTO, update them
                 if (offlineConsultation.Schedule != null && offlineConsultation.Schedule.Any())
                 {
-                    // Clear existing schedules and add new ones
                     offlineConsultationObj.Schedules?.Clear();
                     foreach (var scheduleDto in offlineConsultation.Schedule)
                     {
@@ -811,7 +809,6 @@ namespace Server.Application.Services
                     }
                 }
 
-                // Set StartDate and EndDate based on min/max slot times
                 if (offlineConsultationObj.Schedules != null && offlineConsultationObj.Schedules.Any())
                 {
                     var minStart = offlineConsultationObj.Schedules
@@ -827,7 +824,65 @@ namespace Server.Application.Services
                 }
             }
 
-            // Map other updatable properties if needed
+            if (offlineConsultation.Attachments == null)
+            {
+                if (offlineConsultationObj.Attachments != null && offlineConsultationObj.Attachments.Any())
+                {
+                    foreach (var existingMedia in offlineConsultationObj.Attachments.ToList())
+                    {
+                        if (!string.IsNullOrEmpty(existingMedia.FilePublicId))
+                        {
+                            await _cloudinaryService.DeleteFileAsync(existingMedia.FilePublicId);
+                        }
+                    }
+                    offlineConsultationObj.Attachments.Clear();
+                }
+            }
+            else
+            {
+                if (offlineConsultationObj.Attachments != null && offlineConsultationObj.Attachments.Any())
+                {
+                    foreach (var existingMedia in offlineConsultationObj.Attachments.ToList())
+                    {
+                        if (!string.IsNullOrEmpty(existingMedia.FilePublicId))
+                        {
+                            await _cloudinaryService.DeleteFileAsync(existingMedia.FilePublicId);
+                        }
+                    }
+                    offlineConsultationObj.Attachments.Clear();
+                }
+                if (offlineConsultation.Attachments.Any())
+                {
+                    if (offlineConsultation.Attachments.Count > 4)
+                    {
+                        return new Result<ViewOfflineConsultationDTO>
+                        {
+                            Error = 1,
+                            Message = "You can upload a maximum of 4 attachments per consultation.",
+                            Data = null
+                        };
+                    }
+
+                    foreach (var attachment in offlineConsultation.Attachments)
+                    {
+                        var response = await _cloudinaryService.UploadOfflineConsultationAttachment(
+                            attachment.FileName, attachment, offlineConsultationObj);
+
+                        if (response != null)
+                        {
+                            offlineConsultationObj.Attachments.Add(new Media
+                            {
+                                OfflineConsultationId = offlineConsultationObj.Id,
+                                FileName = attachment.FileName,
+                                FileUrl = response.FileUrl,
+                                FilePublicId = response.PublicFileId,
+                                FileType = attachment.ContentType
+                            });
+                        }
+                    }
+                }
+            }
+
             _mapper.Map(offlineConsultation, offlineConsultationObj);
 
             _offlineConsultationRepository.Update(offlineConsultationObj);
