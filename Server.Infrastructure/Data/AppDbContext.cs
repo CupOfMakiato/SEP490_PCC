@@ -121,7 +121,7 @@ namespace Server.Infrastructure.Data
            );
 
             modelBuilder.Entity<Category>().HasData(
-               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition", BlogCategoryTag = BlogCategoryTag.Nutrient , IsActive = true },
+               new Category { Id = Guid.Parse("6965593b-bb35-429f-921b-9da9ab3a4b56"), CategoryName = "Pregnancy Nutrition", BlogCategoryTag = BlogCategoryTag.Nutrient, IsActive = true },
                new Category { Id = Guid.Parse("cee75f47-2420-4ae4-bfe7-863ca98b649b"), CategoryName = "Prenatal Care", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
                new Category { Id = Guid.Parse("371e3ddc-e996-45d3-8d67-2c95026b7f2d"), CategoryName = "Mental Health & Wellness", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
                new Category { Id = Guid.Parse("f2080622-9e3d-4d93-a75b-285efbb05dea"), CategoryName = "Labor & Delivery", BlogCategoryTag = BlogCategoryTag.Health, IsActive = true },
@@ -136,7 +136,7 @@ namespace Server.Infrastructure.Data
                    PreWeight = 60,
                    FirstDayOfLastMenstrualPeriod = new DateTime(2025, 3, 19),
                    EstimatedDueDate = new DateTime(2025, 12, 24),
-                   CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"), 
+                   CreatedBy = Guid.Parse("92b1cf94-ae17-478d-b60c-d8b11dd134a1"),
                    Status = GrowthDataStatus.Active,
                    CreationDate = DateTime.UtcNow,
                    IsDeleted = false
@@ -255,6 +255,7 @@ namespace Server.Infrastructure.Data
                     IsDeleted = false
                 }
             );
+
             modelBuilder.Entity<BlogTag>().HasData(
                 new BlogTag
                 {
@@ -291,6 +292,64 @@ namespace Server.Infrastructure.Data
                     BlogId = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e0"),
                     TagId = PregnancyNutritionTag
                 }
+            );
+            modelBuilder.Entity<Media>().HasData(
+                new Media
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = Guid.Parse("26872b7a-1b74-4403-bf2f-e92d6d4f15c4"),
+                    FileUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759577171/output-onlinepngtools_2_yaqan3.webp",
+                    FilePublicId = "output-onlinepngtools_2_yaqan3",
+                    FileType = "img",
+                    FileName = "blog6"
+                    
+                },
+                new Media
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = Guid.Parse("94aa1f89-9765-4771-81d4-adc2083bdd38"),
+                    FileUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759577172/output-onlinepngtools_1_pthvfc.webp",
+                    FilePublicId = "output-onlinepngtools_1_pthvfc",
+                    FileType = "img",
+                    FileName = "blog1"
+                },
+                new Media
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = Guid.Parse("49c67e45-f583-4ad6-9b9d-a1e60c9dc75e"),
+                    FileUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759577172/output-onlinepngtools_3_nz8qjr.webp",
+                    FilePublicId = "output-onlinepngtools_3_nz8qjr",
+                    FileType = "img",
+                    FileName = "blog2"
+                },
+                new Media
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = Guid.Parse("9624a1fe-176c-43b7-804e-05fc85d4490b"),
+                    FileUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759577172/output-onlinepngtools_4_op88w1.webp",
+                    FilePublicId = "output-onlinepngtools_4_op88w1",
+                    FileType = "img",
+                    FileName = "blog3"
+                },
+                new Media
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = Guid.Parse("d828c580-d83b-4147-b110-91a7cb25b176"),
+                    FileUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759577172/output-onlinepngtools_dzzzzu.webp",
+                    FilePublicId = "output-onlinepngtools_dzzzzu",
+                    FileType = "img",
+                    FileName = "blog4"
+                },
+                new Media
+                {
+                    Id = Guid.NewGuid(),
+                    BlogId = Guid.Parse("b1c2d3e4-f5a6-7b8c-9d0e-f1a2b3c4d5e0"),
+                    FileUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759577303/OIP_2_dxlq8z.webp",
+                    FilePublicId = "OIP_2_dxlq8z",
+                    FileType = "img",
+                    FileName = "blog5"
+                }
+
             );
             modelBuilder.Entity<RecordedSymptom>().HasData(
                 new RecordedSymptom
