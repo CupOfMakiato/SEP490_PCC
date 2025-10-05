@@ -12,5 +12,6 @@ namespace Server.Application.Interfaces
         public Task<Result<ViewOnlineConsultationDTO>> UpdateOnlineConsultation(UpdateOnlineConsultationDTO onlineConsultation);
         public Task<Result<bool>> SoftDeleteOnlineConsultation(Guid onlineConsultationId);
         public Task<Result<bool>> SendBookingEmailAsync(Guid onlineConsultationId);
+        public Task<Result<bool>> SendUpdatedBookingEmailAsync(Guid onlineConsultationId);
     }
 }

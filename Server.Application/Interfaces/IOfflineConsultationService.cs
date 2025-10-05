@@ -17,5 +17,6 @@ namespace Server.Application.Interfaces
         public Task<Result<List<ViewOfflineConsultationDTO>>> GetOfflineConsultationsByCreatedByAsync(Guid userId);
         public Task<Result<bool>> AddAttachmentsAsync(Guid offlineConsultationId, List<IFormFile> attachments);
         public Task<Result<ViewOfflineConsultationDTO>> UpdateOfflineConsultationAsync(UpdateOfflineConsultationDTO offlineConsultation);
+        public Task<Result<bool>> SendUpdatedBookingEmailAsync(Guid offlineConsultationId);
     }
 }

@@ -350,7 +350,7 @@ namespace Server.Infrastructure.Data
                     Name = "Shrimp",
                     Description = "A low-calorie seafood rich in protein, iodine, and selenium.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546750/R_10_bblyej.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe when fully cooked. Avoid raw shrimp (sushi) due to bacterial risk.",
                     IsDeleted = false,
@@ -362,7 +362,7 @@ namespace Server.Infrastructure.Data
                     Name = "Tuna",
                     Description = "Popular fish rich in protein and omega-3 fatty acids.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547009/OIP_19_cytbne.webp",
                     PregnancySafe = false,
                     SafetyNote = "Limit intake (high in mercury). Avoid raw tuna in sushi during pregnancy.",
                     IsDeleted = false,
@@ -374,7 +374,7 @@ namespace Server.Infrastructure.Data
                     Name = "Cod",
                     Description = "Mild white fish, low in fat and a good source of vitamin B12.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541233/OIP_9_rgmcj6.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe when cooked. A good low-mercury seafood choice during pregnancy.",
                     IsDeleted = false,
@@ -584,7 +584,7 @@ namespace Server.Infrastructure.Data
                     Name = "Sunflower Oil",
                     Description = "Oil made from sunflower seeds, high in vitamin E.",
                     FoodCategoryId = FCOil,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759548097/R_17_rta52a.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in small amounts. Use cold-pressed or refined types for cooking.",
                     IsDeleted = false,
@@ -596,7 +596,7 @@ namespace Server.Infrastructure.Data
                     Name = "Fish Sauce",
                     Description = "Fermented seafood condiment essential in Vietnamese cuisine.",
                     FoodCategoryId = FCOil,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759540811/OIP_6_lazm54.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. High sodium content; rinse well in recipes.",
                     IsDeleted = false,
@@ -620,7 +620,7 @@ namespace Server.Infrastructure.Data
                     Name = "Soy Sauce",
                     Description = "Fermented soy-based liquid seasoning with strong umami and high sodium content.",
                     FoodCategoryId = FCOil, // Oils and Sauces
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546538/OIP_15_nwppb4.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in small amounts; high in sodium. Opt for low-sodium varieties to help manage blood pressure and fluid retention.",
                     IsDeleted = false,
@@ -632,7 +632,7 @@ namespace Server.Infrastructure.Data
                     Name = "Chili Sauce",
                     Description = "Spicy sauce made from chili peppers, vinegar, salt, and sometimes sugar.",
                     FoodCategoryId = FCOil, // Oils and Sauces
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547790/R_15_v9e7fb.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation; may trigger heartburn or reflux during pregnancy in some individuals.",
                     IsDeleted = false,
@@ -644,7 +644,7 @@ namespace Server.Infrastructure.Data
                     Name = "Mayonnaise",
                     Description = "Emulsion of oil, egg, and acid (vinegar or lemon), used as a spread or dressing base.",
                     FoodCategoryId = FCOil, // Oils and Sauces
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546586/OIP_16_lhimko.webp",
                     PregnancySafe = true,
                     SafetyNote = "Use pasteurized/retail versions; homemade mayo with raw egg is not recommended. High in fat—use sparingly.",
                     IsDeleted = false,
@@ -756,7 +756,7 @@ namespace Server.Infrastructure.Data
                     Name = "Almonds",
                     Description = "Nutrient-dense nut high in vitamin E, magnesium, and protein.",
                     FoodCategoryId = FCNut,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759545917/ALMOND-BADAM-min_ppvbfc.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. Helps with healthy fats and protein needs.",
                     IsDeleted = false,
@@ -768,7 +768,7 @@ namespace Server.Infrastructure.Data
                     Name = "Walnuts",
                     Description = "Rich in omega-3 fatty acids and antioxidants.",
                     FoodCategoryId = FCNut,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546004/R_8_yvrpw4.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe and beneficial. Good for brain health during pregnancy.",
                     IsDeleted = false,
@@ -780,7 +780,7 @@ namespace Server.Infrastructure.Data
                     Name = "Cashews",
                     Description = "Creamy nut high in copper, magnesium, and healthy fats.",
                     FoodCategoryId = FCNut,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546061/3r1hbfco_cashews_625x300_02_December_22_j1umtl.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe if not allergic. Limit roasted and salted versions to reduce sodium intake.",
                     IsDeleted = false,
@@ -793,7 +793,7 @@ namespace Server.Infrastructure.Data
                     Name = "Peanuts",
                     Description = "A legume often consumed as a nut, rich in protein, healthy fats, and B vitamins.",
                     FoodCategoryId = FCNut,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759545852/R_7_mcqowj.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe if not allergic. No need to avoid during pregnancy. Limit salted or roasted peanuts to reduce sodium intake.",
                     IsDeleted = false,
@@ -818,7 +818,7 @@ namespace Server.Infrastructure.Data
                     Name = "Butter",
                     Description = "Dairy-based fat product commonly used for cooking and baking.",
                     FoodCategoryId = FCDairy,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546265/Butter_lqp5te.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. High in saturated fat, so limit intake.",
                     IsDeleted = false,
@@ -831,7 +831,7 @@ namespace Server.Infrastructure.Data
                     Name = "Milk",
                     Description = "A dairy product rich in calcium, protein, and vitamin B12. Commonly consumed as a beverage or used in cooking.",
                     FoodCategoryId = FCDairy,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759545782/OIP_10_z2o1hh.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. Choose pasteurized milk to avoid infections such as listeria.",
                     IsDeleted = false,
@@ -843,7 +843,7 @@ namespace Server.Infrastructure.Data
                     Name = "Egg",
                     Description = "A nutrient-rich food source containing high-quality protein, vitamins, and minerals.",
                     FoodCategoryId = FCDairy,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541492/R_6_ngbsby.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe if fully cooked. Avoid raw or undercooked eggs during pregnancy to prevent salmonella risk.",
                     IsDeleted = false,
@@ -857,7 +857,7 @@ namespace Server.Infrastructure.Data
                     Name = "SoyBean",
                     Description = "A legume commonly consumed as soybeans, tofu, soy milk, and soy sauce. High in protein and isoflavones.",
                     FoodCategoryId = FCVeg,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546388/OIP_13_ovtb1u.webp",
                     PregnancySafe = true,
                     SafetyNote = "Generally safe in moderate amounts. Limit highly processed soy products.",
                     IsDeleted = false,
@@ -893,7 +893,7 @@ namespace Server.Infrastructure.Data
                     Name = "Noodles",
                     Description = "A refined grain product with folate (B9) content alongside net carbohydrates.",
                     FoodCategoryId = FCGrain,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547965/OIP_21_c8p9qs.webp",
                     PregnancySafe = true,
                     SafetyNote = "Generally safe; opt for whole-grain versions for added fiber.",
                     IsDeleted = false,
@@ -917,7 +917,7 @@ namespace Server.Infrastructure.Data
                     Name = "Tofu",
                     Description = "A soy-based food made from soybeans, notable for calcium and polyunsaturated fat.",
                     FoodCategoryId = FCGrain,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546486/OIP_14_kfopha.webp",
                     PregnancySafe = true,
                     SafetyNote = "Generally safe; choose low-sodium or calcium-coagulant types if concerned.",
                     IsDeleted = false,
@@ -933,7 +933,7 @@ namespace Server.Infrastructure.Data
                     Name = "Wheat Bread",
                     Description = "Bread made from wheat flour, a staple source of carbohydrates and dietary fiber.",
                     FoodCategoryId = FCBakedPr,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546637/md-100-Whole-Wheat-Bread-11-1-of-1-scaled_zsleg6.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe for most, but should be avoided by people with gluten intolerance or celiac disease.",
                     IsDeleted = false,
@@ -983,7 +983,7 @@ namespace Server.Infrastructure.Data
                     Name = "Vietnamese Baguette (Banh Mi)",
                     Description = "Vietnamese baguette sandwich typically with bread, protein, pickled vegetables, herbs, and condiments.",
                     FoodCategoryId = FCBakedPr, // Baked Products
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546699/OIP_17_a6zn7b.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe when ingredients are fresh and meats are fully cooked. Can be high in sodium/refined carbs depending on fillings and sauces.",
                     IsDeleted = false,
@@ -1020,7 +1020,7 @@ namespace Server.Infrastructure.Data
                     Name = "Apple Juice",
                     Description = "Sweet fruit juice made from pressed apples, rich in vitamin C and natural sugars.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539811/R_3_kwn01j.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. Choose pasteurized juice to avoid bacterial risk. Prefer whole fruit over juice to control sugar intake.",
                     IsDeleted = false,
@@ -1032,7 +1032,7 @@ namespace Server.Infrastructure.Data
                     Name = "Orange Juice",
                     Description = "Citrus juice high in vitamin C, folate, and antioxidants.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759548213/2d774e414042779b486e607e91cdf52e_olww6t.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe and beneficial during pregnancy. Choose pasteurized, fortified varieties for added folate. Limit to 1 cup daily due to sugar content.",
                     IsDeleted = false,
@@ -1044,7 +1044,7 @@ namespace Server.Infrastructure.Data
                     Name = "Pineapple Juice",
                     Description = "Tropical fruit juice rich in vitamin C, manganese, and bromelain enzyme.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539754/OIP_5_kdt2ru.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. High in natural sugars; dilute with water if desired. Choose pasteurized varieties.",
                     IsDeleted = false,
@@ -1092,7 +1092,7 @@ namespace Server.Infrastructure.Data
                     Name = "Grape Juice",
                     Description = "Sweet fruit juice rich in antioxidants and natural sugars.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539533/Grape-Juice-12_u0jrvx.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. High in natural sugars; limit to small portions. Choose 100% grape juice without added sugars.",
                     IsDeleted = false,
@@ -1128,7 +1128,7 @@ namespace Server.Infrastructure.Data
                     Name = "Almond Milk",
                     Description = "Plant-based milk alternative made from ground almonds, often fortified with calcium and vitamins.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539375/OIP_sngqbz.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe alternative to dairy milk. Choose fortified versions for calcium and vitamin D. Lower in protein than cow's milk.",
                     IsDeleted = false,
@@ -1164,7 +1164,7 @@ namespace Server.Infrastructure.Data
                     Name = "Green Tea",
                     Description = "Lightly caffeinated tea rich in antioxidants and catechins.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539425/Green-tea-scaled_pox5kh.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation (1-2 cups daily). Contains caffeine; limit total daily caffeine intake to 200mg during pregnancy.",
                     IsDeleted = false,
@@ -1176,7 +1176,7 @@ namespace Server.Infrastructure.Data
                     Name = "Black Tea",
                     Description = "Traditional caffeinated tea with robust flavor and antioxidants.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539465/OIP_4_qb8idu.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation (1-2 cups daily). Monitor total daily caffeine intake; limit to 200mg during pregnancy.",
                     IsDeleted = false,
@@ -1238,7 +1238,7 @@ namespace Server.Infrastructure.Data
                     Name = "Chili Powder",
                     Description = "A spicy seasoning made from dried ground chili peppers, commonly used in savory dishes.",
                     FoodCategoryId = FCSpice,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547699/R_14_tnnbfa.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderation. Excess may cause heartburn or digestive discomfort during pregnancy.",
                     IsDeleted = false,
@@ -1250,7 +1250,7 @@ namespace Server.Infrastructure.Data
                     Name = "Table Salt",
                     Description = "A common seasoning composed mainly of sodium chloride, often fortified with iodine.",
                     FoodCategoryId = FCSpice,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547636/GettyImages-1348072128-8af35c603a394f1db3bfe59e37f5357c_rgiajj.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe in moderate amounts. Excess salt may contribute to water retention and high blood pressure.",
                     IsDeleted = false,
@@ -1262,7 +1262,7 @@ namespace Server.Infrastructure.Data
                     Name = "Black Pepper",
                     Description = "A popular spice made from ground peppercorns, adding a sharp and mildly spicy flavor.",
                     FoodCategoryId = FCSpice,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547847/OIP_20_iybzru.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe in food amounts. Large amounts may irritate the stomach lining during pregnancy.",
                     IsDeleted = false,
@@ -1286,7 +1286,7 @@ namespace Server.Infrastructure.Data
                     Name = "Sugar",
                     Description = "Sweetener used in desserts, sauces, and beverages.",
                     FoodCategoryId = FCSpice,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547904/R_16_xe7ndy.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Use in moderation to control blood sugar levels.",
                     IsDeleted = false,
@@ -1322,7 +1322,7 @@ namespace Server.Infrastructure.Data
                     Name = "Soup Powder",
                     Description = "Instant soup seasoning base for quick broth preparation.",
                     FoodCategoryId = FCSpice,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547560/R_13_bnkemd.jpg",
                     PregnancySafe = true,
                     SafetyNote = "High in sodium; rinse ingredients or use low-sodium version.",
                     IsDeleted = false,
@@ -1422,7 +1422,7 @@ namespace Server.Infrastructure.Data
                     Name = "Field Crab",
                     Description = "Freshwater crab species, excellent source of protein and minerals, low in calories.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546857/maxresdefault_1_njy6fs.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe when fully cooked. Ensure from clean water sources. High in cholesterol - consume in moderation.",
                     IsDeleted = false,
@@ -1494,7 +1494,7 @@ namespace Server.Infrastructure.Data
                     Name = "Mackerel",
                     Description = "Oily fish rich in omega-3 fatty acids, protein, and vitamin D.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541421/oven-roasted-mackerel_ggrnht.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe when fully cooked. Limit to 2-3 servings per week during pregnancy due to mercury content. Excellent source of omega-3s.",
                     IsDeleted = false,
@@ -1506,7 +1506,7 @@ namespace Server.Infrastructure.Data
                     Name = "Cheese",
                     Description = "Fermented dairy product, excellent source of calcium and protein.",
                     FoodCategoryId = FCDairy,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546202/R_9_wg89wo.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe when made from pasteurized milk. Choose pasteurized varieties during pregnancy. High in saturated fat - consume in moderation.",
                     IsDeleted = false,
@@ -1530,7 +1530,7 @@ namespace Server.Infrastructure.Data
                     Name = "Oyster Sauce",
                     Description = "Thick, savory sauce made from oyster extracts, commonly used in Asian cooking.",
                     FoodCategoryId = FCOil,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546962/OIP_18_c5rhuh.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe when used in moderation. High sodium content - limit intake if monitoring salt consumption.",
                     IsDeleted = false,
@@ -1566,7 +1566,7 @@ namespace Server.Infrastructure.Data
                     Name = "Chinese Sausage (Lap Cheong)",
                     Description = "Sweet, cured pork sausage popular in Chinese cuisine, high in protein and fat.",
                     FoodCategoryId = FCMeat,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759547433/R_12_vgx9vu.jpg",
                     PregnancySafe = false,
                     SafetyNote = "Use sparingly during pregnancy. High in sodium and preservatives. Cook thoroughly before consumption.",
                     IsDeleted = false,
@@ -1590,7 +1590,7 @@ namespace Server.Infrastructure.Data
                     Name = "Skimmed Milk (Unsweetened)",
                     Description = "Fat-free milk, good source of protein and calcium with reduced calories.",
                     FoodCategoryId = FCBeverages,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546156/OIP_11_acanao.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe and beneficial during pregnancy. Excellent source of calcium and protein. Choose pasteurized varieties.",
                     IsDeleted = false,
@@ -1602,7 +1602,7 @@ namespace Server.Infrastructure.Data
                     Name = "Yogurt (Plain, Low-fat)",
                     Description = "Fermented dairy product rich in probiotics, protein, and calcium.",
                     FoodCategoryId = FCDairy,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546330/OIP_12_bhtzuz.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe and beneficial during pregnancy. Choose pasteurized varieties. Good source of probiotics and calcium.",
                     IsDeleted = false,
@@ -1662,7 +1662,7 @@ namespace Server.Infrastructure.Data
                     Name = "Mackerel Scad (Galunggong)",
                     Description = "Small, oily fish rich in omega-3 fatty acids and protein, popular in Southeast Asian cuisine.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541337/R_5_mdzkhn.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Safe when fully cooked. Limit to 2-3 servings per week during pregnancy. Good source of omega-3 fatty acids and vitamin D.",
                     IsDeleted = false,
@@ -1686,7 +1686,7 @@ namespace Server.Infrastructure.Data
                     Name = "Snake Head Fish",
                     Description = "Freshwater fish, lean protein with mild flavor.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759540914/OIP_7_jvey9z.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe when fully cooked; avoid raw freshwater fish.",
                     IsDeleted = false,
@@ -1806,7 +1806,7 @@ namespace Server.Infrastructure.Data
                     Name = "Squid",
                     Description = "Cooked squid",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759546909/R_11_d2kzxt.jpg",
                     PregnancySafe = true,
                     SafetyNote = "Ensure fresh and properly cooked to avoid foodborne illness.",
                     IsDeleted = false,
@@ -1818,7 +1818,7 @@ namespace Server.Infrastructure.Data
                     Name = "Basa Fish",
                     Description = "Raw basa fish fillet",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541008/frozen-basa-fish-1000x1000_zsbjnc.jpg",
                     PregnancySafe = true,
                     SafetyNote = "",
                     IsDeleted = false,
@@ -1830,7 +1830,7 @@ namespace Server.Infrastructure.Data
                     Name = "Basa Fish Ball",
                     Description = "Fried basa fish balls",
                     FoodCategoryId = FCBakedPr,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541069/R_4_dfhimb.jpg",
                     PregnancySafe = true,
                     SafetyNote = "High in sodium; consume in moderation.",
                     IsDeleted = false,
@@ -1845,7 +1845,7 @@ namespace Server.Infrastructure.Data
                     Name = "Cereal",
                     Description = "Fortified breakfast cereal, rich in vitamins and minerals with moderate protein content.",
                     FoodCategoryId = FCGrain,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759548039/OIP_22_xhns6x.webp",
                     PregnancySafe = true,
                     SafetyNote = "Safe for consumption. Check for allergens like gluten if sensitive.",
                     IsDeleted = false,
@@ -1910,7 +1910,7 @@ namespace Server.Infrastructure.Data
                     Name = "Eel",
                     Description = "High-protein freshwater fish rich in vitamins A, B12, and omega-3 fatty acids.",
                     FoodCategoryId = FCSeaFood,
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759541122/OIP_8_rqlwkg.webp",
                     PregnancySafe = false,
                     SafetyNote = "High in mercury. Pregnant women should limit consumption. Always cook thoroughly.",
                     IsDeleted = false,
@@ -22220,21 +22220,21 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishCaKhoTo,
                     DishName = "Braised Fish in Clay Pot",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537349/Basa-Steaks-cooking-33-6x6-1_whskxm.jpg",
                     Description = "Vietnamese braised cod fish with caramelized fish sauce in clay pot"
                 },
                 new Dish
                 {
                     Id = DishThitNuongXa,
                     DishName = "Lemongrass Grilled Pork",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537254/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__images__2016__08__20160801-vietnamese-pork-chop-grill-19-0afd5fe5b5584c7cabd09e9a5ae39a7e_x766wm.webp",
                     Description = "Grilled pork marinated with lemongrass and Vietnamese spices"
                 },
                 new Dish
                 {
                     Id = DishComChienTom,
                     DishName = "Shrimp Fried Rice",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539930/C%C6%A1m_chi%C3%AAn_t%C3%B4m_9_g85ooc.png",
                     Description = "Vietnamese style fried rice with fresh shrimp and vegetables"
                 },
                 new Dish
@@ -22255,14 +22255,14 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishTomXaoRauCu,
                     DishName = "Shrimp Stir-fry with Vegetables",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537426/KD-2015-4-1_qzgwja.webp",
                     Description = "Fresh shrimp stir-fried with seasonal vegetables"
                 },
                 new Dish
                 {
                     Id = DishDauHuSotCa,
                     DishName = "Tofu in Tomato Sauce",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537514/MAN100_pxei1z.jpg",
                     Description = "Braised tofu in rich tomato sauce with herbs"
                 },
                 new Dish
@@ -22283,7 +22283,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishGaXaoNam,
                     DishName = "Chicken Stir-fry with Mushrooms",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537595/MAN37_bsovyc.jpg",
                     Description = "Tender chicken stir-fried with shiitake mushrooms and vegetables"
                 },
                 new Dish
@@ -22297,49 +22297,49 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishComNepGa,
                     DishName = "Glutinous Rice with Chicken",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537658/XOI1_imaodq.jpg",
                     Description = "Sticky rice topped with seasoned chicken breast"
                 },
                 new Dish
                 {
                     Id = DishTomNuong,
                     DishName = "Grilled Shrimp",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537789/th_tmbzgu.jpg",
                     Description = "Fresh shrimp grilled with garlic and herbs"
                 },
                 new Dish
                 {
                     Id = DishCanhBiDo,
                     DishName = "Pumpkin and Pork Soup",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759537865/CANH5_smgssh.jpg",
                     Description = "Sweet soup with pork and seasonal vegetables"
                 },
                 new Dish
                 {
                     Id = DishRauXaoCuQua,
                     DishName = "Mixed Vegetable Stir-fry",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538028/rauc%E1%BB%A7x%C3%A0oth%E1%BA%ADpc%E1%BA%A9m_mj09ie.png",
                     Description = "Healthy stir-fry with eggplant, broccoli, and mixed vegetables"
                 },
                 new Dish
                 {
                     Id = DishCaChienNuocMam,
                     DishName = "Pan-fried Mackerel with Fish Sauce",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538141/th_1_ylbelj.jpg",
                     Description = "Crispy fried mackerel with caramelized fish sauce glaze"
                 },
                 new Dish
                 {
                     Id = DishGoiCuonTom,
                     DishName = "Fresh Spring Rolls with Shrimp",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538267/maxresdefault_o6sxzj.jpg",
                     Description = "Fresh rice paper rolls with shrimp and herbs"
                 },
                 new Dish
                 {
                     Id = DishChaoGa,
                     DishName = "Chicken Rice Porridge",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538393/th_2_icz25m.jpg",
                     Description = "Comforting rice porridge with shredded chicken"
                 },
                 new Dish
@@ -22364,7 +22364,7 @@ namespace Server.Infrastructure.Data
                 {
                     Id = DishLemongrassBraisedChicken,
                     DishName = "Lemongrass Braised Chicken",
-                    ImageUrl = null,
+                    ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538913/MAN50_motrht.jpg",
                     Description = "Fragrant lemongrass braised chicken with aromatics."
                 },
                 new Dish
@@ -22477,21 +22477,21 @@ namespace Server.Infrastructure.Data
             // 26 beverages, fruits
             // Beverages
             new Dish { Id = DishWater, DishName = "Water", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777771/Dish/dd13b58f-b3a3-4467-a22f-179b5d2eacbc/WATER.jpg", Description = "Single-ingredient beverage: Water." },
-                new Dish { Id = DishHerbalTea, DishName = "Herbal Tea", ImageUrl = null, Description = "Single-ingredient beverage: Herbal tea." },
-                new Dish { Id = DishAppleJuice, DishName = "Apple Juice", ImageUrl = null, Description = "Single-ingredient beverage: Apple juice." },
-                new Dish { Id = DishOrangeJuice, DishName = "Orange Juice", ImageUrl = null, Description = "Single-ingredient beverage: Orange juice." },
-                new Dish { Id = DishPineappleJuice, DishName = "Pineapple Juice", ImageUrl = null, Description = "Single-ingredient beverage: Pineapple juice." },
-                new Dish { Id = DishCarrotJuice, DishName = "Carrot Juice", ImageUrl = null, Description = "Single-ingredient beverage: Carrot juice." },
-                new Dish { Id = DishTomatoJuice, DishName = "Tomato Juice", ImageUrl = null, Description = "Single-ingredient beverage: Tomato juice." },
-                new Dish { Id = DishCranberryJuice, DishName = "Cranberry Juice", ImageUrl = null, Description = "Single-ingredient beverage: Cranberry juice." },
-                new Dish { Id = DishGrapeJuice, DishName = "Grape Juice", ImageUrl = null, Description = "Single-ingredient beverage: Grape juice." },
-                new Dish { Id = DishLemonade, DishName = "Lemonade", ImageUrl = null, Description = "Single-ingredient beverage: Lemonade." },
-                new Dish { Id = DishSmoothie, DishName = "Smoothie General Type", ImageUrl = null, Description = "Single-ingredient beverage: Fruit smoothie base." },
-                new Dish { Id = DishAlmondMilk, DishName = "Almond Milk", ImageUrl = null, Description = "Single-ingredient beverage: Almond milk." },
-                new Dish { Id = DishRiceMilk, DishName = "Rice Milk", ImageUrl = null, Description = "Single-ingredient beverage: Rice milk." },
+                new Dish { Id = DishHerbalTea, DishName = "Herbal Tea", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538464/OIP_g0lt6m.webp", Description = "Single-ingredient beverage: Herbal tea." },
+                new Dish { Id = DishAppleJuice, DishName = "Apple Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539811/R_3_kwn01j.jpg", Description = "Single-ingredient beverage: Apple juice." },
+                new Dish { Id = DishOrangeJuice, DishName = "Orange Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538532/NUOCEP2_qn2khv.jpg", Description = "Single-ingredient beverage: Orange juice." },
+                new Dish { Id = DishPineappleJuice, DishName = "Pineapple Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539754/OIP_5_kdt2ru.webp", Description = "Single-ingredient beverage: Pineapple juice." },
+                new Dish { Id = DishCarrotJuice, DishName = "Carrot Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539681/R_2_wksbmb.jpg", Description = "Single-ingredient beverage: Carrot juice." },
+                new Dish { Id = DishTomatoJuice, DishName = "Tomato Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538709/NUOCEP6_gf54xp.jpg", Description = "Single-ingredient beverage: Tomato juice." },
+                new Dish { Id = DishCranberryJuice, DishName = "Cranberry Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539586/R_1_ncu846.jpg", Description = "Single-ingredient beverage: Cranberry juice." },
+                new Dish { Id = DishGrapeJuice, DishName = "Grape Juice", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539533/Grape-Juice-12_u0jrvx.webp", Description = "Single-ingredient beverage: Grape juice." },
+                new Dish { Id = DishLemonade, DishName = "Lemonade", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539284/OIP_2_o4gq9o.webp", Description = "Single-ingredient beverage: Lemonade." },
+                new Dish { Id = DishSmoothie, DishName = "Smoothie General Type", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539341/OIP_3_nxkfvx.webp", Description = "Single-ingredient beverage: Fruit smoothie base." },
+                new Dish { Id = DishAlmondMilk, DishName = "Almond Milk", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539375/OIP_sngqbz.jpg", Description = "Single-ingredient beverage: Almond milk." },
+                new Dish { Id = DishRiceMilk, DishName = "Rice Milk", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538821/OIP_1_lzjjaj.webp", Description = "Single-ingredient beverage: Rice milk." },
                 //new Dish { Id = DishAloeVeraJuice, DishName = "Nước Nha Đam (Aloe Vera Juice)", ImageUrl = null, Description = "Single-ingredient beverage: Aloe vera juice." },
-                new Dish { Id = DishGreenTea, DishName = "Green Tea", ImageUrl = null, Description = "Single-ingredient beverage: Green tea." },
-                new Dish { Id = DishBlackTea, DishName = "Black Tea", ImageUrl = null, Description = "Single-ingredient beverage: Black tea." },
+                new Dish { Id = DishGreenTea, DishName = "Green Tea", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539425/Green-tea-scaled_pox5kh.jpg", Description = "Single-ingredient beverage: Green tea." },
+                new Dish { Id = DishBlackTea, DishName = "Black Tea", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539465/OIP_4_qb8idu.webp", Description = "Single-ingredient beverage: Black tea." },
                 //new Dish { Id = DishCarbonatedWater, DishName = "Nước Có Gas (Carbonated Water)", ImageUrl = null, Description = "Single-ingredient beverage: Carbonated water." },
                 //new Dish { Id = DishBottledWater, DishName = "Nước Đóng Chai (Bottled Water)", ImageUrl = null, Description = "Single-ingredient beverage: Bottled water." },
                 new Dish { Id = DishSkimmedUnSweetenMilk, DishName = "Skimmed and Unsweetened Milk", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757776330/Dish/0e33d3ed-0ce9-485b-8e26-18475610a9ad/SUA11.jpg", Description = "Single-ingredient beverage: Skimmed and Unsweetened Milk." },
@@ -22499,11 +22499,11 @@ namespace Server.Infrastructure.Data
                 // Fruits
                 new Dish { Id = DishOrange, DishName = "Orange", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757777929/Dish/a2c117f9-c6cc-4ebe-8fb3-25cee4d1f288/TRAICAY7.jpg", Description = "Single-ingredient fruit: Orange." },
                 new Dish { Id = DishApple, DishName = "Apple", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757771314/Dish/220101b6-01bc-4d55-9193-80b7d72622bb/TRAICAY122.jpg", Description = "Single-ingredient fruit: Apple." },
-                new Dish { Id = DishWatermelon, DishName = "Watermelon", ImageUrl = null, Description = "Single-ingredient fruit: Watermelon." },
+                new Dish { Id = DishWatermelon, DishName = "Watermelon", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539244/TRAICAY37_lnfqxd.jpg", Description = "Single-ingredient fruit: Watermelon." },
                 new Dish { Id = DishGrapefruit, DishName = "Grapefruit", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757779058/Dish/1e934367-3f12-4190-a536-924bedea0743/TRAICAY1.jpg", Description = "Single-ingredient fruit: Grapefruit." },
-                new Dish { Id = DishStrawberry, DishName = "Strawberry", ImageUrl = null, Description = "Single-ingredient fruit: Strawberry." },
-                new Dish { Id = DishRaspberry, DishName = "Raspberry", ImageUrl = null, Description = "Single-ingredient fruit: Raspberry." },
-                new Dish { Id = DishPineapple, DishName = "Pineapple", ImageUrl = null, Description = "Single-ingredient fruit: Pineapple." },
+                new Dish { Id = DishStrawberry, DishName = "Strawberry", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539184/strawberrybowl_g855c4.jpg", Description = "Single-ingredient fruit: Strawberry." },
+                new Dish { Id = DishRaspberry, DishName = "Raspberry", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759538991/Raspberry_Closeup_578739_1280x851_c3chhs.jpg", Description = "Single-ingredient fruit: Raspberry." },
+                new Dish { Id = DishPineapple, DishName = "Pineapple", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1759539141/OIF_did6e1.webp", Description = "Single-ingredient fruit: Pineapple." },
                 new Dish { Id = DishRambutan, DishName = "Rambutan", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757778778/Dish/b171e8ad-2fc6-4baa-91ef-70959700866e/TRAICAY8.jpg", Description = "Single-ingredient fruit: Rambutan." },
                 new Dish { Id = DishBanana, DishName = "Banana", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757779947/Dish/b69810fa-ed83-44d2-af59-ad1aa7b3e89e/TRAICAY18.jpg", Description = "Single-ingredient fruit: Banana." },
                 new Dish { Id = DishPear, DishName = "Pear", ImageUrl = "https://res.cloudinary.com/dz2okceq2/image/upload/v1757776470/Dish/bcfa322e-cabf-4945-bef1-4b73c98fd2ff/TRAICAY56.jpg", Description = "Single-ingredient fruit: Pear." }
@@ -22939,6 +22939,42 @@ namespace Server.Infrastructure.Data
 
             var MealSnack2_2 = Guid.NewGuid();
 
+            var MealBreakFast3 = Guid.NewGuid();
+            var MealLunch3 = Guid.NewGuid();
+            var MealDinner3 = Guid.NewGuid();
+            var MealSnack1_3 = Guid.NewGuid();
+            var MealSnack2_3 = Guid.NewGuid();
+
+            var MealBreakFast4 = Guid.NewGuid();
+            var MealLunch4 = Guid.NewGuid();
+            var MealDinner4 = Guid.NewGuid();
+            var MealSnack1_4 = Guid.NewGuid();
+            var MealSnack2_4 = Guid.NewGuid();
+
+            var MealBreakFast5 = Guid.NewGuid();
+            var MealLunch5 = Guid.NewGuid();
+            var MealDinner5 = Guid.NewGuid();
+            var MealSnack1_5 = Guid.NewGuid();
+            var MealSnack2_5 = Guid.NewGuid();
+
+            var MealBreakFast6 = Guid.NewGuid();
+            var MealLunch6 = Guid.NewGuid();
+            var MealDinner6 = Guid.NewGuid();
+            var MealSnack1_6 = Guid.NewGuid();
+            var MealSnack2_6 = Guid.NewGuid();
+
+            var MealBreakFast7 = Guid.NewGuid();
+            var MealLunch7 = Guid.NewGuid();
+            var MealDinner7 = Guid.NewGuid();
+            var MealSnack1_7 = Guid.NewGuid();
+            var MealSnack2_7 = Guid.NewGuid();
+
+            var MealBreakFast8 = Guid.NewGuid();
+            var MealLunch8 = Guid.NewGuid();
+            var MealDinner8 = Guid.NewGuid();
+            var MealSnack1_8 = Guid.NewGuid();
+            var MealSnack2_8 = Guid.NewGuid();
+
             modelBuilder.Entity<Meal>().HasData(
                 new Meal { Id = MealBreakFast1, MealType = MealType.Breakfast },
 
@@ -22958,7 +22994,47 @@ namespace Server.Infrastructure.Data
 
                 new Meal { Id = MealSnack1_2, MealType = MealType.Snack1 },
 
-                new Meal { Id = MealSnack2_2, MealType = MealType.Snack2 }
+                new Meal { Id = MealSnack2_2, MealType = MealType.Snack2 },
+
+                new Meal { Id = MealBreakFast3, MealType = MealType.Breakfast },
+                new Meal { Id = MealLunch3, MealType = MealType.Lunch },
+                new Meal { Id = MealDinner3, MealType = MealType.Dinner },
+                new Meal { Id = MealSnack1_3, MealType = MealType.Snack1 },
+                new Meal { Id = MealSnack2_3, MealType = MealType.Snack2 },
+
+                new Meal { Id = MealBreakFast4, MealType = MealType.Breakfast },
+                new Meal { Id = MealLunch4, MealType = MealType.Lunch },
+                new Meal { Id = MealDinner4, MealType = MealType.Dinner },
+                new Meal { Id = MealSnack1_4, MealType = MealType.Snack1 },
+                new Meal { Id = MealSnack2_4, MealType = MealType.Snack2 },
+
+                // Day 5
+                new Meal { Id = MealBreakFast5, MealType = MealType.Breakfast },
+                new Meal { Id = MealLunch5, MealType = MealType.Lunch },
+                new Meal { Id = MealDinner5, MealType = MealType.Dinner },
+                new Meal { Id = MealSnack1_5, MealType = MealType.Snack1 },
+                new Meal { Id = MealSnack2_5, MealType = MealType.Snack2 },
+
+                // Day 6
+                new Meal { Id = MealBreakFast6, MealType = MealType.Breakfast },
+                new Meal { Id = MealLunch6, MealType = MealType.Lunch },
+                new Meal { Id = MealDinner6, MealType = MealType.Dinner },
+                new Meal { Id = MealSnack1_6, MealType = MealType.Snack1 },
+                new Meal { Id = MealSnack2_6, MealType = MealType.Snack2 },
+
+                // Day 7
+                new Meal { Id = MealBreakFast7, MealType = MealType.Breakfast },
+                new Meal { Id = MealLunch7, MealType = MealType.Lunch },
+                new Meal { Id = MealDinner7, MealType = MealType.Dinner },
+                new Meal { Id = MealSnack1_7, MealType = MealType.Snack1 },
+                new Meal { Id = MealSnack2_7, MealType = MealType.Snack2 },
+
+                // Day 8
+                new Meal { Id = MealBreakFast8, MealType = MealType.Breakfast },
+                new Meal { Id = MealLunch8, MealType = MealType.Lunch },
+                new Meal { Id = MealDinner8, MealType = MealType.Dinner },
+                new Meal { Id = MealSnack1_8, MealType = MealType.Snack1 },
+                new Meal { Id = MealSnack2_8, MealType = MealType.Snack2 }
             );
 
 
@@ -23005,7 +23081,157 @@ namespace Server.Infrastructure.Data
                 new DishMeal { MealId = MealSnack1_2, DishId = DishPear },
 
                 new DishMeal { MealId = MealSnack2_2, DishId = DishYogurt },
-                new DishMeal { MealId = MealSnack2_2, DishId = DishApple }
+                new DishMeal { MealId = MealSnack2_2, DishId = DishApple },
+
+                // Breakfast 3: Chicken Rice Porridge with Milk
+                new DishMeal { MealId = MealBreakFast3, DishId = DishChaoGa },
+                new DishMeal { MealId = MealBreakFast3, DishId = DishSkimmedUnSweetenMilk },
+
+                // Lunch 3: Rice with Lemongrass Braised Chicken, Mustard Green Soup, Steamed Veggies
+                new DishMeal { MealId = MealLunch3, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch3, DishId = DishLemongrassBraisedChicken },
+                new DishMeal { MealId = MealLunch3, DishId = DishCanhCaiXanh },
+                new DishMeal { MealId = MealLunch3, DishId = DishSteamedChineseCabbage },
+                new DishMeal { MealId = MealLunch3, DishId = DishWatermelon },
+
+                // Dinner 3: Spicy Beef Noodle Soup with Mixed Vegetables
+                new DishMeal { MealId = MealDinner3, DishId = DishBunBoHue },
+                new DishMeal { MealId = MealDinner3, DishId = DishRauXaoCuQua },
+                new DishMeal { MealId = MealDinner3, DishId = DishStrawberry },
+
+                // Snack1 3: Yogurt with Pineapple
+                new DishMeal { MealId = MealSnack1_3, DishId = DishYogurt },
+                new DishMeal { MealId = MealSnack1_3, DishId = DishPineapple },
+
+                // Snack2 3: Cheese and Raspberry
+                new DishMeal { MealId = MealSnack2_3, DishId = DishCheese },
+                new DishMeal { MealId = MealSnack2_3, DishId = DishRaspberry },
+
+                // Day 4
+
+                // Breakfast 4: Grilled Pork Banh Mi with Orange Juice
+                new DishMeal { MealId = MealBreakFast4, DishId = DishBanhMiHeoQuay },
+                new DishMeal { MealId = MealBreakFast4, DishId = DishOrangeJuice },
+
+                // Lunch 4: Beef Fried Rice with Vegetables, Sweet and Sour Soup
+                new DishMeal { MealId = MealLunch4, DishId = DishComChienThitBoRauCu },
+                new DishMeal { MealId = MealLunch4, DishId = DishCanhChua },
+                new DishMeal { MealId = MealLunch4, DishId = DishSteamedChayoteAndCarrot },
+                new DishMeal { MealId = MealLunch4, DishId = DishApple },
+
+                // Dinner 4: Glutinous Rice with Chicken, Okra Soup, Grilled Shrimp
+                new DishMeal { MealId = MealDinner4, DishId = DishComNepGa },
+                new DishMeal { MealId = MealDinner4, DishId = DishOkraSourSoupWithPork },
+                new DishMeal { MealId = MealDinner4, DishId = DishTomNuong },
+                new DishMeal { MealId = MealDinner4, DishId = DishPear },
+
+                // Snack1 4: Almond Milk
+                new DishMeal { MealId = MealSnack1_4, DishId = DishAlmondMilk },
+
+                // Snack2 4: Cocktail Rolls with Green Tea
+                new DishMeal { MealId = MealSnack2_4, DishId = DishCocktailRolls },
+                new DishMeal { MealId = MealSnack2_4, DishId = DishGreenTea },
+
+                // Breakfast 5: Chicken Pho with Green Tea
+                new DishMeal { MealId = MealBreakFast5, DishId = DishPhoGa },
+                new DishMeal { MealId = MealBreakFast5, DishId = DishGreenTea },
+
+                // Lunch 5: Rice with Braised Pork and Eggs, Seaweed Soup, Vegetables
+                new DishMeal { MealId = MealLunch5, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch5, DishId = DishBraisedPorkWithEggs },
+                new DishMeal { MealId = MealLunch5, DishId = DishSeaweedSoupWithTofu },
+                new DishMeal { MealId = MealLunch5, DishId = DishStirFriedPumpkinGarlic },
+                new DishMeal { MealId = MealLunch5, DishId = DishGrapefruit },
+
+                // Dinner 5: Shrimp Fried Rice with Sweet and Sour Soup
+                new DishMeal { MealId = MealDinner5, DishId = DishComChienTom },
+                new DishMeal { MealId = MealDinner5, DishId = DishCanhChua },
+                new DishMeal { MealId = MealDinner5, DishId = DishSteamedChineseCabbage },
+                new DishMeal { MealId = MealDinner5, DishId = DishBanana },
+
+                // Snack1 5: Fresh Spring Rolls
+                new DishMeal { MealId = MealSnack1_5, DishId = DishGoiCuonTom },
+
+                // Snack2 5: Apple with Herbal Tea
+                new DishMeal { MealId = MealSnack2_5, DishId = DishApple },
+                new DishMeal { MealId = MealSnack2_5, DishId = DishHerbalTea },
+
+                // Breakfast 6: Beef Pho with Smoothie
+                new DishMeal { MealId = MealBreakFast6, DishId = DishPhoBo },
+                new DishMeal { MealId = MealBreakFast6, DishId = DishSmoothie },
+
+                // Lunch 6: Rice with Chicken Stir-fry, Pumpkin Soup, Salad
+                new DishMeal { MealId = MealLunch6, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch6, DishId = DishGaXaoNam },
+                new DishMeal { MealId = MealLunch6, DishId = DishCanhBiDo },
+                new DishMeal { MealId = MealLunch6, DishId = DishGoiGa },
+                new DishMeal { MealId = MealLunch6, DishId = DishOrange },
+
+                // Dinner 6: Rice with Braised Fish, Tonkin Creeper Soup
+                new DishMeal { MealId = MealDinner6, DishId = DishComTrang },
+                new DishMeal { MealId = MealDinner6, DishId = DishCaKhoTo },
+                new DishMeal { MealId = MealDinner6, DishId = DishTonkinCreeperSoup },
+                new DishMeal { MealId = MealDinner6, DishId = DishRambutan },
+
+                // Snack1 6: Yogurt with Strawberry
+                new DishMeal { MealId = MealSnack1_6, DishId = DishYogurt },
+                new DishMeal { MealId = MealSnack1_6, DishId = DishStrawberry },
+
+                // Snack2 6: Rice Milk
+                new DishMeal { MealId = MealSnack2_6, DishId = DishRiceMilk },
+
+                // ==================== DAY 7 ====================
+
+                // Breakfast 7: Banh Mi with Carrot Juice
+                new DishMeal { MealId = MealBreakFast7, DishId = DishBanhMiHeoQuay },
+                new DishMeal { MealId = MealBreakFast7, DishId = DishCarrotJuice },
+
+                // Lunch 7: Rice with Lemongrass Grilled Pork, Spinach Soup
+                new DishMeal { MealId = MealLunch7, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch7, DishId = DishThitNuongXa },
+                new DishMeal { MealId = MealLunch7, DishId = DishCanhRauMuong },
+                new DishMeal { MealId = MealLunch7, DishId = DishSteamedChayoteAndCarrot },
+                new DishMeal { MealId = MealLunch7, DishId = DishWatermelon },
+
+                // Dinner 7: Rice with Fried Chicken Tamarind Sauce, Purple Yam Soup
+                new DishMeal { MealId = MealDinner7, DishId = DishComTrang },
+                new DishMeal { MealId = MealDinner7, DishId = DishFriedChickenWithTamarindSauce },
+                new DishMeal { MealId = MealDinner7, DishId = DishCreamyPurpleYamSoup },
+                new DishMeal { MealId = MealDinner7, DishId = DishPear },
+
+                // Snack1 7: Cheese with Cranberry Juice
+                new DishMeal { MealId = MealSnack1_7, DishId = DishCheese },
+                new DishMeal { MealId = MealSnack1_7, DishId = DishCranberryJuice },
+
+                // Snack2 7: Pineapple with Black Tea
+                new DishMeal { MealId = MealSnack2_7, DishId = DishPineapple },
+                new DishMeal { MealId = MealSnack2_7, DishId = DishBlackTea },
+
+                // Breakfast 8: Chicken Rice Porridge with Skimmed Milk
+                new DishMeal { MealId = MealBreakFast8, DishId = DishChaoGa },
+                new DishMeal { MealId = MealBreakFast8, DishId = DishSkimmedUnSweetenMilk },
+
+                // Lunch 8: Rice with Shrimp Stir-fry, Okra Soup, Vegetables
+                new DishMeal { MealId = MealLunch8, DishId = DishComTrang },
+                new DishMeal { MealId = MealLunch8, DishId = DishTomXaoRauCu },
+                new DishMeal { MealId = MealLunch8, DishId = DishOkraSourSoupWithPork },
+                new DishMeal { MealId = MealLunch8, DishId = DishRauXaoCuQua },
+                new DishMeal { MealId = MealLunch8, DishId = DishBanana },
+
+                // Dinner 8: Rice with Pan-fried Mackerel, Mustard Green Soup
+                new DishMeal { MealId = MealDinner8, DishId = DishComTrang },
+                new DishMeal { MealId = MealDinner8, DishId = DishCaChienNuocMam },
+                new DishMeal { MealId = MealDinner8, DishId = DishCanhCaiXanh },
+                new DishMeal { MealId = MealDinner8, DishId = DishStirFriedPumpkinGarlic },
+                new DishMeal { MealId = MealDinner8, DishId = DishApple },
+
+                // Snack1 8: Cocktail Rolls with Lemonade
+                new DishMeal { MealId = MealSnack1_8, DishId = DishCocktailRolls },
+                new DishMeal { MealId = MealSnack1_8, DishId = DishLemonade },
+
+                // Snack2 8: Yogurt with Grape Juice
+                new DishMeal { MealId = MealSnack2_8, DishId = DishYogurt },
+                new DishMeal { MealId = MealSnack2_8, DishId = DishGrapeJuice }
 
             );
         }
