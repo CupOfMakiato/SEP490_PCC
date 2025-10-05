@@ -446,6 +446,7 @@ namespace Server.Application.Services
             var issues = new List<string>();
 
             // --- Blood Pressure ---
+            //https://diag.vn/blog/blood-pressure/huyet-ap-180-co-nguy-hiem-khong/  
             if (bio.SystolicBP.HasValue && bio.DiastolicBP.HasValue)
             {
                 var sys = bio.SystolicBP.Value;
@@ -462,6 +463,7 @@ namespace Server.Application.Services
             }
 
             // --- Blood Sugar (Gestational Diabetes references, fasting only) ---
+            //https://www.diabetescurehub.com/archives/5081
             if (bio.BloodSugarLevelMgDl.HasValue)
             {
                 var sugar = bio.BloodSugarLevelMgDl.Value;
@@ -474,6 +476,7 @@ namespace Server.Application.Services
             }
 
             // --- Heart Rate ---
+            //https://www.medicalnewstoday.com/articles/heart-rate-during-pregnancy#atypical-heart-rate
             if (bio.HeartRateBPM.HasValue)
             {
                 var hr = bio.HeartRateBPM.Value;
@@ -484,6 +487,7 @@ namespace Server.Application.Services
             }
 
             // --- BMI ---
+            //https://www.omnicalculator.com/health/bmi-in-pregnancy
             try
             {
                 var bmi = bio.GetBMI();
