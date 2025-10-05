@@ -901,5 +901,169 @@ namespace Server.Application.Services
                 Data = result > 0 ? _mapper.Map<ViewOfflineConsultationDTO>(offlineConsultationObj) : null
             };
         }
+
+        public async Task<Result<bool>> SendUpdatedBookingEmailAsync(Guid offlineConsultationId)
+        {
+            var offlineConsulattion = await _offlineConsultationRepository
+                .GetOfflineConsultationByIdAsync(offlineConsultationId);
+
+            if (offlineConsulattion == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any offline consultation, please try again!",
+                    Data = false
+                };
+            }
+
+            var user = await _unitOfWork.UserRepository
+                .GetByIdAsync(offlineConsulattion.UserId);
+
+            if (user == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any user, please try again!",
+                    Data = false
+                };
+            }
+
+            var doctor = await _unitOfWork.DoctorRepository
+                .GetDoctorByIdAsync(offlineConsulattion.DoctorId);
+
+            if (doctor == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any doctor, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(doctor.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot send booking email.",
+                    Data = false
+                };
+            }
+
+            var username = user.UserName ?? "User";
+            var doctorName = doctor.User.UserName ?? "Doctor";
+            var startTime = offlineConsulattion.StartDate?.ToString("HH:mm");
+            var endTime = offlineConsulattion.EndDate?.ToString("HH:mm");
+            var startDate = offlineConsulattion.StartDate?.ToString("dd/MM/yyyy");
+            var endDate = offlineConsulattion.EndDate?.ToString("dd/MM/yyyy");
+            var form = offlineConsulattion.ConsultationType.ToString();
+            var location = clinic.Address ?? "Clinic";
+            var contact = clinic.User.Email ?? "our support email";
+            //var detailLink = $"http://localhost:5173/offline-consultation/{offlineConsultationId}"; // Local
+            var detailLink = $"https://nestlycare.live/offline-consultation/{offlineConsultationId}"; // Local
+            var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
+
+            var emailUserBody = $@"
+                                Hi {username},<br/><br/>
+                                We would like to inform you that the information for your <b>online consultation</b> has been <b>successfully updated</b> with the following details:<br/><br/>
+                                Doctor: {doctorName}<br/>
+                                Time: {startDate} to {endDate} - {startTime} to {endTime}<br/>
+                                Form: {form}<br/>
+                                Location: {location}<br/><br/>
+                                Please review the updated information to make sure everything is correct.<br/>
+                                You can view the full consultation details at the link below:<br/>
+                                🔗 <a href=""{detailLink}"">View updated consultation details</a><br/><br/>
+                                We will send you a reminder before the consultation begins.<br/><br/>
+                                If you have any questions or need to make further changes, please contact us via {contact}.<br/><br/>
+                                Thank you for trusting and choosing our online consultation service!<br/><br/>
+                                Best regards,<br/>
+                                {systemSignature}";
+
+            var emailDoctorBody = $@"
+                                Hi Doctor {doctorName},<br/><br/>
+                                We would like to inform you that the information for your <b>online consultation</b> with the user has been <b>successfully updated</b>. Please find the updated details below:<br/><br/>
+                                User: {username}<br/>
+                                Time: {startDate} to {endDate} - {startTime} to {endTime}<br/>
+                                Form: {form}<br/>
+                                Location: {location}<br/><br/>
+                                Please review the updated schedule to ensure you are available at the specified time.<br/><br/>
+                                You can view the full consultation details at the following link:<br/>
+                                🔗 <a href=""{detailLink}"">View updated consultation details</a><br/><br/>
+                                Best regards,<br/>
+                                {systemSignature}";
+
+            // Send email to user
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var emailUserDTO = new EmailDTO
+                {
+                    To = user.Email,
+                    Subject = "Offline Consultation Booked",
+                    Body = emailUserBody
+                };
+
+                await _emailService.SendEmailAsync(emailUserDTO);
+            }
+            // same for onlinecon i did not test this code yet ~
+            // update dto payload
+            var offlineConsulattionDto = new
+            {
+                offlineConsulattion.Id,
+                offlineConsulattion.UserId,
+                offlineConsulattion.ClinicId,
+                offlineConsulattion.DoctorId,
+                offlineConsulattion.ConsultationType,
+                offlineConsulattion.StartDate,
+                offlineConsulattion.EndDate,
+                offlineConsulattion.HealthNote,
+                Media = offlineConsulattion.Attachments.Select(m => new { m.FileUrl, m.FileType }),
+            };
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                Message = $"You have booked a new offline consultation on {startDate} with the doctor {doctorName} at {location}",
+                CreatedBy = user.Id,
+                IsSent = true,
+                IsRead = false,
+                CreationDate = DateTime.UtcNow.Date
+            };
+
+            await _notificationService.CreateNotification(notification, offlineConsulattionDto, "OfflineConsultation");
+
+            // Send email to doctor
+            if (!string.IsNullOrEmpty(doctor.User.Email))
+            {
+                var emailDoctorDTO = new EmailDTO
+                {
+                    To = doctor.User.Email,
+                    Subject = "Offline Consultation Booked",
+                    Body = emailDoctorBody
+                };
+                await _emailService.SendEmailAsync(emailDoctorDTO);
+            }
+
+            return new Result<bool>
+            {
+                Error = 0,
+                Message = "Booking email sent successfully",
+                Data = true
+            };
+        }
     }
 }

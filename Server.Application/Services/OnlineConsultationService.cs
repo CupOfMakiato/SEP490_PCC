@@ -322,6 +322,137 @@ namespace Server.Application.Services
             };
         }
 
+        public async Task<Result<bool>> SendUpdatedBookingEmailAsync(Guid onlineConsultationId)
+        {
+            var onlineConsultation = await _onlineConsultationRepository
+                .GetOnlineConsultationByOnlineConsultationIdAsync(onlineConsultationId);
+
+            if (onlineConsultation == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any online consultation, please try again!",
+                    Data = false
+                };
+            }
+
+            var consultant = await _unitOfWork.ConsultantRepository
+                .GetConsultantByIdAsync(onlineConsultation.ConsultantId);
+
+            if (consultant == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any consultant, please try again!",
+                    Data = false
+                };
+            }
+
+            var clinic = await _unitOfWork.ClinicRepository
+                .GetClinicByIdAsync(consultant.ClinicId);
+
+            if (clinic == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any clinic, please try again!",
+                    Data = false
+                };
+            }
+
+            if (!clinic.IsActive)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Clinic is not active, cannot send email.",
+                    Data = false
+                };
+            }
+
+            var user = await _unitOfWork.UserRepository
+                .GetByIdAsync(onlineConsultation.UserId);
+
+            if (user == null)
+            {
+                return new Result<bool>
+                {
+                    Error = 1,
+                    Message = "Didn't find any user, please try again!",
+                    Data = false
+                };
+            }
+
+            // Prepare email body with placeholders replaced
+            var consultantName = consultant.User?.UserName ?? "Consultant";
+            var consultationDateTime = onlineConsultation.Date.ToString("dd/MM/yyyy HH:mm");
+            var username = user.UserName ?? "User";
+            var viewLink = $"http://localhost:5173/online-consultation/{onlineConsultationId}"; // local
+            var systemSignature = clinic?.User.UserName ?? "Health Consulting System";
+
+            var emailBody = $@"
+                            Hi {username},<br/><br/>
+                            We would like to inform you that the information for your recent <b>online consultation</b> with {consultantName} on {consultationDateTime} has been <b>successfully updated</b> in our system.<br/><br/>
+                            You can view the updated details or notes from this consultation using the link below:<br/>
+                            🔗 <a href=""{viewLink}"">View updated consultation details</a><br/><br/>
+                            Keeping this record up to date helps you conveniently follow your consultation history and any important advice provided by your consultant.<br/><br/>
+                            If you have any questions, please don’t hesitate to contact us at {clinic?.User.Email}.<br/><br/>
+                            Thank you for your continued trust and for choosing our online consultation service!<br/><br/>
+                            Best regards,<br/>
+                            {systemSignature}";
+
+            // Send email to user
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                var emailUserDTO = new EmailDTO
+                {
+                    To = user.Email,
+                    Subject = "Online Consultation",
+                    Body = emailBody
+                };
+
+                await _emailService.SendEmailAsync(emailUserDTO);
+            }
+
+            // update dto payload
+            var onlineConsultationDto = new
+            {
+                onlineConsultation.Id,
+                onlineConsultation.UserId,
+                onlineConsultation.ConsultantId,
+                onlineConsultation.Trimester,
+                onlineConsultation.Date,
+                onlineConsultation.GestationalWeek,
+                onlineConsultation.Summary,
+                onlineConsultation.ConsultantNote,
+                onlineConsultation.UserNote,
+                onlineConsultation.VitalSigns,
+                onlineConsultation.Recommendations,
+                Media = onlineConsultation.Attachments.Select(m => new { m.FileUrl, m.FileType }),
+            };
+            var notification = new Notification
+            {
+                Id = Guid.NewGuid(),
+                Message = $"You have booked a new online consultation on {consultationDateTime} with {consultantName}",
+                CreatedBy = user.Id,
+                IsSent = true,
+                IsRead = false,
+                CreationDate = DateTime.UtcNow.Date
+            };
+
+            await _notificationService.CreateNotification(notification, onlineConsultationDto, "OnlineConsultation");
+
+            return new Result<bool>
+            {
+                Error = 0,
+                Message = "Online consultation email sent successfully",
+                Data = true
+            };
+        }
+
         public async Task<Result<bool>> SoftDeleteOnlineConsultation(Guid onlineConsultationId)
         {
             var onlineConsultation = await _onlineConsultationRepository
@@ -339,7 +470,7 @@ namespace Server.Application.Services
 
             var consultant = await _unitOfWork.ConsultantRepository
                 .GetConsultantByIdAsync(onlineConsultation.ConsultantId);
-            
+
             if (consultant == null)
             {
                 return new Result<bool>
