@@ -113,7 +113,18 @@ namespace Server.Infrastructure.Repositories
 
         public async Task<OnlineConsultation?> GetOnlineConsultationByOnlineConsultationIdAsync(Guid onlineConsultationId)
         {
-            return await _context.OnlineConsultation.FirstOrDefaultAsync(oc => oc.Id == onlineConsultationId && !oc.IsDeleted);
+            var consultation = await _context.OnlineConsultation
+                .Include(oc => oc.Attachments)
+                .FirstOrDefaultAsync(oc => oc.Id == onlineConsultationId && !oc.IsDeleted);
+
+            if (consultation != null && consultation.Attachments != null)
+            {
+                consultation.Attachments = consultation.Attachments
+                    .Where(a => a != null && !a.IsDeleted)
+                    .ToList();
+            }
+
+            return consultation;
         }
 
         public async Task<List<OnlineConsultation>> GetOnlineConsultationsByConsultantIdAsync(Guid consultantId)
