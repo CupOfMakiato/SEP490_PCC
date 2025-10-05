@@ -17,5 +17,6 @@ namespace Server.Domain.Entities
         public string TypeOfDesease { get; set; }
         public ICollection<DiseaseGrowthData> DiseaseGrowthData { get; set; } = new List<DiseaseGrowthData>();
         public ICollection<FoodDisease> FoodDiseases { get; set; } = new List<FoodDisease>();
+        public ICollection<UserDisease> UserDiseases { get; set; } = new List<UserDisease>();
     }
 }

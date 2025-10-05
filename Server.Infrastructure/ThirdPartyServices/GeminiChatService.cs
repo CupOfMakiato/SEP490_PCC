@@ -43,7 +43,7 @@ namespace Server.Infrastructure.ThirdPartyServices
                 },
                 generationConfig = new
                 {
-                    maxOutputTokens = 200,
+                    maxOutputTokens = 1024,
                     temperature = 0.7
                 }
             };
@@ -51,20 +51,27 @@ namespace Server.Infrastructure.ThirdPartyServices
             var url = $"{BaseUrl}/{Model}:generateContent?key={_apiKey}";
             var response = await _httpClient.PostAsJsonAsync(url, request);
 
+            var raw = await response.Content.ReadAsStringAsync();
+
             if (!response.IsSuccessStatusCode)
             {
-                var error = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Gemini API error: {response.StatusCode} - {error}");
+                throw new Exception($"Gemini API error: {response.StatusCode} - {raw}");
             }
 
-            var json = await response.Content.ReadFromJsonAsync<JsonElement>();
+            var json = JsonDocument.Parse(raw).RootElement;
 
-            return json
-                .GetProperty("candidates")[0]
-                .GetProperty("content")
-                .GetProperty("parts")[0]
-                .GetProperty("text")
-                .GetString()!;
+            if (json.TryGetProperty("candidates", out var candidates) &&
+                candidates.GetArrayLength() > 0 &&
+                candidates[0].TryGetProperty("content", out var content) &&
+                content.TryGetProperty("parts", out var parts) &&
+                parts.GetArrayLength() > 0 &&
+                parts[0].TryGetProperty("text", out var textProp))
+            {
+                return textProp.GetString() ?? string.Empty;
+            }
+
+            // fallback khi không có text
+            return $"[No valid text in Gemini response] Raw: {raw}";
         }
     }
 }

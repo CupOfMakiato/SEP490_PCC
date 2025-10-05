@@ -27,5 +27,8 @@ namespace Server.Application.Repositories
 
         //Forget Password
         Task<User> GetUserByResetToken(string resetToken);
+
+        //Allergy and Disease
+        Task<User> GetUserWithAllergyAndDisease(Guid userId);
     }
 }

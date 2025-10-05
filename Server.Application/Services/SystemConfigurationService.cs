@@ -23,7 +23,7 @@ namespace Server.Application.Services
                 return false;
             }
             systemConfig.IsActive = !systemConfig.IsActive;
-            _unitOfWork.SystemConfigurationRepository.Update(systemConfig);
+            _unitOfWork.SystemConfigurationRepository.UpdateSystemConfiguration(systemConfig);
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
                 return true;
@@ -33,7 +33,7 @@ namespace Server.Application.Services
 
         public async Task<Result<SystemConfiguration>> CreateSystemConfigurationAsync(SystemConfiguration systemConfiguration)
         {
-            await _unitOfWork.SystemConfigurationRepository.Add(systemConfiguration);
+            await _unitOfWork.SystemConfigurationRepository.CreateSystemConfigurationAsync(systemConfiguration);
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
                 return new Result<SystemConfiguration>() { Data = systemConfiguration, Error = 0 };
@@ -49,7 +49,7 @@ namespace Server.Application.Services
 
         public async Task<Result<SystemConfiguration>> UpdateSystemConfigurationAsync(SystemConfiguration systemConfiguration)
         {
-            _unitOfWork.SystemConfigurationRepository.Update(systemConfiguration);
+            _unitOfWork.SystemConfigurationRepository.UpdateSystemConfiguration(systemConfiguration);
             if (await _unitOfWork.SaveChangeAsync() > 0)
             {
                 return new Result<SystemConfiguration>() { Data = systemConfiguration, Error = 0 };

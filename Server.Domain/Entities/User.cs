@@ -48,6 +48,7 @@ namespace Server.Domain.Entities
         // Users that are following this user
         public ICollection<UserFollower> Followers { get; set; }
         public ICollection<UserAllergy> UserAllergy { get; set; } = new List<UserAllergy>();
+        public ICollection<UserDisease> UserDiseases { get; set; } = new List<UserDisease>();
         public ICollection<UserSubscription> UserSubscriptions { get; set; }
         public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     }

@@ -3669,6 +3669,164 @@ namespace Server.Infrastructure.Data
                 // Other
                 new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrFiber, AgeGroupId = age20To29, Trimester = 1 },
                 new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrSalt, AgeGroupId = age20To29, Trimester = 1 }
+
+                // PLG Macronutrients - Trimester 2
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugProtein,
+                //    AttributeId = attrProtein,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugLipid,
+                //    AttributeId = attrLipid,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugGlucid,
+                //    AttributeId = attrGlucid,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+
+                //// Minerals - Trimester 2
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrCalcium,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrIron,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrZinc,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrIodine,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 2,
+                //},
+
+                //// Vitamins - Trimester 2
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminA, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminD, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminE, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminK, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB1, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB2, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB6, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrFolate, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB12, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminC, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrCholine, AgeGroupId = age20To29, Trimester = 2 },
+
+                //// Other - Trimester 2
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrFiber, AgeGroupId = age20To29, Trimester = 2 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrSalt, AgeGroupId = age20To29, Trimester = 2 },
+
+                //// ---------------------------------------------------
+                //// TRIMESTER 3 - NutrientSuggestionAttribute
+                //// ---------------------------------------------------
+
+                //// PLG Macronutrients - Trimester 3
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugProtein,
+                //    AttributeId = attrProtein,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugLipid,
+                //    AttributeId = attrLipid,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugGlucid,
+                //    AttributeId = attrGlucid,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+
+                //// Minerals - Trimester 3
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrCalcium,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrIron,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrZinc,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+                //new NutrientSuggestionAttribute
+                //{
+                //    NutrientSuggestionAttributeId = Guid.NewGuid(),
+                //    NutrientSuggestionId = sugMinerals,
+                //    AttributeId = attrIodine,
+                //    AgeGroupId = age20To29,
+                //    Trimester = 3,
+                //},
+
+                //// Vitamins - Trimester 3
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminA, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminD, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminE, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminK, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB1, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB2, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB6, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrFolate, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminB12, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrVitaminC, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugVitamins, AttributeId = attrCholine, AgeGroupId = age20To29, Trimester = 3 },
+
+                //// Other - Trimester 3
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrFiber, AgeGroupId = age20To29, Trimester = 3 },
+                //new NutrientSuggestionAttribute { NutrientSuggestionAttributeId = Guid.NewGuid(), NutrientSuggestionId = sugOther, AttributeId = attrSalt, AgeGroupId = age20To29, Trimester = 3 }
             );
 
             // ---------------------------------------------------

@@ -53,6 +53,7 @@ namespace Server.Infrastructure.Data
         public DbSet<Allergy> Allergy { get; set; }
         public DbSet<AllergyCategory> AllergyCategory { get; set; }
         public DbSet<UserAllergy> UserAllergy { get; set; }
+        public DbSet<UserDisease> UserDisease { get; set; }
         public DbSet<FoodAllergy> FoodAllergy { get; set; }
 
         // Nutrition System
@@ -545,6 +546,10 @@ namespace Server.Infrastructure.Data
             // Consultation seed data
             ConsultationSeedData.SeedData(modelBuilder);
 
+            //SystemConfigurations
+            modelBuilder.Entity<SystemConfiguration>()
+                .HasNoKey();
+
             //User
             modelBuilder.Entity<User>()
             .Property(u => u.Status)
@@ -753,6 +758,21 @@ namespace Server.Infrastructure.Data
             modelBuilder.Entity<FoodDisease>()
             .HasOne(bt => bt.Disease)
             .WithMany(t => t.FoodDiseases)
+            .HasForeignKey(bt => bt.DiseaseId)
+            .OnDelete(DeleteBehavior.Restrict);
+            //UserDisease
+            modelBuilder.Entity<UserDisease>()
+            .HasKey(bt => new { bt.UserId, bt.DiseaseId });
+
+            modelBuilder.Entity<UserDisease>()
+            .HasOne(bt => bt.User)
+            .WithMany(b => b.UserDiseases)
+            .HasForeignKey(bt => bt.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserDisease>()
+            .HasOne(bt => bt.Disease)
+            .WithMany(t => t.UserDiseases)
             .HasForeignKey(bt => bt.DiseaseId)
             .OnDelete(DeleteBehavior.Restrict);
 
