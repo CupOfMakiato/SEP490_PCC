@@ -1,10 +1,9 @@
-# 🌸 Nestly Care Companion
+# Nestly Care Companion
 
 **Nestly Care Companion** A digital maternal healthcare companion that enables expectant mothers to have access to essential pregnancy knowledge, healthcare tips , expert advice, and personalized tracking tools
 
----
 
-## 🌼 Overview
+## Overview
 
 Nestly Care Companion aims to improve the maternal experience through technology by offering:
 
@@ -16,9 +15,7 @@ Nestly Care Companion aims to improve the maternal experience through technology
 - Reminders and health alerts
 - Real-time notifications
 
----
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - React (Web)
@@ -32,8 +29,7 @@ Nestly Care Companion aims to improve the maternal experience through technology
 - Hangfire for scheduled/background jobs
 - Cloudinary for image/file storage
 
----
-## 👥 Contributors
+## Contributors
 
 | No | Student ID | Name                         | GitHub Profile |
 |----|------------|------------------------------|----------------|
@@ -41,8 +37,3 @@ Nestly Care Companion aims to improve the maternal experience through technology
 | 2  | SE171276   | Trương Nguyễn Thắng Lợi      | [@loi2003](https://github.com/loi2003) |
 | 3  | SE170605   | Phạm Hoàng Khiêm             | [@Floak-yak](https://github.com/Floak-yak) |
 | 4  | SE150712   | Đỗ Hữu Đức                   | [@HuuDuc6121](https://github.com/HuuDuc6121) |
-
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
